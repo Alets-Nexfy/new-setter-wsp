@@ -1,0 +1,87 @@
+# ===================================================================
+# CONFIGURACIÓN DE LA API WHATSAPP - VARIABLES DE ENTORNO
+# ===================================================================
+# 
+# INSTRUCCIONES:
+# 1. Copia este archivo como .env
+# 2. Completa todas las variables marcadas como REQUERIDAS
+# 3. Ajusta las configuraciones opcionales según tus necesidades
+# ===================================================================
+
+# === CONFIGURACIÓN PRINCIPAL ===
+# Puerto en el que se ejecutará el servidor
+PORT=3457
+
+# Entorno de ejecución (development, staging, production)
+NODE_ENV=production
+
+# === SEGURIDAD ===
+# Clave secreta para autenticación API
+# REQUERIDO: Tu clave actual o generar con: openssl rand -hex 32
+API_SECRET_KEY=DA0p3i0lNnuuCWTXieGI1CrVjr9IcVzjiXsbMMMyi6s77l4Snq
+
+# === FIREBASE ===
+# Ruta al archivo de credenciales de Firebase Service Account
+# REQUERIDO: Descargar desde Firebase Console
+GOOGLE_APPLICATION_CREDENTIALS=./serviceAccountKey.json
+
+# === INTELIGENCIA ARTIFICIAL ===
+# Clave API de Google Gemini para respuestas IA
+# REQUERIDO: Obtener desde Google AI Studio
+GEMINI_API_KEY=TU_CLAVE_GEMINI_AQUI
+
+# === CONFIGURACIÓN DEL SISTEMA ===
+# Número máximo de usuarios concurrentes
+MAX_CONCURRENT_USERS=50
+
+# Tiempo de espera para sesiones inactivas (milisegundos)
+SESSION_TIMEOUT=3600000
+
+# Tiempo máximo antes de destruir código QR (milisegundos) 
+QR_AUTO_DESTROY_TIMEOUT=300000
+
+# Días de retención de mensajes en Firebase
+MESSAGE_RETENTION_DAYS=30
+
+# Tamaño de lote para operaciones de limpieza
+CLEANUP_BATCH_SIZE=250
+
+# === CONFIGURACIÓN DE WHATSAPP ===
+# Tiempo de espera para conexión WhatsApp (milisegundos)
+WHATSAPP_CONNECTION_TIMEOUT=60000
+
+# Reintentos máximos para conexión WhatsApp
+WHATSAPP_MAX_RETRIES=3
+
+# === CONFIGURACIÓN DE LOGS ===
+# Nivel de logging (debug, info, warn, error)
+LOG_LEVEL=info
+
+# Ruta del archivo de logs
+LOG_FILE=logs/whatsapp-api.log
+
+# === CONFIGURACIÓN DE RATE LIMITING ===
+# Máximo número de requests por ventana de tiempo
+RATE_LIMIT_MAX_REQUESTS=100
+
+# Ventana de tiempo para rate limiting (milisegundos)
+RATE_LIMIT_WINDOW_MS=900000
+
+# === CONFIGURACIÓN DE GEMINI ===
+# Máximo número de requests a Gemini por minuto
+MAX_GEMINI_REQUESTS_PER_MINUTE=30
+
+# === CONFIGURACIÓN OPCIONAL DE DESARROLLO ===
+# Solo para desarrollo - no usar en producción
+# DEBUG_MODE=false
+# DISABLE_AUTH=false
+
+# ===================================================================
+# NOTAS IMPORTANTES:
+# 
+# 1. NUNCA subas el archivo .env a control de versiones
+# 2. Usa claves seguras de al menos 64 caracteres
+# 3. Rota las claves regularmente en producción
+# 4. Mantén las credenciales de Firebase seguras
+# 5. Monitorea el uso de la API de Gemini para evitar límites
+# =================================================================== 

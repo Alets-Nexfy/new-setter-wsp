@@ -1,0 +1,20 @@
+{
+  "api": {
+    "baseUrl": "https://alets.com.ar/setter-api",
+    "secretKey": "${API_SECRET_KEY}"
+  },
+  "cleanup": {
+    "autoCleanupThreshold": 50,
+    "logRetentionDays": 30,
+    "backupBeforeCleanup": false
+  },
+  "notifications": {
+    "enabled": false,
+    "webhook": "",
+    "email": ""
+  },
+  "logging": {
+    "level": "info",
+    "file": "logs/nuclear-cleanup.log"
+  }
+} 
