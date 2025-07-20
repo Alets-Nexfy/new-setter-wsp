@@ -11,11 +11,17 @@ const envSchema = z.object({
   PORT: z.string().transform(Number).default('3000'),
   HOST: z.string().default('localhost'),
   
+  // Platform Configuration
+  ENABLE_WHATSAPP: z.string().transform(val => val === 'true').default('true'),
+  ENABLE_INSTAGRAM: z.string().transform(val => val === 'true').default('false'),
+  PLATFORM: z.enum(['whatsapp', 'instagram', 'both']).default('both'),
+  
   // Firebase Configuration
-  FIREBASE_PROJECT_ID: z.string(),
-  FIREBASE_PRIVATE_KEY: z.string(),
-  FIREBASE_CLIENT_EMAIL: z.string(),
+  FIREBASE_PROJECT_ID: z.string().optional(),
+  FIREBASE_PRIVATE_KEY: z.string().optional(),
+  FIREBASE_CLIENT_EMAIL: z.string().optional(),
   FIREBASE_STORAGE_BUCKET: z.string().optional(),
+  GOOGLE_APPLICATION_CREDENTIALS: z.string().optional(),
   
   // Redis Configuration
   REDIS_URL: z.string().default('redis://localhost:6379'),
@@ -31,13 +37,13 @@ const envSchema = z.object({
   INSTAGRAM_HEADLESS: z.string().transform(val => val === 'true').default('true'),
   
   // AI Configuration
-  GEMINI_API_KEY: z.string(),
+  GEMINI_API_KEY: z.string().optional(),
   GEMINI_MODEL: z.string().default('gemini-pro'),
   
   // Security
-  JWT_SECRET: z.string(),
+  JWT_SECRET: z.string().default('fallback-secret-for-development'),
   JWT_EXPIRES_IN: z.string().default('24h'),
-  API_KEY_SECRET: z.string(),
+  API_KEY_SECRET: z.string().default('fallback-api-key-for-development'),
   
   // Rate Limiting
   RATE_LIMIT_WINDOW_MS: z.string().transform(Number).default('900000'), // 15 minutes
@@ -82,11 +88,18 @@ export const serverConfig = {
   nodeEnv: env.NODE_ENV,
 } as const;
 
+export const platformConfig = {
+  enableWhatsApp: env.ENABLE_WHATSAPP,
+  enableInstagram: env.ENABLE_INSTAGRAM,
+  platform: env.PLATFORM,
+} as const;
+
 export const firebaseConfig = {
   projectId: env.FIREBASE_PROJECT_ID,
-  privateKey: env.FIREBASE_PRIVATE_KEY.replace(/\\n/g, '\n'),
+  privateKey: env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, '\n'),
   clientEmail: env.FIREBASE_CLIENT_EMAIL,
   storageBucket: env.FIREBASE_STORAGE_BUCKET,
+  serviceAccountPath: env.GOOGLE_APPLICATION_CREDENTIALS,
 } as const;
 
 export const redisConfig = {

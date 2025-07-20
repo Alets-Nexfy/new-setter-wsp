@@ -15,6 +15,8 @@ import { DatabaseService } from './core/services/DatabaseService';
 import { CacheService } from './core/services/CacheService';
 import { QueueService } from './core/services/QueueService';
 import { WebSocketService } from './core/services/websocketService';
+import { WorkerManagerService } from './core/services/WorkerManagerService';
+import { MessageBrokerService } from './core/services/MessageBrokerService';
 
 // Import routes
 import apiRoutes from './api/routes';
@@ -22,6 +24,9 @@ import apiRoutes from './api/routes';
 // Import middleware
 import { errorHandler } from './api/middleware/errorHandler';
 import { requestLogger } from './api/middleware/requestLogger';
+
+// Import environment configuration
+import { environment } from '../config/environment';
 
 class WhatsAppAPIServer {
   private app: express.Application;
@@ -31,11 +36,13 @@ class WhatsAppAPIServer {
   private cache: CacheService;
   private queue: QueueService;
   private wsService: WebSocketService;
+  private workerManager: WorkerManagerService;
+  private messageBroker: MessageBrokerService;
 
   constructor() {
     this.app = express();
     this.server = createServer(this.app);
-    this.logger = new LoggerService();
+    this.logger = LoggerService.getInstance();
     
     this.initializeServices();
     this.setupMiddleware();
@@ -48,22 +55,37 @@ class WhatsAppAPIServer {
    */
   private async initializeServices(): Promise<void> {
     try {
-      this.logger.info('[Server] Initializing core services...');
+      this.logger.info('[Server] Initializing core services...', {
+        nodeEnv: environment.NODE_ENV,
+        port: environment.PORT,
+        platformConfig: {
+          whatsapp: environment.ENABLE_WHATSAPP,
+          instagram: environment.ENABLE_INSTAGRAM,
+          platform: environment.PLATFORM
+        }
+      });
 
       // Initialize database
-      this.db = new DatabaseService();
+      this.db = DatabaseService.getInstance();
       await this.db.initialize();
 
       // Initialize cache
-      this.cache = new CacheService();
+      this.cache = CacheService.getInstance();
       await this.cache.initialize();
 
       // Initialize queue
-      this.queue = new QueueService();
+      this.queue = QueueService.getInstance();
       await this.queue.initialize();
 
       // Initialize WebSocket service
       this.wsService = new WebSocketService(this.server);
+
+      // Initialize Worker Manager Service
+      this.workerManager = WorkerManagerService.getInstance();
+      await this.workerManager.initialize();
+
+      // Initialize Message Broker Service
+      this.messageBroker = MessageBrokerService.getInstance();
 
       this.logger.info('[Server] Core services initialized successfully');
     } catch (error) {
@@ -80,22 +102,14 @@ class WhatsAppAPIServer {
 
     // Security middleware
     this.app.use(helmet({
-      contentSecurityPolicy: {
-        directives: {
-          defaultSrc: ["'self'"],
-          styleSrc: ["'self'", "'unsafe-inline'"],
-          scriptSrc: ["'self'"],
-          imgSrc: ["'self'", "data:", "https:"],
-        },
-      },
+      contentSecurityPolicy: false,
+      crossOriginEmbedderPolicy: false
     }));
 
     // CORS configuration
     this.app.use(cors({
-      origin: process.env.ALLOWED_ORIGINS?.split(',') || ['http://localhost:3000'],
-      credentials: true,
-      methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
-      allowedHeaders: ['Content-Type', 'Authorization', 'X-API-Key'],
+      origin: environment.CORS_ORIGIN?.split(',') || ['http://localhost:3000'],
+      credentials: true
     }));
 
     // Compression
@@ -105,21 +119,18 @@ class WhatsAppAPIServer {
     this.app.use(express.json({ limit: '10mb' }));
     this.app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
+    // Request logging
+    this.app.use(requestLogger);
+
     // Rate limiting
     const limiter = rateLimit({
-      windowMs: 15 * 60 * 1000, // 15 minutes
-      max: 1000, // limit each IP to 1000 requests per windowMs
-      message: {
-        success: false,
-        message: 'Too many requests from this IP, please try again later.'
-      },
+      windowMs: (environment.RATE_LIMIT_WINDOW || 15) * 60 * 1000,
+      max: environment.RATE_LIMIT_MAX_REQUESTS || 100,
+      message: 'Too many requests from this IP, please try again later.',
       standardHeaders: true,
       legacyHeaders: false,
     });
     this.app.use('/api/', limiter);
-
-    // Request logging
-    this.app.use(requestLogger);
 
     this.logger.info('[Server] Middleware setup completed');
   }
@@ -132,25 +143,104 @@ class WhatsAppAPIServer {
 
     // Health check
     this.app.get('/health', (req, res) => {
-      res.json({
-        success: true,
-        message: 'WhatsApp API v2 is running',
+      res.status(200).json({
+        status: 'healthy',
         timestamp: new Date().toISOString(),
-        version: '2.0.0',
-        environment: process.env.NODE_ENV || 'development'
+        version: process.env.npm_package_version || '1.0.0',
+        platforms: {
+          whatsapp: environment.ENABLE_WHATSAPP,
+          instagram: environment.ENABLE_INSTAGRAM
+        }
       });
     });
 
     // API routes
     this.app.use('/api', apiRoutes);
 
+    // Platform status endpoints
+    this.app.get('/api/platforms/status', async (req, res) => {
+      try {
+        const status = await this.workerManager.getPlatformStatus();
+        res.json({
+          success: true,
+          data: status
+        });
+      } catch (error) {
+        this.logger.error('[Server] Error getting platform status:', error);
+        res.status(500).json({
+          success: false,
+          error: 'Internal server error'
+        });
+      }
+    });
+
+    // Worker management endpoints
+    this.app.post('/api/workers/:userId/start', async (req, res) => {
+      try {
+        const { userId } = req.params;
+        const { platform = 'whatsapp', agentId } = req.body;
+
+        if (!this.isPlatformEnabled(platform)) {
+          return res.status(400).json({
+            success: false,
+            error: `Platform ${platform} is not enabled`
+          });
+        }
+
+        const result = await this.workerManager.startWorker({
+          userId,
+          platform: platform as 'whatsapp' | 'instagram',
+          activeAgentId: agentId
+        });
+
+        if (result) {
+          res.json({
+            success: true,
+            data: {
+              workerId: `${userId}:${platform}`,
+              status: 'starting'
+            }
+          });
+        } else {
+          res.status(500).json({
+            success: false,
+            error: 'Failed to start worker'
+          });
+        }
+      } catch (error) {
+        this.logger.error('[Server] Error starting worker:', error);
+        res.status(500).json({
+          success: false,
+          error: 'Internal server error'
+        });
+      }
+    });
+
+    this.app.post('/api/workers/:userId/stop', async (req, res) => {
+      try {
+        const { userId } = req.params;
+        const { platform = 'whatsapp' } = req.body;
+
+        await this.workerManager.stopWorker(userId, platform as 'whatsapp' | 'instagram');
+
+        res.json({
+          success: true,
+          message: 'Worker stopped successfully'
+        });
+      } catch (error) {
+        this.logger.error('[Server] Error stopping worker:', error);
+        res.status(500).json({
+          success: false,
+          error: 'Internal server error'
+        });
+      }
+    });
+
     // 404 handler
     this.app.use('*', (req, res) => {
       res.status(404).json({
         success: false,
-        message: 'Route not found',
-        path: req.originalUrl,
-        method: req.method
+        error: 'Route not found'
       });
     });
 
@@ -161,50 +251,79 @@ class WhatsAppAPIServer {
    * Setup error handling
    */
   private setupErrorHandling(): void {
-    this.logger.info('[Server] Setting up error handling...');
-
-    // Global error handler
     this.app.use(errorHandler);
 
-    // Graceful shutdown
+    // Handle uncaught exceptions
+    process.on('uncaughtException', (error) => {
+      this.logger.error('[Server] Uncaught Exception:', error);
+      this.gracefulShutdown('uncaughtException');
+    });
+
+    // Handle unhandled promise rejections
+    process.on('unhandledRejection', (reason, promise) => {
+      this.logger.error('[Server] Unhandled Rejection at:', promise, 'reason:', reason);
+      this.gracefulShutdown('unhandledRejection');
+    });
+
+    // Handle termination signals
     process.on('SIGTERM', () => {
-      this.logger.info('[Server] SIGTERM received, shutting down gracefully...');
-      this.gracefulShutdown();
+      this.logger.info('[Server] Received SIGTERM signal');
+      this.gracefulShutdown('SIGTERM');
     });
 
     process.on('SIGINT', () => {
-      this.logger.info('[Server] SIGINT received, shutting down gracefully...');
-      this.gracefulShutdown();
+      this.logger.info('[Server] Received SIGINT signal');
+      this.gracefulShutdown('SIGINT');
     });
+  }
 
-    // Unhandled promise rejections
-    process.on('unhandledRejection', (reason, promise) => {
-      this.logger.error('[Server] Unhandled Rejection at:', promise, 'reason:', reason);
-    });
-
-    // Uncaught exceptions
-    process.on('uncaughtException', (error) => {
-      this.logger.error('[Server] Uncaught Exception:', error);
-      this.gracefulShutdown();
-    });
-
-    this.logger.info('[Server] Error handling setup completed');
+  /**
+   * Check if platform is enabled
+   */
+  private isPlatformEnabled(platform: string): boolean {
+    switch (platform) {
+      case 'whatsapp':
+        return environment.ENABLE_WHATSAPP;
+      case 'instagram':
+        return environment.ENABLE_INSTAGRAM;
+      default:
+        return false;
+    }
   }
 
   /**
    * Start the server
    */
-  async start(): Promise<void> {
+  public async start(): Promise<void> {
     try {
-      const port = process.env.PORT || 3000;
-      
-      this.server.listen(port, () => {
-        this.logger.info(`[Server] WhatsApp API v2 server started on port ${port}`);
-        this.logger.info(`[Server] Environment: ${process.env.NODE_ENV || 'development'}`);
-        this.logger.info(`[Server] Health check: http://localhost:${port}/health`);
-        this.logger.info(`[Server] API base: http://localhost:${port}/api`);
-        this.logger.info(`[Server] WebSocket: ws://localhost:${port}`);
+      const port = environment.PORT;
+      const host = environment.HOST;
+
+      await new Promise<void>((resolve) => {
+        this.server.listen(port, host, () => {
+          this.logger.info(`[Server] Server started successfully`, {
+            port,
+            host,
+            environment: environment.NODE_ENV,
+            platforms: {
+              whatsapp: environment.ENABLE_WHATSAPP,
+              instagram: environment.ENABLE_INSTAGRAM
+            }
+          });
+          resolve();
+        });
       });
+
+      // Log startup summary
+      this.logger.info('[Server] 🚀 WhatsApp API v2 Server is running!', {
+        healthCheck: `http://${host}:${port}/health`,
+        apiDocs: `http://${host}:${port}/api`,
+        enabledPlatforms: [
+          environment.ENABLE_WHATSAPP && 'WhatsApp',
+          environment.ENABLE_INSTAGRAM && 'Instagram'
+        ].filter(Boolean)
+      });
+
     } catch (error) {
       this.logger.error('[Server] Failed to start server:', error);
       process.exit(1);
@@ -214,68 +333,52 @@ class WhatsAppAPIServer {
   /**
    * Graceful shutdown
    */
-  private async gracefulShutdown(): Promise<void> {
-    this.logger.info('[Server] Starting graceful shutdown...');
+  private async gracefulShutdown(signal: string): Promise<void> {
+    this.logger.info(`[Server] Graceful shutdown initiated by ${signal}`);
 
     try {
-      // Close WebSocket connections
-      if (this.wsService) {
-        this.wsService.cleanup();
+      // Stop accepting new connections
+      this.server.close(() => {
+        this.logger.info('[Server] HTTP server closed');
+      });
+
+      // Shutdown worker manager
+      if (this.workerManager) {
+        await this.workerManager.shutdown();
       }
 
       // Close database connections
       if (this.db) {
-        await this.db.close();
+        // Add database cleanup if needed
       }
 
       // Close cache connections
       if (this.cache) {
-        await this.cache.close();
+        // Add cache cleanup if needed
       }
 
-      // Close queue connections
-      if (this.queue) {
-        await this.queue.close();
-      }
-
-      // Close HTTP server
-      if (this.server) {
-        this.server.close(() => {
-          this.logger.info('[Server] HTTP server closed');
-          process.exit(0);
-        });
-      }
-
-      // Force exit after 10 seconds
-      setTimeout(() => {
-        this.logger.error('[Server] Forced shutdown after timeout');
-        process.exit(1);
-      }, 10000);
+      this.logger.info('[Server] Graceful shutdown completed');
+      process.exit(0);
 
     } catch (error) {
       this.logger.error('[Server] Error during graceful shutdown:', error);
       process.exit(1);
     }
   }
-
-  /**
-   * Get server statistics
-   */
-  getStatistics(): any {
-    return {
-      uptime: process.uptime(),
-      memory: process.memoryUsage(),
-      websocket: this.wsService ? this.wsService.getStatistics() : null,
-      timestamp: new Date().toISOString()
-    };
-  }
 }
 
 // Start the server
-const server = new WhatsAppAPIServer();
-server.start().catch((error) => {
-  console.error('Failed to start server:', error);
-  process.exit(1);
-});
+async function startServer(): Promise<void> {
+  const server = new WhatsAppAPIServer();
+  await server.start();
+}
 
-export default server; 
+// Handle module being run directly
+if (require.main === module) {
+  startServer().catch((error) => {
+    console.error('Failed to start server:', error);
+    process.exit(1);
+  });
+}
+
+export default WhatsAppAPIServer; 

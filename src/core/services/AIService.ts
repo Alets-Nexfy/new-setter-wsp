@@ -1,62 +1,73 @@
 import { GoogleGenerativeAI, GenerativeModel } from '@google/generative-ai';
 import { LoggerService } from './LoggerService';
-import { CacheService } from './CacheService';
-import { aiConfig } from '@/config/environment';
+import { DatabaseService } from './DatabaseService';
+import { ConversationContext } from '@/shared/types/chat';
+
+export interface AIRequestOptions {
+  maxRetries?: number;
+  initialBackoffMs?: number;
+  useConversationHistory?: boolean;
+  systemInstruction?: string;
+  maxTokens?: number;
+}
 
 export interface AIResponse {
-  id: string;
-  content: string;
-  model: string;
-  tokens: number;
-  processingTime: number;
-  confidence: number;
-  metadata?: Record<string, any>;
+  success: boolean;
+  content?: string;
+  tokensUsed?: number;
+  error?: string;
+  retryCount?: number;
 }
 
-export interface AIContext {
-  sessionId: string;
+export interface TokenTracking {
+  chatId: string;
   userId: string;
-  platform: 'whatsapp' | 'instagram';
-  conversationHistory?: Array<{
-    role: 'user' | 'assistant';
-    content: string;
-    timestamp: Date;
-  }>;
-  userPreferences?: {
-    language?: string;
-    tone?: 'formal' | 'casual' | 'friendly' | 'professional';
-    responseLength?: 'short' | 'medium' | 'long';
-  };
-  businessContext?: {
-    companyName?: string;
-    industry?: string;
-    services?: string[];
-    targetAudience?: string;
-  };
+  totalTokens: number;
+  messageCount: number;
+  lastUpdated: Date;
+  maxTokensReached: boolean;
 }
 
-export interface GenerateResponseOptions {
-  prompt: string;
-  context: AIContext;
-  maxTokens?: number;
-  temperature?: number;
-  topP?: number;
-  topK?: number;
-  stopSequences?: string[];
+export interface ConversationHistoryItem {
+  role: 'user' | 'assistant' | 'system';
+  content: string;
+  timestamp: Date;
+  estimatedTokens: number;
+}
+
+export interface RateLimitStatus {
+  userId: string;
+  requestsInLastMinute: number;
+  nextAllowedRequest: Date;
+  isLimited: boolean;
 }
 
 export class AIService {
   private static instance: AIService;
-  private genAI: GoogleGenerativeAI;
-  private model: GenerativeModel;
   private logger: LoggerService;
-  private cache: CacheService;
+  private db: DatabaseService;
+  private geminiModel: GenerativeModel | null = null;
+  private isInitialized = false;
+
+  // Rate limiting
+  private rateLimits: Map<string, { count: number; timestamps: number[]; resetTime: number }> = new Map();
+  private readonly MAX_REQUESTS_PER_MINUTE = 30;
+  private readonly RATE_LIMIT_WINDOW_MS = 60000; // 1 minute
+
+  // Token tracking
+  private conversationTokens: Map<string, TokenTracking> = new Map();
+  private readonly MAX_CONVERSATION_TOKENS = 15000;
+  private readonly MAX_HISTORY_TOKENS_FOR_PROMPT = 2000;
+  private readonly TOKEN_ESTIMATE_RATIO = 4; // Characters per token estimate
+
+  // Response caching
+  private responseCache: Map<string, { content: string; timestamp: number }> = new Map();
+  private readonly CACHE_TTL_MS = 5 * 60 * 1000; // 5 minutes
 
   private constructor() {
-    this.genAI = new GoogleGenerativeAI(aiConfig.geminiApiKey);
-    this.model = this.genAI.getGenerativeModel({ model: aiConfig.geminiModel });
     this.logger = LoggerService.getInstance();
-    this.cache = CacheService.getInstance();
+    this.db = DatabaseService.getInstance();
+    this.initializeGemini();
   }
 
   public static getInstance(): AIService {
@@ -66,355 +77,756 @@ export class AIService {
     return AIService.instance;
   }
 
-  public async generateResponse(options: GenerateResponseOptions): Promise<AIResponse> {
-    const startTime = Date.now();
-    const responseId = `ai_response_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-
+  /**
+   * MIGRADO DE: whatsapp-api/src/worker.js líneas 157-183
+   * Initialize Gemini AI model with error handling
+   */
+  private async initializeGemini(): Promise<void> {
     try {
-      // Check cache first
-      const cacheKey = this.generateCacheKey(options);
-      const cached = await this.cache.getJSON<AIResponse>(cacheKey);
-      if (cached) {
-        this.logger.info('AI response served from cache', {
-          responseId,
-          sessionId: options.context.sessionId,
-          cacheKey,
-        });
-        return cached;
+      const geminiApiKey = process.env.GEMINI_API_KEY;
+      
+      if (!geminiApiKey) {
+        throw new Error('GEMINI_API_KEY environment variable is not defined');
       }
 
-      // Build prompt with context
-      const fullPrompt = this.buildPrompt(options);
-
-      // Generate response
-      const result = await this.model.generateContent(fullPrompt);
-      const response = await result.response;
-      const text = response.text();
-
-      // Get usage statistics
-      const usageMetadata = result.response.usageMetadata;
-      const tokens = usageMetadata?.totalTokenCount || 0;
-
-      const processingTime = Date.now() - startTime;
-
-      const aiResponse: AIResponse = {
-        id: responseId,
-        content: text,
-        model: aiConfig.geminiModel,
-        tokens,
-        processingTime,
-        confidence: this.calculateConfidence(text),
-        metadata: {
-          promptTokens: usageMetadata?.promptTokenCount,
-          responseTokens: usageMetadata?.candidatesTokenCount,
-          safetyRatings: response.safetyRatings,
-        },
-      };
-
-      // Cache the response
-      await this.cache.setJSON(cacheKey, aiResponse, 3600); // 1 hour
-
-      this.logger.info('AI response generated successfully', {
-        responseId,
-        sessionId: options.context.sessionId,
-        tokens,
-        processingTime,
-        model: aiConfig.geminiModel,
+      const genAI = new GoogleGenerativeAI(geminiApiKey);
+      this.geminiModel = genAI.getGenerativeModel({ 
+        model: process.env.GEMINI_MODEL || 'gemini-1.5-flash' 
       });
-
-      return aiResponse;
-
-    } catch (error) {
-      const processingTime = Date.now() - startTime;
       
-      this.logger.error('Failed to generate AI response', {
-        responseId,
-        sessionId: options.context.sessionId,
-        error: error instanceof Error ? error.message : 'Unknown error',
-        processingTime,
+      this.isInitialized = true;
+      this.logger.info('Gemini AI model initialized successfully', {
+        model: process.env.GEMINI_MODEL || 'gemini-1.5-flash'
       });
-
-      throw error;
+      
+    } catch (error) {
+      this.logger.error('Critical error initializing Gemini AI', {
+        error: error instanceof Error ? error.message : 'Unknown error'
+      });
+      
+      this.isInitialized = false;
+      // Don't exit process in service - let the application handle it
     }
   }
 
-  public async generateConversationalResponse(
-    message: string,
-    context: AIContext
+  /**
+   * MIGRADO DE: whatsapp-api/src/worker.js líneas 222-280
+   * Generate AI response with retry logic and rate limiting
+   */
+  public async generateResponse(
+    prompt: string,
+    options: AIRequestOptions = {}
   ): Promise<AIResponse> {
-    const options: GenerateResponseOptions = {
-      prompt: message,
-      context,
-      temperature: 0.7,
-      maxTokens: 500,
-    };
+    const {
+      maxRetries = 3,
+      initialBackoffMs = 1000,
+      systemInstruction,
+      maxTokens
+    } = options;
 
-    return this.generateResponse(options);
-  }
-
-  public async generateAutoReply(
-    message: string,
-    context: AIContext
-  ): Promise<AIResponse> {
-    const autoReplyPrompt = `Generate a helpful and professional auto-reply for this message: "${message}". 
-    The reply should be friendly, informative, and encourage further conversation.`;
-
-    const options: GenerateResponseOptions = {
-      prompt: autoReplyPrompt,
-      context,
-      temperature: 0.8,
-      maxTokens: 200,
-    };
-
-    return this.generateResponse(options);
-  }
-
-  public async analyzeSentiment(message: string): Promise<{
-    sentiment: 'positive' | 'negative' | 'neutral';
-    confidence: number;
-    emotions: string[];
-    score: number;
-  }> {
-    try {
-      const prompt = `Analyze the sentiment of this message: "${message}". 
-      Return a JSON response with:
-      - sentiment: "positive", "negative", or "neutral"
-      - confidence: number between 0 and 1
-      - emotions: array of detected emotions
-      - score: sentiment score between -1 and 1`;
-
-      const options: GenerateResponseOptions = {
-        prompt,
-        context: {
-          sessionId: 'sentiment_analysis',
-          userId: 'system',
-          platform: 'whatsapp',
-        },
-        temperature: 0.3,
-        maxTokens: 200,
+    if (!this.isInitialized || !this.geminiModel) {
+      return {
+        success: false,
+        error: 'AI service not initialized'
       };
+    }
 
-      const response = await this.generateResponse(options);
-      
+    // Check cache first
+    const cacheKey = this.generateCacheKey(prompt, systemInstruction);
+    const cached = this.getFromCache(cacheKey);
+    if (cached) {
+      this.logger.debug('Returning cached AI response');
+      return {
+        success: true,
+        content: cached.content,
+        tokensUsed: this.estimateTokens(cached.content)
+      };
+    }
+
+    let retryCount = 0;
+    let backoffMs = initialBackoffMs;
+
+    while (retryCount <= maxRetries) {
       try {
-        const analysis = JSON.parse(response.content);
-        return {
-          sentiment: analysis.sentiment || 'neutral',
-          confidence: analysis.confidence || 0.5,
-          emotions: analysis.emotions || [],
-          score: analysis.score || 0,
-        };
-      } catch (parseError) {
-        // Fallback to basic sentiment analysis
-        const lowerMessage = message.toLowerCase();
-        const positiveWords = ['good', 'great', 'excellent', 'amazing', 'love', 'happy', 'thanks', 'thank you'];
-        const negativeWords = ['bad', 'terrible', 'awful', 'hate', 'angry', 'sad', 'disappointed'];
+        this.logger.debug('Attempting AI content generation', {
+          attempt: retryCount + 1,
+          maxRetries: maxRetries + 1,
+          promptLength: prompt.length
+        });
 
-        const positiveCount = positiveWords.filter(word => lowerMessage.includes(word)).length;
-        const negativeCount = negativeWords.filter(word => lowerMessage.includes(word)).length;
-
-        let sentiment: 'positive' | 'negative' | 'neutral' = 'neutral';
-        let score = 0;
-
-        if (positiveCount > negativeCount) {
-          sentiment = 'positive';
-          score = Math.min(positiveCount / 10, 1);
-        } else if (negativeCount > positiveCount) {
-          sentiment = 'negative';
-          score = -Math.min(negativeCount / 10, 1);
+        // Prepare the final prompt
+        let finalPrompt = prompt;
+        if (systemInstruction) {
+          finalPrompt = `${systemInstruction}\n\n${prompt}`;
         }
 
+        // Limit prompt length if specified
+        if (maxTokens) {
+          const estimatedTokens = this.estimateTokens(finalPrompt);
+          if (estimatedTokens > maxTokens) {
+            finalPrompt = this.truncateToTokenLimit(finalPrompt, maxTokens);
+          }
+        }
+
+        const result = await this.geminiModel.generateContent(finalPrompt);
+        const response = result.response;
+        const responseText = await response.text();
+
+        if (!responseText) {
+          throw new Error('Empty response from Gemini');
+        }
+
+        // Cache the response
+        this.setCache(cacheKey, responseText);
+
+        this.logger.debug('AI response generated successfully', {
+          responseLength: responseText.length,
+          retryCount,
+          tokensUsed: this.estimateTokens(responseText)
+        });
+
         return {
-          sentiment,
-          confidence: 0.6,
-          emotions: [],
-          score,
+          success: true,
+          content: responseText,
+          tokensUsed: this.estimateTokens(responseText),
+          retryCount
+        };
+
+      } catch (error) {
+        retryCount++;
+        
+        this.logger.warn('AI generation attempt failed', {
+          attempt: retryCount,
+          error: error instanceof Error ? error.message : 'Unknown error'
+        });
+
+        if (retryCount > maxRetries) {
+          this.logger.error('AI generation failed after all retries', {
+            maxRetries,
+            finalError: error instanceof Error ? error.message : 'Unknown error'
+          });
+
+          return {
+            success: false,
+            error: error instanceof Error ? error.message : 'Unknown error',
+            retryCount
+          };
+        }
+
+        // Exponential backoff
+        await new Promise(resolve => setTimeout(resolve, backoffMs));
+        backoffMs *= 2;
+      }
+    }
+
+    return {
+      success: false,
+      error: 'Max retries exceeded',
+      retryCount
+    };
+  }
+
+  /**
+   * MIGRADO DE: whatsapp-api/src/worker.js líneas 1981-2100
+   * Build conversation context with history and agent configuration
+   */
+  public async buildConversationPrompt(
+    userId: string,
+    chatId: string,
+    currentMessage: string,
+    agentConfig: any,
+    maxHistoryTokens: number = this.MAX_HISTORY_TOKENS_FOR_PROMPT
+  ): Promise<string> {
+    try {
+      if (!agentConfig) {
+        this.logger.error('No agent configuration provided for conversation prompt');
+        return currentMessage;
+      }
+
+      const persona = agentConfig.persona || {};
+      const knowledge = agentConfig.knowledge || {};
+      const knowledgeFiles = knowledge.files || [];
+      const knowledgeUrls = knowledge.urls || [];
+      const writingSample = knowledge.writingSampleTxt || '';
+      let personaInstructions = persona.instructions || 'Eres un asistente conversacional.';
+
+      // Add URL instruction if URLs exist
+      if (knowledgeUrls.length > 0) {
+        const firstUrl = knowledgeUrls[0];
+        const urlInstruction = `IMPORTANT GOAL: Your primary objective is to subtly guide the conversation towards encouraging the user to visit this link: ${firstUrl}. Mention it naturally when relevant.`;
+        personaInstructions = `${urlInstruction}\n\n${personaInstructions}`;
+      }
+
+      // Get conversation history
+      const conversationHistory = await this.getConversationHistory(
+        userId,
+        chatId,
+        maxHistoryTokens
+      );
+
+      // Build the comprehensive prompt
+      let fullPrompt = `INSTRUCCIONES DE PERSONALIDAD Y COMPORTAMIENTO:\n${personaInstructions}\n\n`;
+
+      // Add persona details
+      if (persona.name) {
+        fullPrompt += `Tu nombre es: ${persona.name}\n`;
+      }
+      if (persona.role) {
+        fullPrompt += `Tu rol es: ${persona.role}\n`;
+      }
+      if (persona.tone) {
+        fullPrompt += `Tono de comunicación: ${persona.tone}\n`;
+      }
+      if (persona.style) {
+        fullPrompt += `Estilo de comunicación: ${persona.style}\n`;
+      }
+
+      // Add knowledge base information
+      if (knowledgeFiles.length > 0) {
+        fullPrompt += `\nCONOCIMIENTO ESPECÍFICO:\n`;
+        fullPrompt += `Tienes acceso a ${knowledgeFiles.length} archivo(s) de conocimiento específico.\n`;
+      }
+
+      // Add writing sample for style reference
+      if (writingSample && writingSample.trim()) {
+        fullPrompt += `\nEJEMPLO DE ESTILO DE ESCRITURA:\n"${writingSample.trim()}"\n`;
+        fullPrompt += `Usa este ejemplo como referencia para tu estilo de escritura.\n`;
+      }
+
+      // Add conversation history
+      if (conversationHistory.length > 0) {
+        fullPrompt += `\nHISTORIAL DE CONVERSACIÓN RECIENTE:\n`;
+        conversationHistory.forEach((item, index) => {
+          const speaker = item.role === 'assistant' ? 'Tú' : 'Usuario';
+          fullPrompt += `${speaker}: ${item.content}\n`;
+        });
+      }
+
+      // Add current message
+      fullPrompt += `\nMENSAJE ACTUAL DEL USUARIO:\n${currentMessage}\n\n`;
+      fullPrompt += `INSTRUCCIÓN FINAL: Responde al mensaje actual considerando toda la información anterior, manteniendo tu personalidad y estilo establecidos.`;
+
+      this.logger.debug('Conversation prompt built', {
+        userId,
+        chatId,
+        promptLength: fullPrompt.length,
+        historyItems: conversationHistory.length,
+        estimatedTokens: this.estimateTokens(fullPrompt)
+      });
+
+      return fullPrompt;
+
+    } catch (error) {
+      this.logger.error('Error building conversation prompt', {
+        userId,
+        chatId,
+        error: error instanceof Error ? error.message : 'Unknown error'
+      });
+      return currentMessage;
+    }
+  }
+
+  /**
+   * MIGRADO DE: whatsapp-api/src/worker.js líneas 183-220
+   * Check rate limiting for user requests
+   */
+  public checkRateLimit(userId: string): { allowed: boolean; waitTimeMs: number } {
+    const now = Date.now();
+    const userLimit = this.rateLimits.get(userId);
+
+    if (!userLimit || now > userLimit.resetTime) {
+      // Reset or create new rate limit window
+      this.rateLimits.set(userId, {
+        count: 1,
+        timestamps: [now],
+        resetTime: now + this.RATE_LIMIT_WINDOW_MS
+      });
+      return { allowed: true, waitTimeMs: 0 };
+    }
+
+    // Clean old timestamps
+    userLimit.timestamps = userLimit.timestamps.filter(
+      timestamp => now - timestamp < this.RATE_LIMIT_WINDOW_MS
+    );
+
+    if (userLimit.timestamps.length >= this.MAX_REQUESTS_PER_MINUTE) {
+      const oldestRequest = Math.min(...userLimit.timestamps);
+      const waitTimeMs = this.RATE_LIMIT_WINDOW_MS - (now - oldestRequest);
+      
+      this.logger.warn('Rate limit exceeded for user', {
+        userId,
+        requestsInWindow: userLimit.timestamps.length,
+        waitTimeMs
+      });
+
+      return { allowed: false, waitTimeMs };
+    }
+
+    // Add current request
+    userLimit.timestamps.push(now);
+    userLimit.count++;
+
+    return { allowed: true, waitTimeMs: 0 };
+  }
+
+  /**
+   * Generate response with conversation context for a specific chat
+   */
+  public async generateConversationResponse(
+    userId: string,
+    chatId: string,
+    message: string,
+    agentConfig: any,
+    options: AIRequestOptions = {}
+  ): Promise<AIResponse> {
+    try {
+      // Check rate limiting
+      const rateLimitCheck = this.checkRateLimit(userId);
+      if (!rateLimitCheck.allowed) {
+        return {
+          success: false,
+          error: `Rate limit exceeded. Wait ${Math.ceil(rateLimitCheck.waitTimeMs / 1000)} seconds.`
         };
       }
 
+      // Build conversation prompt
+      const conversationPrompt = await this.buildConversationPrompt(
+        userId,
+        chatId,
+        message,
+        agentConfig,
+        options.maxTokens
+      );
+
+      // Generate response
+      const response = await this.generateResponse(conversationPrompt, options);
+
+      // Track tokens for this conversation
+      if (response.success && response.tokensUsed) {
+        this.trackConversationTokens(userId, chatId, message, response.content!, response.tokensUsed);
+      }
+
+      return response;
+
     } catch (error) {
-      this.logger.error('Failed to analyze sentiment', {
-        message: message.substring(0, 100),
-        error: error instanceof Error ? error.message : 'Unknown error',
+      this.logger.error('Error generating conversation response', {
+        userId,
+        chatId,
+        error: error instanceof Error ? error.message : 'Unknown error'
       });
 
       return {
-        sentiment: 'neutral',
-        confidence: 0.5,
-        emotions: [],
-        score: 0,
+        success: false,
+        error: error instanceof Error ? error.message : 'Unknown error'
       };
     }
   }
 
-  public async summarizeConversation(
-    messages: Array<{ role: 'user' | 'assistant'; content: string; timestamp: Date }>
+  /**
+   * Generate simple response for conversation starters
+   */
+  public async generateStarterResponse(
+    starterPrompt: string,
+    options: AIRequestOptions = {}
   ): Promise<AIResponse> {
+    return await this.generateResponse(starterPrompt, {
+      maxRetries: 2,
+      ...options
+    });
+  }
+
+  /**
+   * MIGRADO DE: whatsapp-api/src/server.js líneas 2808-3300
+   * Generate assisted prompt for agent creation
+   */
+  public async generateAssistedPrompt(requestData: {
+    objective: string;
+    needsTools?: boolean;
+    tools?: string;
+    expectedInputs?: string;
+    expectedOutputs?: string;
+    agentNameOrRole?: string;
+    companyOrContext?: string;
+    targetAudience?: string;
+    desiredTone?: string;
+    keyInfoToInclude?: string;
+    thingsToAvoid?: string;
+    primaryCallToAction?: string;
+    followupResponses?: any[];
+  }): Promise<AIResponse> {
     try {
-      const conversationText = messages
-        .map(msg => `${msg.role}: ${msg.content}`)
-        .join('\n');
+      const {
+        objective,
+        needsTools,
+        tools,
+        expectedInputs,
+        expectedOutputs,
+        agentNameOrRole,
+        companyOrContext,
+        targetAudience,
+        desiredTone,
+        keyInfoToInclude,
+        thingsToAvoid,
+        primaryCallToAction,
+        followupResponses = []
+      } = requestData;
 
-      const prompt = `Summarize this conversation in a concise way, highlighting the main points and any action items:
+      // Generate followup section
+      let followupSection = '';
+      if (followupResponses && followupResponses.length > 0) {
+        followupSection = '\n\n12. **Información Adicional y Detalles de Seguimiento:**\n';
 
-${conversationText}
+        followupResponses.forEach((item, index) => {
+          if (item.question && (item.answer || item.selectedOptions)) {
+            const responseValue = item.answer || 
+              (Array.isArray(item.selectedOptions) 
+                ? item.selectedOptions.join(', ') 
+                : item.selectedOptions);
 
-Provide a summary that includes:
-- Main topics discussed
-- Key decisions or agreements
-- Action items or next steps
-- Overall sentiment of the conversation`;
+            if (responseValue && responseValue.trim()) {
+              followupSection += `    ${String.fromCharCode(97 + index)}. **${item.question}**\n`;
+              followupSection += `       ${responseValue}\n\n`;
+            }
+          }
+        });
+      }
 
-      const options: GenerateResponseOptions = {
-        prompt,
-        context: {
-          sessionId: 'conversation_summary',
-          userId: 'system',
-          platform: 'whatsapp',
-        },
-        temperature: 0.5,
-        maxTokens: 300,
-      };
+      const metaPrompt = `Eres un experto en la creación de prompts detallados y efectivos para agentes de inteligencia artificial.
+Tu tarea es generar un prompt de "instrucciones para la persona" para un nuevo agente IA, basándote en la siguiente información detallada proporcionada por el usuario:
 
-      return this.generateResponse(options);
+1.  **Objetivo Principal del Agente:**
+    ${objective}
+
+2.  **Nombre o Rol del Agente:**
+    ${agentNameOrRole || 'No especificado'}
+
+3.  **Nombre de la Empresa o Contexto Principal:**
+    ${companyOrContext || 'No especificado'}
+
+4.  **Audiencia o Cliente Ideal:**
+    ${targetAudience || 'No especificada'}
+
+5.  **Tono de Comunicación Deseado:**
+    ${desiredTone || 'Servicial y profesional por defecto'}
+
+6.  **¿Necesita acceso a herramientas/funciones específicas?** ${needsTools ? 'Sí' : 'No'}
+    ${needsTools && tools ? `    Herramientas Específicas: ${tools}` : ''}
+
+7.  **Ejemplos de Entradas de Clientes (lo que el cliente podría decir/preguntar):**
+    ${expectedInputs || 'No especificadas'}
+
+8.  **Ejemplos de Salidas/Acciones del Agente (lo que el agente debe hacer/responder):**
+    ${expectedOutputs || 'No especificadas'}
+
+9.  **Información Clave que el Agente DEBE Incluir o Conocer:**
+    ${keyInfoToInclude || 'Ninguna específica'}
+
+10. **Cosas que el Agente DEBE EVITAR:**
+    ${thingsToAvoid || 'Ninguna específica'}
+
+11. **Principal Llamada a la Acción que el agente debe impulsar:**
+    ${primaryCallToAction || 'Asistir al usuario y resolver su consulta de la mejor manera posible'}${followupSection}
+
+INSTRUCCIONES PARA LA GENERACIÓN DEL PROMPT:
+Por favor, redacta un conjunto de instrucciones claras, concisas y detalladas para la sección "Instrucciones de la Persona" de la configuración del agente IA.
+El prompt generado debe:
+- Ser directamente usable y copiable por el usuario para la configuración de su agente IA.
+- Definir claramente la identidad del agente usando el "Nombre o Rol del Agente" y el "Nombre de la Empresa o Contexto".
+- Guiar al agente para cumplir su "Objetivo Principal".
+- Reflejar el "Tono de Comunicación Deseado" en el estilo y lenguaje del prompt.
+- Incorporar la "Información Clave que el Agente DEBE Incluir o Conocer" en sus respuestas o comportamiento.
+- Instruir al agente sobre las "Cosas que DEBE EVITAR".
+- Si se especificaron "Herramientas", indicar cómo el agente podría interactuar con ellas o dirigir a los usuarios hacia ellas de forma natural.
+- Considerar las "Entradas Esperadas" y "Salidas Esperadas" para definir interacciones y respuestas modelo.
+- Orientar al agente hacia la "Principal Llamada a la Acción" de manera sutil y cuando sea apropiado.
+- IMPORTANTE: Incorporar toda la "Información Adicional y Detalles de Seguimiento" de manera natural en el prompt.
+- Ser lo suficientemente completo y detallado para que el agente tenga una base sólida para operar eficazmente.
+- Estar redactado en español.
+
+Evita cualquier comentario, introducción o explicación dirigida a mí (el asistente que te está pidiendo esto). Solo proporciona el texto del prompt para el agente IA, listo para ser usado.
+Comienza directamente con la definición del agente (Ej: "Eres [Nombre del Agente/Rol]...").`;
+
+      return await this.generateResponse(metaPrompt, {
+        maxRetries: 2,
+        maxTokens: 4000
+      });
 
     } catch (error) {
-      this.logger.error('Failed to summarize conversation', {
-        messageCount: messages.length,
-        error: error instanceof Error ? error.message : 'Unknown error',
+      this.logger.error('Error generating assisted prompt', {
+        error: error instanceof Error ? error.message : 'Unknown error'
       });
-      throw error;
+
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : 'Unknown error'
+      };
     }
   }
 
-  public async generateFollowUpQuestions(
-    message: string,
-    context: AIContext
-  ): Promise<string[]> {
+  /**
+   * Get conversation history from database
+   */
+  private async getConversationHistory(
+    userId: string,
+    chatId: string,
+    maxTokens: number = this.MAX_HISTORY_TOKENS_FOR_PROMPT
+  ): Promise<ConversationHistoryItem[]> {
     try {
-      const prompt = `Based on this message: "${message}", generate 3-5 relevant follow-up questions that would help continue the conversation naturally. 
-      Return only the questions, one per line, without numbering.`;
+      const chatDocRef = this.db
+        .collection('users')
+        .doc(userId)
+        .collection('chats')
+        .doc(chatId);
 
-      const options: GenerateResponseOptions = {
-        prompt,
-        context,
-        temperature: 0.8,
-        maxTokens: 200,
-      };
+      const messagesSnapshot = await chatDocRef
+        .collection('messages_all')
+        .orderBy('timestamp', 'desc')
+        .limit(12) // Get recent messages
+        .get();
 
-      const response = await this.generateResponse(options);
-      const questions = response.content
-        .split('\n')
-        .map(q => q.trim())
-        .filter(q => q.length > 0 && !q.match(/^\d+\./));
+      if (messagesSnapshot.empty) {
+        return [];
+      }
 
-      return questions.slice(0, 5); // Limit to 5 questions
+      const messages: ConversationHistoryItem[] = [];
+      let totalTokens = 0;
+
+      // Process messages in reverse order (oldest first)
+      const docs = messagesSnapshot.docs.reverse();
+      
+      for (const doc of docs) {
+        const msgData = doc.data();
+        
+        if (msgData.body && msgData.body.trim()) {
+          const estimatedTokens = this.estimateTokens(msgData.body);
+          
+          // Stop if adding this message would exceed token limit
+          if (totalTokens + estimatedTokens > maxTokens) {
+            break;
+          }
+
+          const role = (msgData.origin === 'bot' || (msgData.isFromMe === true && msgData.isAutoReply === true)) 
+            ? 'assistant' 
+            : 'user';
+
+          messages.push({
+            role,
+            content: msgData.body,
+            timestamp: msgData.timestamp?.toDate?.() || new Date(),
+            estimatedTokens
+          });
+
+          totalTokens += estimatedTokens;
+        }
+      }
+
+      this.logger.debug('Conversation history retrieved', {
+        userId,
+        chatId,
+        messageCount: messages.length,
+        totalTokens
+      });
+
+      return messages;
 
     } catch (error) {
-      this.logger.error('Failed to generate follow-up questions', {
-        message: message.substring(0, 100),
-        error: error instanceof Error ? error.message : 'Unknown error',
+      this.logger.error('Error getting conversation history', {
+        userId,
+        chatId,
+        error: error instanceof Error ? error.message : 'Unknown error'
       });
       return [];
     }
   }
 
-  private buildPrompt(options: GenerateResponseOptions): string {
-    const { prompt, context } = options;
+  /**
+   * Track conversation tokens for rate limiting and context management
+   */
+  private trackConversationTokens(
+    userId: string,
+    chatId: string,
+    userMessage: string,
+    aiResponse: string,
+    aiTokensUsed: number
+  ): void {
+    const key = `${userId}:${chatId}`;
+    const existing = this.conversationTokens.get(key);
+    
+    const userTokens = this.estimateTokens(userMessage);
+    const totalNewTokens = userTokens + aiTokensUsed;
 
-    let fullPrompt = '';
-
-    // Add business context if available
-    if (context.businessContext) {
-      fullPrompt += `Business Context:
-- Company: ${context.businessContext.companyName || 'Not specified'}
-- Industry: ${context.businessContext.industry || 'Not specified'}
-- Services: ${context.businessContext.services?.join(', ') || 'Not specified'}
-- Target Audience: ${context.businessContext.targetAudience || 'Not specified'}
-
-`;
-    }
-
-    // Add user preferences
-    if (context.userPreferences) {
-      fullPrompt += `User Preferences:
-- Language: ${context.userPreferences.language || 'English'}
-- Tone: ${context.userPreferences.tone || 'friendly'}
-- Response Length: ${context.userPreferences.responseLength || 'medium'}
-
-`;
-    }
-
-    // Add conversation history if available
-    if (context.conversationHistory && context.conversationHistory.length > 0) {
-      fullPrompt += 'Conversation History:\n';
-      context.conversationHistory.slice(-5).forEach(msg => {
-        fullPrompt += `${msg.role}: ${msg.content}\n`;
+    if (existing) {
+      existing.totalTokens += totalNewTokens;
+      existing.messageCount += 2; // User message + AI response
+      existing.lastUpdated = new Date();
+      existing.maxTokensReached = existing.totalTokens >= this.MAX_CONVERSATION_TOKENS;
+    } else {
+      this.conversationTokens.set(key, {
+        chatId,
+        userId,
+        totalTokens: totalNewTokens,
+        messageCount: 2,
+        lastUpdated: new Date(),
+        maxTokensReached: totalNewTokens >= this.MAX_CONVERSATION_TOKENS
       });
-      fullPrompt += '\n';
     }
 
-    // Add the main prompt
-    fullPrompt += `Current Message: ${prompt}
-
-Please provide a helpful, relevant, and contextually appropriate response.`;
-
-    return fullPrompt;
+    // Cleanup old tracking data
+    this.cleanupOldTokenTracking();
   }
 
-  private generateCacheKey(options: GenerateResponseOptions): string {
-    const { prompt, context } = options;
-    const keyData = {
-      prompt: prompt.substring(0, 100), // Limit prompt length for cache key
-      sessionId: context.sessionId,
-      userId: context.userId,
-      platform: context.platform,
-    };
-    return `ai_response:${Buffer.from(JSON.stringify(keyData)).toString('base64')}`;
+  /**
+   * Estimate token count from text
+   */
+  private estimateTokens(text: string): number {
+    return Math.ceil(text.length / this.TOKEN_ESTIMATE_RATIO);
   }
 
-  private calculateConfidence(text: string): number {
-    // Simple confidence calculation based on response length and content
-    const minLength = 10;
-    const maxLength = 500;
-    const length = text.length;
+  /**
+   * Truncate text to fit within token limit
+   */
+  private truncateToTokenLimit(text: string, maxTokens: number): string {
+    const maxChars = maxTokens * this.TOKEN_ESTIMATE_RATIO;
+    if (text.length <= maxChars) {
+      return text;
+    }
+
+    // Try to truncate at word boundaries
+    const truncated = text.substring(0, maxChars);
+    const lastSpaceIndex = truncated.lastIndexOf(' ');
     
-    if (length < minLength) return 0.3;
-    if (length > maxLength) return 0.8;
+    if (lastSpaceIndex > maxChars * 0.8) {
+      return truncated.substring(0, lastSpaceIndex) + '...';
+    }
     
-    // Normalize length confidence
-    const lengthConfidence = (length - minLength) / (maxLength - minLength);
-    
-    // Additional confidence based on content quality indicators
-    let qualityScore = 0;
-    if (text.includes('?')) qualityScore += 0.1; // Shows engagement
-    if (text.includes('!')) qualityScore += 0.05; // Shows enthusiasm
-    if (text.includes('.')) qualityScore += 0.1; // Shows proper structure
-    if (text.length > 50) qualityScore += 0.1; // Shows substance
-    
-    return Math.min(0.9, lengthConfidence + qualityScore);
+    return truncated + '...';
   }
 
-  public async healthCheck(): Promise<boolean> {
-    try {
-      const testPrompt = 'Hello, this is a health check. Please respond with "OK".';
-      const options: GenerateResponseOptions = {
-        prompt: testPrompt,
-        context: {
-          sessionId: 'health_check',
-          userId: 'system',
-          platform: 'whatsapp',
-        },
-        maxTokens: 10,
+  /**
+   * Cache management
+   */
+  private generateCacheKey(prompt: string, systemInstruction?: string): string {
+    const content = `${systemInstruction || ''}::${prompt}`;
+    return Buffer.from(content).toString('base64').substring(0, 50);
+  }
+
+  private getFromCache(key: string): { content: string; timestamp: number } | null {
+    const cached = this.responseCache.get(key);
+    if (!cached) return null;
+
+    const now = Date.now();
+    if (now - cached.timestamp > this.CACHE_TTL_MS) {
+      this.responseCache.delete(key);
+      return null;
+    }
+
+    return cached;
+  }
+
+  private setCache(key: string, content: string): void {
+    this.responseCache.set(key, {
+      content,
+      timestamp: Date.now()
+    });
+
+    // Cleanup old cache entries
+    if (this.responseCache.size > 100) {
+      const now = Date.now();
+      for (const [k, v] of this.responseCache.entries()) {
+        if (now - v.timestamp > this.CACHE_TTL_MS) {
+          this.responseCache.delete(k);
+        }
+      }
+    }
+  }
+
+  /**
+   * Cleanup old token tracking data
+   */
+  private cleanupOldTokenTracking(): void {
+    const now = Date.now();
+    const maxAge = 24 * 60 * 60 * 1000; // 24 hours
+
+    for (const [key, tracking] of this.conversationTokens.entries()) {
+      if (now - tracking.lastUpdated.getTime() > maxAge) {
+        this.conversationTokens.delete(key);
+      }
+    }
+  }
+
+  /**
+   * Get token tracking info for a conversation
+   */
+  public getTokenTracking(userId: string, chatId: string): TokenTracking | null {
+    return this.conversationTokens.get(`${userId}:${chatId}`) || null;
+  }
+
+  /**
+   * Get rate limit status for a user
+   */
+  public getRateLimitStatus(userId: string): RateLimitStatus {
+    const userLimit = this.rateLimits.get(userId);
+    const now = Date.now();
+
+    if (!userLimit || now > userLimit.resetTime) {
+      return {
+        userId,
+        requestsInLastMinute: 0,
+        nextAllowedRequest: new Date(),
+        isLimited: false
       };
-
-      await this.generateResponse(options);
-      return true;
-    } catch (error) {
-      this.logger.error('AI service health check failed', {
-        error: error instanceof Error ? error.message : 'Unknown error',
-      });
-      return false;
     }
+
+    const validTimestamps = userLimit.timestamps.filter(
+      timestamp => now - timestamp < this.RATE_LIMIT_WINDOW_MS
+    );
+
+    const isLimited = validTimestamps.length >= this.MAX_REQUESTS_PER_MINUTE;
+    const nextAllowedRequest = isLimited 
+      ? new Date(Math.min(...validTimestamps) + this.RATE_LIMIT_WINDOW_MS)
+      : new Date();
+
+    return {
+      userId,
+      requestsInLastMinute: validTimestamps.length,
+      nextAllowedRequest,
+      isLimited
+    };
+  }
+
+  /**
+   * Clear rate limit for a user (admin function)
+   */
+  public clearRateLimit(userId: string): void {
+    this.rateLimits.delete(userId);
+    this.logger.info('Rate limit cleared for user', { userId });
+  }
+
+  /**
+   * Get service status
+   */
+  public getStatus(): {
+    isInitialized: boolean;
+    rateLimitedUsers: number;
+    activeConversations: number;
+    cacheSize: number;
+  } {
+    return {
+      isInitialized: this.isInitialized,
+      rateLimitedUsers: Array.from(this.rateLimits.values())
+        .filter(limit => limit.timestamps.length >= this.MAX_REQUESTS_PER_MINUTE).length,
+      activeConversations: this.conversationTokens.size,
+      cacheSize: this.responseCache.size
+    };
+  }
+
+  /**
+   * Cleanup resources
+   */
+  public cleanup(): void {
+    this.logger.info('Cleaning up AI service');
+    this.rateLimits.clear();
+    this.conversationTokens.clear();
+    this.responseCache.clear();
   }
 } 

@@ -4,6 +4,8 @@ import { WhatsAppSessionManager } from '@/platforms/whatsapp/services/WhatsAppSe
 import { WhatsAppMessageHandler } from '@/platforms/whatsapp/services/WhatsAppMessageHandler';
 import { WhatsAppService } from '@/platforms/whatsapp/services/WhatsAppService';
 import { QueueService } from '@/core/services/QueueService';
+import { WorkerManagerService } from '@/core/services/WorkerManagerService';
+import { DatabaseService } from '@/core/services/DatabaseService';
 import { JOB_TYPES } from '@/shared/constants';
 
 export class WhatsAppController {
@@ -11,12 +13,16 @@ export class WhatsAppController {
   private sessionManager: WhatsAppSessionManager;
   private messageHandler: WhatsAppMessageHandler;
   private queue: QueueService;
+  private workerManager: WorkerManagerService;
+  private db: DatabaseService;
 
   constructor() {
     this.logger = LoggerService.getInstance();
     this.sessionManager = WhatsAppSessionManager.getInstance();
     this.messageHandler = WhatsAppMessageHandler.getInstance();
     this.queue = QueueService.getInstance();
+    this.workerManager = WorkerManagerService.getInstance();
+    this.db = DatabaseService.getInstance();
   }
 
   // GET /api/v2/whatsapp/status
@@ -48,14 +54,10 @@ export class WhatsAppController {
         success: true,
         data: {
           sessionId,
-          status: session.status,
           isActive,
-          isConnected: service?.isConnected() || false,
-          phoneNumber: session.phoneNumber,
-          username: session.username,
+          service,
+          status: session.status,
           lastActivity: session.lastActivity,
-          createdAt: session.createdAt,
-          updatedAt: session.updatedAt,
         },
       });
 
@@ -67,63 +69,57 @@ export class WhatsAppController {
 
       res.status(500).json({
         success: false,
-        error: 'Internal server error',
+        error: 'Failed to get status',
       });
     }
   }
 
-  // POST /api/v2/whatsapp/connect
-  public async connect(req: Request, res: Response): Promise<void> {
+  // POST /api/v2/whatsapp/sessions/:sessionId/start
+  public async startSession(req: Request, res: Response): Promise<void> {
     try {
       const { sessionId } = req.params;
-      const { userId } = req.body;
+      const { forceRestart } = req.body;
 
-      if (!sessionId || !userId) {
+      if (!sessionId) {
         res.status(400).json({
           success: false,
-          error: 'Session ID and User ID are required',
+          error: 'Session ID is required',
         });
         return;
       }
 
-      // Check if session exists
-      let session = await this.sessionManager.getSession(sessionId);
-      if (!session) {
-        // Create new session
-        session = await this.sessionManager.createSession({
-          userId,
-          platform: 'whatsapp',
-          metadata: req.body.metadata,
-        });
-      }
-
-      // Connect the session
-      const whatsappService = await this.sessionManager.connectSession(sessionId);
+      // Start session through session manager
+      const session = await this.sessionManager.startSession({
+        id: sessionId,
+        userId: sessionId, // Assuming sessionId = userId for now
+        platform: 'whatsapp',
+        config: {},
+      });
 
       res.json({
         success: true,
         data: {
           sessionId,
-          status: 'connecting',
-          message: 'Session is connecting. Check status endpoint for QR code.',
+          status: session.status,
+          message: 'Session started successfully',
         },
       });
 
     } catch (error) {
-      this.logger.error('Error connecting WhatsApp session', {
+      this.logger.error('Error starting WhatsApp session', {
         sessionId: req.params.sessionId,
         error: error instanceof Error ? error.message : 'Unknown error',
       });
 
       res.status(500).json({
         success: false,
-        error: 'Failed to connect session',
+        error: 'Failed to start session',
       });
     }
   }
 
-  // DELETE /api/v2/whatsapp/disconnect
-  public async disconnect(req: Request, res: Response): Promise<void> {
+  // POST /api/v2/whatsapp/sessions/:sessionId/stop
+  public async stopSession(req: Request, res: Response): Promise<void> {
     try {
       const { sessionId } = req.params;
 
@@ -135,76 +131,81 @@ export class WhatsAppController {
         return;
       }
 
-      await this.sessionManager.disconnectSession(sessionId);
+      await this.sessionManager.stopSession(sessionId);
 
       res.json({
         success: true,
         data: {
           sessionId,
-          status: 'disconnected',
-          message: 'Session disconnected successfully',
+          message: 'Session stopped successfully',
         },
       });
 
     } catch (error) {
-      this.logger.error('Error disconnecting WhatsApp session', {
+      this.logger.error('Error stopping WhatsApp session', {
         sessionId: req.params.sessionId,
         error: error instanceof Error ? error.message : 'Unknown error',
       });
 
       res.status(500).json({
         success: false,
-        error: 'Failed to disconnect session',
+        error: 'Failed to stop session',
       });
     }
   }
 
-  // POST /api/v2/whatsapp/send-message
+  // POST /api/v2/whatsapp/sessions/:sessionId/messages
   public async sendMessage(req: Request, res: Response): Promise<void> {
     try {
       const { sessionId } = req.params;
-      const { to, message, type = 'text' } = req.body;
+      const { to, message, mediaUrl, mediaType, mediaCaption } = req.body;
 
-      if (!sessionId || !to || !message) {
+      if (!sessionId) {
         res.status(400).json({
           success: false,
-          error: 'Session ID, recipient (to), and message are required',
+          error: 'Session ID is required',
         });
         return;
       }
 
-      // Check if session is active
-      if (!this.sessionManager.isSessionActive(sessionId)) {
+      if (!to || (!message && !mediaUrl)) {
         res.status(400).json({
           success: false,
-          error: 'Session is not connected',
+          error: 'Recipient and message content are required',
         });
         return;
       }
 
-      // Send message
-      const result = await this.messageHandler.sendMessage({
-        sessionId,
-        to,
-        content: message,
-        type,
-      });
+      const service = this.sessionManager.getActiveService(sessionId);
+      if (!service) {
+        res.status(400).json({
+          success: false,
+          error: 'Session not active',
+        });
+        return;
+      }
 
-      if (result.success) {
-        res.json({
-          success: true,
-          data: {
-            messageId: result.messageId,
-            status: 'sent',
-            timestamp: result.timestamp,
-          },
+      let sentMessage;
+
+      if (mediaUrl) {
+        sentMessage = await service.sendMedia(to, {
+          url: mediaUrl,
+          type: this.determineMediaType(mediaType),
+          caption: mediaCaption,
         });
       } else {
-        res.status(400).json({
-          success: false,
-          error: result.error,
-        });
+        sentMessage = await service.sendMessage(to, message);
       }
+
+      res.json({
+        success: true,
+        data: {
+          messageId: sentMessage.id,
+          timestamp: sentMessage.timestamp,
+          to,
+          message,
+        },
+      });
 
     } catch (error) {
       this.logger.error('Error sending WhatsApp message', {
@@ -219,60 +220,45 @@ export class WhatsAppController {
     }
   }
 
-  // POST /api/v2/whatsapp/send-media
+  // POST /api/v2/whatsapp/sessions/:sessionId/media
   public async sendMedia(req: Request, res: Response): Promise<void> {
     try {
       const { sessionId } = req.params;
-      const { to, mediaUrl, caption, fileName, mimeType } = req.body;
+      const { to, mediaUrl, mediaType, caption } = req.body;
 
       if (!sessionId || !to || !mediaUrl) {
         res.status(400).json({
           success: false,
-          error: 'Session ID, recipient (to), and media URL are required',
+          error: 'Session ID, recipient, and media URL are required',
         });
         return;
       }
 
-      // Check if session is active
-      if (!this.sessionManager.isSessionActive(sessionId)) {
+      const service = this.sessionManager.getActiveService(sessionId);
+      if (!service) {
         res.status(400).json({
           success: false,
-          error: 'Session is not connected',
+          error: 'Session not active',
         });
         return;
       }
 
-      // Determine media type
-      const type = this.determineMediaType(mimeType);
-
-      // Send media message
-      const result = await this.messageHandler.sendMessage({
-        sessionId,
-        to,
-        content: mediaUrl,
-        type,
-        mediaUrl,
-        caption,
-        fileName,
-        mimeType,
+      const sentMessage = await service.sendMedia(to, {
+        url: mediaUrl,
+        type: this.determineMediaType(mediaType),
+        caption: caption,
       });
 
-      if (result.success) {
-        res.json({
-          success: true,
-          data: {
-            messageId: result.messageId,
-            status: 'sent',
-            type,
-            timestamp: result.timestamp,
-          },
-        });
-      } else {
-        res.status(400).json({
-          success: false,
-          error: result.error,
-        });
-      }
+      res.json({
+        success: true,
+        data: {
+          messageId: sentMessage.id,
+          timestamp: sentMessage.timestamp,
+          to,
+          mediaUrl,
+          caption,
+        },
+      });
 
     } catch (error) {
       this.logger.error('Error sending WhatsApp media', {
@@ -287,63 +273,11 @@ export class WhatsAppController {
     }
   }
 
-  // POST /api/v2/whatsapp/send-bulk
-  public async sendBulkMessages(req: Request, res: Response): Promise<void> {
-    try {
-      const { sessionId } = req.params;
-      const { messages } = req.body;
-
-      if (!sessionId || !messages || !Array.isArray(messages)) {
-        res.status(400).json({
-          success: false,
-          error: 'Session ID and messages array are required',
-        });
-        return;
-      }
-
-      // Check if session is active
-      if (!this.sessionManager.isSessionActive(sessionId)) {
-        res.status(400).json({
-          success: false,
-          error: 'Session is not connected',
-        });
-        return;
-      }
-
-      // Send bulk messages
-      const results = await this.messageHandler.sendBulkMessages(sessionId, messages);
-
-      const successCount = results.filter(r => r.success).length;
-      const failureCount = results.length - successCount;
-
-      res.json({
-        success: true,
-        data: {
-          total: results.length,
-          successful: successCount,
-          failed: failureCount,
-          results,
-        },
-      });
-
-    } catch (error) {
-      this.logger.error('Error sending bulk WhatsApp messages', {
-        sessionId: req.params.sessionId,
-        error: error instanceof Error ? error.message : 'Unknown error',
-      });
-
-      res.status(500).json({
-        success: false,
-        error: 'Failed to send bulk messages',
-      });
-    }
-  }
-
-  // GET /api/v2/whatsapp/messages
+  // GET /api/v2/whatsapp/sessions/:sessionId/messages
   public async getMessages(req: Request, res: Response): Promise<void> {
     try {
       const { sessionId } = req.params;
-      const { limit = 50, offset = 0, from, to, type, status, startDate, endDate } = req.query;
+      const { limit = 50, offset = 0, chatId } = req.query;
 
       if (!sessionId) {
         res.status(400).json({
@@ -353,28 +287,20 @@ export class WhatsAppController {
         return;
       }
 
-      const options = {
+      const messages = await this.messageHandler.getMessages({
+        sessionId,
+        chatId: chatId as string,
         limit: parseInt(limit as string),
         offset: parseInt(offset as string),
-        from: from as string,
-        to: to as string,
-        type: type as any,
-        status: status as any,
-        startDate: startDate ? new Date(startDate as string) : undefined,
-        endDate: endDate ? new Date(endDate as string) : undefined,
-      };
-
-      const messages = await this.messageHandler.getMessages(sessionId, options);
+      });
 
       res.json({
         success: true,
         data: {
           messages,
-          pagination: {
-            limit: options.limit,
-            offset: options.offset,
-            total: messages.length,
-          },
+          total: messages.length,
+          limit: parseInt(limit as string),
+          offset: parseInt(offset as string),
         },
       });
 
@@ -391,7 +317,7 @@ export class WhatsAppController {
     }
   }
 
-  // GET /api/v2/whatsapp/messages/:messageId
+  // GET /api/v2/whatsapp/sessions/:sessionId/messages/:messageId
   public async getMessage(req: Request, res: Response): Promise<void> {
     try {
       const { messageId } = req.params;
@@ -577,6 +503,513 @@ export class WhatsAppController {
       res.status(500).json({
         success: false,
         error: 'Failed to delete session',
+      });
+    }
+  }
+
+  // ==========================================
+  // MÉTODOS MIGRADOS DE V1 - WORKER MANAGEMENT
+  // ==========================================
+
+  /**
+   * MIGRADO DE: whatsapp-api/src/server.js líneas 1076-1136
+   * POST /api/whatsapp/:userId/connect
+   * MEJORAS: TypeScript, WorkerManagerService integration, structured responses
+   */
+  public async connect(req: Request, res: Response): Promise<void> {
+    try {
+      const { userId } = req.params;
+      const { activeAgentId, forceRestart = false } = req.body;
+
+      if (!userId) {
+        res.status(400).json({
+          success: false,
+          error: 'User ID is required',
+        });
+        return;
+      }
+
+      this.logger.info('Connection request received', { 
+        userId, 
+        activeAgentId, 
+        forceRestart 
+      });
+
+      // Check if user exists in database
+      const userDoc = await this.db.doc('users', userId).get();
+      if (!userDoc.exists) {
+        res.status(404).json({
+          success: false,
+          error: 'User not found',
+        });
+        return;
+      }
+
+      // Get current status
+      const currentWorker = this.workerManager.getWorker(userId);
+      const isActive = this.workerManager.isWorkerActive(userId);
+
+      if (isActive && !forceRestart) {
+        res.status(200).json({
+          success: true,
+          message: 'Connection is already active',
+          data: {
+            userId,
+            status: currentWorker?.status || 'unknown',
+            pid: currentWorker?.process.pid
+          }
+        });
+        return;
+      }
+
+      // Start worker
+      const worker = await this.workerManager.startWorker({
+        userId,
+        activeAgentId,
+        forceRestart
+      });
+
+      if (worker) {
+        res.status(202).json({
+          success: true,
+          message: 'Connection request received. Starting process...',
+          data: {
+            userId,
+            status: worker.status,
+            pid: worker.process.pid,
+            activeAgentId: worker.activeAgentId
+          }
+        });
+      } else {
+        res.status(500).json({
+          success: false,
+          error: 'Failed to start worker. Check server logs.',
+        });
+      }
+
+    } catch (error) {
+      this.logger.error('Error handling connect request', {
+        userId: req.params.userId,
+        error: error instanceof Error ? error.message : 'Unknown error'
+      });
+
+      res.status(500).json({
+        success: false,
+        error: 'Internal server error',
+      });
+    }
+  }
+
+  /**
+   * MIGRADO DE: whatsapp-api/src/server.js líneas 1143-1170
+   * POST /api/whatsapp/:userId/disconnect
+   * MEJORAS: TypeScript, WorkerManagerService integration
+   */
+  public async disconnect(req: Request, res: Response): Promise<void> {
+    try {
+      const { userId } = req.params;
+
+      if (!userId) {
+        res.status(400).json({
+          success: false,
+          error: 'User ID is required',
+        });
+        return;
+      }
+
+      this.logger.info('Disconnect request received', { userId });
+
+      const isActive = this.workerManager.isWorkerActive(userId);
+      if (!isActive) {
+        res.status(200).json({
+          success: true,
+          message: 'User is already disconnected',
+          data: { userId, status: 'disconnected' }
+        });
+        return;
+      }
+
+      const result = await this.workerManager.stopWorker(userId);
+
+      if (result) {
+        res.status(200).json({
+          success: true,
+          message: 'Disconnection initiated successfully',
+          data: { userId, status: 'disconnecting' }
+        });
+      } else {
+        res.status(500).json({
+          success: false,
+          error: 'Failed to initiate disconnection',
+        });
+      }
+
+    } catch (error) {
+      this.logger.error('Error handling disconnect request', {
+        userId: req.params.userId,
+        error: error instanceof Error ? error.message : 'Unknown error'
+      });
+
+      res.status(500).json({
+        success: false,
+        error: 'Internal server error',
+      });
+    }
+  }
+
+  /**
+   * MIGRADO DE: whatsapp-api/src/server.js líneas 1177-1208
+   * GET /api/whatsapp/:userId/status
+   * MEJORAS: TypeScript, comprehensive status information
+   */
+  public async getWorkerStatus(req: Request, res: Response): Promise<void> {
+    try {
+      const { userId } = req.params;
+
+      if (!userId) {
+        res.status(400).json({
+          success: false,
+          error: 'User ID is required',
+        });
+        return;
+      }
+
+      const workerInfo = await this.workerManager.getWorkerInfo(userId);
+      
+      if (!workerInfo) {
+        res.status(404).json({
+          success: false,
+          error: 'Worker not found',
+          data: { userId, status: 'not_found' }
+        });
+        return;
+      }
+
+      res.json({
+        success: true,
+        data: {
+          userId,
+          worker: workerInfo.worker,
+          health: workerInfo.health,
+          firestoreStatus: workerInfo.firestoreStatus,
+          stats: workerInfo.stats
+        }
+      });
+
+    } catch (error) {
+      this.logger.error('Error getting worker status', {
+        userId: req.params.userId,
+        error: error instanceof Error ? error.message : 'Unknown error'
+      });
+
+      res.status(500).json({
+        success: false,
+        error: 'Internal server error',
+      });
+    }
+  }
+
+  /**
+   * MIGRADO DE: whatsapp-api/src/server.js líneas 1261-1347
+   * POST /api/whatsapp/:userId/send-message
+   * MEJORAS: TypeScript, WorkerManagerService integration, validation
+   */
+  public async sendWorkerMessage(req: Request, res: Response): Promise<void> {
+    try {
+      const { userId } = req.params;
+      const { number, message } = req.body;
+
+      if (!userId) {
+        res.status(400).json({
+          success: false,
+          error: 'User ID is required',
+        });
+        return;
+      }
+
+      if (!number || !message || !number.trim() || !message.trim()) {
+        res.status(400).json({
+          success: false,
+          error: 'Phone number and message are required',
+        });
+        return;
+      }
+
+      this.logger.info('Send message request received', {
+        userId,
+        phoneNumber: number.trim(),
+        messageLength: message.trim().length
+      });
+
+      // Check if worker is active
+      if (!this.workerManager.isWorkerActive(userId)) {
+        res.status(400).json({
+          success: false,
+          error: `Worker for user ${userId} is not active. Please connect first.`,
+        });
+        return;
+      }
+
+      // Send message via worker
+      const success = await this.workerManager.sendMessage(
+        userId,
+        number.trim(),
+        message.trim()
+      );
+
+      if (success) {
+        res.status(202).json({
+          success: true,
+          message: 'Message send command sent to worker',
+          data: {
+            userId,
+            phoneNumber: number.trim(),
+            messageLength: message.trim().length
+          }
+        });
+      } else {
+        res.status(500).json({
+          success: false,
+          error: 'Failed to send message command to worker',
+        });
+      }
+
+    } catch (error) {
+      this.logger.error('Error sending message via worker', {
+        userId: req.params.userId,
+        error: error instanceof Error ? error.message : 'Unknown error'
+      });
+
+      res.status(500).json({
+        success: false,
+        error: 'Internal server error',
+      });
+    }
+  }
+
+  /**
+   * MIGRADO DE: whatsapp-api/src/server.js líneas 2315-2395
+   * PUT /api/whatsapp/:userId/active-agent
+   * MEJORAS: TypeScript, comprehensive validation, agent verification
+   */
+  public async setActiveAgent(req: Request, res: Response): Promise<void> {
+    try {
+      const { userId } = req.params;
+      const { agentId } = req.body;
+
+      if (!userId) {
+        res.status(400).json({
+          success: false,
+          error: 'User ID is required',
+        });
+        return;
+      }
+
+      if (!agentId) {
+        res.status(400).json({
+          success: false,
+          error: 'Agent ID is required',
+        });
+        return;
+      }
+
+      this.logger.info('Set active agent request received', { userId, agentId });
+
+      // Verify user exists
+      const userDoc = await this.db.doc('users', userId).get();
+      if (!userDoc.exists) {
+        res.status(404).json({
+          success: false,
+          error: 'User not found',
+        });
+        return;
+      }
+
+      // Verify agent exists
+      const agentDoc = await this.db
+        .collection('users')
+        .doc(userId)
+        .collection('agents')
+        .doc(agentId)
+        .get();
+
+      if (!agentDoc.exists) {
+        res.status(404).json({
+          success: false,
+          error: 'Agent not found',
+        });
+        return;
+      }
+
+      // Update active agent in Firestore
+      await this.db.doc('users', userId).update({
+        active_agent_id: agentId,
+        updatedAt: this.db.serverTimestamp()
+      });
+
+      // Switch agent in worker if active
+      if (this.workerManager.isWorkerActive(userId)) {
+        const success = await this.workerManager.switchAgent(userId, agentId);
+        
+        if (!success) {
+          this.logger.warn('Failed to switch agent in worker, but Firestore updated', {
+            userId,
+            agentId
+          });
+        }
+      }
+
+      const agentData = agentDoc.data();
+      res.json({
+        success: true,
+        message: 'Active agent updated successfully',
+        data: {
+          userId,
+          agentId,
+          agentName: agentData?.persona?.name || 'Unknown',
+          workerNotified: this.workerManager.isWorkerActive(userId)
+        }
+      });
+
+    } catch (error) {
+      this.logger.error('Error setting active agent', {
+        userId: req.params.userId,
+        agentId: req.body.agentId,
+        error: error instanceof Error ? error.message : 'Unknown error'
+      });
+
+      res.status(500).json({
+        success: false,
+        error: 'Internal server error',
+      });
+    }
+  }
+
+  /**
+   * MIGRADO DE: whatsapp-api/src/server.js líneas 4161-4195
+   * POST /api/whatsapp/:userId/pause
+   * MEJORAS: TypeScript, pause/resume functionality
+   */
+  public async pauseBot(req: Request, res: Response): Promise<void> {
+    try {
+      const { userId } = req.params;
+      const { pause = true } = req.body;
+
+      if (!userId) {
+        res.status(400).json({
+          success: false,
+          error: 'User ID is required',
+        });
+        return;
+      }
+
+      this.logger.info('Bot pause request received', { userId, pause });
+
+      // Check if worker is active
+      if (!this.workerManager.isWorkerActive(userId)) {
+        res.status(400).json({
+          success: false,
+          error: `Worker for user ${userId} is not active`,
+        });
+        return;
+      }
+
+      // Send pause command to worker
+      const success = await this.workerManager.setBotPause(userId, pause);
+
+      if (success) {
+        res.json({
+          success: true,
+          message: `Bot ${pause ? 'paused' : 'resumed'} successfully`,
+          data: {
+            userId,
+            paused: pause,
+            timestamp: new Date().toISOString()
+          }
+        });
+      } else {
+        res.status(500).json({
+          success: false,
+          error: 'Failed to send pause command to worker',
+        });
+      }
+
+    } catch (error) {
+      this.logger.error('Error setting bot pause state', {
+        userId: req.params.userId,
+        pause: req.body.pause,
+        error: error instanceof Error ? error.message : 'Unknown error'
+      });
+
+      res.status(500).json({
+        success: false,
+        error: 'Internal server error',
+      });
+    }
+  }
+
+  /**
+   * GET /api/whatsapp/workers/stats
+   * Obtener estadísticas generales de todos los workers
+   */
+  public async getWorkerStats(req: Request, res: Response): Promise<void> {
+    try {
+      const stats = this.workerManager.getWorkerStats();
+      const healthChecks = await this.workerManager.performHealthCheck();
+
+      res.json({
+        success: true,
+        data: {
+          stats,
+          health: {
+            total: healthChecks.length,
+            healthy: healthChecks.filter(hc => hc.isHealthy).length,
+            unhealthy: healthChecks.filter(hc => !hc.isHealthy).length,
+            checks: healthChecks
+          },
+          timestamp: new Date().toISOString()
+        }
+      });
+
+    } catch (error) {
+      this.logger.error('Error getting worker stats', {
+        error: error instanceof Error ? error.message : 'Unknown error'
+      });
+
+      res.status(500).json({
+        success: false,
+        error: 'Internal server error',
+      });
+    }
+  }
+
+  /**
+   * POST /api/whatsapp/workers/cleanup
+   * Limpiar workers no saludables
+   */
+  public async cleanupWorkers(req: Request, res: Response): Promise<void> {
+    try {
+      this.logger.info('Manual worker cleanup requested');
+
+      const cleanedCount = await this.workerManager.cleanupUnhealthyWorkers();
+
+      res.json({
+        success: true,
+        message: 'Worker cleanup completed',
+        data: {
+          cleanedWorkers: cleanedCount,
+          timestamp: new Date().toISOString()
+        }
+      });
+
+    } catch (error) {
+      this.logger.error('Error during worker cleanup', {
+        error: error instanceof Error ? error.message : 'Unknown error'
+      });
+
+      res.status(500).json({
+        success: false,
+        error: 'Internal server error',
       });
     }
   }
