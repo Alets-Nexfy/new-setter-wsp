@@ -17,6 +17,8 @@ router.post('/:userId/connect', whatsappController.connect.bind(whatsappControll
 router.post('/:userId/disconnect', whatsappController.disconnect.bind(whatsappController));
 router.get('/:userId/status', whatsappController.getWorkerStatus.bind(whatsappController));
 router.get('/:userId/qr', whatsappController.getQRCode.bind(whatsappController));
+router.get('/:userId/qr/image', whatsappController.getQRImage.bind(whatsappController));
+router.get('/:userId/qr/view', whatsappController.viewQR.bind(whatsappController));
 
 // Message sending (legacy)
 router.post('/:userId/send-message', whatsappController.sendWorkerMessage.bind(whatsappController));

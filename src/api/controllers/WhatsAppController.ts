@@ -783,6 +783,150 @@ export class WhatsAppController {
   }
 
   /**
+   * GET /api/whatsapp/:userId/qr/image
+   * Get the QR code as a PNG image
+   */
+  public async getQRImage(req: Request, res: Response): Promise<void> {
+    try {
+      const { userId } = req.params;
+
+      if (!userId) {
+        res.status(400).send('User ID is required');
+        return;
+      }
+
+      // Get QR code from Firestore
+      const statusDocRef = this.db.getFirestore()
+        .collection('users')
+        .doc(userId)
+        .collection('status')
+        .doc('whatsapp');
+
+      const statusDoc = await statusDocRef.get();
+      
+      if (!statusDoc.exists) {
+        res.status(404).send('WhatsApp status not found');
+        return;
+      }
+
+      const statusData = statusDoc.data();
+      const qrCode = statusData?.last_qr_code;
+
+      if (!qrCode) {
+        res.status(404).send('QR code not available. Please start connection first.');
+        return;
+      }
+
+      // Extract base64 data and convert to buffer
+      const base64Data = qrCode.replace(/^data:image\/png;base64,/, '');
+      const imageBuffer = Buffer.from(base64Data, 'base64');
+
+      // Set headers and send image
+      res.setHeader('Content-Type', 'image/png');
+      res.setHeader('Content-Length', imageBuffer.length);
+      res.send(imageBuffer);
+
+    } catch (error) {
+      this.logger.error('Error getting QR image', {
+        userId: req.params.userId,
+        error: error instanceof Error ? error.message : 'Unknown error'
+      });
+
+      res.status(500).send('Internal server error');
+    }
+  }
+
+  /**
+   * GET /api/whatsapp/:userId/qr/view
+   * View the QR code in a simple HTML page
+   */
+  public async viewQR(req: Request, res: Response): Promise<void> {
+    try {
+      const { userId } = req.params;
+
+      if (!userId) {
+        res.status(400).send('User ID is required');
+        return;
+      }
+
+      // Get QR code from Firestore
+      const statusDocRef = this.db.getFirestore()
+        .collection('users')
+        .doc(userId)
+        .collection('status')
+        .doc('whatsapp');
+
+      const statusDoc = await statusDocRef.get();
+      
+      if (!statusDoc.exists) {
+        res.status(404).send(`
+          <html>
+            <head><title>WhatsApp QR - User ${userId}</title></head>
+            <body>
+              <h2>WhatsApp QR Code</h2>
+              <p>Status not found for user: ${userId}</p>
+              <p><a href="javascript:window.location.reload()">Refresh</a></p>
+            </body>
+          </html>
+        `);
+        return;
+      }
+
+      const statusData = statusDoc.data();
+      const qrCode = statusData?.last_qr_code;
+      const status = statusData?.status || 'unknown';
+
+      if (!qrCode) {
+        res.send(`
+          <html>
+            <head>
+              <title>WhatsApp QR - User ${userId}</title>
+              <meta http-equiv="refresh" content="5">
+            </head>
+            <body style="font-family: Arial, sans-serif; text-align: center; padding: 50px;">
+              <h2>WhatsApp QR Code</h2>
+              <p>Status: <strong>${status}</strong></p>
+              <p>QR code not available yet. Please start connection first.</p>
+              <p><em>This page refreshes automatically every 5 seconds...</em></p>
+              <p><a href="javascript:window.location.reload()">Manual Refresh</a></p>
+            </body>
+          </html>
+        `);
+        return;
+      }
+
+      // Return HTML page with QR code
+      res.send(`
+        <html>
+          <head>
+            <title>WhatsApp QR - User ${userId}</title>
+            <meta http-equiv="refresh" content="30">
+          </head>
+          <body style="font-family: Arial, sans-serif; text-align: center; padding: 50px;">
+            <h2>WhatsApp QR Code</h2>
+            <p>Status: <strong>${status}</strong></p>
+            <p>Scan this QR code with your WhatsApp app:</p>
+            <div style="margin: 20px 0;">
+              <img src="${qrCode}" alt="WhatsApp QR Code" style="border: 2px solid #25D366; border-radius: 10px;" />
+            </div>
+            <p><em>This page refreshes automatically every 30 seconds...</em></p>
+            <p><a href="javascript:window.location.reload()">Manual Refresh</a></p>
+            <p><small>User ID: ${userId}</small></p>
+          </body>
+        </html>
+      `);
+
+    } catch (error) {
+      this.logger.error('Error viewing QR', {
+        userId: req.params.userId,
+        error: error instanceof Error ? error.message : 'Unknown error'
+      });
+
+      res.status(500).send('Internal server error');
+    }
+  }
+
+  /**
    * MIGRADO DE: whatsapp-api/src/server.js líneas 1261-1347
    * POST /api/whatsapp/:userId/send-message
    * MEJORAS: TypeScript, WorkerManagerService integration, validation
