@@ -285,6 +285,7 @@ export class WhatsAppWorker extends EventEmitter {
         this.sendToMaster({
           type: 'QR_CODE',
           qr: qrDataURL,
+          qrText: qr, // Guardar también el texto original
           timestamp: new Date().toISOString()
         });
         

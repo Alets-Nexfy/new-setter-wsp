@@ -22,6 +22,7 @@ export interface WorkerMessage {
   status?: string;
   error?: string;
   qr?: string;
+  qrText?: string;
   payload?: any;
   command?: string;
 }

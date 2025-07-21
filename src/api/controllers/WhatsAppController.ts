@@ -764,6 +764,7 @@ export class WhatsAppController {
         data: {
           userId,
           qr: qrCode,
+          qrText: statusData?.last_qr_text,
           status: statusData?.status || 'unknown',
           timestamp: statusData?.updatedAt || new Date().toISOString()
         }

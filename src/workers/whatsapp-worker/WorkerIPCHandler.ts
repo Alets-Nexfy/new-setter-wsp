@@ -12,6 +12,7 @@ export interface StatusUpdateData {
   status: string;
   last_error?: string | null;
   last_qr_code?: string | null;
+  last_qr_text?: string | null;
   updatedAt: any;
 }
 
@@ -108,6 +109,7 @@ export class WorkerIPCHandler {
         statusUpdateData = {
           status: 'generating_qr',
           last_qr_code: message.qr || null,
+          last_qr_text: message.qrText || null,
           updatedAt: timestamp
         };
         logMessage = 'status -> generating_qr (QR code received)';
