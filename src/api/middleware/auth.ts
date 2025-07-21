@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
-import { securityConfig } from '@/config/environment';
+import environment from '../../../config/environment';
 import { LoggerService } from '@/core/services/LoggerService';
 import { DatabaseService } from '@/core/services/DatabaseService';
 
@@ -35,7 +35,7 @@ export class AuthMiddleware {
 
       const token = authHeader.substring(7);
       
-      const decoded = jwt.verify(token, securityConfig.jwtSecret) as any;
+      const decoded = jwt.verify(token, environment.security.jwtSecret) as any;
       
       // Get user from database
       const userDoc = await this.db.doc('users', decoded.userId).get();
@@ -97,7 +97,7 @@ export class AuthMiddleware {
 
       // Validate API key (this is a simplified version)
       // In a real implementation, you would validate against a database
-      if (apiKey !== securityConfig.apiKeySecret) {
+      if (apiKey !== environment.security.apiKeySecret) {
         res.status(401).json({
           success: false,
           error: 'Invalid API key',

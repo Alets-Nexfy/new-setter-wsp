@@ -1,6 +1,6 @@
 import winston from 'winston';
 import DailyRotateFile from 'winston-daily-rotate-file';
-import { loggingConfig } from '@/config/environment';
+import environment from '../../../config/environment';
 
 export enum LogLevel {
   ERROR = 'error',
@@ -51,7 +51,7 @@ export class LoggerService {
       // Console transport
       new winston.transports.Console({
         format: consoleFormat,
-        level: loggingConfig.level,
+        level: environment.logging.level,
       }),
     ];
 
@@ -60,7 +60,7 @@ export class LoggerService {
       // Error log file
       transports.push(
         new DailyRotateFile({
-          filename: `${loggingConfig.filePath}/error-%DATE%.log`,
+          filename: `${environment.paths.logsDir}/error-%DATE%.log`,
           datePattern: 'YYYY-MM-DD',
           level: LogLevel.ERROR,
           maxSize: '20m',
@@ -72,7 +72,7 @@ export class LoggerService {
       // Combined log file
       transports.push(
         new DailyRotateFile({
-          filename: `${loggingConfig.filePath}/combined-%DATE%.log`,
+          filename: `${environment.paths.logsDir}/combined-%DATE%.log`,
           datePattern: 'YYYY-MM-DD',
           maxSize: '20m',
           maxFiles: '14d',
@@ -82,7 +82,7 @@ export class LoggerService {
     }
 
     return winston.createLogger({
-      level: loggingConfig.level,
+      level: environment.logging.level,
       format: logFormat,
       transports,
       exitOnError: false,

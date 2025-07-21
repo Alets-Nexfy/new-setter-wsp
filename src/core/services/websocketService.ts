@@ -20,18 +20,41 @@ export interface WebSocketClient {
 }
 
 export class WebSocketService {
-  private wss: WebSocketServer;
+  private static instance: WebSocketService;
+  private wss: WebSocketServer | null = null;
   private logger: LoggerService;
   private cache: CacheService;
   private clients: Map<string, WebSocketClient> = new Map();
   private pingInterval: NodeJS.Timeout | null = null;
   private cleanupInterval: NodeJS.Timeout | null = null;
+  private isInitialized: boolean = false;
 
-  constructor(server: Server) {
+  private constructor() {
+    this.logger = LoggerService.getInstance();
+    this.cache = CacheService.getInstance();
+  }
+
+  /**
+   * Get singleton instance
+   */
+  public static getInstance(): WebSocketService {
+    if (!WebSocketService.instance) {
+      WebSocketService.instance = new WebSocketService();
+    }
+    return WebSocketService.instance;
+  }
+
+  /**
+   * Initialize WebSocket server with HTTP server
+   */
+  public initializeWithServer(server: Server): void {
+    if (this.isInitialized) {
+      this.logger.warn('[WebSocket] WebSocket service already initialized');
+      return;
+    }
+
     this.wss = new WebSocketServer({ server });
-    this.logger = new LoggerService();
-    this.cache = new CacheService();
-    
+    this.isInitialized = true;
     this.initialize();
   }
 
@@ -39,6 +62,11 @@ export class WebSocketService {
    * Initialize WebSocket server
    */
   private initialize(): void {
+    if (!this.wss) {
+      this.logger.error('[WebSocket] WebSocket server not available');
+      return;
+    }
+
     this.logger.info('[WebSocket] Initializing WebSocket server');
 
     // Handle connections
@@ -532,7 +560,7 @@ export class WebSocketService {
     }
 
     this.closeAllConnections();
-    this.wss.close();
+    this.wss?.close(); // Use optional chaining
   }
 
   /**

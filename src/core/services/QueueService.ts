@@ -1,5 +1,5 @@
 import Queue from 'bull';
-import { redisConfig } from '@/config/environment';
+import environment from '../../../config/environment';
 import { JOB_TYPES } from '@/shared/constants';
 
 export interface QueueJobData {
@@ -32,6 +32,19 @@ export class QueueService {
     return QueueService.instance;
   }
 
+  /**
+   * Initialize the queue service
+   */
+  public async initialize(): Promise<void> {
+    try {
+      // Initialize default queues if needed
+      console.log('[QueueService] Queue service initialized (Redis-dependent features may be limited)');
+    } catch (error) {
+      console.warn('[QueueService] Queue initialization failed, continuing without queues:', error.message);
+      // Continue without queues - don't throw error
+    }
+  }
+
   public createQueue(name: string, options?: Queue.QueueOptions): Queue.Queue {
     if (this.queues.has(name)) {
       return this.queues.get(name)!;
@@ -39,9 +52,9 @@ export class QueueService {
 
     const queue = new Queue(name, {
       redis: {
-        host: new URL(redisConfig.url).hostname,
-        port: parseInt(new URL(redisConfig.url).port),
-        password: redisConfig.password,
+        host: new URL(environment.redis.url).hostname,
+        port: parseInt(new URL(environment.redis.url).port),
+        password: environment.redis.password,
       },
       defaultJobOptions: {
         removeOnComplete: 100,

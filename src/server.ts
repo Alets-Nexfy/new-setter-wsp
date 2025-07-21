@@ -26,7 +26,7 @@ import { errorHandler } from './api/middleware/errorHandler';
 import { requestLogger } from './api/middleware/requestLogger';
 
 // Import environment configuration
-import { environment } from '../config/environment';
+import environment from '../config/environment';
 
 class WhatsAppAPIServer {
   private app: express.Application;
@@ -56,12 +56,12 @@ class WhatsAppAPIServer {
   private async initializeServices(): Promise<void> {
     try {
       this.logger.info('[Server] Initializing core services...', {
-        nodeEnv: environment.NODE_ENV,
-        port: environment.PORT,
+        nodeEnv: environment.nodeEnv,
+        port: environment.port,
         platformConfig: {
-          whatsapp: environment.ENABLE_WHATSAPP,
-          instagram: environment.ENABLE_INSTAGRAM,
-          platform: environment.PLATFORM
+          whatsapp: environment.enableWhatsApp,
+          instagram: environment.enableInstagram,
+          platform: environment.platform
         }
       });
 
@@ -77,8 +77,9 @@ class WhatsAppAPIServer {
       this.queue = QueueService.getInstance();
       await this.queue.initialize();
 
-      // Initialize WebSocket service
-      this.wsService = new WebSocketService(this.server);
+      // Initialize WebSocket service (singleton pattern)
+      this.wsService = WebSocketService.getInstance();
+      this.wsService.initializeWithServer(this.server);
 
       // Initialize Worker Manager Service
       this.workerManager = WorkerManagerService.getInstance();
@@ -108,7 +109,7 @@ class WhatsAppAPIServer {
 
     // CORS configuration
     this.app.use(cors({
-      origin: environment.CORS_ORIGIN?.split(',') || ['http://localhost:3000'],
+      origin: environment.cors.origin?.split(',') || ['http://localhost:3000'],
       credentials: true
     }));
 
@@ -124,8 +125,8 @@ class WhatsAppAPIServer {
 
     // Rate limiting
     const limiter = rateLimit({
-      windowMs: (environment.RATE_LIMIT_WINDOW || 15) * 60 * 1000,
-      max: environment.RATE_LIMIT_MAX_REQUESTS || 100,
+      windowMs: environment.rateLimit.window * 60 * 1000,
+      max: environment.rateLimit.maxRequests,
       message: 'Too many requests from this IP, please try again later.',
       standardHeaders: true,
       legacyHeaders: false,
@@ -148,8 +149,8 @@ class WhatsAppAPIServer {
         timestamp: new Date().toISOString(),
         version: process.env.npm_package_version || '1.0.0',
         platforms: {
-          whatsapp: environment.ENABLE_WHATSAPP,
-          instagram: environment.ENABLE_INSTAGRAM
+          whatsapp: environment.enableWhatsApp,
+          instagram: environment.enableInstagram
         }
       });
     });
@@ -283,9 +284,9 @@ class WhatsAppAPIServer {
   private isPlatformEnabled(platform: string): boolean {
     switch (platform) {
       case 'whatsapp':
-        return environment.ENABLE_WHATSAPP;
+        return environment.enableWhatsApp;
       case 'instagram':
-        return environment.ENABLE_INSTAGRAM;
+        return environment.enableInstagram;
       default:
         return false;
     }
@@ -296,18 +297,18 @@ class WhatsAppAPIServer {
    */
   public async start(): Promise<void> {
     try {
-      const port = environment.PORT;
-      const host = environment.HOST;
+      const port = environment.port;
+      const host = environment.host;
 
       await new Promise<void>((resolve) => {
         this.server.listen(port, host, () => {
           this.logger.info(`[Server] Server started successfully`, {
             port,
             host,
-            environment: environment.NODE_ENV,
+            environment: environment.nodeEnv,
             platforms: {
-              whatsapp: environment.ENABLE_WHATSAPP,
-              instagram: environment.ENABLE_INSTAGRAM
+              whatsapp: environment.enableWhatsApp,
+              instagram: environment.enableInstagram
             }
           });
           resolve();
@@ -319,8 +320,8 @@ class WhatsAppAPIServer {
         healthCheck: `http://${host}:${port}/health`,
         apiDocs: `http://${host}:${port}/api`,
         enabledPlatforms: [
-          environment.ENABLE_WHATSAPP && 'WhatsApp',
-          environment.ENABLE_INSTAGRAM && 'Instagram'
+          environment.enableWhatsApp && 'WhatsApp',
+          environment.enableInstagram && 'Instagram'
         ].filter(Boolean)
       });
 

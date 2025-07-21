@@ -1,5 +1,5 @@
 import { createClient, RedisClientType } from 'redis';
-import { redisConfig } from '@/config/environment';
+import environment from '../../../config/environment';
 
 export class CacheService {
   private static instance: CacheService;
@@ -8,8 +8,8 @@ export class CacheService {
 
   private constructor() {
     this.client = createClient({
-      url: redisConfig.url,
-      password: redisConfig.password,
+      url: environment.redis.url,
+      password: environment.redis.password,
       socket: {
         reconnectStrategy: (retries) => {
           if (retries > 10) {
@@ -28,6 +28,19 @@ export class CacheService {
       CacheService.instance = new CacheService();
     }
     return CacheService.instance;
+  }
+
+  /**
+   * Initialize the cache service (connects to Redis)
+   */
+  public async initialize(): Promise<void> {
+    try {
+      await this.connect();
+      console.log('[CacheService] Redis initialized successfully');
+    } catch (error) {
+      console.warn('[CacheService] Redis not available, cache disabled:', error.message);
+      // Continue without Redis - don't throw error
+    }
   }
 
   private setupEventHandlers(): void {
@@ -53,30 +66,49 @@ export class CacheService {
 
   public async connect(): Promise<void> {
     if (!this.isConnected) {
-      await this.client.connect();
+      try {
+        await this.client.connect();
+      } catch (error) {
+        console.warn('[CacheService] Redis connection failed, continuing without cache');
+        // Don't throw - allow app to continue without Redis
+      }
     }
   }
 
   public async disconnect(): Promise<void> {
     if (this.isConnected) {
-      await this.client.disconnect();
+      try {
+        await this.client.disconnect();
+      } catch (error) {
+        console.warn('[CacheService] Redis disconnect failed:', error);
+      }
     }
   }
 
   // Basic operations
   public async get(key: string): Promise<string | null> {
     try {
-      await this.connect();
+      if (!this.isConnected) {
+        await this.connect();
+      }
+      if (!this.isConnected) {
+        return null; // No Redis, return null
+      }
       return await this.client.get(key);
     } catch (error) {
-      console.error('Cache get error:', error);
+      console.warn('[CacheService] Get failed, returning null:', error.message);
       return null;
     }
   }
 
   public async set(key: string, value: string, ttl?: number): Promise<boolean> {
     try {
-      await this.connect();
+      if (!this.isConnected) {
+        await this.connect();
+      }
+      if (!this.isConnected) {
+        return false; // No Redis, return false
+      }
       if (ttl) {
         await this.client.setEx(key, ttl, value);
       } else {
@@ -84,7 +116,7 @@ export class CacheService {
       }
       return true;
     } catch (error) {
-      console.error('Cache set error:', error);
+      console.warn('[CacheService] Set failed, returning false:', error.message);
       return false;
     }
   }

@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { CacheService } from '@/core/services/CacheService';
-import { rateLimitConfig } from '@/config/environment';
+import environment from '../../../config/environment';
 import { LoggerService } from '@/core/services/LoggerService';
 
 export interface RateLimitOptions {
@@ -18,8 +18,8 @@ export class RateLimitMiddleware {
 
   public static createRateLimiter(options: RateLimitOptions = {}) {
     const {
-      windowMs = rateLimitConfig.windowMs,
-      maxRequests = rateLimitConfig.maxRequests,
+        windowMs = environment.rateLimit.window * 60 * 1000,
+  maxRequests = environment.rateLimit.maxRequests,
       keyGenerator = (req: Request) => req.ip,
       skipSuccessfulRequests = false,
       skipFailedRequests = false,
@@ -226,7 +226,7 @@ export class RateLimitMiddleware {
       }
 
       const count = parseInt(current);
-      const limit = rateLimitConfig.maxRequests;
+      const limit = environment.rateLimit.maxRequests;
       const remaining = Math.max(0, limit - count);
       const resetTime = new Date(Date.now() + (ttl * 1000));
 

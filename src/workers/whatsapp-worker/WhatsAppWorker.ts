@@ -14,7 +14,6 @@
  */
 
 import { Client, LocalAuth, MessageMedia } from 'whatsapp-web.js';
-import puppeteer from 'puppeteer';
 import * as fs from 'fs';
 import * as path from 'path';
 import QRCode from 'qrcode';
@@ -60,6 +59,12 @@ interface InitialTrigger {
   type: 'exact' | 'contains' | 'starts_with';
 }
 
+// FireStore document type
+interface FirestoreDoc {
+  id: string;
+  data(): any;
+}
+
 export class WhatsAppWorker extends EventEmitter {
   private client: Client | null = null;
   private userId: string;
@@ -99,7 +104,7 @@ export class WhatsAppWorker extends EventEmitter {
     this.db = DatabaseService.getInstance();
     this.ai = AIService.getInstance();
     this.cache = CacheService.getInstance();
-    this.logger = new LoggerService();
+    this.logger = LoggerService.getInstance();
     
     // Setup data paths
     this.userDataPath = path.join(process.cwd(), 'data_v2', userId);
@@ -163,54 +168,27 @@ export class WhatsAppWorker extends EventEmitter {
   }
   
   /**
-   * MIGRADO DE: worker.js líneas 709-840
-   * Initialize WhatsApp client with Puppeteer
+   * MIGRADO DE: worker.js líneas 162-180
+   * Initialize WhatsApp worker
    */
-  public async initialize(): Promise<void> {
+  async initialize(): Promise<void> {
     try {
       this.logger.info('Initializing WhatsApp client');
       
-      // Send connecting status to master
-      this.sendStatusToMaster('connecting');
+      // Initialize DatabaseService first
+      await this.db.initialize();
       
-      // Load initial configuration
       await this.loadInitialConfiguration();
-      
-      // Create WhatsApp client
-      this.client = new Client({
-        authStrategy: new LocalAuth({
-          clientId: this.userId,
-          dataPath: this.sessionPath
-        }),
-        puppeteer: {
-          headless: true,
-          args: [
-            '--no-sandbox',
-            '--disable-setuid-sandbox',
-            '--disable-dev-shm-usage',
-            '--disable-accelerated-2d-canvas',
-            '--no-first-run',
-            '--no-zygote',
-            '--single-process',
-            '--disable-gpu'
-          ]
-        }
-      });
-      
-      this.setupClientEventHandlers();
-      
-      // Initialize client
-      await this.client.initialize();
+      await this.initializeWhatsAppClient();
       
     } catch (error) {
       this.logger.error('Error initializing WhatsApp client', { error });
-      this.sendErrorToMaster(`Initialization error: ${error}`);
       throw error;
     }
   }
-  
+
   /**
-   * MIGRADO DE: worker.js líneas 660-800
+   * MIGRADO DE: worker.js líneas 570-620
    * Load initial configuration from Firestore
    */
   private async loadInitialConfiguration(): Promise<void> {
@@ -218,31 +196,56 @@ export class WhatsAppWorker extends EventEmitter {
       this.logger.info('Loading initial configuration');
       
       const userDocRef = this.db.collection('users').doc(this.userId);
+      const userDoc = await userDocRef.get();
       
-      // Load agent configuration
-      if (this.activeAgentId) {
-        const agentDoc = await userDocRef.collection('agents').doc(this.activeAgentId).get();
-        if (agentDoc.exists) {
-          this.currentAgentConfig = agentDoc.data() as AgentConfig;
-          this.logger.debug('Agent configuration loaded', { agentId: this.activeAgentId });
+      if (!userDoc.exists) {
+        this.logger.warn('User document not found, using default configuration', { userId: this.userId });
+        
+        // Initialize with defaults
+        this.currentAgentConfig = null;
+        this.automationRules = [];
+        this.actionFlows = [];
+        this.initialTriggers = [];
+        this.geminiStarters = [];
+        return;
+      }
+      
+      const userData = userDoc.data();
+      
+      // Load active agent configuration
+      if (this.activeAgentId && userData?.agents?.[this.activeAgentId]) {
+        this.currentAgentConfig = {
+          id: this.activeAgentId,
+          ...userData.agents[this.activeAgentId]
+        };
+      } else {
+        // Use default agent or first available
+        const agents = userData?.agents || {};
+        const agentKeys = Object.keys(agents);
+        if (agentKeys.length > 0) {
+          const defaultAgentId = agentKeys[0];
+          this.currentAgentConfig = {
+            id: defaultAgentId,
+            ...agents[defaultAgentId]
+          };
         }
       }
       
       // Load automation rules
       const rulesSnapshot = await userDocRef.collection('rules').get();
-      this.automationRules = rulesSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })) as AutomationRule[];
+      this.automationRules = rulesSnapshot.docs.map((doc: FirestoreDoc) => ({ id: doc.id, ...doc.data() })) as AutomationRule[];
       
       // Load action flows
       const flowsSnapshot = await userDocRef.collection('action_flows').get();
-      this.actionFlows = flowsSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })) as ActionFlow[];
+      this.actionFlows = flowsSnapshot.docs.map((doc: FirestoreDoc) => ({ id: doc.id, ...doc.data() })) as ActionFlow[];
       
       // Load initial triggers
       const triggersSnapshot = await userDocRef.collection('initial_triggers').get();
-      this.initialTriggers = triggersSnapshot.docs.map(doc => doc.data()) as InitialTrigger[];
+      this.initialTriggers = triggersSnapshot.docs.map((doc: FirestoreDoc) => doc.data()) as InitialTrigger[];
       
       // Load Gemini starters
       const startersSnapshot = await userDocRef.collection('gemini_starters').get();
-      this.geminiStarters = startersSnapshot.docs.map(doc => doc.data());
+      this.geminiStarters = startersSnapshot.docs.map((doc: FirestoreDoc) => doc.data());
       
       this.logger.info('Configuration loaded', {
         agentId: this.activeAgentId,
@@ -254,12 +257,18 @@ export class WhatsAppWorker extends EventEmitter {
       
     } catch (error) {
       this.logger.error('Error loading configuration', { error });
-      throw error;
+      
+      // Initialize with defaults on error
+      this.currentAgentConfig = null;
+      this.automationRules = [];
+      this.actionFlows = [];
+      this.initialTriggers = [];
+      this.geminiStarters = [];
     }
   }
-  
+
   /**
-   * MIGRADO DE: worker.js líneas 709-840
+   * MIGRADO DE: worker.js líneas 680-708
    * Setup WhatsApp client event handlers
    */
   private setupClientEventHandlers(): void {
@@ -335,6 +344,45 @@ export class WhatsAppWorker extends EventEmitter {
     this.client.on('message_create', async (message) => {
       await this.handleMessageCreate(message);
     });
+  }
+  
+  /**
+   * MIGRADO DE: worker.js líneas 680-708
+   * Initialize WhatsApp client with LocalAuth
+   */
+  private async initializeWhatsAppClient(): Promise<void> {
+    try {
+      this.logger.info('Creating WhatsApp client', { 
+        sessionPath: this.sessionPath,
+        userId: this.userId 
+      });
+
+      // Use EXACT configuration from working v1 - NO changes (DEBUG MODE)
+      this.client = new Client({
+        authStrategy: new LocalAuth({
+          clientId: this.userId,
+          dataPath: this.sessionPath
+        }),
+        puppeteer: {
+          args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage', '--disable-gpu'],
+          headless: false // DEBUG: para ver qué pasa visualmente
+        }
+      });
+
+      this.logger.info('WhatsApp client created with EXACT v1 configuration');
+
+      // Setup event handlers
+      this.setupClientEventHandlers();
+
+      // Simple initialization like v1 - NO custom timeouts
+      this.logger.info('Starting WhatsApp client initialization (v1 style)');
+      await this.client.initialize();
+      this.logger.info('WhatsApp client initialization completed successfully');
+      
+    } catch (error) {
+      this.logger.error('Error initializing WhatsApp client', { error });
+      throw error;
+    }
   }
   
   /**
@@ -717,24 +765,23 @@ export class WhatsAppWorker extends EventEmitter {
     try {
       this.logger.info('Generating AI response', { sender });
       
-      // Build prompt with conversation history
+      // Build prompt with conversation history (MANTENER LÓGICA ORIGINAL)
       const promptWithHistory = await this.buildPromptWithHistory(sender, message.body);
       
-      // Generate response with AI
-      const response = await this.ai.generateResponse({
-        prompt: promptWithHistory,
-        userId: this.userId,
-        chatId: sender
+      // Generate response with AI (USAR MÉTODO ORIGINAL)
+      const response = await this.ai.generateResponse(promptWithHistory, {
+        maxRetries: 2,
+        maxTokens: 800
       });
       
-      if (response.success && response.text) {
+      if (response.success && response.content) {
         this.logger.info('AI response generated', { 
           sender, 
-          responseLength: response.text.length 
+          responseLength: response.content.length 
         });
         
         await this.randomDelay();
-        await this.sendMessage(sender, response.text);
+        await this.sendMessage(sender, response.content);
       } else {
         this.logger.warn('AI failed to generate response', { sender, error: response.error });
       }
@@ -789,7 +836,7 @@ export class WhatsAppWorker extends EventEmitter {
         .limit(limit)
         .get();
       
-      return snapshot.docs.map(doc => doc.data()).reverse();
+      return snapshot.docs.map((doc: FirestoreDoc) => doc.data()).reverse();
       
     } catch (error) {
       this.logger.error('Error getting conversation history', { error, chatId });
@@ -1052,7 +1099,7 @@ export class WhatsAppWorker extends EventEmitter {
     try {
       const userDocRef = this.db.collection('users').doc(this.userId);
       const rulesSnapshot = await userDocRef.collection('rules').get();
-      this.automationRules = rulesSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })) as AutomationRule[];
+      this.automationRules = rulesSnapshot.docs.map((doc: FirestoreDoc) => ({ id: doc.id, ...doc.data() })) as AutomationRule[];
       
       this.logger.info('Automation rules reloaded', { count: this.automationRules.length });
       
@@ -1068,7 +1115,7 @@ export class WhatsAppWorker extends EventEmitter {
     try {
       const userDocRef = this.db.collection('users').doc(this.userId);
       const flowsSnapshot = await userDocRef.collection('action_flows').get();
-      this.actionFlows = flowsSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })) as ActionFlow[];
+      this.actionFlows = flowsSnapshot.docs.map((doc: FirestoreDoc) => ({ id: doc.id, ...doc.data() })) as ActionFlow[];
       
       this.logger.info('Action flows reloaded', { count: this.actionFlows.length });
       
@@ -1084,7 +1131,7 @@ export class WhatsAppWorker extends EventEmitter {
     try {
       const userDocRef = this.db.collection('users').doc(this.userId);
       const triggersSnapshot = await userDocRef.collection('initial_triggers').get();
-      this.initialTriggers = triggersSnapshot.docs.map(doc => doc.data()) as InitialTrigger[];
+      this.initialTriggers = triggersSnapshot.docs.map((doc: FirestoreDoc) => doc.data()) as InitialTrigger[];
       
       this.logger.info('Initial triggers reloaded', { count: this.initialTriggers.length });
       

@@ -565,6 +565,7 @@ export class WhatsAppController {
       // Start worker
       const worker = await this.workerManager.startWorker({
         userId,
+        platform: 'whatsapp',
         activeAgentId,
         forceRestart
       });

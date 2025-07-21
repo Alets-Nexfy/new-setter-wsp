@@ -7,7 +7,7 @@ import { CacheService } from '@/core/services/CacheService';
 import { QueueService } from '@/core/services/QueueService';
 import { Session } from '@/core/models/Session';
 import { Platform, ConnectionStatus, MessageType, MessageStatus } from '@/shared/types';
-import { whatsappConfig } from '@/config/environment';
+import environment from '../../../../config/environment';
 
 export interface WhatsAppMessage {
   id: string;
@@ -97,7 +97,7 @@ export class WhatsAppService extends EventEmitter {
       this.client = new Client({
         authStrategy: new LocalAuth({
           clientId: this.sessionId,
-          dataPath: whatsappConfig.sessionPath,
+          dataPath: environment.paths.userDataPath,
         }),
         puppeteer: {
           headless: whatsappConfig.headless,

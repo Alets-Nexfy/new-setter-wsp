@@ -10,7 +10,7 @@ import { ChildProcess } from 'child_process';
 import { LoggerService } from './LoggerService';
 import { DatabaseService } from './DatabaseService';
 import { WhatsAppWorkerManager } from '../../workers/whatsapp-worker/WhatsAppWorkerManager';
-import { environment } from '../../../config/environment';
+import environment from '../../../config/environment';
 
 interface WorkerStartOptions {
   userId: string;
@@ -68,14 +68,20 @@ export class WorkerManagerService extends EventEmitter {
 
     try {
       this.logger.info('Initializing Worker Manager Service', {
-        whatsappEnabled: environment.ENABLE_WHATSAPP,
-        instagramEnabled: environment.ENABLE_INSTAGRAM
+        whatsappEnabled: environment.enableWhatsApp,
+        instagramEnabled: environment.enableInstagram
       });
 
       // Initialize WhatsApp worker manager if enabled
-      if (environment.ENABLE_WHATSAPP) {
+      if (environment.enableWhatsApp) {
         await this.whatsappManager.initialize();
         this.logger.info('WhatsApp Worker Manager initialized');
+      }
+
+      // Initialize Instagram worker manager if enabled
+      if (environment.enableInstagram) {
+        await this.instagramManager.initialize();
+        this.logger.info('Instagram Worker Manager initialized');
       }
 
       // Setup event listeners
@@ -113,7 +119,7 @@ export class WorkerManagerService extends EventEmitter {
   /**
    * Start a worker for a specific user and platform
    */
-  public async startWorker(options: WorkerStartOptions): Promise<boolean> {
+  public async startWorker(options: WorkerStartOptions): Promise<any> {
     const { userId, platform, activeAgentId, forceRestart = false } = options;
 
     try {
@@ -136,8 +142,15 @@ export class WorkerManagerService extends EventEmitter {
       }
 
     } catch (error) {
-      this.logger.error('Failed to start worker', { userId, platform, error });
-      return false;
+      this.logger.error('Failed to start worker - DETAILED', { 
+        userId, 
+        platform, 
+        error: error instanceof Error ? error.message : 'Unknown error',
+        stack: error instanceof Error ? error.stack : 'No stack',
+        errorType: typeof error,
+        fullError: error
+      });
+      throw error; // Propagate the error instead of returning null
     }
   }
 
@@ -174,19 +187,35 @@ export class WorkerManagerService extends EventEmitter {
     userId: string, 
     activeAgentId?: string, 
     forceRestart: boolean = false
-  ): Promise<boolean> {
+  ): Promise<any> {
     try {
+      this.logger.info('About to call whatsappManager.startWorker', { userId, activeAgentId, forceRestart });
+      
       const result = await this.whatsappManager.startWorker({
         userId,
         activeAgentId,
         forceRestart
       });
 
-      return result !== null;
+      this.logger.info('whatsappManager.startWorker completed', { 
+        userId, 
+        result: result ? 'success' : 'null',
+        hasResult: !!result
+      });
+
+      return result; // Return the actual worker object, not boolean
 
     } catch (error) {
-      this.logger.error('Failed to start WhatsApp worker', { userId, error });
-      return false;
+      this.logger.error('Failed to start WhatsApp worker - DETAILED', { 
+        userId, 
+        error: error instanceof Error ? error.message : 'Unknown error',
+        stack: error instanceof Error ? error.stack : 'No stack',
+        errorType: typeof error,
+        fullError: error
+      });
+      
+      // Re-throw the error so it bubbles up with details
+      throw error;
     }
   }
 
@@ -197,7 +226,7 @@ export class WorkerManagerService extends EventEmitter {
     userId: string, 
     activeAgentId?: string, 
     forceRestart: boolean = false
-  ): Promise<boolean> {
+  ): Promise<any> {
     try {
       // Check if worker already exists
       const workerId = `${userId}:instagram`;
@@ -312,7 +341,7 @@ export class WorkerManagerService extends EventEmitter {
     const status: Record<string, PlatformStatus> = {};
 
     // WhatsApp status
-    if (environment.ENABLE_WHATSAPP) {
+    if (environment.enableWhatsApp) {
       const whatsappWorkers = this.whatsappManager.getActiveWorkerCount();
       status.whatsapp = {
         enabled: true,
@@ -330,7 +359,7 @@ export class WorkerManagerService extends EventEmitter {
     }
 
     // Instagram status
-    if (environment.ENABLE_INSTAGRAM) {
+    if (environment.enableInstagram) {
       const instagramWorkers = this.instagramWorkers.size;
       status.instagram = {
         enabled: true,
@@ -357,7 +386,7 @@ export class WorkerManagerService extends EventEmitter {
     const workers: WorkerInfo[] = [];
 
     // Get WhatsApp workers
-    if (environment.ENABLE_WHATSAPP) {
+    if (environment.enableWhatsApp) {
       const whatsappWorkers = this.whatsappManager.getAllWorkers();
       
       for (const [userId, workerInstance] of whatsappWorkers) {
@@ -393,7 +422,7 @@ export class WorkerManagerService extends EventEmitter {
   /**
    * Check if worker is active
    */
-  public isWorkerActive(userId: string, platform: 'whatsapp' | 'instagram'): boolean {
+  public isWorkerActive(userId: string, platform: 'whatsapp' | 'instagram' = 'whatsapp'): boolean {
     switch (platform) {
       case 'whatsapp':
         return this.whatsappManager.isWorkerActive(userId);
@@ -409,14 +438,68 @@ export class WorkerManagerService extends EventEmitter {
   }
 
   /**
+   * Get worker information for a user (defaults to WhatsApp)
+   */
+  public getWorker(userId: string, platform: 'whatsapp' | 'instagram' = 'whatsapp'): any {
+    switch (platform) {
+      case 'whatsapp':
+        const whatsappWorkers = this.whatsappManager.getAllWorkers();
+        return whatsappWorkers.get(userId) || null;
+      
+      case 'instagram':
+        const workerId = `${userId}:instagram`;
+        return this.instagramWorkers.get(workerId) || null;
+      
+      default:
+        return null;
+    }
+  }
+
+  /**
+   * Get worker information for a specific user
+   */
+  public async getWorkerInfo(userId: string): Promise<any> {
+    try {
+      this.logger.debug('Getting worker info', { userId });
+      
+      // Try WhatsApp worker first
+      if (environment.enableWhatsApp) {
+        const whatsappWorker = this.whatsappManager.getWorker(userId);
+        if (whatsappWorker) {
+          return {
+            platform: 'whatsapp',
+            status: whatsappWorker.status,
+            pid: whatsappWorker.process.pid,
+            connected: whatsappWorker.process.connected,
+            activeAgentId: whatsappWorker.activeAgentId,
+            createdAt: whatsappWorker.createdAt,
+            lastActivity: whatsappWorker.lastActivity
+          };
+        }
+      }
+      
+      // Try Instagram worker (when implemented)
+      if (environment.enableInstagram) {
+        // TODO: Check Instagram worker when implemented
+      }
+      
+      return null;
+      
+    } catch (error) {
+      this.logger.error('Error getting worker info', { userId, error });
+      throw error;
+    }
+  }
+
+  /**
    * Check if platform is enabled
    */
   private isPlatformEnabled(platform: 'whatsapp' | 'instagram'): boolean {
     switch (platform) {
       case 'whatsapp':
-        return environment.ENABLE_WHATSAPP;
+        return environment.enableWhatsApp;
       case 'instagram':
-        return environment.ENABLE_INSTAGRAM;
+        return environment.enableInstagram;
       default:
         return false;
     }
@@ -463,7 +546,7 @@ export class WorkerManagerService extends EventEmitter {
 
     try {
       // Shutdown WhatsApp workers
-      if (environment.ENABLE_WHATSAPP) {
+      if (environment.enableWhatsApp) {
         await this.whatsappManager.shutdown();
       }
 

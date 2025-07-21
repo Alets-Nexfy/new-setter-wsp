@@ -2,9 +2,9 @@ import { ChildProcess, fork } from 'child_process';
 import { EventEmitter } from 'events';
 import path from 'path';
 import fs from 'fs';
-import { LoggerService } from '@/core/services/LoggerService';
-import { DatabaseService } from '@/core/services/DatabaseService';
-import { WebSocketService } from '@/core/services/websocketService';
+import { LoggerService } from '../../core/services/LoggerService';
+import { DatabaseService } from '../../core/services/DatabaseService';
+import { WebSocketService } from '../../core/services/websocketService';
 import { WorkerIPCHandler } from './WorkerIPCHandler';
 import { FieldValue } from 'firebase-admin/firestore';
 
@@ -59,6 +59,52 @@ export class WhatsAppWorkerManager extends EventEmitter {
   }
 
   /**
+   * Initialize the WhatsApp Worker Manager
+   */
+  public async initialize(): Promise<void> {
+    try {
+      this.logger.info('Initializing WhatsApp Worker Manager');
+      
+      // Setup cleanup intervals
+      this.setupCleanupInterval();
+      
+      // Log current state
+      this.logger.info('WhatsApp Worker Manager initialized successfully', {
+        activeWorkers: this.workers.size,
+        connectingUsers: this.connectingUsers.size
+      });
+      
+    } catch (error) {
+      this.logger.error('Failed to initialize WhatsApp Worker Manager', { error });
+      throw error;
+    }
+  }
+
+  /**
+   * Setup cleanup interval for inactive workers
+   */
+  private setupCleanupInterval(): void {
+    setInterval(() => {
+      this.cleanupInactiveWorkers();
+    }, 5 * 60 * 1000); // Every 5 minutes
+  }
+
+  /**
+   * Cleanup inactive workers
+   */
+  private cleanupInactiveWorkers(): void {
+    const now = new Date();
+    for (const [userId, worker] of this.workers.entries()) {
+      const inactiveTime = now.getTime() - worker.lastActivity.getTime();
+      // Clean up workers inactive for more than 30 minutes
+      if (inactiveTime > 30 * 60 * 1000) {
+        this.logger.info('Cleaning up inactive worker', { userId, inactiveTime });
+        this.stopWorker(userId);
+      }
+    }
+  }
+
+  /**
    * MIGRADO DE: whatsapp-api/src/server.js líneas 350-623
    * FUNCIÓN: startWorker(userId)
    * MEJORAS: TypeScript types, error handling robusto, logging estructurado
@@ -82,6 +128,8 @@ export class WhatsAppWorkerManager extends EventEmitter {
     this.connectingUsers.add(userId);
 
     try {
+      this.logger.info('Step 1: Checking existing workers', { userId });
+      
       // Check if worker already exists and is connected
       const existingWorker = this.workers.get(userId);
       if (existingWorker && existingWorker.process.connected && !forceRestart) {
@@ -102,44 +150,110 @@ export class WhatsAppWorkerManager extends EventEmitter {
         await this.cleanupWorker(userId);
       }
 
+      this.logger.info('Step 2: Creating session directory', { userId });
+      
       // Create session directory for WhatsApp Web
       const userDataDir = path.join(process.cwd(), 'data_v2', userId);
       const sessionPath = path.join(userDataDir, '.wwebjs_auth');
       
       if (!fs.existsSync(sessionPath)) {
         fs.mkdirSync(sessionPath, { recursive: true });
-        this.logger.debug('Created session directory', { userId, sessionPath });
+        this.logger.info('Created session directory', { userId, sessionPath });
       }
 
-      // Get worker script path
-      const workerScript = path.join(__dirname, 'index.ts');
+      this.logger.info('Step 3: Checking worker script', { userId });
+      
+      // Get worker script path - fix to point to correct source file
+      const workerScript = path.join(process.cwd(), 'src', 'workers', 'whatsapp-worker', 'index.ts');
+      this.logger.info('Worker script path', { userId, workerScript, exists: fs.existsSync(workerScript) });
+      
       if (!fs.existsSync(workerScript)) {
         throw new Error(`Worker script not found: ${workerScript}`);
       }
 
+      this.logger.info('Step 4: Resolving agent ID', { userId });
+      
       // Get active agent from Firestore
       let resolvedAgentId = activeAgentId;
       if (!resolvedAgentId) {
-        const userDoc = await this.db.doc('users', userId).get();
-        if (userDoc.exists) {
-          resolvedAgentId = userDoc.data()?.active_agent_id || null;
+        try {
+          const userDoc = await this.db.doc('users', userId).get();
+          if (userDoc.exists) {
+            resolvedAgentId = userDoc.data()?.active_agent_id || null;
+          }
+          this.logger.debug('Agent resolved from Firestore', { userId, resolvedAgentId });
+        } catch (fbError) {
+          this.logger.warn('Failed to resolve agent from Firestore, continuing with null', { 
+            userId, 
+            error: fbError instanceof Error ? fbError.message : 'Unknown error'
+          });
         }
       }
 
-      this.logger.debug('Resolved agent for worker', { 
-        userId, 
-        activeAgentId: resolvedAgentId 
+      this.logger.debug('Step 5: Starting worker process', { userId, resolvedAgentId });
+
+      // Fork worker process with ts-node
+      const args = [userId, resolvedAgentId].filter(Boolean);
+      
+      this.logger.debug('Starting worker with working command', {
+        userId,
+        workerScript,
+        args
       });
 
-      // Fork worker process
-      const workerArgs = [userId];
-      if (resolvedAgentId) {
-        workerArgs.push(resolvedAgentId);
-      }
-
-      const workerProcess = fork(workerScript, workerArgs, { 
+      const workerProcess = fork(workerScript, args, { 
         stdio: 'inherit',
-        env: { ...process.env, NODE_ENV: process.env.NODE_ENV }
+        env: { 
+          ...process.env, 
+          NODE_ENV: process.env.NODE_ENV,
+          TS_NODE_TRANSPILE_ONLY: 'true'
+        },
+        execArgv: [
+          '--require', 'ts-node/register',
+          '--require', 'tsconfig-paths/register'
+        ]
+      });
+
+      this.logger.debug('Step 6: Worker process forked', { 
+        userId, 
+        pid: workerProcess.pid,
+        connected: workerProcess.connected
+      });
+
+      // Add immediate error handling for the forked process
+      workerProcess.on('error', (error) => {
+        this.logger.error('Worker process error immediately after fork', {
+          userId,
+          error: error.message,
+          stack: error.stack
+        });
+      });
+
+      workerProcess.on('exit', (code, signal) => {
+        this.logger.error('Worker process exited immediately after fork', {
+          userId,
+          code,
+          signal,
+          pid: workerProcess.pid
+        });
+      });
+
+      // Wait a moment to see if worker starts successfully
+      await new Promise((resolve, reject) => {
+        const timeout = setTimeout(() => {
+          this.logger.info('Worker appears to be starting normally', { userId });
+          resolve(true);
+        }, 2000);
+
+        workerProcess.on('error', (error) => {
+          clearTimeout(timeout);
+          reject(new Error(`Worker startup error: ${error.message}`));
+        });
+
+        workerProcess.on('exit', (code, signal) => {
+          clearTimeout(timeout);
+          reject(new Error(`Worker exited during startup with code ${code} signal ${signal}`));
+        });
       });
 
       // Create worker instance
@@ -153,31 +267,55 @@ export class WhatsAppWorkerManager extends EventEmitter {
       };
 
       this.workers.set(userId, workerInstance);
+      this.logger.debug('Step 7: Worker instance created and stored', { userId });
 
       // Update Firestore - main document and status subcollection
-      const timestamp = FieldValue.serverTimestamp();
-      const userDocRef = this.db.collection('users').doc(userId);
-      const statusDocRef = userDocRef.collection('status').doc('whatsapp');
+      try {
+        this.logger.debug('Step 8: Updating Firestore', { userId });
+        
+        const timestamp = FieldValue.serverTimestamp();
+        const userDocRef = this.db.collection('users').doc(userId);
+        const statusDocRef = userDocRef.collection('status').doc('whatsapp');
 
-      await Promise.all([
-        userDocRef.update({
-          worker_pid: workerProcess.pid,
-          last_error: null,
-          updatedAt: timestamp
-        }),
-        statusDocRef.set({
-          status: 'connecting',
-          last_error: null,
-          last_qr_code: null,
-          updatedAt: timestamp
-        }, { merge: true })
-      ]);
+        await Promise.all([
+          userDocRef.update({
+            worker_pid: workerProcess.pid,
+            last_error: null,
+            updatedAt: timestamp
+          }),
+          statusDocRef.set({
+            status: 'connecting',
+            last_error: null,
+            last_qr_code: null,
+            updatedAt: timestamp
+          }, { merge: true })
+        ]);
+        
+        this.logger.debug('Step 8: Firestore updated successfully', { userId });
+      } catch (fbUpdateError) {
+        this.logger.warn('Failed to update Firestore, continuing anyway', {
+          userId,
+          error: fbUpdateError instanceof Error ? fbUpdateError.message : 'Unknown error'
+        });
+      }
 
+      this.logger.debug('Step 9: Setting up event handlers', { userId });
+      
       // Setup worker event handlers
       this.setupWorkerEventHandlers(workerInstance);
 
+      this.logger.debug('Step 10: Sending initial configuration', { userId });
+      
       // Send initial configuration
-      await this.sendInitialConfiguration(userId, resolvedAgentId);
+      try {
+        await this.sendInitialConfiguration(userId, resolvedAgentId);
+        this.logger.debug('Step 10: Initial configuration sent', { userId });
+      } catch (configError) {
+        this.logger.warn('Failed to send initial configuration, continuing anyway', {
+          userId,
+          error: configError instanceof Error ? configError.message : 'Unknown error'
+        });
+      }
 
       this.connectingUsers.delete(userId);
       
@@ -192,9 +330,18 @@ export class WhatsAppWorkerManager extends EventEmitter {
 
     } catch (error) {
       this.connectingUsers.delete(userId);
-      this.logger.error('Failed to start worker', {
+      
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+      const errorStack = error instanceof Error ? error.stack : 'No stack trace';
+      
+      this.logger.error('Failed to start worker - DETAILED ERROR', {
         userId,
-        error: error instanceof Error ? error.message : 'Unknown error'
+        error: errorMessage,
+        stack: errorStack,
+        errorType: typeof error,
+        errorConstructor: error?.constructor?.name,
+        fullError: error,
+        stringifiedError: JSON.stringify(error, null, 2)
       });
 
       // Update Firestore with error status
@@ -207,7 +354,7 @@ export class WhatsAppWorkerManager extends EventEmitter {
         
         await statusDocRef.set({
           status: 'error',
-          last_error: error instanceof Error ? error.message : 'Unknown error',
+          last_error: errorMessage,
           updatedAt: FieldValue.serverTimestamp()
         }, { merge: true });
       } catch (dbError) {
@@ -217,7 +364,8 @@ export class WhatsAppWorkerManager extends EventEmitter {
         });
       }
 
-      return null;
+      // Return detailed error instead of null
+      throw new Error(`Worker startup failed: ${errorMessage}`);
     }
   }
 
@@ -377,6 +525,19 @@ export class WhatsAppWorkerManager extends EventEmitter {
    */
   public getAllWorkers(): Map<string, WorkerInstance> {
     return new Map(this.workers);
+  }
+
+  /**
+   * Get count of active workers
+   */
+  public getActiveWorkerCount(): number {
+    let activeCount = 0;
+    for (const worker of this.workers.values()) {
+      if (worker.process.connected && worker.status === 'connected') {
+        activeCount++;
+      }
+    }
+    return activeCount;
   }
 
   /**

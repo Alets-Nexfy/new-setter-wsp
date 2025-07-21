@@ -1,149 +1,218 @@
+/**
+ * Environment Configuration
+ * Centralizes all environment variable handling
+ */
+
 import dotenv from 'dotenv';
-import { z } from 'zod';
+import path from 'path';
 
 // Load environment variables
 dotenv.config();
 
-// Environment schema validation
-const envSchema = z.object({
+export interface EnvironmentConfig {
   // Server Configuration
-  NODE_ENV: z.enum(['development', 'production', 'test']).default('development'),
-  PORT: z.string().transform(Number).default('3000'),
-  HOST: z.string().default('localhost'),
+  port: number;
+  host: string;
+  nodeEnv: string;
   
   // Platform Configuration
-  ENABLE_WHATSAPP: z.string().transform(val => val === 'true').default('true'),
-  ENABLE_INSTAGRAM: z.string().transform(val => val === 'true').default('false'),
-  PLATFORM: z.enum(['whatsapp', 'instagram', 'both']).default('both'),
+  enableWhatsApp: boolean;
+  enableInstagram: boolean;
+  platform: string;
   
   // Firebase Configuration
-  FIREBASE_PROJECT_ID: z.string().optional(),
-  FIREBASE_PRIVATE_KEY: z.string().optional(),
-  FIREBASE_CLIENT_EMAIL: z.string().optional(),
-  FIREBASE_STORAGE_BUCKET: z.string().optional(),
-  GOOGLE_APPLICATION_CREDENTIALS: z.string().optional(),
+  firebase: {
+    serviceAccountPath?: string;
+    projectId?: string;
+    privateKeyId?: string;
+    privateKey?: string;
+    clientEmail?: string;
+    clientId?: string;
+    authUri?: string;
+    tokenUri?: string;
+    authProviderX509CertUrl?: string;
+    clientX509CertUrl?: string;
+  };
   
   // Redis Configuration
-  REDIS_URL: z.string().default('redis://localhost:6379'),
-  REDIS_PASSWORD: z.string().optional(),
-  
-  // WhatsApp Configuration
-  WHATSAPP_SESSION_PATH: z.string().default('./sessions'),
-  WHATSAPP_HEADLESS: z.string().transform(val => val === 'true').default('true'),
-  WHATSAPP_USER_AGENT: z.string().optional(),
-  
-  // Instagram Configuration
-  INSTAGRAM_SESSION_PATH: z.string().default('./instagram-sessions'),
-  INSTAGRAM_HEADLESS: z.string().transform(val => val === 'true').default('true'),
+  redis: {
+    url: string;
+    host: string;
+    port: number;
+    password?: string;
+  };
   
   // AI Configuration
-  GEMINI_API_KEY: z.string().optional(),
-  GEMINI_MODEL: z.string().default('gemini-pro'),
+  ai: {
+    geminiApiKey: string;
+    geminiModel: string;
+    responseTimeout: number;
+    maxTokens: number;
+  };
   
-  // Security
-  JWT_SECRET: z.string().default('fallback-secret-for-development'),
-  JWT_EXPIRES_IN: z.string().default('24h'),
-  API_KEY_SECRET: z.string().default('fallback-api-key-for-development'),
+  // Logging Configuration
+  logging: {
+    level: string;
+    logToFile: boolean;
+    logFile: string;
+    logRequests: boolean;
+    logResponses: boolean;
+    logWhatsAppMessages: boolean;
+  };
+  
+  // CORS Configuration
+  cors: {
+    origin: string;
+  };
   
   // Rate Limiting
-  RATE_LIMIT_WINDOW_MS: z.string().transform(Number).default('900000'), // 15 minutes
-  RATE_LIMIT_MAX_REQUESTS: z.string().transform(Number).default('100'),
+  rateLimit: {
+    window: number;
+    maxRequests: number;
+  };
   
-  // Logging
-  LOG_LEVEL: z.enum(['error', 'warn', 'info', 'debug']).default('info'),
-  LOG_FILE_PATH: z.string().default('./logs'),
+  // WhatsApp Configuration
+  whatsapp: {
+    sessionTimeout: number;
+    maxRetries: number;
+    retryDelay: number;
+    puppeteerHeadless: boolean;
+  };
   
-  // File Upload
-  MAX_FILE_SIZE: z.string().transform(Number).default('10485760'), // 10MB
-  UPLOAD_PATH: z.string().default('./uploads'),
+  // Paths
+  paths: {
+    userDataPath: string;
+    uploadsDir: string;
+    logsDir: string;
+  };
   
-  // WebSocket
-  WS_PORT: z.string().transform(Number).default('3001'),
+  // Security
+  security: {
+    apiSecretKey: string;
+    jwtSecret: string;
+    apiKeySecret: string;
+  };
   
-  // External APIs
-  WEBHOOK_URL: z.string().optional(),
-  WEBHOOK_SECRET: z.string().optional(),
-});
-
-// Validate and parse environment variables
-const envParseResult = envSchema.safeParse(process.env);
-
-if (!envParseResult.success) {
-  console.error('❌ Invalid environment variables:');
-  console.error(envParseResult.error.format());
-  process.exit(1);
+  // Webhooks
+  webhooks: {
+    secret: string;
+    url: string;
+  };
 }
 
-export const env = envParseResult.data;
+const environment: EnvironmentConfig = {
+  // Server Configuration
+  port: parseInt(process.env.PORT || '3000', 10),
+  host: process.env.HOST || 'localhost',
+  nodeEnv: process.env.NODE_ENV || 'development',
+  
+  // Platform Configuration
+  enableWhatsApp: process.env.ENABLE_WHATSAPP === 'true' || true,
+  enableInstagram: process.env.ENABLE_INSTAGRAM === 'true' || false,
+  platform: process.env.PLATFORM || 'whatsapp',
+  
+  // Firebase Configuration
+  firebase: {
+    serviceAccountPath: process.env.FIREBASE_SERVICE_ACCOUNT_PATH,
+    projectId: process.env.FIREBASE_PROJECT_ID,
+    privateKeyId: process.env.FIREBASE_PRIVATE_KEY_ID,
+    privateKey: process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, '\n'),
+    clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
+    clientId: process.env.FIREBASE_CLIENT_ID,
+    authUri: process.env.FIREBASE_AUTH_URI,
+    tokenUri: process.env.FIREBASE_TOKEN_URI,
+    authProviderX509CertUrl: process.env.FIREBASE_AUTH_PROVIDER_X509_CERT_URL,
+    clientX509CertUrl: process.env.FIREBASE_CLIENT_X509_CERT_URL,
+  },
+  
+  // Redis Configuration
+  redis: {
+    url: process.env.REDIS_URL || 'redis://localhost:6379',
+    host: process.env.REDIS_HOST || 'localhost',
+    port: parseInt(process.env.REDIS_PORT || '6379', 10),
+    password: process.env.REDIS_PASSWORD,
+  },
+  
+  // AI Configuration
+  ai: {
+    geminiApiKey: process.env.GEMINI_API_KEY || '',
+    geminiModel: process.env.GEMINI_MODEL || 'gemini-1.5-flash',
+    responseTimeout: parseInt(process.env.AI_RESPONSE_TIMEOUT || '30000', 10),
+    maxTokens: parseInt(process.env.AI_MAX_TOKENS || '1000', 10),
+  },
+  
+  // Logging Configuration
+  logging: {
+    level: process.env.LOG_LEVEL || 'info',
+    logToFile: process.env.LOG_TO_FILE === 'true' || true,
+    logFile: process.env.LOG_FILE || 'logs/app.log',
+    logRequests: process.env.LOG_REQUESTS === 'true' || false,
+    logResponses: process.env.LOG_RESPONSES === 'true' || false,
+    logWhatsAppMessages: process.env.LOG_WHATSAPP_MESSAGES === 'true' || false,
+  },
+  
+  // CORS Configuration
+  cors: {
+    origin: process.env.CORS_ORIGIN || 'http://localhost:5173,http://localhost:3000',
+  },
+  
+  // Rate Limiting
+  rateLimit: {
+    window: parseInt(process.env.RATE_LIMIT_WINDOW || '15', 10),
+    maxRequests: parseInt(process.env.RATE_LIMIT_MAX_REQUESTS || '100', 10),
+  },
+  
+  // WhatsApp Configuration
+  whatsapp: {
+    sessionTimeout: parseInt(process.env.WHATSAPP_SESSION_TIMEOUT || '300000', 10),
+    maxRetries: parseInt(process.env.WHATSAPP_MAX_RETRIES || '3', 10),
+    retryDelay: parseInt(process.env.WHATSAPP_RETRY_DELAY || '5000', 10),
+    puppeteerHeadless: process.env.WHATSAPP_PUPPETEER_HEADLESS !== 'false',
+  },
+  
+  // Paths
+  paths: {
+    userDataPath: process.env.USER_DATA_PATH || './data_v2',
+    uploadsDir: process.env.UPLOADS_DIR || './data_v2/uploads',
+    logsDir: 'logs',
+  },
+  
+  // Security
+  security: {
+    apiSecretKey: process.env.API_SECRET_KEY || 'default-secret-key-change-in-production',
+    jwtSecret: process.env.JWT_SECRET || 'jwt-secret-change-in-production',
+    apiKeySecret: process.env.API_KEY_SECRET || 'api-key-secret-change-in-production',
+  },
+  
+  // Webhooks
+  webhooks: {
+    secret: process.env.WEBHOOK_SECRET || 'webhook-secret-change-in-production',
+    url: process.env.WEBHOOK_URL || 'http://localhost:3000/webhooks',
+  },
+};
 
-// Environment helper functions
-export const isDevelopment = env.NODE_ENV === 'development';
-export const isProduction = env.NODE_ENV === 'production';
-export const isTest = env.NODE_ENV === 'test';
+// Validation
+export function validateEnvironment(): void {
+  const requiredVars = [];
+  
+  // Check Firebase configuration
+  if (!environment.firebase.serviceAccountPath && !environment.firebase.projectId) {
+    requiredVars.push('FIREBASE_SERVICE_ACCOUNT_PATH or Firebase environment variables');
+  }
+  
+  // Check AI configuration for production
+  if (environment.nodeEnv === 'production' && !environment.ai.geminiApiKey) {
+    requiredVars.push('GEMINI_API_KEY');
+  }
+  
+  if (requiredVars.length > 0) {
+    console.warn('⚠️  Missing environment variables:', requiredVars.join(', '));
+    console.warn('⚠️  Some features may not work correctly');
+  }
+}
 
-// Configuration objects
-export const serverConfig = {
-  port: env.PORT,
-  host: env.HOST,
-  nodeEnv: env.NODE_ENV,
-} as const;
+// Export configuration
+export default environment;
 
-export const platformConfig = {
-  enableWhatsApp: env.ENABLE_WHATSAPP,
-  enableInstagram: env.ENABLE_INSTAGRAM,
-  platform: env.PLATFORM,
-} as const;
-
-export const firebaseConfig = {
-  projectId: env.FIREBASE_PROJECT_ID,
-  privateKey: env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, '\n'),
-  clientEmail: env.FIREBASE_CLIENT_EMAIL,
-  storageBucket: env.FIREBASE_STORAGE_BUCKET,
-  serviceAccountPath: env.GOOGLE_APPLICATION_CREDENTIALS,
-} as const;
-
-export const redisConfig = {
-  url: env.REDIS_URL,
-  password: env.REDIS_PASSWORD,
-} as const;
-
-export const whatsappConfig = {
-  sessionPath: env.WHATSAPP_SESSION_PATH,
-  headless: env.WHATSAPP_HEADLESS,
-  userAgent: env.WHATSAPP_USER_AGENT,
-} as const;
-
-export const instagramConfig = {
-  sessionPath: env.INSTAGRAM_SESSION_PATH,
-  headless: env.INSTAGRAM_HEADLESS,
-} as const;
-
-export const aiConfig = {
-  geminiApiKey: env.GEMINI_API_KEY,
-  geminiModel: env.GEMINI_MODEL,
-} as const;
-
-export const securityConfig = {
-  jwtSecret: env.JWT_SECRET,
-  jwtExpiresIn: env.JWT_EXPIRES_IN,
-  apiKeySecret: env.API_KEY_SECRET,
-} as const;
-
-export const rateLimitConfig = {
-  windowMs: env.RATE_LIMIT_WINDOW_MS,
-  maxRequests: env.RATE_LIMIT_MAX_REQUESTS,
-} as const;
-
-export const loggingConfig = {
-  level: env.LOG_LEVEL,
-  filePath: env.LOG_FILE_PATH,
-} as const;
-
-export const uploadConfig = {
-  maxFileSize: env.MAX_FILE_SIZE,
-  uploadPath: env.UPLOAD_PATH,
-} as const;
-
-export const wsConfig = {
-  port: env.WS_PORT,
-} as const; 
+// Validate on import
+validateEnvironment(); 

@@ -30,8 +30,8 @@ export interface TokenTracking {
 
 export interface ConversationHistoryItem {
   role: 'user' | 'assistant' | 'system';
-  content: string;
-  timestamp: Date;
+    content: string;
+    timestamp: Date;
   estimatedTokens: number;
 }
 
@@ -98,7 +98,7 @@ export class AIService {
       this.logger.info('Gemini AI model initialized successfully', {
         model: process.env.GEMINI_MODEL || 'gemini-1.5-flash'
       });
-      
+
     } catch (error) {
       this.logger.error('Critical error initializing Gemini AI', {
         error: error instanceof Error ? error.message : 'Unknown error'

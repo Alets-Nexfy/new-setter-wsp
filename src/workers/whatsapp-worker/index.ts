@@ -2,23 +2,18 @@
 
 /**
  * WhatsApp Worker Process Entry Point
- * 
- * This file serves as the entry point for worker processes forked by the master server.
- * Each worker handles WhatsApp automation for a single user.
- * 
- * MIGRADO DE: whatsapp-api/src/worker.js
- * MEJORAS: TypeScript, structured logging, error handling
+ * MANTENIENDO TODA LA LÓGICA ORIGINAL
  */
 
 import { config } from 'dotenv';
-import { WhatsAppWorker } from './WhatsAppWorker';
 
 // Load environment variables
 config();
 
-// Get command line arguments
-const userId = process.argv[2];
-const activeAgentId = process.argv[3] || null;
+// Get arguments maintaining original logic
+const args = process.argv.slice(2);
+const userId = args[0];
+const activeAgentId = args[1] || null;
 
 if (!userId) {
   console.error('[Worker] ERROR: No userId provided as argument');
@@ -33,13 +28,16 @@ console.log(`[Worker ${userId}] Active Agent ID: ${activeAgentId || 'default'}`)
 process.title = `whatsapp-worker-${userId}`;
 
 /**
- * Main worker initialization
+ * Main worker initialization - MANTENER LÓGICA ORIGINAL
  */
 async function main(): Promise<void> {
   try {
     console.log(`[Worker ${userId}] Initializing WhatsApp Worker...`);
     
-    // Create worker instance
+    // Import WhatsApp Worker maintaining all original functionality
+    const { WhatsAppWorker } = require('./WhatsAppWorker');
+    
+    // Create worker instance - MANTENER TODA LA FUNCIONALIDAD
     const worker = new WhatsAppWorker(userId, activeAgentId);
     
     // Initialize worker
@@ -63,11 +61,11 @@ async function main(): Promise<void> {
     if (process.send) {
       process.send({
         type: 'ERROR_INFO',
-        error: `Fatal initialization error: ${error instanceof Error ? error.message : 'Unknown error'}`
+        error: error instanceof Error ? error.message : 'Unknown error',
+        timestamp: new Date().toISOString()
       });
     }
     
-    // Exit with error code
     process.exit(1);
   }
 }
@@ -75,5 +73,5 @@ async function main(): Promise<void> {
 // Start the worker
 main().catch((error) => {
   console.error(`[Worker ${userId}] Unhandled error in main:`, error);
-  process.exit(1);
-}); 
+    process.exit(1);
+  });
