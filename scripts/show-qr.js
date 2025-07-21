@@ -79,4 +79,9 @@ async function showQR() {
     }
 
   } catch (error) {
-    console.log(`
+    console.log(`❌ Error: ${error.message}`);
+    console.log('🔧 Verifica que el servidor esté corriendo en puerto 3000');
+  }
+}
+
+showQR();
