@@ -357,7 +357,7 @@ export class WhatsAppWorker extends EventEmitter {
         userId: this.userId 
       });
 
-      // Use EXACT configuration from working v1 - NO changes (DEBUG MODE)
+      // Use EXACT configuration from working v1 - NO changes (VPS MODE)
       this.client = new Client({
         authStrategy: new LocalAuth({
           clientId: this.userId,
@@ -365,7 +365,7 @@ export class WhatsAppWorker extends EventEmitter {
         }),
         puppeteer: {
           args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage', '--disable-gpu'],
-          headless: false // DEBUG: para ver qué pasa visualmente
+          headless: true // VPS: no necesitamos display visual
         }
       });
 
