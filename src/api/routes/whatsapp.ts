@@ -16,6 +16,7 @@ const messageController = new MessageController();
 router.post('/:userId/connect', whatsappController.connect.bind(whatsappController));
 router.post('/:userId/disconnect', whatsappController.disconnect.bind(whatsappController));
 router.get('/:userId/status', whatsappController.getWorkerStatus.bind(whatsappController));
+router.get('/:userId/qr', whatsappController.getQRCode.bind(whatsappController));
 
 // Message sending (legacy)
 router.post('/:userId/send-message', whatsappController.sendWorkerMessage.bind(whatsappController));

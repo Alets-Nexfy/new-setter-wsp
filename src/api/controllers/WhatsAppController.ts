@@ -711,6 +711,78 @@ export class WhatsAppController {
   }
 
   /**
+   * GET /api/whatsapp/:userId/qr
+   * Get the current QR code for WhatsApp connection
+   */
+  public async getQRCode(req: Request, res: Response): Promise<void> {
+    try {
+      const { userId } = req.params;
+
+      if (!userId) {
+        res.status(400).json({
+          success: false,
+          error: 'User ID is required',
+        });
+        return;
+      }
+
+      // Get QR code from Firestore status collection
+      const statusDocRef = this.db.getFirestore()
+        .collection('users')
+        .doc(userId)
+        .collection('status')
+        .doc('whatsapp');
+
+      const statusDoc = await statusDocRef.get();
+      
+      if (!statusDoc.exists) {
+        res.status(404).json({
+          success: false,
+          error: 'WhatsApp status not found',
+          data: { userId }
+        });
+        return;
+      }
+
+      const statusData = statusDoc.data();
+      const qrCode = statusData?.last_qr_code;
+
+      if (!qrCode) {
+        res.status(404).json({
+          success: false,
+          error: 'QR code not available. Please start connection first.',
+          data: { 
+            userId,
+            status: statusData?.status || 'unknown'
+          }
+        });
+        return;
+      }
+
+      res.json({
+        success: true,
+        data: {
+          userId,
+          qr: qrCode,
+          status: statusData?.status || 'unknown',
+          timestamp: statusData?.updatedAt || new Date().toISOString()
+        }
+      });
+
+    } catch (error) {
+      this.logger.error('Error getting QR code', {
+        userId: req.params.userId,
+        error: error instanceof Error ? error.message : 'Unknown error'
+      });
+
+      res.status(500).json({
+        success: false,
+        error: 'Internal server error',
+      });
+    }
+  }
+
+  /**
    * MIGRADO DE: whatsapp-api/src/server.js líneas 1261-1347
    * POST /api/whatsapp/:userId/send-message
    * MEJORAS: TypeScript, WorkerManagerService integration, validation
