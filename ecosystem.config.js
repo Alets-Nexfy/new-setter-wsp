@@ -2,8 +2,7 @@ module.exports = {
   apps: [
     {
       name: 'setter-ai-v2',
-      script: 'npx',
-      args: 'ts-node --require tsconfig-paths/register src/server.ts',
+      script: 'start.js',
       instances: 1, // Solo 1 instancia para WhatsApp (no puede ser clusterizado)
       exec_mode: 'fork', // Modo fork (no cluster) para WhatsApp
       autorestart: true,
@@ -13,17 +12,13 @@ module.exports = {
         NODE_ENV: 'production',
         PORT: 3000,
         ENABLE_WHATSAPP: 'true',
-        ENABLE_INSTAGRAM: 'false',
-        TS_NODE_PROJECT: './tsconfig.json',
-        TS_NODE_TRANSPILE_ONLY: 'true'
+        ENABLE_INSTAGRAM: 'false'
       },
       env_production: {
         NODE_ENV: 'production',
         PORT: 3000,
         ENABLE_WHATSAPP: 'true',
-        ENABLE_INSTAGRAM: 'false',
-        TS_NODE_PROJECT: './tsconfig.json',
-        TS_NODE_TRANSPILE_ONLY: 'true'
+        ENABLE_INSTAGRAM: 'false'
       },
       // Configuración de logs
       log_file: './logs/combined.log',
