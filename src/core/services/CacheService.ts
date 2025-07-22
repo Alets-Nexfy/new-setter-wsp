@@ -67,7 +67,7 @@ export class CacheService {
   public async connect(): Promise<void> {
     if (!this.isConnected) {
       try {
-        await this.client.connect();
+      await this.client.connect();
       } catch (error) {
         console.warn('[CacheService] Redis connection failed, continuing without cache');
         // Don't throw - allow app to continue without Redis
@@ -78,7 +78,7 @@ export class CacheService {
   public async disconnect(): Promise<void> {
     if (this.isConnected) {
       try {
-        await this.client.disconnect();
+      await this.client.disconnect();
       } catch (error) {
         console.warn('[CacheService] Redis disconnect failed:', error);
       }
@@ -89,7 +89,7 @@ export class CacheService {
   public async get(key: string): Promise<string | null> {
     try {
       if (!this.isConnected) {
-        await this.connect();
+      await this.connect();
       }
       if (!this.isConnected) {
         return null; // No Redis, return null
@@ -104,7 +104,7 @@ export class CacheService {
   public async set(key: string, value: string, ttl?: number): Promise<boolean> {
     try {
       if (!this.isConnected) {
-        await this.connect();
+      await this.connect();
       }
       if (!this.isConnected) {
         return false; // No Redis, return false

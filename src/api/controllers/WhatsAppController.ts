@@ -92,9 +92,9 @@ export class WhatsAppController {
       const session = await this.sessionManager.startSession({
         id: sessionId,
         userId: sessionId, // Assuming sessionId = userId for now
-        platform: 'whatsapp',
+          platform: 'whatsapp',
         config: {},
-      });
+        });
 
       res.json({
         success: true,
@@ -192,20 +192,20 @@ export class WhatsAppController {
           url: mediaUrl,
           type: this.determineMediaType(mediaType),
           caption: mediaCaption,
-        });
+      });
       } else {
         sentMessage = await service.sendMessage(to, message);
       }
 
-      res.json({
-        success: true,
-        data: {
+        res.json({
+          success: true,
+          data: {
           messageId: sentMessage.id,
           timestamp: sentMessage.timestamp,
           to,
           message,
-        },
-      });
+          },
+        });
 
     } catch (error) {
       this.logger.error('Error sending WhatsApp message', {
@@ -249,16 +249,16 @@ export class WhatsAppController {
         caption: caption,
       });
 
-      res.json({
-        success: true,
-        data: {
+        res.json({
+          success: true,
+          data: {
           messageId: sentMessage.id,
           timestamp: sentMessage.timestamp,
           to,
           mediaUrl,
           caption,
-        },
-      });
+          },
+        });
 
     } catch (error) {
       this.logger.error('Error sending WhatsApp media', {
@@ -298,7 +298,7 @@ export class WhatsAppController {
         success: true,
         data: {
           messages,
-          total: messages.length,
+            total: messages.length,
           limit: parseInt(limit as string),
           offset: parseInt(offset as string),
         },

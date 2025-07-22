@@ -359,7 +359,7 @@ class WhatsAppAPIServer {
       }
 
       this.logger.info('[Server] Graceful shutdown completed');
-      process.exit(0);
+          process.exit(0);
 
     } catch (error) {
       this.logger.error('[Server] Error during graceful shutdown:', error);
@@ -370,16 +370,16 @@ class WhatsAppAPIServer {
 
 // Start the server
 async function startServer(): Promise<void> {
-  const server = new WhatsAppAPIServer();
+const server = new WhatsAppAPIServer();
   await server.start();
 }
 
 // Handle module being run directly
 if (require.main === module) {
   startServer().catch((error) => {
-    console.error('Failed to start server:', error);
-    process.exit(1);
-  });
+  console.error('Failed to start server:', error);
+  process.exit(1);
+});
 }
 
 export default WhatsAppAPIServer; 
