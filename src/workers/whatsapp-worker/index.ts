@@ -34,6 +34,23 @@ async function main(): Promise<void> {
   try {
     console.log(`[Worker ${userId}] Initializing WhatsApp Worker...`);
     
+    // Initialize services first for child process
+    const { DatabaseService } = require('@/core/services/DatabaseService');
+    const { CacheService } = require('@/core/services/CacheService');
+    const { LoggerService } = require('@/core/services/LoggerService');
+    
+    console.log(`[Worker ${userId}] Initializing core services...`);
+    
+    // Initialize DatabaseService for child process
+    const dbService = DatabaseService.getInstance();
+    await dbService.initialize();
+    
+    // Initialize other services
+    const cacheService = CacheService.getInstance();
+    await cacheService.initialize();
+    
+    console.log(`[Worker ${userId}] Core services initialized`);
+    
     // Import WhatsApp Worker maintaining all original functionality
     const { WhatsAppWorker } = require('./WhatsAppWorker');
     

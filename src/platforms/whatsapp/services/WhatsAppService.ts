@@ -1,10 +1,10 @@
-import { Client, LocalAuth, Message, MessageMedia, Contact } from 'whatsapp-web.js';
-import qrcode from 'qrcode';
 import { EventEmitter } from 'events';
 import { LoggerService } from '@/core/services/LoggerService';
 import { DatabaseService } from '@/core/services/DatabaseService';
 import { CacheService } from '@/core/services/CacheService';
 import { QueueService } from '@/core/services/QueueService';
+import { WhatsAppWorkerManager } from '@/workers/whatsapp-worker/WorkerManager';
+import { WorkerStatus, MessageData, WorkerConfig } from '@/workers/whatsapp-worker/types';
 import { Session } from '@/core/models/Session';
 import { Platform, ConnectionStatus, MessageType, MessageStatus } from '@/shared/types';
 import environment from '../../../../config/environment';
@@ -33,605 +33,453 @@ export interface WhatsAppContact {
 }
 
 export class WhatsAppService extends EventEmitter {
-  private static instances: Map<string, WhatsAppService> = new Map();
-  private client: Client | null = null;
-  private sessionId: string;
-  private userId: string;
+  private static instance: WhatsAppService | null = null;
+  private workerManager: WhatsAppWorkerManager;
   private logger: LoggerService;
   private db: DatabaseService;
   private cache: CacheService;
   private queue: QueueService;
-  private isConnecting: boolean = false;
-  private reconnectAttempts: number = 0;
-  private maxReconnectAttempts: number = 5;
+  private isInitialized: boolean = false;
 
-  constructor(sessionId: string, userId: string) {
+  private constructor() {
     super();
-    this.sessionId = sessionId;
-    this.userId = userId;
     this.logger = LoggerService.getInstance();
     this.db = DatabaseService.getInstance();
     this.cache = CacheService.getInstance();
     this.queue = QueueService.getInstance();
+    this.workerManager = new WhatsAppWorkerManager();
+    this.setupWorkerManagerEvents();
   }
 
-  public static getInstance(sessionId: string, userId: string): WhatsAppService {
-    const key = `${userId}:${sessionId}`;
-    if (!WhatsAppService.instances.has(key)) {
-      WhatsAppService.instances.set(key, new WhatsAppService(sessionId, userId));
+  public static getInstance(): WhatsAppService {
+    if (!WhatsAppService.instance) {
+      WhatsAppService.instance = new WhatsAppService();
     }
-    return WhatsAppService.instances.get(key)!;
+    return WhatsAppService.instance;
   }
 
   public async initialize(): Promise<void> {
-    try {
-      this.logger.info('Initializing WhatsApp service', {
-        sessionId: this.sessionId,
-        userId: this.userId,
-      });
-
-      // Check if session exists in database
-      const session = await this.getSession();
-      if (!session) {
-        throw new Error('Session not found');
-      }
-
-      // Initialize WhatsApp client
-      await this.initializeClient();
-
-      // Update session status
-      await this.updateSessionStatus('connecting');
-
-    } catch (error) {
-      this.logger.error('Failed to initialize WhatsApp service', {
-        sessionId: this.sessionId,
-        userId: this.userId,
-        error: error instanceof Error ? error.message : 'Unknown error',
-      });
-      throw error;
-    }
-  }
-
-  private async initializeClient(): Promise<void> {
-    try {
-      this.client = new Client({
-        authStrategy: new LocalAuth({
-          clientId: this.sessionId,
-          dataPath: environment.paths.userDataPath,
-        }),
-        puppeteer: {
-          headless: whatsappConfig.headless,
-          args: [
-            '--no-sandbox',
-            '--disable-setuid-sandbox',
-            '--disable-dev-shm-usage',
-            '--disable-accelerated-2d-canvas',
-            '--no-first-run',
-            '--no-zygote',
-            '--disable-gpu',
-          ],
-          userAgent: whatsappConfig.userAgent,
-        },
-        webVersion: '2.2402.5',
-        webVersionCache: {
-          type: 'local',
-        },
-      });
-
-      this.setupEventHandlers();
-      await this.client.initialize();
-
-    } catch (error) {
-      this.logger.error('Failed to initialize WhatsApp client', {
-        sessionId: this.sessionId,
-        error: error instanceof Error ? error.message : 'Unknown error',
-      });
-      throw error;
-    }
-  }
-
-  private setupEventHandlers(): void {
-    if (!this.client) return;
-
-    // Authentication events
-    this.client.on('qr', async (qr: string) => {
-      try {
-        const qrCodeDataUrl = await qrcode.toDataURL(qr);
-        await this.updateSessionQRCode(qrCodeDataUrl);
-        this.emit('qr', qrCodeDataUrl);
-        
-        this.logger.info('QR code generated', {
-          sessionId: this.sessionId,
-          userId: this.userId,
-        });
-      } catch (error) {
-        this.logger.error('Failed to generate QR code', {
-          sessionId: this.sessionId,
-          error: error instanceof Error ? error.message : 'Unknown error',
-        });
-      }
-    });
-
-    this.client.on('ready', async () => {
-      try {
-        const info = this.client!.info;
-        await this.updateSessionConnectionInfo(info.wid.user, info.pushname);
-        await this.updateSessionStatus('connected');
-        
-        this.logger.info('WhatsApp client ready', {
-          sessionId: this.sessionId,
-          userId: this.userId,
-          phoneNumber: info.wid.user,
-          pushName: info.pushname,
-        });
-
-        this.emit('ready', {
-          phoneNumber: info.wid.user,
-          pushName: info.pushname,
-        });
-
-        // Reset reconnect attempts on successful connection
-        this.reconnectAttempts = 0;
-
-      } catch (error) {
-        this.logger.error('Error in ready event', {
-          sessionId: this.sessionId,
-          error: error instanceof Error ? error.message : 'Unknown error',
-        });
-      }
-    });
-
-    this.client.on('authenticated', () => {
-      this.logger.info('WhatsApp client authenticated', {
-        sessionId: this.sessionId,
-        userId: this.userId,
-      });
-      this.emit('authenticated');
-    });
-
-    this.client.on('auth_failure', async (msg: string) => {
-      this.logger.error('WhatsApp authentication failed', {
-        sessionId: this.sessionId,
-        userId: this.userId,
-        message: msg,
-      });
-
-      await this.updateSessionStatus('error');
-      this.emit('auth_failure', msg);
-    });
-
-    // Message events
-    this.client.on('message', async (message: Message) => {
-      try {
-        await this.handleIncomingMessage(message);
-      } catch (error) {
-        this.logger.error('Error handling incoming message', {
-          sessionId: this.sessionId,
-          messageId: message.id._serialized,
-          error: error instanceof Error ? error.message : 'Unknown error',
-        });
-      }
-    });
-
-    this.client.on('message_create', async (message: Message) => {
-      try {
-        // Handle outgoing messages (messages sent by the client)
-        if (message.fromMe) {
-          await this.handleOutgoingMessage(message);
-        }
-      } catch (error) {
-        this.logger.error('Error handling outgoing message', {
-          sessionId: this.sessionId,
-          messageId: message.id._serialized,
-          error: error instanceof Error ? error.message : 'Unknown error',
-        });
-      }
-    });
-
-    // Connection events
-    this.client.on('disconnected', async (reason: string) => {
-      this.logger.warn('WhatsApp client disconnected', {
-        sessionId: this.sessionId,
-        userId: this.userId,
-        reason,
-      });
-
-      await this.updateSessionStatus('disconnected');
-      this.emit('disconnected', reason);
-
-      // Attempt reconnection
-      await this.handleReconnection();
-    });
-
-    this.client.on('loading_screen', (percent: string, message: string) => {
-      this.logger.debug('WhatsApp loading screen', {
-        sessionId: this.sessionId,
-        percent,
-        message,
-      });
-    });
-  }
-
-  private async handleIncomingMessage(message: Message): Promise<void> {
-    try {
-      // Skip system messages
-      if (message.isStatus) return;
-
-      const messageData: WhatsAppMessage = {
-        id: message.id._serialized,
-        from: message.from,
-        to: message.to,
-        body: message.body,
-        type: this.mapMessageType(message.type),
-        timestamp: new Date(message.timestamp * 1000),
-        metadata: {
-          isGroup: message.from.includes('@g.us'),
-          isFromMe: message.fromMe,
-          hasMedia: message.hasMedia,
-        },
-      };
-
-      // Handle media messages
-      if (message.hasMedia) {
-        const media = await message.downloadMedia();
-        if (media) {
-          messageData.mediaUrl = media.data;
-          messageData.fileName = media.filename;
-          messageData.mimeType = media.mimetype;
-          messageData.caption = message.caption;
-        }
-      }
-
-      // Save message to database
-      await this.saveMessage(messageData);
-
-      // Emit event
-      this.emit('message', messageData);
-
-      // Queue for AI processing if enabled
-      await this.queue.addAIJob('ai:generate-response', {
-        sessionId: this.sessionId,
-        messageId: messageData.id,
-        platform: 'whatsapp',
-        message: messageData,
-      });
-
-      this.logger.info('Incoming message processed', {
-        sessionId: this.sessionId,
-        messageId: messageData.id,
-        from: messageData.from,
-        type: messageData.type,
-      });
-
-    } catch (error) {
-      this.logger.error('Error processing incoming message', {
-        sessionId: this.sessionId,
-        messageId: message.id._serialized,
-        error: error instanceof Error ? error.message : 'Unknown error',
-      });
-    }
-  }
-
-  private async handleOutgoingMessage(message: Message): Promise<void> {
-    try {
-      const messageData: WhatsAppMessage = {
-        id: message.id._serialized,
-        from: message.from,
-        to: message.to,
-        body: message.body,
-        type: this.mapMessageType(message.type),
-        timestamp: new Date(message.timestamp * 1000),
-        metadata: {
-          isGroup: message.from.includes('@g.us'),
-          isFromMe: message.fromMe,
-          hasMedia: message.hasMedia,
-        },
-      };
-
-      // Save message to database
-      await this.saveMessage(messageData);
-
-      // Update message status
-      await this.updateMessageStatus(messageData.id, 'sent');
-
-      this.logger.info('Outgoing message processed', {
-        sessionId: this.sessionId,
-        messageId: messageData.id,
-        to: messageData.to,
-        type: messageData.type,
-      });
-
-    } catch (error) {
-      this.logger.error('Error processing outgoing message', {
-        sessionId: this.sessionId,
-        messageId: message.id._serialized,
-        error: error instanceof Error ? error.message : 'Unknown error',
-      });
-    }
-  }
-
-  private mapMessageType(whatsappType: string): MessageType {
-    switch (whatsappType) {
-      case 'text':
-        return 'text';
-      case 'image':
-        return 'image';
-      case 'video':
-        return 'video';
-      case 'audio':
-        return 'audio';
-      case 'document':
-        return 'document';
-      case 'location':
-        return 'location';
-      case 'contact':
-        return 'contact';
-      default:
-        return 'text';
-    }
-  }
-
-  // Public methods for sending messages
-  public async sendMessage(to: string, content: string): Promise<string> {
-    if (!this.client || !this.isConnected()) {
-      throw new Error('WhatsApp client not connected');
-    }
-
-    try {
-      const message = await this.client.sendMessage(to, content);
-      
-      this.logger.info('Message sent successfully', {
-        sessionId: this.sessionId,
-        messageId: message.id._serialized,
-        to,
-        content: content.substring(0, 100) + (content.length > 100 ? '...' : ''),
-      });
-
-      return message.id._serialized;
-
-    } catch (error) {
-      this.logger.error('Failed to send message', {
-        sessionId: this.sessionId,
-        to,
-        error: error instanceof Error ? error.message : 'Unknown error',
-      });
-      throw error;
-    }
-  }
-
-  public async sendMedia(to: string, mediaUrl: string, caption?: string): Promise<string> {
-    if (!this.client || !this.isConnected()) {
-      throw new Error('WhatsApp client not connected');
-    }
-
-    try {
-      const media = MessageMedia.fromUrl(mediaUrl);
-      const message = await this.client.sendMessage(to, media, { caption });
-
-      this.logger.info('Media message sent successfully', {
-        sessionId: this.sessionId,
-        messageId: message.id._serialized,
-        to,
-        mediaUrl,
-        caption,
-      });
-
-      return message.id._serialized;
-
-    } catch (error) {
-      this.logger.error('Failed to send media message', {
-        sessionId: this.sessionId,
-        to,
-        mediaUrl,
-        error: error instanceof Error ? error.message : 'Unknown error',
-      });
-      throw error;
-    }
-  }
-
-  public async sendContact(to: string, contactId: string): Promise<string> {
-    if (!this.client || !this.isConnected()) {
-      throw new Error('WhatsApp client not connected');
-    }
-
-    try {
-      const contact = await this.client.getContactById(contactId);
-      const message = await this.client.sendMessage(to, contact);
-
-      this.logger.info('Contact message sent successfully', {
-        sessionId: this.sessionId,
-        messageId: message.id._serialized,
-        to,
-        contactId,
-      });
-
-      return message.id._serialized;
-
-    } catch (error) {
-      this.logger.error('Failed to send contact message', {
-        sessionId: this.sessionId,
-        to,
-        contactId,
-        error: error instanceof Error ? error.message : 'Unknown error',
-      });
-      throw error;
-    }
-  }
-
-  // Connection management
-  public isConnected(): boolean {
-    return this.client?.info !== undefined;
-  }
-
-  public async disconnect(): Promise<void> {
-    try {
-      if (this.client) {
-        await this.client.destroy();
-        this.client = null;
-      }
-
-      await this.updateSessionStatus('disconnected');
-
-      this.logger.info('WhatsApp client disconnected', {
-        sessionId: this.sessionId,
-        userId: this.userId,
-      });
-
-      this.emit('disconnected', 'Manual disconnect');
-
-    } catch (error) {
-      this.logger.error('Error disconnecting WhatsApp client', {
-        sessionId: this.sessionId,
-        error: error instanceof Error ? error.message : 'Unknown error',
-      });
-      throw error;
-    }
-  }
-
-  private async handleReconnection(): Promise<void> {
-    if (this.reconnectAttempts >= this.maxReconnectAttempts) {
-      this.logger.error('Max reconnection attempts reached', {
-        sessionId: this.sessionId,
-        attempts: this.reconnectAttempts,
-      });
+    if (this.isInitialized) {
       return;
     }
 
-    this.reconnectAttempts++;
-    const delay = Math.min(1000 * Math.pow(2, this.reconnectAttempts), 30000);
+    try {
+      this.logger.info('Initializing WhatsApp service with WorkerManager');
 
-    this.logger.info('Attempting reconnection', {
-      sessionId: this.sessionId,
-      attempt: this.reconnectAttempts,
-      delay,
+      // Initialize the worker manager (it will handle worker processes)
+      // The WorkerManager initializes itself in its constructor
+      
+      this.isInitialized = true;
+      this.emit('service:ready');
+      
+      this.logger.info('WhatsApp service initialized successfully');
+      
+    } catch (error) {
+      this.logger.error('Failed to initialize WhatsApp service', {
+        error: error instanceof Error ? error.message : 'Unknown error',
+      });
+      throw error;
+    }
+  }
+
+  private setupWorkerManagerEvents(): void {
+    // Forward worker events to service events
+    this.workerManager.on('worker:qr', (data) => {
+      this.emit('qr', {
+        userId: data.userId,
+        qr: data.qr,
+        qrImage: data.qrImage
+      });
     });
 
-    setTimeout(async () => {
-      try {
-        await this.initialize();
-      } catch (error) {
-        this.logger.error('Reconnection failed', {
-          sessionId: this.sessionId,
-          attempt: this.reconnectAttempts,
-          error: error instanceof Error ? error.message : 'Unknown error',
-        });
+    this.workerManager.on('worker:ready', (data) => {
+      this.emit('ready', {
+        userId: data.userId,
+        phoneNumber: data.phoneNumber
+      });
+    });
+
+    this.workerManager.on('worker:message', (data) => {
+      this.emit('message', {
+        userId: data.userId,
+        messageData: data.messageData
+      });
+    });
+
+    this.workerManager.on('worker:auth_failure', (data) => {
+      this.emit('auth_failure', {
+        userId: data.userId,
+        error: data.error
+      });
+    });
+
+    this.workerManager.on('worker:error', (data) => {
+      this.emit('error', {
+        userId: data.userId,
+        error: data.error
+      });
+    });
+
+    this.workerManager.on('worker:created', (data) => {
+      this.emit('worker_created', data);
+    });
+
+    this.workerManager.on('worker:exit', (data) => {
+      this.emit('worker_exit', data);
+    });
+
+    this.workerManager.on('manager:ready', () => {
+      this.logger.info('WorkerManager is ready');
+    });
+
+    this.workerManager.on('manager:shutdown', () => {
+      this.logger.info('WorkerManager has shut down');
+    });
+  }
+
+  // Session Management Methods
+  public async createSession(userId: string, config: Partial<WorkerConfig> = {}): Promise<boolean> {
+    try {
+      this.logger.info('Creating WhatsApp session', { userId });
+
+      // Check if session already exists in database
+      const existingSession = await this.getSession(userId);
+      if (!existingSession) {
+        // Create new session in database
+        await this.createSessionInDatabase(userId);
       }
-    }, delay);
-  }
 
-  // Database operations
-  private async getSession(): Promise<Session | null> {
-    try {
-      const doc = await this.db.doc('sessions', this.sessionId).get();
-      if (doc.exists) {
-        return Session.fromFirestore({ id: doc.id, ...doc.data() });
+      // Create worker for this user
+      const success = await this.workerManager.createWorker(userId, config);
+      
+      if (success) {
+        this.logger.info('WhatsApp session created successfully', { userId });
+        return true;
+      } else {
+        this.logger.error('Failed to create WhatsApp worker', { userId });
+        return false;
       }
-      return null;
+
     } catch (error) {
-      this.logger.error('Error getting session', {
-        sessionId: this.sessionId,
+      this.logger.error('Error creating WhatsApp session', {
+        userId,
+        error: error instanceof Error ? error.message : 'Unknown error',
+      });
+      throw error;
+    }
+  }
+
+  public async getSessionStatus(userId: string): Promise<WorkerStatus | null> {
+    try {
+      return await this.workerManager.getWorkerStatus(userId);
+    } catch (error) {
+      this.logger.error('Error getting session status', {
+        userId,
         error: error instanceof Error ? error.message : 'Unknown error',
       });
       return null;
     }
   }
 
-  private async updateSessionStatus(status: ConnectionStatus): Promise<void> {
+  public async disconnectSession(userId: string): Promise<void> {
     try {
-      await this.db.doc('sessions', this.sessionId).update({
-        status,
-        updatedAt: new Date(),
-      });
+      this.logger.info('Disconnecting WhatsApp session', { userId });
+      
+      await this.workerManager.disconnectWorker(userId);
+      await this.updateSessionStatus(userId, 'disconnected');
+      
+      this.logger.info('WhatsApp session disconnected successfully', { userId });
+      
     } catch (error) {
-      this.logger.error('Error updating session status', {
-        sessionId: this.sessionId,
-        status,
+      this.logger.error('Error disconnecting WhatsApp session', {
+        userId,
         error: error instanceof Error ? error.message : 'Unknown error',
       });
+      throw error;
     }
   }
 
-  private async updateSessionQRCode(qrCode: string): Promise<void> {
+  // Message Sending Methods
+  public async sendMessage(userId: string, to: string, content: string): Promise<string> {
     try {
-      await this.db.doc('sessions', this.sessionId).update({
-        qrCode,
-        updatedAt: new Date(),
+      this.logger.info('Sending WhatsApp message', {
+        userId,
+        to,
+        contentLength: content.length
       });
+
+      const result = await this.workerManager.sendMessage(userId, to, content);
+      
+      this.logger.info('WhatsApp message sent successfully', {
+        userId,
+        to,
+        messageId: result?.messageId
+      });
+
+      return result?.messageId || 'unknown';
+
     } catch (error) {
-      this.logger.error('Error updating session QR code', {
-        sessionId: this.sessionId,
+      this.logger.error('Failed to send WhatsApp message', {
+        userId,
+        to,
         error: error instanceof Error ? error.message : 'Unknown error',
       });
+      throw error;
     }
   }
 
-  private async updateSessionConnectionInfo(phoneNumber?: string, username?: string): Promise<void> {
+  public async sendMedia(userId: string, to: string, mediaUrl: string, caption?: string): Promise<string> {
     try {
-      const updateData: any = { updatedAt: new Date() };
-      if (phoneNumber) updateData.phoneNumber = phoneNumber;
-      if (username) updateData.username = username;
+      this.logger.info('Sending WhatsApp media message', {
+        userId,
+        to,
+        mediaUrl,
+        caption
+      });
 
-      await this.db.doc('sessions', this.sessionId).update(updateData);
+      const result = await this.workerManager.sendMessage(userId, to, '', {
+        media: { url: mediaUrl },
+        caption
+      });
+
+      this.logger.info('WhatsApp media message sent successfully', {
+        userId,
+        to,
+        messageId: result?.messageId
+      });
+
+      return result?.messageId || 'unknown';
+
     } catch (error) {
-      this.logger.error('Error updating session connection info', {
-        sessionId: this.sessionId,
+      this.logger.error('Failed to send WhatsApp media message', {
+        userId,
+        to,
+        mediaUrl,
         error: error instanceof Error ? error.message : 'Unknown error',
       });
+      throw error;
     }
   }
 
-  private async saveMessage(messageData: WhatsAppMessage): Promise<void> {
+  // Bot Control Methods
+  public async pauseBot(userId: string): Promise<void> {
     try {
-      await this.db.collection('messages').add({
-        ...messageData,
-        sessionId: this.sessionId,
-        platform: 'whatsapp',
-        status: 'received',
+      this.logger.info('Pausing WhatsApp bot', { userId });
+      
+      await this.workerManager.pauseBot(userId);
+      await this.updateSessionMetadata(userId, { botPaused: true });
+      
+      this.logger.info('WhatsApp bot paused successfully', { userId });
+      
+    } catch (error) {
+      this.logger.error('Error pausing WhatsApp bot', {
+        userId,
+        error: error instanceof Error ? error.message : 'Unknown error',
+      });
+      throw error;
+    }
+  }
+
+  public async resumeBot(userId: string): Promise<void> {
+    try {
+      this.logger.info('Resuming WhatsApp bot', { userId });
+      
+      await this.workerManager.resumeBot(userId);
+      await this.updateSessionMetadata(userId, { botPaused: false });
+      
+      this.logger.info('WhatsApp bot resumed successfully', { userId });
+      
+    } catch (error) {
+      this.logger.error('Error resuming WhatsApp bot', {
+        userId,
+        error: error instanceof Error ? error.message : 'Unknown error',
+      });
+      throw error;
+    }
+  }
+
+  public async setActiveAgent(userId: string, agentId: string): Promise<void> {
+    try {
+      this.logger.info('Setting active agent', { userId, agentId });
+      
+      await this.workerManager.setActiveAgent(userId, agentId);
+      await this.updateSessionMetadata(userId, { activeAgentId: agentId });
+      
+      this.logger.info('Active agent set successfully', { userId, agentId });
+      
+    } catch (error) {
+      this.logger.error('Error setting active agent', {
+        userId,
+        agentId,
+        error: error instanceof Error ? error.message : 'Unknown error',
+      });
+      throw error;
+    }
+  }
+
+  // Statistics and Monitoring
+  public getActiveWorkersCount(): number {
+    return this.workerManager.getActiveWorkerCount();
+  }
+
+  public getAllWorkerStatuses(): Map<string, WorkerStatus> {
+    return this.workerManager.getAllWorkerStatuses();
+  }
+
+  public async getSessionMetrics(userId: string): Promise<any> {
+    try {
+      const status = await this.workerManager.getWorkerStatus(userId);
+      const session = await this.getSession(userId);
+      
+      return {
+        status: status?.status || 'unknown',
+        isAuthenticated: status?.isAuthenticated || false,
+        phoneNumber: status?.phoneNumber,
+        uptime: status?.uptime || 0,
+        memoryUsage: status?.memoryUsage,
+        lastActivity: status?.lastActivity,
+        session: session ? {
+          id: session.id,
+          userId: session.userId,
+          platform: session.platform,
+          createdAt: session.createdAt,
+          updatedAt: session.updatedAt
+        } : null
+      };
+      
+    } catch (error) {
+      this.logger.error('Error getting session metrics', {
+        userId,
+        error: error instanceof Error ? error.message : 'Unknown error',
+      });
+      return null;
+    }
+  }
+
+  // Database Operations
+  private async createSessionInDatabase(userId: string): Promise<void> {
+    try {
+      const session = new Session({
+        id: `whatsapp_${userId}_${Date.now()}`,
+        userId,
+        platform: 'whatsapp' as Platform,
+        status: 'connecting' as ConnectionStatus,
         createdAt: new Date(),
         updatedAt: new Date(),
+        metadata: {
+          workerCreated: true,
+          botPaused: false
+        }
       });
+
+      await this.db.collection('sessions').add(session.toFirestore());
+      
     } catch (error) {
-      this.logger.error('Error saving message', {
-        sessionId: this.sessionId,
-        messageId: messageData.id,
+      this.logger.error('Error creating session in database', {
+        userId,
         error: error instanceof Error ? error.message : 'Unknown error',
       });
+      throw error;
     }
   }
 
-  private async updateMessageStatus(messageId: string, status: MessageStatus): Promise<void> {
+  private async getSession(userId: string): Promise<Session | null> {
     try {
-      const query = this.db.collection('messages')
-        .where('id', '==', messageId)
-        .where('sessionId', '==', this.sessionId);
+      const query = this.db.collection('sessions')
+        .where('userId', '==', userId)
+        .where('platform', '==', 'whatsapp')
+        .orderBy('createdAt', 'desc')
+        .limit(1);
 
       const snapshot = await query.get();
+      
       if (!snapshot.empty) {
         const doc = snapshot.docs[0];
+        return Session.fromFirestore({ id: doc.id, ...doc.data() });
+      }
+      
+      return null;
+      
+    } catch (error) {
+      this.logger.error('Error getting session', {
+        userId,
+        error: error instanceof Error ? error.message : 'Unknown error',
+      });
+      return null;
+    }
+  }
+
+  private async updateSessionStatus(userId: string, status: ConnectionStatus): Promise<void> {
+    try {
+      const query = this.db.collection('sessions')
+        .where('userId', '==', userId)
+        .where('platform', '==', 'whatsapp');
+
+      const snapshot = await query.get();
+
+      for (const doc of snapshot.docs) {
         await doc.ref.update({
           status,
           updatedAt: new Date(),
         });
       }
+      
     } catch (error) {
-      this.logger.error('Error updating message status', {
-        sessionId: this.sessionId,
-        messageId,
+      this.logger.error('Error updating session status', {
+        userId,
         status,
+        error: error instanceof Error ? error.message : 'Unknown error',
+      });
+    }
+  }
+
+  private async updateSessionMetadata(userId: string, metadata: Record<string, any>): Promise<void> {
+    try {
+      const query = this.db.collection('sessions')
+        .where('userId', '==', userId)
+        .where('platform', '==', 'whatsapp');
+
+      const snapshot = await query.get();
+
+      for (const doc of snapshot.docs) {
+        const currentMetadata = doc.data().metadata || {};
+        await doc.ref.update({
+          metadata: { ...currentMetadata, ...metadata },
+          updatedAt: new Date(),
+        });
+      }
+      
+    } catch (error) {
+      this.logger.error('Error updating session metadata', {
+        userId,
+        metadata,
         error: error instanceof Error ? error.message : 'Unknown error',
       });
     }
   }
 
   // Cleanup
-  public static async cleanup(): Promise<void> {
-    for (const [key, instance] of WhatsAppService.instances) {
-      try {
-        await instance.disconnect();
-      } catch (error) {
-        console.error(`Error cleaning up WhatsApp service ${key}:`, error);
-      }
+  public async shutdown(): Promise<void> {
+    try {
+      this.logger.info('Shutting down WhatsApp service');
+      
+      await this.workerManager.shutdown();
+      this.isInitialized = false;
+      
+      this.logger.info('WhatsApp service shut down successfully');
+      
+    } catch (error) {
+      this.logger.error('Error shutting down WhatsApp service', {
+        error: error instanceof Error ? error.message : 'Unknown error',
+      });
+      throw error;
     }
-    WhatsAppService.instances.clear();
   }
-} 
+
+  public static async cleanup(): Promise<void> {
+    if (WhatsAppService.instance) {
+      await WhatsAppService.instance.shutdown();
+      WhatsAppService.instance = null;
+    }
+  }
+}

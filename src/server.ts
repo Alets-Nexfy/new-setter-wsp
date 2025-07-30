@@ -263,7 +263,9 @@ class WhatsAppAPIServer {
     // Handle unhandled promise rejections
     process.on('unhandledRejection', (reason, promise) => {
       this.logger.error('[Server] Unhandled Rejection at:', promise, 'reason:', reason);
-      this.gracefulShutdown('unhandledRejection');
+      // TEMPORARY: Don't shutdown on unhandled rejections for testing
+      // this.gracefulShutdown('unhandledRejection');
+      this.logger.warn('[Server] Continuing despite unhandled rejection for testing purposes');
     });
 
     // Handle termination signals

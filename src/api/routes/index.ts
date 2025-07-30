@@ -4,6 +4,8 @@ import agentsRoutes from './agents';
 import actionFlowsRoutes from './actionFlows';
 import aiRoutes from './ai';
 import generalRoutes from './general';
+import promptGeneratorRoutes from './promptGenerator';
+import tierManagementRoutes from './tierManagement';
 
 const router = Router();
 
@@ -22,6 +24,8 @@ router.use('/agents', agentsRoutes);
 router.use('/action-flows', actionFlowsRoutes);
 router.use('/ai', aiRoutes);
 router.use('/general', generalRoutes);
+router.use('/prompt-generator', promptGeneratorRoutes);
+router.use('/tier-management', tierManagementRoutes);
 
 // Legacy V1 compatibility routes
 router.use('/users', agentsRoutes); // For backward compatibility

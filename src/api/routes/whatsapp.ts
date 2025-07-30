@@ -22,6 +22,7 @@ router.get('/:userId/qr/view', whatsappController.viewQR.bind(whatsappController
 
 // Message sending (legacy)
 router.post('/:userId/send-message', whatsappController.sendWorkerMessage.bind(whatsappController));
+router.post('/:userId/send', whatsappController.sendWorkerMessage.bind(whatsappController)); // Alias for compatibility
 
 // Agent management
 router.put('/:userId/active-agent', whatsappController.setActiveAgent.bind(whatsappController));
