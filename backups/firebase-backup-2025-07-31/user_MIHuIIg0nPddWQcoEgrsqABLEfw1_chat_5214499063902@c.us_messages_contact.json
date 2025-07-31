@@ -1,0 +1,925 @@
+[
+  {
+    "id": "0AtTm7FPB8V1bMe7xvUD",
+    "data": {
+      "body": "Oki",
+      "isFromMe": false,
+      "messageId": "3A68AF87F7CFDC9C4BFE",
+      "from": "5214499063902@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-21T03:37:54.191Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214499063902@c.us/messages_contact"
+  },
+  {
+    "id": "1mLzYYt43jVF87TKEGey",
+    "data": {
+      "body": "gracias!! si, todo lo que tengas me sirve",
+      "isFromMe": false,
+      "messageId": "3F36B08FB7834E081390",
+      "from": "5214499063902@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-21T17:58:19.629Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214499063902@c.us/messages_contact"
+  },
+  {
+    "id": "4D7wjWhthzjGQ0ir6ZmQ",
+    "data": {
+      "body": "le di clic a las rayitas que parecen regulador, pero no me da la opción de editarlo",
+      "isFromMe": false,
+      "messageId": "3AD63E30418E0B62C02A",
+      "from": "5214499063902@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-20T04:13:04.993Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214499063902@c.us/messages_contact"
+  },
+  {
+    "id": "6uPZuCXqtuQZTqXEQY8A",
+    "data": {
+      "body": "ayer se mandaron como 90 mensajes\n\nhoy hago campaña pagada en fbk",
+      "isFromMe": false,
+      "messageId": "3FC431574A38300078C7",
+      "from": "5214499063902@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-20T23:27:17.512Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214499063902@c.us/messages_contact"
+  },
+  {
+    "id": "73rjldQbP6jbbQOFIk5O",
+    "data": {
+      "body": "creo que no se guardó la plantilla que estuve editando 🙈🙈",
+      "isFromMe": false,
+      "messageId": "3A410C042992270A39A0",
+      "from": "5214499063902@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-20T02:53:00.291Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214499063902@c.us/messages_contact"
+  },
+  {
+    "id": "9NzdbqzMcmUe50PdDiuB",
+    "data": {
+      "body": "También te quería preguntar por qué el robot no le ha ido contestando a esta persona",
+      "isFromMe": false,
+      "messageId": "3F2E101DB727CE4A01FD",
+      "from": "5214499063902@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-20T23:22:20.685Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214499063902@c.us/messages_contact"
+  },
+  {
+    "id": "9wcaGZ5VJWmXywXYxEve",
+    "data": {
+      "body": "y esto? será que no se guardó la platilla de ayer?",
+      "isFromMe": false,
+      "messageId": "3F196C49E00FAB825476",
+      "from": "5214499063902@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-20T23:25:52.188Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214499063902@c.us/messages_contact"
+  },
+  {
+    "id": "AqU1qVwsYnPFq3YwLYUL",
+    "data": {
+      "body": "aquí me van a aparecer los mensajes?",
+      "isFromMe": false,
+      "messageId": "3AA08508DE36EA744B21",
+      "from": "5214499063902@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-20T04:13:24.885Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214499063902@c.us/messages_contact"
+  },
+  {
+    "id": "CMe5GbbjkJ8ea3IjhtWg",
+    "data": {
+      "body": "1000 gracias",
+      "isFromMe": false,
+      "messageId": "3F25DBFA993BF593856A",
+      "from": "5214499063902@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-20T04:27:11.886Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214499063902@c.us/messages_contact"
+  },
+  {
+    "id": "ClH0NA4avVzXtNR7dr0T",
+    "data": {
+      "body": "Va",
+      "isFromMe": false,
+      "messageId": "3A03D2332DFC5F206A42",
+      "from": "5214499063902@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-21T16:33:11.282Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214499063902@c.us/messages_contact"
+  },
+  {
+    "id": "CpP5hYVRkOXWMHQokJOB",
+    "data": {
+      "body": "oki",
+      "isFromMe": false,
+      "messageId": "3FF54497A385283E50FE",
+      "from": "5214499063902@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-20T04:42:48.357Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214499063902@c.us/messages_contact"
+  },
+  {
+    "id": "DLiPQibxeM3B23jDxTJY",
+    "data": {
+      "body": "Nidia, también mandé mensaje del whats de mi mamá y nada",
+      "isFromMe": false,
+      "messageId": "3F3ECE80FDC005D991F9",
+      "from": "5214499063902@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-21T01:12:21.491Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214499063902@c.us/messages_contact"
+  },
+  {
+    "id": "DbcD5hcBGe9i8xE3Dg6q",
+    "data": {
+      "body": "ahora que sigue?",
+      "isFromMe": false,
+      "messageId": "3ABF7FACEF79EA949409",
+      "from": "5214499063902@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-20T04:09:25.294Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214499063902@c.us/messages_contact"
+  },
+  {
+    "id": "EqiuAHeX1R4uEwiL49sq",
+    "data": {
+      "body": "Y me confirmas la hora",
+      "isFromMe": false,
+      "messageId": "3A0CC5B14E39964AA702",
+      "from": "5214499063902@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-21T02:09:10.284Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214499063902@c.us/messages_contact"
+  },
+  {
+    "id": "EzhfNDvWm7rx46GnTEvU",
+    "data": {
+      "body": "Listo",
+      "isFromMe": false,
+      "messageId": "3A9648F99CA2EC7052F0",
+      "from": "5214499063902@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-20T04:18:39.283Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214499063902@c.us/messages_contact"
+  },
+  {
+    "id": "FslCwnpSVeyACzan0l5H",
+    "data": {
+      "body": "Me parece muy buena idea",
+      "isFromMe": false,
+      "messageId": "3A4FDB61E435A89171CF",
+      "from": "5214499063902@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-20T04:21:08.889Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214499063902@c.us/messages_contact"
+  },
+  {
+    "id": "Ga1RJedGrIPzpRUFaCHL",
+    "data": {
+      "body": "Aunque también tenga la liga de calendly para el cafecito virtual?",
+      "isFromMe": false,
+      "messageId": "3A7258157EE3B6AF6093",
+      "from": "5214499063902@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-20T02:39:17.228Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214499063902@c.us/messages_contact"
+  },
+  {
+    "id": "HvNrG1nkedSxxqEBQlJ2",
+    "data": {
+      "body": "10 o 10:30 am estaría perfecto",
+      "isFromMe": false,
+      "messageId": "3ABF10DCB67DE98A5E08",
+      "from": "5214499063902@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-21T02:09:57.296Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214499063902@c.us/messages_contact"
+  },
+  {
+    "id": "J32053Hj4qrkUm9By9mX",
+    "data": {
+      "body": "me confundo jaja",
+      "isFromMe": false,
+      "messageId": "3FD53A5967E399DC4045",
+      "from": "5214499063902@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-20T23:28:21.940Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214499063902@c.us/messages_contact"
+  },
+  {
+    "id": "JD8SPu2xbMHvdHbhrDM6",
+    "data": {
+      "body": "Linda tarde Nidia. Cómo estás? ☀️",
+      "isFromMe": false,
+      "messageId": "3F660CCFC4170BD04E38",
+      "from": "5214499063902@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-20T23:20:06.136Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214499063902@c.us/messages_contact"
+  },
+  {
+    "id": "Kgm7q4SOF1eveP3SYgYq",
+    "data": {
+      "body": "muchas gracias Nidia, tan linda como siempre\n\nPuedo utilizar una plantilla de Prompt para una campaña de Instagram? O sólo sirve para WhatsApp?",
+      "isFromMe": false,
+      "messageId": "3AE624A47665099CB895",
+      "from": "5214499063902@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-20T02:13:50.214Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214499063902@c.us/messages_contact"
+  },
+  {
+    "id": "Kp4fgLMFcncnH2R2pJl6",
+    "data": {
+      "body": "Ok, el de calendly",
+      "isFromMe": false,
+      "messageId": "3AAAD9F0CBB58FB12BF5",
+      "from": "5214499063902@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-20T02:49:41.983Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214499063902@c.us/messages_contact"
+  },
+  {
+    "id": "L6qk3N3r1zlHNfi8yl18",
+    "data": {
+      "body": "",
+      "isFromMe": false,
+      "messageId": "3AF156D523C4BC66814D",
+      "from": "5214499063902@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-19T22:39:09.292Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214499063902@c.us/messages_contact"
+  },
+  {
+    "id": "MvlKWYSVvRrB4XA9ZCuS",
+    "data": {
+      "body": "El prompt puede mandar el video que tengo sobre la empresa?",
+      "isFromMe": false,
+      "messageId": "3A97B04853C95507DEA0",
+      "from": "5214499063902@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-20T02:25:43.584Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214499063902@c.us/messages_contact"
+  },
+  {
+    "id": "N37xGSJPNScM2Cqn61br",
+    "data": {
+      "body": "",
+      "isFromMe": false,
+      "messageId": "3ADC36033314539B65F6",
+      "from": "5214499063902@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-21T17:19:25.492Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214499063902@c.us/messages_contact"
+  },
+  {
+    "id": "Nf6xtkJYMunFW4MrDfL5",
+    "data": {
+      "body": "dime porfis si podemos conectarnos unos min. por zoom, sin cámara, ntp, solo para enseñarte lo que he estado haciendo y me asesores",
+      "isFromMe": false,
+      "messageId": "3F351B2BAAFFA8406639",
+      "from": "5214499063902@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-20T23:38:40.284Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214499063902@c.us/messages_contact"
+  },
+  {
+    "id": "OwTNfTaQ7ufjpgEkpuD0",
+    "data": {
+      "body": "https://us06web.zoom.us/j/5985244763?pwd=F9Q4k2tJRhoD6AdaX971EaEnjH34ft.1",
+      "isFromMe": false,
+      "messageId": "3A52AE2588E9D51D7149",
+      "from": "5214499063902@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-20T23:47:04.528Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214499063902@c.us/messages_contact"
+  },
+  {
+    "id": "RUxfOd8b6k9jxiWIa7Tw",
+    "data": {
+      "body": "?",
+      "isFromMe": false,
+      "messageId": "3AAF27E169815AC86AD0",
+      "from": "5214499063902@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-20T04:09:47.487Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214499063902@c.us/messages_contact"
+  },
+  {
+    "id": "RlBdPKZS5tQMgx2TnblW",
+    "data": {
+      "body": "ya ando armando la campaña publicitaria de Facebook para cuando esté listo",
+      "isFromMe": false,
+      "messageId": "3F908BCD90BA2F320B85",
+      "from": "5214499063902@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-21T01:40:18.892Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214499063902@c.us/messages_contact"
+  },
+  {
+    "id": "UEgpNekrxjqLRkZZaPz3",
+    "data": {
+      "body": "",
+      "isFromMe": false,
+      "messageId": "3A612FBB283393111F94",
+      "from": "5214499063902@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-21T02:07:47.998Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214499063902@c.us/messages_contact"
+  },
+  {
+    "id": "UtQ0zJiM2uwXCKlVRiMy",
+    "data": {
+      "body": "Buenos días Nidia, la veo más tarde",
+      "isFromMe": false,
+      "messageId": "3A4A84EB9433D3A1E932",
+      "from": "5214499063902@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-19T15:59:47.823Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214499063902@c.us/messages_contact"
+  },
+  {
+    "id": "Uw198xa7GRak4yYsVN66",
+    "data": {
+      "body": "Eres guía virtual de Chemisette, un proyecto de emprendimiento y empoderamiento femenino 100% mexicano dirigido por mujeres para mujeres. Tu principal objetivo es iniciar conversaciones con mujeres emprendedoras o con negocios en Instagram, para invitarlas a conocer más sobre Chemisette y agendar un \"Cafecito Virtual\" para explicarles a detalle el proyecto.\n\nTu tono debe ser amable, empático y amigable, mostrando una genuina disposición para ayudar.  Recuerda que buscamos expandirnos con mujeres que deseen crecer emocional y económicamente.\n\nAl interactuar con las clientas (dueñas de tiendas online, consultoras, artesanas, etc., con presencia en Instagram y negocios propios o servicios), ten en cuenta lo siguiente:\n\n**Conocimiento y Menciones Clave:**\n\n* Menciona que Chemisette es un proyecto de emprendimiento y empoderamiento femenino, 100% mexicano y dirigido por mujeres para mujeres.\n* Destaca que Chemisette lleva 24 años operando en toda la República Mexicana.\n* Enfatiza los beneficios de formar parte de Chemisette: mejores ingresos y una mejor autoestima para las mujeres que se unen al proyecto.\n* Las clientas potenciales tienen cuentas de Instagram de negocios y ofrecen servicios o productos.\n\n**Comportamiento a Evitar:**\n\n* No hay comportamientos específicos a evitar.\n\n**Flujo de Conversación y Respuestas Modelo:**\n\n**Entradas Esperadas:**  más información, quiero agendar el cafecito virtual, me interesa, pásame la liga, ¿de qué se trata?, ¿qué empresa es?\n\n**Salidas Esperadas:**\n\n* **Si preguntan por \"más información\" o \"¿de qué se trata?\":** \"Hola! Me encantaría contarte más sobre Chemisette, un proyecto de emprendimiento y empoderamiento femenino que ayuda a mujeres como tú a crecer emocional y económicamente.  Llevamos 24 años apoyando a mujeres en toda la República Mexicana, ¡y queremos ayudarte a ti también! ¿Te gustaría agendar un 'Cafecito Virtual' para platicar con más detalle?  Es una breve llamada donde te explico todo.\"\n\n* **Si preguntan por \"quiero agendar el cafecito virtual\", \"me interesa\" o \"pásame la liga\":** \" ¡Perfecto! Me alegra que te interese Chemisette.  Aquí te dejo el enlace para agendar tu 'Cafecito Virtual': [enlace de Calendly].  Los cafecitos virtuales están disponibles entre semana, de 10 am a 8 pm.\"  (Recuerda reemplazar \"[https://calendly.com/anapaulinadelatorre/30min]\" con el enlace real).\n\n* **Si preguntan \"¿qué empresa es?\":** \"Chemisette es un proyecto de emprendimiento y empoderamiento femenino 100% mexicano, creado por mujeres para ayudar a mujeres a lograr sus metas financieras y de bienestar.  Tenemos un sistema que ha ayudado a muchas mujeres a mejorar sus ingresos y su autoestima durante 24 años.  ¿Te gustaría saber más?  Podemos agendar un 'Cafecito Virtual' para una plática más detallada.\"\n\n**Llamada a la Acción:**\n\nTu objetivo final es guiar a la clienta a agendar un \"Cafecito Virtual\" a través del enlace de Calendly.  Haz esta sugerencia de forma natural y amable a lo largo de la conversación.\n\n**Restricciones de Tiempo:**\n\nRecuerda que los \"Cafecitos Virtuales\" solo pueden agendarse entre semana, de 10 am a 8 pm.\n\n**Definición del Éxito:**  Una conversación exitosa es aquella que termina con la clienta agendando un \"Cafecito Virtual\".  Ejemplos de respuestas ideales: \"Sí, quiero la liga para agendar el cafecito virtual.\", \"Me interesa, dame la liga.\",  \"Sí, quiero agendarlo.\"\n\nRecuerda mantener siempre un tono amable y empático.  Tu objetivo es conectar con las mujeres y mostrarles cómo Chemisette puede ayudarlas a crecer.",
+      "isFromMe": false,
+      "messageId": "3FCD8EE27E4914AC894C",
+      "from": "5214499063902@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-20T04:22:44.789Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214499063902@c.us/messages_contact"
+  },
+  {
+    "id": "VsrfBf3DbhTBD2aeAyzf",
+    "data": {
+      "body": "Ya terminé de verlo",
+      "isFromMe": false,
+      "messageId": "3AE811ADBD37EA9E7B3B",
+      "from": "5214499063902@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-20T01:04:05.581Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214499063902@c.us/messages_contact"
+  },
+  {
+    "id": "W3OsefieYKfBQuC8fzGQ",
+    "data": {
+      "body": "Ok",
+      "isFromMe": false,
+      "messageId": "3A6D7A01ECCE23DF5945",
+      "from": "5214499063902@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-20T02:40:39.977Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214499063902@c.us/messages_contact"
+  },
+  {
+    "id": "YOMYkF3gqSGliDCIMr9i",
+    "data": {
+      "body": "Dime porfis si te late o si le modifico algo",
+      "isFromMe": false,
+      "messageId": "3F192EA03555AA2F7396",
+      "from": "5214499063902@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-20T04:22:34.692Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214499063902@c.us/messages_contact"
+  },
+  {
+    "id": "Yq9HQqMz6F8QA0AtVbbV",
+    "data": {
+      "body": "Ok, entonces no lo guardé",
+      "isFromMe": false,
+      "messageId": "3A97EC2DF8D9E5AEF8DD",
+      "from": "5214499063902@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-20T03:37:09.316Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214499063902@c.us/messages_contact"
+  },
+  {
+    "id": "aMWCBhd1TrwmWSilIx8E",
+    "data": {
+      "body": "no hice ayer los disparadores, supongo que x eso no me funcionó el robot para contestar los msjs",
+      "isFromMe": false,
+      "messageId": "3F61DF57BACA343E3C84",
+      "from": "5214499063902@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-20T23:33:17.487Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214499063902@c.us/messages_contact"
+  },
+  {
+    "id": "c92peconWuPabcxYQ7cq",
+    "data": {
+      "body": "La campaña puede ser de Facebook e instagram? O sólo puede ser de instagram?",
+      "isFromMe": false,
+      "messageId": "3A3FA55ACF90B91A761F",
+      "from": "5214499063902@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-20T05:33:54.691Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214499063902@c.us/messages_contact"
+  },
+  {
+    "id": "caATzaY36SwVZ8xGRVwZ",
+    "data": {
+      "body": "Suuper",
+      "isFromMe": false,
+      "messageId": "3A84E4073FD5D0C92A34",
+      "from": "5214499063902@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-21T03:33:24.824Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214499063902@c.us/messages_contact"
+  },
+  {
+    "id": "cvFMwoK51TjLEAdfuwQV",
+    "data": {
+      "body": "Para ver cuál pega mejor",
+      "isFromMe": false,
+      "messageId": "3A5139B37C43F02DFBB1",
+      "from": "5214499063902@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-20T04:27:24.689Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214499063902@c.us/messages_contact"
+  },
+  {
+    "id": "eK9AACblePwRrAQsDRO7",
+    "data": {
+      "body": "Cómo le haré para compartirles el enlace del video? Se los mando manualmente cuando estén los mensajes?",
+      "isFromMe": false,
+      "messageId": "3A44E1A3FF4D7C2947B6",
+      "from": "5214499063902@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-20T04:19:10.685Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214499063902@c.us/messages_contact"
+  },
+  {
+    "id": "ebjLRmOFgvlb62AipUAk",
+    "data": {
+      "body": "Es necesario que el WhatsApp esté conectado?",
+      "isFromMe": false,
+      "messageId": "3A37939888DF48DB3501",
+      "from": "5214499063902@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-20T03:04:39.436Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214499063902@c.us/messages_contact"
+  },
+  {
+    "id": "fFeQeRjKcsc7i26eNOFw",
+    "data": {
+      "body": "Te parece bien el mensaje?",
+      "isFromMe": false,
+      "messageId": "3FDDC65B422C086C0E98",
+      "from": "5214499063902@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-20T23:25:28.595Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214499063902@c.us/messages_contact"
+  },
+  {
+    "id": "idsGdFOkMrcZppxZSwun",
+    "data": {
+      "body": "si quieres pásale mi número",
+      "isFromMe": false,
+      "messageId": "3A62BEE6E03F54349E1E",
+      "from": "5214499063902@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-21T16:33:18.082Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214499063902@c.us/messages_contact"
+  },
+  {
+    "id": "jTBM0iPFMKioFU0H3zJJ",
+    "data": {
+      "body": "primero tengo que crear el prompt?",
+      "isFromMe": false,
+      "messageId": "3A2F2BF03F4ED9CC3D6C",
+      "from": "5214499063902@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-20T02:15:51.893Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214499063902@c.us/messages_contact"
+  },
+  {
+    "id": "jh8oM4n0pHNuIF4HBmXB",
+    "data": {
+      "body": "me pasas por favor la liga de la página de tribe?",
+      "isFromMe": false,
+      "messageId": "3AC470997F3936EC0D2E",
+      "from": "5214499063902@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-19T22:37:25.981Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214499063902@c.us/messages_contact"
+  },
+  {
+    "id": "k4CWWDfuaa6K69Vnhoc1",
+    "data": {
+      "body": "Holaaa Nidia\nPerfecto. 10:30.",
+      "isFromMe": false,
+      "messageId": "3A3DAB8699501D42BDB9",
+      "from": "5214499063902@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-21T15:35:12.290Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214499063902@c.us/messages_contact"
+  },
+  {
+    "id": "kOKCkWK63TKl9KT6qTuM",
+    "data": {
+      "body": "Cómo se llama él?",
+      "isFromMe": false,
+      "messageId": "3A1FDE0F8FAE6BFB66D0",
+      "from": "5214499063902@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-21T03:33:52.023Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214499063902@c.us/messages_contact"
+  },
+  {
+    "id": "l3xVp1nIoPho1D2Z2i5T",
+    "data": {
+      "body": "dónde puedo agregar el enlace a Calendly?",
+      "isFromMe": false,
+      "messageId": "3A3B13DDFC2C7F47922F",
+      "from": "5214499063902@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-20T03:53:08.990Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214499063902@c.us/messages_contact"
+  },
+  {
+    "id": "m0koT043GnbuVFWN08AB",
+    "data": {
+      "body": "Aquí se lo agrego?",
+      "isFromMe": false,
+      "messageId": "3A59325A08173AB5C6B9",
+      "from": "5214499063902@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-20T04:15:25.288Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214499063902@c.us/messages_contact"
+  },
+  {
+    "id": "nrqrye40L03TiBW5B5iF",
+    "data": {
+      "body": "mejor reenvíame la liga, porfis",
+      "isFromMe": false,
+      "messageId": "3AC04C7D0537675A87E3",
+      "from": "5214499063902@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-21T02:08:48.392Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214499063902@c.us/messages_contact"
+  },
+  {
+    "id": "p2Z4PMXirokffDpvK7Gn",
+    "data": {
+      "body": "Gracias, cuando gustes",
+      "isFromMe": false,
+      "messageId": "3A3213006E9A058AFDDC",
+      "from": "5214499063902@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-20T23:46:34.888Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214499063902@c.us/messages_contact"
+  },
+  {
+    "id": "pM5AJ8LwCtwwa0aDG6js",
+    "data": {
+      "body": "qué me recomiendas poner en el punto 10?",
+      "isFromMe": false,
+      "messageId": "3A3C5213EE81742715A3",
+      "from": "5214499063902@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-20T02:28:38.287Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214499063902@c.us/messages_contact"
+  },
+  {
+    "id": "qOTUnZV2NcHRNU9312Rl",
+    "data": {
+      "body": "esto le escribí a la persona que me respondió",
+      "isFromMe": false,
+      "messageId": "3FC24C3FA8BDA228DCE5",
+      "from": "5214499063902@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-20T23:27:50.996Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214499063902@c.us/messages_contact"
+  },
+  {
+    "id": "rc0HNfU4t92ZiclBSuuo",
+    "data": {
+      "body": "Vava",
+      "isFromMe": false,
+      "messageId": "3A14C63D1619E4883BCA",
+      "from": "5214499063902@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-20T02:17:46.189Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214499063902@c.us/messages_contact"
+  },
+  {
+    "id": "s5cKnq0PRanjnk7fSGJm",
+    "data": {
+      "body": "Se puede tener dos enlaces?",
+      "isFromMe": false,
+      "messageId": "3A84843F6CE6E7571096",
+      "from": "5214499063902@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-20T02:39:37.395Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214499063902@c.us/messages_contact"
+  },
+  {
+    "id": "smDCbBfkmZbcgV6esaPU",
+    "data": {
+      "body": "Voy a llenarlo",
+      "isFromMe": false,
+      "messageId": "3A7477D8B6BD24748841",
+      "from": "5214499063902@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-20T02:17:55.199Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214499063902@c.us/messages_contact"
+  },
+  {
+    "id": "tEKpjywHRBdWmOgTlgJK",
+    "data": {
+      "body": "O en donde lo encuentro?",
+      "isFromMe": false,
+      "messageId": "3ACE7374BE1DD1D38B4D",
+      "from": "5214499063902@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-20T02:53:09.192Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214499063902@c.us/messages_contact"
+  },
+  {
+    "id": "ud2Inn5sqbRGGFcOft34",
+    "data": {
+      "body": "Sólo 1 persona respondió mi mensaje de la campaña",
+      "isFromMe": false,
+      "messageId": "3F4F5843CF6635A21874",
+      "from": "5214499063902@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-20T23:21:08.491Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214499063902@c.us/messages_contact"
+  },
+  {
+    "id": "vSlWXnevqLTgZlOogpmx",
+    "data": {
+      "body": "Lo logré",
+      "isFromMe": false,
+      "messageId": "3A96C97E6F4BAFF226E0",
+      "from": "5214499063902@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-20T04:09:08.494Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214499063902@c.us/messages_contact"
+  },
+  {
+    "id": "vaP8B1UpujNkdtVJv3xr",
+    "data": {
+      "body": "",
+      "isFromMe": false,
+      "messageId": "3A0B3A3CA43707CFA1C0",
+      "from": "5214499063902@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-21T02:10:55.588Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214499063902@c.us/messages_contact"
+  },
+  {
+    "id": "vkxgxycHpargSmCSkX6Q",
+    "data": {
+      "body": "",
+      "isFromMe": false,
+      "messageId": "3ADBD185D53730191D5D",
+      "from": "5214499063902@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-19T15:59:38.379Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214499063902@c.us/messages_contact"
+  },
+  {
+    "id": "w1DLRfQ8vjl6R0W7CdlP",
+    "data": {
+      "body": "Oki",
+      "isFromMe": false,
+      "messageId": "3ACDB90C7D2645DAA557",
+      "from": "5214499063902@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-20T04:19:49.283Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214499063902@c.us/messages_contact"
+  },
+  {
+    "id": "wcOnu3VbFP3FGyaM6MC0",
+    "data": {
+      "body": "Padrísimo",
+      "isFromMe": false,
+      "messageId": "3A0671CB96AE665298F3",
+      "from": "5214499063902@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-20T02:08:05.684Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214499063902@c.us/messages_contact"
+  },
+  {
+    "id": "wiD57IHmRiUEcCa0vUVY",
+    "data": {
+      "body": "Holii",
+      "isFromMe": false,
+      "messageId": "3ADAAA9323D68C1B5880",
+      "from": "5214499063902@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-21T16:33:06.278Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214499063902@c.us/messages_contact"
+  },
+  {
+    "id": "xQTJ9lwJtPAoTV4Gujz6",
+    "data": {
+      "body": "gracias a ti",
+      "isFromMe": false,
+      "messageId": "3F5D40D437B4EBB67F00",
+      "from": "5214499063902@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-21T01:40:05.391Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214499063902@c.us/messages_contact"
+  },
+  {
+    "id": "yAlhTI5oCSIkLQK8Zb95",
+    "data": {
+      "body": "Gracias, a penas lo estoy viendo",
+      "isFromMe": false,
+      "messageId": "3AEFE96E3DCB4712E33D",
+      "from": "5214499063902@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-19T22:33:19.684Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214499063902@c.us/messages_contact"
+  },
+  {
+    "id": "yi82nlBusWIP5lyWZXuU",
+    "data": {
+      "body": "según yo sí se puede en Facebook porque me mandan mensajito por WhatsApp y se activa el robot",
+      "isFromMe": false,
+      "messageId": "3A47E6C83A8165CE086E",
+      "from": "5214499063902@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-20T05:34:28.921Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214499063902@c.us/messages_contact"
+  },
+  {
+    "id": "yk2wKa04wkl11FbcIAzJ",
+    "data": {
+      "body": "me recomiendas pausarla un día para irme a otra campaña? O sea echar andar un día una y otro día otra",
+      "isFromMe": false,
+      "messageId": "3A09CAD2FAD28000F8FC",
+      "from": "5214499063902@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-20T04:27:20.692Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214499063902@c.us/messages_contact"
+  },
+  {
+    "id": "zBb1XHIQu3HlxKjjMEz7",
+    "data": {
+      "body": "en dónde puedo poner el enlace del video y de Calendly?",
+      "isFromMe": false,
+      "messageId": "3A3FAF1343E02F6F13E2",
+      "from": "5214499063902@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-20T02:48:50.183Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214499063902@c.us/messages_contact"
+  },
+  {
+    "id": "zZHPUoBLUq2MFGKom5sx",
+    "data": {
+      "body": "Estoy tratando de ponerlo en marcha",
+      "isFromMe": false,
+      "messageId": "3AFC09CE085ED2C415F1",
+      "from": "5214499063902@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-20T02:08:15.385Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214499063902@c.us/messages_contact"
+  }
+]

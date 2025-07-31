@@ -1,0 +1,80 @@
+[
+  {
+    "id": "6xupnRlqG23m3aXkSfUB",
+    "data": {
+      "body": "No no me ha llegado",
+      "isFromMe": false,
+      "messageId": "3AD4BE3D88A05E652E3C",
+      "from": "15037571482@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-20T14:32:25.291Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/15037571482@c.us/messages_contact"
+  },
+  {
+    "id": "DLp8ro6KVOon74k4lvaq",
+    "data": {
+      "body": "Bien y tu qué tal?",
+      "isFromMe": false,
+      "messageId": "3A7B01FE350F4475A61F",
+      "from": "15037571482@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-19T22:53:28.493Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/15037571482@c.us/messages_contact"
+  },
+  {
+    "id": "EQ41qsZ8408YoaE3ZBAY",
+    "data": {
+      "body": "Hola",
+      "isFromMe": false,
+      "messageId": "3A06994FC0275AFD8465",
+      "from": "15037571482@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-19T22:53:13.023Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/15037571482@c.us/messages_contact"
+  },
+  {
+    "id": "FBh1CG5VL09hGGFriR5m",
+    "data": {
+      "body": "Espero me llegue mañana",
+      "isFromMe": false,
+      "messageId": "3A1434398A84498FCD85",
+      "from": "15037571482@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-20T14:32:48.888Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/15037571482@c.us/messages_contact"
+  },
+  {
+    "id": "Q3ytliW3JUduVui0Nbew",
+    "data": {
+      "body": "Buenas tardes!!",
+      "isFromMe": false,
+      "messageId": "3ABD9A30170926A14618",
+      "from": "15037571482@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-19T22:53:21.619Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/15037571482@c.us/messages_contact"
+  },
+  {
+    "id": "W6T1VUB2dxr8KKHZKcd1",
+    "data": {
+      "body": "Hola",
+      "isFromMe": false,
+      "messageId": "3A1A263D187A554E973A",
+      "from": "15037571482@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-20T14:32:16.891Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/15037571482@c.us/messages_contact"
+  }
+]

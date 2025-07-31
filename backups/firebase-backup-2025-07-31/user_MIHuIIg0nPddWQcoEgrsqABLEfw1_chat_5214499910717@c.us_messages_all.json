@@ -1,0 +1,715 @@
+[
+  {
+    "id": "69cxMLNzBjS0joxlQmHD",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5214499910717@c.us",
+      "body": "",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "329B556BAA7655CBC5C0E7AE95F91863",
+      "timestamp": "2025-07-21T16:33:47.686Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214499910717@c.us/messages_all"
+  },
+  {
+    "id": "7ScM1OONvaBuCsZ2bBNg",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5214499910717@c.us",
+      "body": "",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "D47F29F9A14F9430BBBEC79B988F6285",
+      "timestamp": "2025-07-21T16:30:15.923Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214499910717@c.us/messages_all"
+  },
+  {
+    "id": "7oBLsCiy2MMgg9uq66zO",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5214499910717@c.us",
+      "body": "Bueno, quizá no está observando con una visión en donde sus clientas vean el producto cuando vayan aún sin que ella esté todo el tiempo contactando, pero quizá más adelante lo verá, pero no pasa nada",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "107742438BF9285C4C46C5BE9BCD2983",
+      "timestamp": "2025-07-18T21:00:34.375Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214499910717@c.us/messages_all"
+  },
+  {
+    "id": "7pVCC64jXUsi3PshjE8t",
+    "data": {
+      "body": "Si encuentras unas imágenes de los ingredientes me las pasas plis",
+      "isFromMe": false,
+      "messageId": "A15B477E24A47447B855AD11704A40C2",
+      "from": "5214499910717@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-21T16:25:05.378Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214499910717@c.us/messages_all"
+  },
+  {
+    "id": "8up6pP5n3wjDfvxikY8N",
+    "data": {
+      "body": "Sisisi",
+      "isFromMe": false,
+      "messageId": "17DA955A105771B6A30873D6A854F17C",
+      "from": "5214499910717@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-18T20:59:08.513Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214499910717@c.us/messages_all"
+  },
+  {
+    "id": "9QmUoqDQ6Crhp2RJbibJ",
+    "data": {
+      "body": "La centella asiática, el agua volcánica y otra cosa que no me acuerdo",
+      "isFromMe": false,
+      "messageId": "93EFD3B1EA1B105076B95C6E2B7DA8B4",
+      "from": "5214499910717@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-21T16:23:59.487Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214499910717@c.us/messages_all"
+  },
+  {
+    "id": "BWiHF5fnwq14YVxAqANo",
+    "data": {
+      "body": "Que ahorita está en lo de las uñas y no tiene mucho tiempo",
+      "isFromMe": false,
+      "messageId": "5760FFFEBD33C2179B78B3D070219750",
+      "from": "5214499910717@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-18T20:59:31.036Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214499910717@c.us/messages_all"
+  },
+  {
+    "id": "Eq739FT7aiSi40CoUTO7",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5214499910717@c.us",
+      "body": "Hola Nicole! Cómo estás?",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "2CB9E950476D69483C90B8F84745C903",
+      "timestamp": "2025-07-18T19:37:09.252Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214499910717@c.us/messages_all"
+  },
+  {
+    "id": "FVOkw1gFrapDzUpJd0PG",
+    "data": {
+      "body": "Oyee y te iba a decir que si me podías pasar videos o fotos de demostraciones de productos para hacer un video asi como el que hiciste tu en tik tok",
+      "isFromMe": false,
+      "messageId": "C98B065E1761A14100D29A10ACCC9EEF",
+      "from": "5214499910717@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-21T19:05:23.587Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214499910717@c.us/messages_all"
+  },
+  {
+    "id": "FyMu1OxhUyB2ih0ZaI9Q",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5214499910717@c.us",
+      "body": "",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "B68B3ABD3A0295A71CDB43A864F2CD47",
+      "timestamp": "2025-07-21T16:26:38.800Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214499910717@c.us/messages_all"
+  },
+  {
+    "id": "IHoICcPIf7uKhFB6Kijv",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5214499910717@c.us",
+      "body": "",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "5D3A0902C632EF73BE53DD3901E7B2C4",
+      "timestamp": "2025-07-21T15:50:41.196Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214499910717@c.us/messages_all"
+  },
+  {
+    "id": "KdQz64Csz6AQey1PoOgl",
+    "data": {
+      "body": "Bien y tu?",
+      "isFromMe": false,
+      "messageId": "878CE160639A516CEA5590992A65779E",
+      "from": "5214499910717@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-18T20:51:40.636Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214499910717@c.us/messages_all"
+  },
+  {
+    "id": "KpM2UodH4OupXMMRNonN",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5214499910717@c.us",
+      "body": "",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "913516A2EA434B39A4A95527D207308E",
+      "timestamp": "2025-07-18T21:00:42.700Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214499910717@c.us/messages_all"
+  },
+  {
+    "id": "NDpI02opCGTHHmUe2vHw",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5214499910717@c.us",
+      "body": "Sí, así tal cual",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "CB968DA72E4333F5F9F3EC4B8E307CE4",
+      "timestamp": "2025-07-19T22:35:05.089Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214499910717@c.us/messages_all"
+  },
+  {
+    "id": "OytYkM8WkHAjXSwAzVHy",
+    "data": {
+      "body": "",
+      "isFromMe": false,
+      "messageId": "08124008B4E450B00C84B733EDBEDE6D",
+      "from": "5214499910717@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-18T20:59:14.944Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214499910717@c.us/messages_all"
+  },
+  {
+    "id": "PrfgubbtRI6ozHfVsWFd",
+    "data": {
+      "body": "Buen día, oye me pudieras apoyar para saber cómo hago lo de las fichas clínicas por favorrr",
+      "isFromMe": false,
+      "messageId": "5EEC58602AF55B30921C10631E61905E",
+      "from": "5214499910717@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-21T15:49:26.099Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214499910717@c.us/messages_all"
+  },
+  {
+    "id": "QOXitCxdIkQhsF7ZtguQ",
+    "data": {
+      "body": "Pongo entonces 3 productos solamente?",
+      "isFromMe": false,
+      "messageId": "3EB13A207B5F349030D7F411DA7003AC",
+      "from": "5214499910717@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-21T16:22:45.494Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214499910717@c.us/messages_all"
+  },
+  {
+    "id": "QtdJ0dvN0OtuiUAAlaKx",
+    "data": {
+      "body": "Pero que lo iba a pensar",
+      "isFromMe": false,
+      "messageId": "282A70BB85A357FB572D98F7A132E918",
+      "from": "5214499910717@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-18T20:59:35.549Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214499910717@c.us/messages_all"
+  },
+  {
+    "id": "RMZF9FCPZ7YJA0Fe7dAL",
+    "data": {
+      "body": "Graciass",
+      "isFromMe": false,
+      "messageId": "954731E1CABEED70025CBE651A8D5632",
+      "from": "5214499910717@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-19T22:59:29.483Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214499910717@c.us/messages_all"
+  },
+  {
+    "id": "Rx4Ail3zxIqaiOqe6CJP",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5214499910717@c.us",
+      "body": "",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "624D05C513BE9F18641E776DE04FE00E",
+      "timestamp": "2025-07-21T16:24:10.925Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214499910717@c.us/messages_all"
+  },
+  {
+    "id": "SUawHFZq1BGHWBBpB5qN",
+    "data": {
+      "body": "Va graciass",
+      "isFromMe": false,
+      "messageId": "0980CAB97CE43497F3C15AB4B3222DDA",
+      "from": "5214499910717@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-21T15:53:42.995Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214499910717@c.us/messages_all"
+  },
+  {
+    "id": "ShuhuCYNlxlBm0GqAZGG",
+    "data": {
+      "body": "Y allá grabar todo, desde que no haya nada de gente hasta que empiezen a llegar las personas, y las demostraciónes, cuando usen el producto",
+      "isFromMe": false,
+      "messageId": "C815490F408F9445ECE1FBB7559CF8D4",
+      "from": "5214499910717@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-19T22:35:28.420Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214499910717@c.us/messages_all"
+  },
+  {
+    "id": "SwxA8wMTl29NmeANt7fl",
+    "data": {
+      "body": "O algo parecido",
+      "isFromMe": false,
+      "messageId": "909628161BC6BE46A440945540CAF565",
+      "from": "5214499910717@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-21T19:05:33.889Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214499910717@c.us/messages_all"
+  },
+  {
+    "id": "TAflEZ3N6mwCDPbDzKrH",
+    "data": {
+      "body": "O pongo los 3 ingredientes principales de todos los productos?",
+      "isFromMe": false,
+      "messageId": "E1C612EA6DB626ECAE843018D315DE88",
+      "from": "5214499910717@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-21T16:23:45.994Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214499910717@c.us/messages_all"
+  },
+  {
+    "id": "UhxDmJsNcD1tCX3HkkN4",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5214499910717@c.us",
+      "body": "Son 4",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "37C4FE5BF7C624E9BE1D70F6529559B5",
+      "timestamp": "2025-07-21T16:24:46.514Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214499910717@c.us/messages_all"
+  },
+  {
+    "id": "VNBHzlFkiRe8TiKQ2ZUz",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5214499910717@c.us",
+      "body": "Sí, dile!🫰🏻✨",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "2CC8B2CDFCD0BFF10334C4F0D4CDB126",
+      "timestamp": "2025-07-19T22:38:02.797Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214499910717@c.us/messages_all"
+  },
+  {
+    "id": "WojtZTkg48opJsSmFjnC",
+    "data": {
+      "body": "Hola Nidia, cómo estáss?",
+      "isFromMe": false,
+      "messageId": "4E3B9767D4FAB6834F7DDB608B9D5FAE",
+      "from": "5214499910717@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-19T19:54:46.680Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214499910717@c.us/messages_all"
+  },
+  {
+    "id": "XyEe0hygxnB2LBDU5q93",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5214499910717@c.us",
+      "body": "",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "3ED8CF4AA14D6BB96CD365562606BD9D",
+      "timestamp": "2025-07-21T16:30:12.589Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214499910717@c.us/messages_all"
+  },
+  {
+    "id": "YKGPvMbznaiIvsCRvwxu",
+    "data": {
+      "body": "Y en descripción pongo para que ayudan cada una",
+      "isFromMe": false,
+      "messageId": "3C174CEE9F1CFA75FCB72C06DD36CFD6",
+      "from": "5214499910717@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-21T16:24:22.791Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214499910717@c.us/messages_all"
+  },
+  {
+    "id": "YLsoUt2key5Gmgid31y9",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5214499910717@c.us",
+      "body": "",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "5DE3B047A1079134CBC1B2F6910458CC",
+      "timestamp": "2025-07-21T16:30:20.090Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214499910717@c.us/messages_all"
+  },
+  {
+    "id": "ZxPeLpST7FfeRNFfnPgC",
+    "data": {
+      "body": "Va",
+      "isFromMe": false,
+      "messageId": "3C642BAB232897D2DAE2F7CD9905381E",
+      "from": "5214499910717@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-19T22:59:25.694Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214499910717@c.us/messages_all"
+  },
+  {
+    "id": "a8AiYrcBGyzJLRwSnF52",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5214499910717@c.us",
+      "body": "",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "A7A2B79B523FE137B8AE4576F21990F1",
+      "timestamp": "2025-07-21T16:24:55.615Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214499910717@c.us/messages_all"
+  },
+  {
+    "id": "aU6xB9CmRmeSaZQM9M0G",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5214499910717@c.us",
+      "body": "",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "A5E436B1DCD760D198EA4F7BB7793687",
+      "timestamp": "2025-07-19T21:12:17.733Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214499910717@c.us/messages_all"
+  },
+  {
+    "id": "b7ZdAeQr9NKfByAIoJ8Z",
+    "data": {
+      "body": "Que te parece?",
+      "isFromMe": false,
+      "messageId": "38CE78EFCAD30E86A0108F4E94CFCEB7",
+      "from": "5214499910717@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-21T19:01:29.388Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214499910717@c.us/messages_all"
+  },
+  {
+    "id": "bPuJA3X3virYut245hlD",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5214499910717@c.us",
+      "body": "",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "8CCB9B78CE2820BF8ACF5A5EC1C1604F",
+      "timestamp": "2025-07-21T16:32:38.266Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214499910717@c.us/messages_all"
+  },
+  {
+    "id": "fCrv1kK6x3swnc6l2yX4",
+    "data": {
+      "body": "Oye tengo una dudaa, que es lo que haré yo el día martes en la demostración de los productos?",
+      "isFromMe": false,
+      "messageId": "40DC4590BF4645F6CA8DAC5FD16222D1",
+      "from": "5214499910717@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-19T19:55:02.873Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214499910717@c.us/messages_all"
+  },
+  {
+    "id": "fzu4cpxsrtmYciIBZUFl",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5214499910717@c.us",
+      "body": "",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "C9D67F90DC74B210A2B710C3586E389C",
+      "timestamp": "2025-07-21T16:24:43.017Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214499910717@c.us/messages_all"
+  },
+  {
+    "id": "jKtG4iTKOml7Jo7Ftixu",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5214499910717@c.us",
+      "body": "Sí, esos 3",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "5DC6B3B8C6F90524E989513EAC3556B6",
+      "timestamp": "2025-07-21T16:24:37.926Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214499910717@c.us/messages_all"
+  },
+  {
+    "id": "jY0eIKYLMdjTI4vkqqQw",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5214499910717@c.us",
+      "body": "",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "C2A81B314DCF4F47C23C876999739F90",
+      "timestamp": "2025-07-21T19:08:10.588Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214499910717@c.us/messages_all"
+  },
+  {
+    "id": "k1wXfNYreV6LZsnoPuAr",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5214499910717@c.us",
+      "body": "",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "47F64A2C9C9C559CAD8A69A0E57FCEEC",
+      "timestamp": "2025-07-19T22:35:10.681Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214499910717@c.us/messages_all"
+  },
+  {
+    "id": "lNlGXUAnypyQwjfbxa2h",
+    "data": {
+      "body": "Solooo te quería preguntar algoo, yo dónde grabo es en la iPad, entonces si va Verito le pensaba decir que si me prestaba su celular para grabar eres video allá , pero no sé si ella te vaya a ayudar en algo para ver si le puedo decir",
+      "isFromMe": false,
+      "messageId": "31ED4B76A389FFCC6282199462A30B8D",
+      "from": "5214499910717@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-19T22:37:30.494Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214499910717@c.us/messages_all"
+  },
+  {
+    "id": "m0N92im54BsB9FSuyn03",
+    "data": {
+      "body": "Okeyyyy",
+      "isFromMe": false,
+      "messageId": "D9B26C05011B94A5C4B83C2E4ECACD98",
+      "from": "5214499910717@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-21T19:04:49.384Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214499910717@c.us/messages_all"
+  },
+  {
+    "id": "mkyM6LoFbnRqSNh4N3ii",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5214499910717@c.us",
+      "body": "https://www.canva.com/design/DAGtzwLe-CA/86z2k-tm7mWo2Fm1-zLhJA/edit?utm_content=DAGtzwLe-CA&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "491B09CD5BB7D0674C4C163DC77446AF",
+      "timestamp": "2025-07-21T16:00:33.415Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214499910717@c.us/messages_all"
+  },
+  {
+    "id": "myrqBJAKaFbA0dUKQgbH",
+    "data": {
+      "body": "Holi Nidia",
+      "isFromMe": false,
+      "messageId": "FDFDEACCB2464C7D0DD811DABC387040",
+      "from": "5214499910717@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-21T15:48:48.590Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214499910717@c.us/messages_all"
+  },
+  {
+    "id": "oWsOqsZlKuWpcVU9WbRj",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5214499910717@c.us",
+      "body": "",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "9E4F29D5545E3428167B8D9BFE8588E6",
+      "timestamp": "2025-07-21T19:03:59.686Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214499910717@c.us/messages_all"
+  },
+  {
+    "id": "qHkYzVEmYv6fooZbWaRs",
+    "data": {
+      "body": "Holaa",
+      "isFromMe": false,
+      "messageId": "83E5207F31A784FD668ADAB6F8624F97",
+      "from": "5214499910717@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-18T20:51:29.090Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214499910717@c.us/messages_all"
+  },
+  {
+    "id": "qg2J9w2ih4IwcW3aUbbw",
+    "data": {
+      "body": "Está padree",
+      "isFromMe": false,
+      "messageId": "865032819A055FF275B7D69195ED9FC1",
+      "from": "5214499910717@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-21T16:22:35.024Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214499910717@c.us/messages_all"
+  },
+  {
+    "id": "t3LSvIqBnya9ORCmpuQA",
+    "data": {
+      "body": "Me dijo que no",
+      "isFromMe": false,
+      "messageId": "34D656A5737953E3620E80E7CD2C9E93",
+      "from": "5214499910717@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-18T20:59:11.266Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214499910717@c.us/messages_all"
+  },
+  {
+    "id": "tGTefHytwPvthPF2oIdk",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5214499910717@c.us",
+      "body": "Este se me hizo super sencillo de editar y no pide muchas cosas",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "CE2B5EE76EFE8FCC289D74A62DEE26DA",
+      "timestamp": "2025-07-21T16:00:50.792Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214499910717@c.us/messages_all"
+  },
+  {
+    "id": "ueXq5CqtspWU8XQlB4E4",
+    "data": {
+      "body": "Va",
+      "isFromMe": false,
+      "messageId": "5D19CC3376139E97C581DF53CDA64087",
+      "from": "5214499910717@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-21T16:24:49.680Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214499910717@c.us/messages_all"
+  },
+  {
+    "id": "w6dfscozjcowVe9fvEzL",
+    "data": {
+      "body": "Documento A4 Ficha Técnica Productos Sencilla Gris.pdf",
+      "isFromMe": false,
+      "messageId": "F9DD142C86220CD5C2FF15C662A0AB7F",
+      "from": "5214499910717@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-21T19:01:17.093Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214499910717@c.us/messages_all"
+  },
+  {
+    "id": "xUQewtd7RnBpnk7UJdk2",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5214499910717@c.us",
+      "body": "",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "417077B71B643257843AF8669366E84E",
+      "timestamp": "2025-07-18T20:58:37.452Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214499910717@c.us/messages_all"
+  },
+  {
+    "id": "zPbMp77iQgcqzxzwdLeB",
+    "data": {
+      "body": "Holi ntps andamos igual, pues si se me ocurría hacer un \"arréglate conmigo para ir a.....\" \nY luego ya que me arregle hacer un mini tour allá y finalizar el video, y hacer otro dónde nada más se trate de grabar allá y las demostraciónes\nAlgo como \" acompáñame a vivir la experiencia de nuestro evento riman. \" O algo así",
+      "isFromMe": false,
+      "messageId": "1589F8C93DE052FC66371199B6A5EFEE",
+      "from": "5214499910717@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-19T22:34:33.095Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214499910717@c.us/messages_all"
+  }
+]

@@ -1,0 +1,74 @@
+[
+  {
+    "id": "51954977750@c.us",
+    "data": {
+      "createdAt": "2025-05-12T17:04:06.147Z",
+      "userActivitySource": "message_create_event",
+      "lastHumanMessageTimestamp": null,
+      "userIsActive": false,
+      "historyClearedAt": "2025-05-12T17:19:25.259Z",
+      "lastContactMessageTimestamp": "2025-05-12T17:21:56.506Z",
+      "lastActivityCheck": "2025-05-12T17:21:56.734Z",
+      "lastBotMessageTimestamp": "2025-05-12T17:22:01.238Z",
+      "lastMessageContent": "¡Hola!  Para aumentar masa muscular necesitas dos cosas:  una dieta rica en proteínas y una rutina de entrenamiento enfocada en la fuerza.  Recuerda que el aumento muscular toma tiempo,  no esperes cambios de la noche a la mañana.  Un buen inicio sería con 2 días de entrenamiento a la semana, enfocándote en los grupos musculares principales.  Si quieres saber más sobre rutinas efectivas y planes de alimentación para ganar masa muscular, te recomiendo nuestro webinar de SiempreFit.  ¡Te esperamos!\n",
+      "lastMessageTimestamp": "2025-05-12T17:22:01.238Z"
+    },
+    "path": "users/94LDizOBGbeo7omSZ7kkvq08jCj2/chats"
+  },
+  {
+    "id": "51956765665@c.us",
+    "data": {
+      "userIsActive": false,
+      "createdAt": "2025-05-12T17:20:31.489Z",
+      "lastContactMessageTimestamp": "2025-05-12T17:20:32.434Z",
+      "lastActivityCheck": "2025-05-12T17:20:32.702Z",
+      "lastBotMessageTimestamp": "2025-05-12T17:20:37.380Z",
+      "lastMessageContent": "¡Hola!  Para bajar de peso necesitas dos cosas, clave:  un déficit calórico (gastar más calorías de las que consumes) y una rutina de ejercicios.  La pérdida de peso es gradual,  no esperes milagros de la noche a la mañana.  Un kilo por semana es un buen objetivo.  Para saber más sobre cómo lograrlo de forma segura y efectiva, te invito a nuestro webinar de SiempreFit.  ¡Ahí te daremos más detalles!\n",
+      "lastMessageTimestamp": "2025-05-12T17:20:37.380Z"
+    },
+    "path": "users/94LDizOBGbeo7omSZ7kkvq08jCj2/chats"
+  },
+  {
+    "id": "51966323587@c.us",
+    "data": {
+      "userIsActive": false,
+      "createdAt": "2025-05-10T02:54:20.970Z",
+      "lastHumanMessageTimestamp": null,
+      "lastActivityCheck": "2025-05-12T17:19:24.910Z",
+      "historyClearedAt": "2025-05-12T17:19:25.259Z",
+      "lastContactMessageTimestamp": null,
+      "lastBotMessageTimestamp": "2025-05-12T17:21:03.233Z",
+      "lastMessageContent": "Hola! Soy un nuevo asistente conversacional, listo para ayudarte. ¿En qué puedo ayudarte hoy?\n",
+      "lastMessageTimestamp": "2025-05-12T17:21:03.233Z"
+    },
+    "path": "users/94LDizOBGbeo7omSZ7kkvq08jCj2/chats"
+  },
+  {
+    "id": "593963936712@c.us",
+    "data": {
+      "userIsActive": false,
+      "createdAt": "2025-05-12T17:20:21.184Z",
+      "lastContactMessageTimestamp": "2025-05-12T17:20:22.227Z",
+      "lastActivityCheck": "2025-05-12T17:20:22.431Z",
+      "lastBotMessageTimestamp": "2025-05-12T17:21:03.940Z",
+      "lastMessageContent": "Parece que hay mucho tráfico en el sistema. Intentaré responder tu mensaje más tarde cuando haya menos carga.",
+      "lastMessageTimestamp": "2025-05-12T17:21:03.940Z"
+    },
+    "path": "users/94LDizOBGbeo7omSZ7kkvq08jCj2/chats"
+  },
+  {
+    "id": "status@broadcast",
+    "data": {
+      "userIsActive": false,
+      "createdAt": "2025-05-10T02:54:11.310Z",
+      "lastActivityCheck": "2025-05-12T17:19:17.355Z",
+      "lastContactMessageTimestamp": null,
+      "lastHumanMessageTimestamp": null,
+      "historyClearedAt": "2025-05-12T17:19:25.264Z",
+      "lastBotMessageTimestamp": "2025-05-12T17:22:03.993Z",
+      "lastMessageContent": "¡Hola Sasha!  Que chévere que celebres San Marcos.  Se nota que eres una persona con metas, ¡eso es genial!  \n\nSi quieres mejorar tu físico, recuerda que  la clave está en la constancia.  Para bajar de peso se necesita un déficit calórico y ejercicio, todo de forma gradual.  Si quieres aumentar masa muscular, necesitas proteína y entrenar la fuerza.  \n\nTe recomiendo una rutina sencilla para empezar: 2 días a la semana, ejercicios de peso corporal como sentadillas, lagartijas y abdominales.  Y en cuanto a la alimentación, prioriza proteínas magras, frutas y verduras.  \n\nRecuerda que los cambios en el cuerpo toman su tiempo.  Para más información, te invito a nuestro webinar de SiempreFit donde te explicamos rutinas más detalladas, planes de alimentación y resolvemos tus dudas.  ¡Nos vemos allá!\n",
+      "lastMessageTimestamp": "2025-05-12T17:22:03.993Z"
+    },
+    "path": "users/94LDizOBGbeo7omSZ7kkvq08jCj2/chats"
+  }
+]

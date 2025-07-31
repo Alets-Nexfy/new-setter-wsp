@@ -1,0 +1,67 @@
+[
+  {
+    "id": "23l0NvPofVcofkNyNNzE",
+    "data": {
+      "body": "Acá acostado con el Mateo que duerme la siesta",
+      "isFromMe": false,
+      "messageId": "F4E6E22BAEF8EB927EE24C2A235F9E1D",
+      "from": "5493492562130@c.us",
+      "to": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "origin": "contact",
+      "timestamp": "2025-06-26T19:18:39.587Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5493492562130@c.us/messages_contact"
+  },
+  {
+    "id": "5IdwJmWEpmujAtjn5B2s",
+    "data": {
+      "body": "Que lo disfrutes",
+      "isFromMe": false,
+      "messageId": "BADC54FF7E71EF78F0E8919ADB2FDAB4",
+      "from": "5493492562130@c.us",
+      "to": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "origin": "contact",
+      "timestamp": "2025-06-26T19:18:02.903Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5493492562130@c.us/messages_contact"
+  },
+  {
+    "id": "EQ5pe7K8sIuiLTyAxtd5",
+    "data": {
+      "body": "Parece mami la que está atrás tuyo cdo era más joven 🤣🤣🤣🤣",
+      "isFromMe": false,
+      "messageId": "1942A13DE48A4371F777C2CCA1DCD7E6",
+      "from": "5493492562130@c.us",
+      "to": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "origin": "contact",
+      "timestamp": "2025-06-26T19:15:17.264Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5493492562130@c.us/messages_contact"
+  },
+  {
+    "id": "ntHxkUPAcXRWGI3qIaXU",
+    "data": {
+      "body": "Si mire así y me pareció ma más joven 🤣🤣🤣",
+      "isFromMe": false,
+      "messageId": "0022757A1A47266EBEC3FD58050566D8",
+      "from": "5493492562130@c.us",
+      "to": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "origin": "contact",
+      "timestamp": "2025-06-26T19:17:48.954Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5493492562130@c.us/messages_contact"
+  },
+  {
+    "id": "qbEUZ1QM9PJlffxZdi2V",
+    "data": {
+      "body": "Besos batatin",
+      "isFromMe": false,
+      "messageId": "86CDB7E4561FDB15802BDB529CC4C17C",
+      "from": "5493492562130@c.us",
+      "to": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "origin": "contact",
+      "timestamp": "2025-06-26T19:18:16.318Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5493492562130@c.us/messages_contact"
+  }
+]

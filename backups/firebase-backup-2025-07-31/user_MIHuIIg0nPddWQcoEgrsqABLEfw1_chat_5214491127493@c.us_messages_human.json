@@ -1,0 +1,72 @@
+[
+  {
+    "id": "YxZrLmanH2ISie1aiwdb",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5214491127493@c.us",
+      "body": "",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "DF037BF90E4964FC8DA580A2D158E8D2",
+      "timestamp": "2025-07-21T17:58:55.799Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214491127493@c.us/messages_human"
+  },
+  {
+    "id": "ccAVLPeqHLeKEd6waSTU",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5214491127493@c.us",
+      "body": "",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "63C8301C7DD333CF3AEE3AC71F88FF67",
+      "timestamp": "2025-07-21T18:00:12.690Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214491127493@c.us/messages_human"
+  },
+  {
+    "id": "jrWdLA8jFapftxxm8pVO",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5214491127493@c.us",
+      "body": "",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "FBEB8FD486F2E722176F36C673E18109",
+      "timestamp": "2025-07-21T17:48:37.083Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214491127493@c.us/messages_human"
+  },
+  {
+    "id": "lNgHXMufqL0ojXRkRN5s",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5214491127493@c.us",
+      "body": "Hola Dulce cómo estás?",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "402E46177EBB91AEC0FE55AB12514D6D",
+      "timestamp": "2025-07-21T16:02:53.289Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214491127493@c.us/messages_human"
+  },
+  {
+    "id": "vSnhC3fb0Y4hgWHJsI5V",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5214491127493@c.us",
+      "body": "",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "CA297CE126399EF18B0D5476562AD83E",
+      "timestamp": "2025-07-21T18:12:19.386Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214491127493@c.us/messages_human"
+  }
+]

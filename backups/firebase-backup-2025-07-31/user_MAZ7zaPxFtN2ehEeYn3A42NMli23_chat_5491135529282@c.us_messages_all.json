@@ -1,0 +1,123 @@
+[
+  {
+    "id": "B8LNVYRB0eYqy0yE9q2y",
+    "data": {
+      "from": "me (MAZ7zaPxFtN2ehEeYn3A42NMli23)",
+      "to": "5491135529282@c.us",
+      "body": "Quiero los precios",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "3A5E1E82EB08D474E249",
+      "timestamp": "2025-07-14T16:46:18.644Z"
+    },
+    "path": "users/MAZ7zaPxFtN2ehEeYn3A42NMli23/chats/5491135529282@c.us/messages_all"
+  },
+  {
+    "id": "CIl0rEMCgnPrXLYz6BMS",
+    "data": {
+      "body": "",
+      "isFromMe": false,
+      "messageId": "3EB0BF36811E266FE5D0",
+      "from": "5491135529282@c.us",
+      "to": "me (MAZ7zaPxFtN2ehEeYn3A42NMli23)",
+      "origin": "contact",
+      "timestamp": "2025-07-14T16:55:55.140Z"
+    },
+    "path": "users/MAZ7zaPxFtN2ehEeYn3A42NMli23/chats/5491135529282@c.us/messages_all"
+  },
+  {
+    "id": "J0YIWJp32qUYRYJ84TRw",
+    "data": {
+      "body": "¡Hola! 💕 Bienvenidx a Lisha Moda. ¿Me pasás tu nombre y localidad para agendarte y ayudarte mejor? 😊\n",
+      "isFromMe": false,
+      "messageId": "3EB0D06DAEA616F7FB4C28",
+      "from": "5491135529282@c.us",
+      "to": "me (MAZ7zaPxFtN2ehEeYn3A42NMli23)",
+      "origin": "contact",
+      "timestamp": "2025-07-15T14:08:08.629Z"
+    },
+    "path": "users/MAZ7zaPxFtN2ehEeYn3A42NMli23/chats/5491135529282@c.us/messages_all"
+  },
+  {
+    "id": "PCJqIchwU60gll0X2qv2",
+    "data": {
+      "from": "me (MAZ7zaPxFtN2ehEeYn3A42NMli23)",
+      "to": "5491135529282@c.us",
+      "body": "Quiero más información de los productos",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "3AD19A6B19D5A13B45F9",
+      "timestamp": "2025-07-14T15:50:59.994Z"
+    },
+    "path": "users/MAZ7zaPxFtN2ehEeYn3A42NMli23/chats/5491135529282@c.us/messages_all"
+  },
+  {
+    "id": "UDDQlQGGcOyEJ10GJRFX",
+    "data": {
+      "body": "",
+      "isFromMe": false,
+      "messageId": "3EB0400817BB1F00EAB7",
+      "from": "5491135529282@c.us",
+      "to": "me (MAZ7zaPxFtN2ehEeYn3A42NMli23)",
+      "origin": "contact",
+      "timestamp": "2025-07-14T15:50:21.744Z"
+    },
+    "path": "users/MAZ7zaPxFtN2ehEeYn3A42NMli23/chats/5491135529282@c.us/messages_all"
+  },
+  {
+    "id": "h3PB26ktNl5vzgVBr38K",
+    "data": {
+      "from": "me (MAZ7zaPxFtN2ehEeYn3A42NMli23)",
+      "to": "5491135529282@c.us",
+      "body": "Hola me das precios",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "3A18A06256FD0823E326",
+      "timestamp": "2025-07-15T14:08:02.612Z"
+    },
+    "path": "users/MAZ7zaPxFtN2ehEeYn3A42NMli23/chats/5491135529282@c.us/messages_all"
+  },
+  {
+    "id": "obgMRvznLESaVW1ajrn6",
+    "data": {
+      "body": "¡Hola! Gracias por tu interés en Lisha Moda.\nAntes de hacer tu pedido, leé esta info importante:\n\n-COMPRA MÍNIMA : $50.000\n-ENVIOS a todo el país por \nVía Cargo o Correo Argentino.\n\n*CATÁLOGO ACTUALIZADO*\nMirá todos nuestros productos aquí! \n\n❤️‍🔥lishamodaa.mitiendanube.com\n❤️‍🔥lishamodaa.mitiendanube.com\n❤️‍🔥lishamodaa.mitiendanube.com\n\n¿Cómo hacer tu PEDIDO?\n\n1- Por la tienda nube con carrito \n\nMedios de pago: Por -Transferencia bancaria\n\n¡Gracias por elegirnos!\nEquipo de Lisha Moda – Con amor paravos",
+      "isFromMe": false,
+      "messageId": "285B19B47D97E09667CCB835516BE165",
+      "from": "5491135529282@c.us",
+      "to": "me (MAZ7zaPxFtN2ehEeYn3A42NMli23)",
+      "origin": "contact",
+      "timestamp": "2025-07-14T15:50:31.699Z"
+    },
+    "path": "users/MAZ7zaPxFtN2ehEeYn3A42NMli23/chats/5491135529282@c.us/messages_all"
+  },
+  {
+    "id": "q30JCshIleqIqvTjJoe1",
+    "data": {
+      "body": "¡Hola! 💕 Bienvenidx a Lisha Moda. ¿Me pasás tu nombre y localidad para agendarte y ayudarte mejor? 😊\n",
+      "isFromMe": false,
+      "messageId": "3EB06AC1EB382DBF093765",
+      "from": "5491135529282@c.us",
+      "to": "me (MAZ7zaPxFtN2ehEeYn3A42NMli23)",
+      "origin": "contact",
+      "timestamp": "2025-07-14T16:55:55.258Z"
+    },
+    "path": "users/MAZ7zaPxFtN2ehEeYn3A42NMli23/chats/5491135529282@c.us/messages_all"
+  },
+  {
+    "id": "u0uVxYtAxLMUhsxRqfL9",
+    "data": {
+      "from": "me (MAZ7zaPxFtN2ehEeYn3A42NMli23)",
+      "to": "5491135529282@c.us",
+      "body": "Hola, me pasarías los precios de los productos ?",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "3AF48CD5DABB2CD85DEC",
+      "timestamp": "2025-07-14T15:50:22.073Z"
+    },
+    "path": "users/MAZ7zaPxFtN2ehEeYn3A42NMli23/chats/5491135529282@c.us/messages_all"
+  }
+]

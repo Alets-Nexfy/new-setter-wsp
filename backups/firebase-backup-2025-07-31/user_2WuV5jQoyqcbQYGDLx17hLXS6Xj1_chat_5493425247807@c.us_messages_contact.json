@@ -1,0 +1,67 @@
+[
+  {
+    "id": "CzXhzR2BMEoXkFkZiKkK",
+    "data": {
+      "body": "",
+      "isFromMe": false,
+      "messageId": "3AAF7AE70E5CCAC65CA2",
+      "from": "5493425247807@c.us",
+      "to": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "origin": "contact",
+      "timestamp": "2025-06-23T19:01:52.310Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5493425247807@c.us/messages_contact"
+  },
+  {
+    "id": "MGTbXDNCSyYB7EUSCVq4",
+    "data": {
+      "body": "",
+      "isFromMe": false,
+      "messageId": "3AC06B4E52345FC645CC",
+      "from": "5493425247807@c.us",
+      "to": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "origin": "contact",
+      "timestamp": "2025-06-23T19:02:01.416Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5493425247807@c.us/messages_contact"
+  },
+  {
+    "id": "iOSSwFkoYH4UGaEwRHeJ",
+    "data": {
+      "body": "Hoy subimos el video",
+      "isFromMe": false,
+      "messageId": "3A6686DF6A7ECF9987FD",
+      "from": "5493425247807@c.us",
+      "to": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "origin": "contact",
+      "timestamp": "2025-06-23T18:39:25.225Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5493425247807@c.us/messages_contact"
+  },
+  {
+    "id": "k16sMAmVBUUjlgSVJTWR",
+    "data": {
+      "body": "A la tarde te etiqueto",
+      "isFromMe": false,
+      "messageId": "3A9C5CD3C1ACEA41D03A",
+      "from": "5493425247807@c.us",
+      "to": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "origin": "contact",
+      "timestamp": "2025-06-23T18:39:34.283Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5493425247807@c.us/messages_contact"
+  },
+  {
+    "id": "vCFap5qR4dKVWEzHpAa8",
+    "data": {
+      "body": "Quedó de diez 🔟",
+      "isFromMe": false,
+      "messageId": "3AE1D718E6339E34A78B",
+      "from": "5493425247807@c.us",
+      "to": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "origin": "contact",
+      "timestamp": "2025-06-23T19:01:45.544Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5493425247807@c.us/messages_contact"
+  }
+]

@@ -1,0 +1,67 @@
+[
+  {
+    "id": "16I7N58aLHRONoyE8lP5",
+    "data": {
+      "body": "Sabes q camión me lleva allá ☺️",
+      "isFromMe": false,
+      "messageId": "DEABD4088757453C9B21FA614B6CE29C",
+      "from": "5214492881493@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-19T21:17:58.990Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214492881493@c.us/messages_contact"
+  },
+  {
+    "id": "QSl4kEXsQcszeCaESUmO",
+    "data": {
+      "body": "Sipi",
+      "isFromMe": false,
+      "messageId": "65C90AAFEBAB3CDB37E206DFFC24AB33",
+      "from": "5214492881493@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-19T21:33:13.188Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214492881493@c.us/messages_contact"
+  },
+  {
+    "id": "YOe1USK3leaBW9mJQhFU",
+    "data": {
+      "body": "Ok tomó la 10",
+      "isFromMe": false,
+      "messageId": "CCA39C6D4696251816F9FD43E9F81066",
+      "from": "5214492881493@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-19T21:19:20.790Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214492881493@c.us/messages_contact"
+  },
+  {
+    "id": "np5mVTRE1cK5h4vwGE8W",
+    "data": {
+      "body": "Tengo q llevar algo",
+      "isFromMe": false,
+      "messageId": "D97CC6E6743FC2D614AC399AE7E69BAB",
+      "from": "5214492881493@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-19T21:33:24.989Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214492881493@c.us/messages_contact"
+  },
+  {
+    "id": "qsMGliUuhxZzoI2Nn4dw",
+    "data": {
+      "body": "Muy bien \nMuchas gracias 😘",
+      "isFromMe": false,
+      "messageId": "194B0E7C438745DDD5BE521842E68714",
+      "from": "5214492881493@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-19T23:42:36.994Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214492881493@c.us/messages_contact"
+  }
+]

@@ -1,0 +1,43 @@
+[
+  {
+    "id": "fEvPconGvRZPL0JLJIjZ",
+    "data": {
+      "body": "Hay que ricooo",
+      "isFromMe": false,
+      "messageId": "CFA1CF1A94597CD6627F53B0CDB0E523",
+      "from": "573188342058@c.us",
+      "to": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "origin": "contact",
+      "timestamp": "2025-06-26T22:21:57.694Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/573188342058@c.us/messages_all"
+  },
+  {
+    "id": "tay0WjPN8G1o2nRHOThO",
+    "data": {
+      "from": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "to": "573188342058@c.us",
+      "body": "Cómo estás corazón ?",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "3A45729337D85BD5326E",
+      "timestamp": "2025-06-26T22:27:35.155Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/573188342058@c.us/messages_all"
+  },
+  {
+    "id": "y1D6UkLjvI2UPNLCSUTP",
+    "data": {
+      "from": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "to": "573188342058@c.us",
+      "body": "Chushiiiiii",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "3AFF6A8746165FE9DDD2",
+      "timestamp": "2025-06-26T22:25:20.584Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/573188342058@c.us/messages_all"
+  }
+]

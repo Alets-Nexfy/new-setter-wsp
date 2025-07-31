@@ -1,0 +1,2091 @@
+[
+  {
+    "id": "0zm7LbTdQZb6mJg6T3pU5UhTDmx2",
+    "data": {
+      "createdAt": "2025-03-31T22:39:53.893Z",
+      "ssoProvider": "empresa_partner",
+      "externalUserId": "user123",
+      "email": "ejemplo@dominio.com",
+      "username": "usuario_ejemplo",
+      "lastLogin": "2025-04-01T01:47:51.949Z"
+    },
+    "path": "users"
+  },
+  {
+    "id": "1Ru1ShZgDEfHwMKBYwbIPBtWC4c2",
+    "data": {
+      "createdAt": "2025-04-30T13:38:59.600Z",
+      "lastLogin": "2025-04-30T13:38:59.600Z",
+      "ssoProvider": "empresa_partner",
+      "externalUserId": "user454",
+      "email": "cuenta3-ejemplo@ejemplo.com",
+      "username": "usuario3Test",
+      "instagramToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWdpbW90b3JzLmFyZyIsImV4cCI6MjA2MTM4MDUxOH0.926hJVn2UYw1wsDVR8NTnVNNfwIcn0y0uqUY1poO2TE",
+      "instagramUsername": "digimotors.arg",
+      "instagramLastLogin": "2025-04-30T13:41:58.087Z",
+      "instagramConnected": true,
+      "instagramDeviceId": "android-ewwairyn4n"
+    },
+    "path": "users"
+  },
+  {
+    "id": "24APqxMdXZbgVUfPqFHJfpCycjG2",
+    "data": {
+      "createdAt": "2025-03-30T19:14:33.475Z",
+      "ssoProvider": "empresa_partner",
+      "externalUserId": "user454",
+      "email": "nuevo11.usuario@ejemplo.com",
+      "username": "nuevo11_usuario",
+      "instagramToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJsZW9uLmFndXN0aW4ucCIsImV4cCI6MTc0Mzk5MjAwOX0.5X3HgeVW40tUACTiM7iV-iWwXc6VXrn_zcCWZpPzjE8",
+      "instagramUsername": "leon.agustin.p",
+      "instagramLastLogin": "2025-03-31T02:13:30.194Z",
+      "instagramConnected": true,
+      "instagramDeviceId": "android-cd5s2g96ah",
+      "lastLogin": "2025-04-01T19:50:59.849Z"
+    },
+    "path": "users"
+  },
+  {
+    "id": "2BA53jg41oNJfpJxDXCgKj5cvSz2",
+    "data": {
+      "createdAt": "2025-05-04T21:00:05.148Z",
+      "lastLogin": "2025-05-04T21:00:05.148Z",
+      "ssoProvider": "empresa_partner",
+      "externalUserId": "200",
+      "email": "yersondiamante098@gmail.com",
+      "username": "Yerson_Yarleque"
+    },
+    "path": "users"
+  },
+  {
+    "id": "2WuV5jQoyqcbQYGDLx17hLXS6Xj1",
+    "data": {
+      "createdAt": "2025-04-04T22:13:32.188Z",
+      "ssoProvider": "empresa_partner",
+      "externalUserId": "87",
+      "email": "lholivera789@gmail.com",
+      "username": "Lucas_Olivera",
+      "last_error": null,
+      "active_agent_id": "ef0f4ad9-c60c-4e39-b74d-18a56005046a",
+      "worker_pid": null,
+      "updatedAt": "2025-06-27T14:32:45.583Z",
+      "lastLogin": "2025-07-24T16:14:54.063Z",
+      "membershipUpdatedAt": "2025-07-24T21:06:52.382Z",
+      "membershipStatus": "Activa",
+      "instagramConnected": false
+    },
+    "path": "users"
+  },
+  {
+    "id": "2eRaTeq69FNRWidBdawG3WSxr493",
+    "data": {
+      "createdAt": "2025-04-04T22:12:32.782Z",
+      "ssoProvider": "empresa_partner",
+      "externalUserId": "203",
+      "email": "369nicofede@gmail.com",
+      "username": "Nicolas_Federico",
+      "instagramLastLogin": "2025-04-04T22:23:39.270Z",
+      "lastLogin": "2025-05-05T00:16:12.810Z",
+      "instagramCookies": null,
+      "instagramToken": null,
+      "instagramUsername": null,
+      "instagramConnected": false,
+      "instagramDeviceId": null
+    },
+    "path": "users"
+  },
+  {
+    "id": "2mZG8Zv71Bh5NIJKmzjjDcaOefv2",
+    "data": {
+      "createdAt": "2025-03-25T11:13:46.527Z",
+      "lastLogin": "2025-03-25T11:13:46.527Z",
+      "ssoProvider": "empresa_partner",
+      "externalUserId": "user454",
+      "email": "nuevo4.usuario@ejemplo.com",
+      "username": "nuevo4_usuario",
+      "instagramToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJsZW9uLmFndXN0aW4ucCIsImV4cCI6MTc0MzUwNjA2MX0.nLVoLTW_yGhGaLNFzrEXj4NFneiKPNZtTwfgaOP8tlA",
+      "instagramUsername": "leon.agustin.p",
+      "instagramLastLogin": "2025-03-25T11:14:23.697Z",
+      "instagramConnected": true,
+      "instagramDeviceId": "android-cd5s2g96ah"
+    },
+    "path": "users"
+  },
+  {
+    "id": "34Q2erqnTYbqvdUwDpwj9b6R5rE3",
+    "data": {
+      "createdAt": "2025-04-08T00:14:39.439Z",
+      "ssoProvider": "empresa_partner",
+      "externalUserId": "221",
+      "email": "nestornievesoficial@gmail.com",
+      "username": "Nestor_Nieves",
+      "lastLogin": "2025-04-18T19:11:39.014Z",
+      "instagramCookies": null,
+      "instagramToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJzb3lsdWlzbWMiLCJleHAiOjE3NzY1Mzk5MzZ9.xmPCeOWpvAMG1rGKjkjpSn_MOAySvJf-J8uy3rkPde8",
+      "instagramUsername": "soyluismc",
+      "instagramLastLogin": "2025-04-18T19:18:56.554Z",
+      "instagramConnected": true,
+      "instagramDeviceId": "android-cjz5jxzyyvc"
+    },
+    "path": "users"
+  },
+  {
+    "id": "3uCR5igYt3Xl5qHfAqbsR4zng2G2",
+    "data": {
+      "createdAt": "2025-07-07T21:36:29.541Z",
+      "ssoProvider": "empresa_partner",
+      "externalUserId": "269",
+      "email": "kvwelshp@gmail.com",
+      "username": "Karina_Welsh",
+      "instagramConnected": true,
+      "instagramDeviceId": "android-tmhkhkk65w",
+      "membershipUpdatedAt": "2025-07-24T21:06:52.383Z",
+      "membershipStatus": "Activa",
+      "lastLogin": "2025-07-31T16:52:43.456Z",
+      "instagramToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJtdWplcmVzX2N1YW50aWNhc19tYWduZXRpY2FzIiwiZXhwIjoxNzg1NTE2ODQwfQ._KCqNGXyo-3ayPxE9TW0oM9XZwQrZDJfyON5kM_ZKoM",
+      "instagramUsername": "mujeres_cuanticas_magneticas",
+      "instagramLastLogin": "2025-07-31T16:54:04.185Z"
+    },
+    "path": "users"
+  },
+  {
+    "id": "5v3KpVswXcSzUTx9BQXQitJb4xJ2",
+    "data": {
+      "createdAt": "2025-04-04T22:04:19.099Z",
+      "ssoProvider": "empresa_partner",
+      "externalUserId": "138",
+      "email": "dio2089@gmail.com",
+      "username": "Dionel_Gonzalez",
+      "last_error": null,
+      "active_agent_id": "69ade3cc-52cb-4f51-be69-289caadfa5c8",
+      "worker_pid": null,
+      "updatedAt": "2025-06-27T14:32:45.558Z",
+      "lastLogin": "2025-07-18T02:51:03.917Z",
+      "instagramUsername": "dio2002",
+      "instagramConnected": true,
+      "instagramDeviceId": "android-73zi98jx2fx",
+      "instagramToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaW8yMDAyIiwiZXhwIjoxNzg0MzM5NjQyfQ.Qw47GwAe8aQT0O3OT0hm2kz_HCbKx-JQ5HsZupJpn2g",
+      "instagramLastLogin": "2025-07-18T02:55:03.782Z",
+      "membershipUpdatedAt": "2025-07-24T21:06:52.382Z",
+      "membershipStatus": "Activa"
+    },
+    "path": "users"
+  },
+  {
+    "id": "6FIrqh5CgdZNi8UYGwUHpMRQl4B3",
+    "data": {
+      "createdAt": "2025-07-01T14:31:14.119Z",
+      "ssoProvider": "empresa_partner",
+      "externalUserId": "270",
+      "email": "ingresosdigitales.1m@gmail.com",
+      "username": "Noelia_Jara",
+      "lastLogin": "2025-07-06T13:47:54.502Z",
+      "instagramConnected": false
+    },
+    "path": "users"
+  },
+  {
+    "id": "7F1vx0dq6bWxRkYrzbe4XLRgCM92",
+    "data": {
+      "createdAt": "2025-03-25T11:24:29.283Z",
+      "ssoProvider": "empresa_partner",
+      "externalUserId": "user454",
+      "email": "nuevo5.usuario@ejemplo.com",
+      "username": "nuevo5_usuario",
+      "instagramCookies": null,
+      "instagramToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJsZW9uLmFndXN0aW4ucCIsImV4cCI6MTc0MzUzNDEwOH0.jQbJHzJG3-qEcHN46Kb3ouinrdfmorJLb_rc4WQ0bEA",
+      "instagramUsername": "leon.agustin.p",
+      "instagramLastLogin": "2025-03-25T19:01:47.495Z",
+      "instagramConnected": true,
+      "instagramDeviceId": "android-cd5s2g96ah",
+      "lastLogin": "2025-03-26T22:57:58.203Z"
+    },
+    "path": "users"
+  },
+  {
+    "id": "87kBoukFL5QTE0pUw3TcMg5KIlA2",
+    "data": {
+      "createdAt": "2025-04-12T18:29:22.902Z",
+      "ssoProvider": "empresa_partner",
+      "externalUserId": "225",
+      "email": "tupapa.marcosinfluencer@gmail.com",
+      "username": "Cristian_Antezana",
+      "lastLogin": "2025-05-05T13:25:30.469Z",
+      "instagramLastLogin": "2025-05-20T17:28:35.677Z",
+      "instagramCookies": null,
+      "instagramToken": null,
+      "instagramUsername": null,
+      "instagramConnected": false,
+      "instagramDeviceId": null
+    },
+    "path": "users"
+  },
+  {
+    "id": "94LDizOBGbeo7omSZ7kkvq08jCj2",
+    "data": {
+      "email": "ghalib.bishara@gmail.com",
+      "username": "Ghalib",
+      "createdAt": "2025-05-10T02:44:40.362Z",
+      "instagramToken": null,
+      "role": "user",
+      "last_error": null,
+      "worker_pid": null,
+      "active_agent_id": "88ba3f9d-38ae-4b3e-9322-926912a50869",
+      "updatedAt": "2025-05-14T22:56:33.939Z"
+    },
+    "path": "users"
+  },
+  {
+    "id": "9m23eitwvcXhfex9rV7nWDChOWL2",
+    "data": {
+      "createdAt": "2025-06-19T11:53:40.752Z",
+      "ssoProvider": "empresa_partner",
+      "externalUserId": "259",
+      "email": "rocio_dipietro@outlook.es",
+      "username": "Rocío _Di Pietro ",
+      "last_error": null,
+      "worker_pid": null,
+      "updatedAt": "2025-06-27T14:32:45.558Z",
+      "lastLogin": "2025-07-18T17:54:39.964Z",
+      "instagramConnected": false,
+      "membershipUpdatedAt": "2025-07-24T21:06:52.382Z",
+      "membershipStatus": "Activa"
+    },
+    "path": "users"
+  },
+  {
+    "id": "C2MSEashE2RQYSXaX8K1mG0DsZf1",
+    "data": {
+      "createdAt": "2025-06-30T18:04:16.190Z",
+      "ssoProvider": "empresa_partner",
+      "externalUserId": "239",
+      "email": "casteranzoe@gmail.com",
+      "username": "Micaela_Casteran",
+      "instagramToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJtaWNhYWxtdW5kbyIsImV4cCI6MTc4MzAxMzMxN30.wpFVjhxaJuejoNQ7QQ9DeW9rWnvftJQPOj_DFmZL0WM",
+      "instagramUsername": "micaalmundo",
+      "instagramLastLogin": "2025-07-02T17:28:38.105Z",
+      "instagramConnected": true,
+      "instagramDeviceId": "android-kgn9beckqim",
+      "lastLogin": "2025-07-04T16:44:21.401Z",
+      "membershipUpdatedAt": "2025-07-24T21:06:52.382Z",
+      "membershipStatus": "Activa"
+    },
+    "path": "users"
+  },
+  {
+    "id": "CIO1ZLbTEaPWSfUUZLGPIvnhRXr1",
+    "data": {
+      "createdAt": "2025-07-28T18:18:55.011Z",
+      "ssoProvider": "empresa_partner",
+      "externalUserId": "274",
+      "email": "tatismaral2018@gmail.com",
+      "username": "Leidy Tatiana _Martínez Alzate ",
+      "instagramConnected": false,
+      "lastLogin": "2025-07-30T20:58:31.456Z"
+    },
+    "path": "users"
+  },
+  {
+    "id": "Cp6iGbY2LbZJqXodytMMcXKdmTn1",
+    "data": {
+      "createdAt": "2025-04-04T22:08:06.948Z",
+      "lastLogin": "2025-04-04T22:08:06.948Z",
+      "ssoProvider": "empresa_partner",
+      "externalUserId": "user454",
+      "email": "joaquin.sila@koafy.com",
+      "username": "Joaquin.Sila",
+      "instagramToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0aWVuZGFjaG9wcGVyIiwiZXhwIjoxNzQ0NDEwMTYwfQ.nrXzPiBgZjqI6UHRexFNhVU54fy39oM800LcW3j8fWY",
+      "instagramUsername": "tiendachopper",
+      "instagramLastLogin": "2025-04-04T22:22:40.961Z",
+      "instagramConnected": true,
+      "instagramDeviceId": "android-ir3b8klacw"
+    },
+    "path": "users"
+  },
+  {
+    "id": "D55HCZ0T7IYAiHwuvvO4vQlPuHA3",
+    "data": {
+      "createdAt": "2025-06-07T22:57:55.179Z",
+      "ssoProvider": "empresa_partner",
+      "externalUserId": "249",
+      "email": "joelolguin2004@gmail.com",
+      "username": "Joel_Olguin",
+      "last_error": null,
+      "worker_pid": 2184823,
+      "updatedAt": "2025-06-16T08:10:09.055Z",
+      "instagramUsername": "saludriquezaconestilo",
+      "instagramConnected": true,
+      "instagramDeviceId": "android-lq7swhet29",
+      "instagramToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJzYWx1ZHJpcXVlemFjb25lc3RpbG8iLCJleHAiOjE3ODMwMjMzNTJ9.a71YlIHQ_KlwVVZr-ZLelaxqyvPjY-reiQhAw2xKL7Q",
+      "instagramLastLogin": "2025-07-02T20:15:52.866Z",
+      "lastLogin": "2025-07-03T22:47:34.638Z",
+      "membershipUpdatedAt": "2025-07-24T21:06:52.382Z",
+      "membershipStatus": "Activa"
+    },
+    "path": "users"
+  },
+  {
+    "id": "DVgmh9CH0EcQm4OUHFZ88HWMaRl2",
+    "data": {
+      "createdAt": "2025-03-20T20:09:46.023Z",
+      "ssoProvider": "empresa_partner",
+      "externalUserId": "user123",
+      "email": "usuario.prueba@ejemplo.com",
+      "username": "usuario_test",
+      "instagramToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJsZW9uLmFndXN0aW4ucCIsImV4cCI6MTc0MzEwNjIyOX0.DgxYvIuo-SOy8dmPuFGr8hIitPCtm49vMo2RElyJvII",
+      "instagramUsername": "leon.agustin.p",
+      "instagramLastLogin": "2025-03-20T20:10:30.632Z",
+      "instagramConnected": true,
+      "instagramDeviceId": "android-cd5s2g96ah",
+      "lastLogin": "2025-03-20T22:23:28.498Z"
+    },
+    "path": "users"
+  },
+  {
+    "id": "F40BOOWZUuOAdZ66ais7MuSJ8vH3",
+    "data": {
+      "createdAt": "2025-06-23T20:36:51.111Z",
+      "ssoProvider": "empresa_partner",
+      "externalUserId": "214",
+      "email": "j.castillor26@gmail.com",
+      "username": "Juana_Castillo",
+      "instagramConnected": false,
+      "lastLogin": "2025-06-27T22:33:39.303Z"
+    },
+    "path": "users"
+  },
+  {
+    "id": "GtEcqwtbYWbAMkNFsjFus07s47B2",
+    "data": {
+      "createdAt": "2025-04-04T22:09:31.269Z",
+      "ssoProvider": "empresa_partner",
+      "externalUserId": "100",
+      "email": "jael.jackeline.mendoza21@gmail.com",
+      "username": "Jael_Mendoza",
+      "instagramLastLogin": "2025-04-04T22:22:22.840Z",
+      "lastLogin": "2025-04-23T21:07:52.683Z",
+      "instagramCookies": null,
+      "instagramToken": null,
+      "instagramUsername": null,
+      "instagramConnected": false,
+      "instagramDeviceId": null
+    },
+    "path": "users"
+  },
+  {
+    "id": "HOzFObsu92hjsb43Tp8WHT9aTuH2",
+    "data": {
+      "createdAt": "2025-05-05T19:40:39.027Z",
+      "ssoProvider": "empresa_partner",
+      "externalUserId": "232",
+      "email": "distinctversity@gmail.com",
+      "username": "Daniel Alejandro_Pineda",
+      "instagramToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkYW5ueXNfLmhlcm5hbmRleiIsImV4cCI6MTc3OTE2NDk0N30.r5QT9uBzNMASXqOnEHC0a0XpoMv8MIVUVbLYs-lT3bM",
+      "instagramUsername": "dannys_.hernandez",
+      "instagramLastLogin": "2025-05-19T04:29:07.217Z",
+      "instagramConnected": true,
+      "instagramDeviceId": "android-jh2omba6ihd",
+      "lastLogin": "2025-05-23T19:28:46.231Z"
+    },
+    "path": "users"
+  },
+  {
+    "id": "HSc1epQ1QpWpbFqVrnTF4dSVW5h1",
+    "data": {
+      "email": "guido@nexfy.io",
+      "username": "Guido Caffa",
+      "createdAt": "2025-07-08T21:17:15.586Z",
+      "instagramToken": null,
+      "role": "user",
+      "last_error": null,
+      "active_agent_id": "ef995bfb-7a40-45de-ba42-2f025726b028",
+      "worker_pid": null,
+      "updatedAt": "2025-07-11T18:23:15.947Z"
+    },
+    "path": "users"
+  },
+  {
+    "id": "HTQKxPmL2ObLiOl7ycTAdrXRGh72",
+    "data": {
+      "createdAt": "2025-04-03T21:52:19.829Z",
+      "ssoProvider": "empresa_partner",
+      "externalUserId": "user454",
+      "email": "aquario_user@ejemplo.com",
+      "username": "Alets",
+      "instagramToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhbGVfcXVpcm9nYTI2IiwiZXhwIjoxNzQ0MzIyMDY4fQ.zuWfIZs1QDpeu_wfRVsau3saVbcik4TsfEv98ZBgOWc",
+      "instagramUsername": "ale_quiroga26",
+      "instagramLastLogin": "2025-04-03T21:54:26.122Z",
+      "instagramConnected": true,
+      "instagramDeviceId": "android-cd5s2g96ah",
+      "lastLogin": "2025-04-04T06:35:14.118Z"
+    },
+    "path": "users"
+  },
+  {
+    "id": "ILPCZmjdUOSx62bpN6L3QLLDayJ3",
+    "data": {
+      "createdAt": "2025-04-14T15:46:18.282Z",
+      "ssoProvider": "empresa_partner",
+      "externalUserId": "3",
+      "email": "jorgedaygame@gmail.com",
+      "username": "Jorge_Castañeda",
+      "lastLogin": "2025-05-22T01:41:22.092Z"
+    },
+    "path": "users"
+  },
+  {
+    "id": "IWSa1mjfqOX8UJtqAzwm7EyPDFW2",
+    "data": {
+      "createdAt": "2025-05-15T01:15:15.348Z",
+      "ssoProvider": "empresa_partner",
+      "externalUserId": "105",
+      "email": "0s3gym@gmail.com",
+      "username": "Edgar_Sanchez",
+      "lastLogin": "2025-07-11T03:15:59.772Z"
+    },
+    "path": "users"
+  },
+  {
+    "id": "Iad7kO8aRzOXtQnTGJcipg0u1Vb2",
+    "data": {
+      "createdAt": "2025-04-30T12:07:52.169Z",
+      "lastLogin": "2025-04-30T12:07:52.169Z",
+      "ssoProvider": "empresa_partner",
+      "externalUserId": "user454",
+      "email": "cuenta-ejemplo@ejemplo.com",
+      "username": "usuarioTest"
+    },
+    "path": "users"
+  },
+  {
+    "id": "IkWcOSgIitaa8gxfqq6oAeVgFIr1",
+    "data": {
+      "createdAt": "2025-03-23T20:57:43.670Z",
+      "ssoProvider": "empresa_partner",
+      "externalUserId": "user454",
+      "email": "nuevo2.usuario@ejemplo.com",
+      "username": "nuevo2_usuario",
+      "instagramToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJsZW9uLmFndXN0aW4ucCIsImV4cCI6MTc0MzM2ODMwNX0.-cmT9Xn3weVCEzQ36T5TSSKdtzVyaYOVt3zaaKiskv0",
+      "instagramUsername": "leon.agustin.p",
+      "instagramLastLogin": "2025-03-23T20:58:27.155Z",
+      "instagramConnected": true,
+      "instagramDeviceId": "android-cd5s2g96ah",
+      "lastLogin": "2025-03-24T16:58:32.787Z"
+    },
+    "path": "users"
+  },
+  {
+    "id": "JV3LjYpbBtXiLLMxYMVabf1R6DC2",
+    "data": {
+      "createdAt": "2025-05-16T01:40:25.674Z",
+      "lastLogin": "2025-05-16T01:40:25.674Z",
+      "ssoProvider": "empresa_partner",
+      "externalUserId": "108",
+      "email": "hasapcompany@gmail.com",
+      "username": "Ignacio _Segovia"
+    },
+    "path": "users"
+  },
+  {
+    "id": "MAZ7zaPxFtN2ehEeYn3A42NMli23",
+    "data": {
+      "createdAt": "2025-04-01T01:54:09.340Z",
+      "ssoProvider": "empresa_partner",
+      "externalUserId": "22",
+      "email": "ghalibbishara@tribeinternational.net",
+      "username": "Ghalib_Bishara",
+      "last_error": null,
+      "instagramConnected": false,
+      "active_agent_id": "0745fee4-5634-4e6d-b257-55313418186f",
+      "worker_pid": null,
+      "updatedAt": "2025-07-16T09:32:26.301Z",
+      "membershipUpdatedAt": "2025-07-24T22:30:21.708Z",
+      "membershipStatus": "Inactive",
+      "lastLogin": "2025-07-26T13:17:36.208Z"
+    },
+    "path": "users"
+  },
+  {
+    "id": "MIHuIIg0nPddWQcoEgrsqABLEfw1",
+    "data": {
+      "createdAt": "2025-06-17T16:41:10.555Z",
+      "ssoProvider": "empresa_partner",
+      "externalUserId": "95",
+      "email": "nidiagtzjmz23@gmail.com",
+      "username": "Nidia _Gutiérrez ",
+      "last_error": null,
+      "worker_pid": 1298747,
+      "active_agent_id": "327778a9-af2a-40e0-86ec-32e5212a90af",
+      "updatedAt": "2025-07-18T06:25:35.804Z",
+      "instagramToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJuaWRpYS5ndHpqbXoiLCJleHAiOjE3ODQ1MTk4MzR9.KorqDr-Oratu15NrcgGC1KcF_76e8RPje4rcUZ65aO0",
+      "instagramUsername": "nidia.gtzjmz",
+      "instagramLastLogin": "2025-07-20T03:57:16.618Z",
+      "instagramConnected": true,
+      "instagramDeviceId": "android-noh6s4gbnop",
+      "membershipUpdatedAt": "2025-07-24T21:06:52.382Z",
+      "membershipStatus": "Activa",
+      "lastLogin": "2025-07-30T06:55:47.888Z"
+    },
+    "path": "users"
+  },
+  {
+    "id": "MWO04wk8USR8J1SUP6sxCyUuW3K3",
+    "data": {
+      "createdAt": "2025-07-14T16:13:59.709Z",
+      "ssoProvider": "empresa_partner",
+      "externalUserId": "254",
+      "email": "lishaccesorios@gmail.com",
+      "username": "Jesús _Quispe ",
+      "last_error": null,
+      "active_agent_id": "79113675-7292-4024-8c95-cf89ab53b784",
+      "membershipUpdatedAt": "2025-07-24T21:06:52.382Z",
+      "membershipStatus": "Activa",
+      "worker_pid": null,
+      "updatedAt": "2025-07-29T09:40:34.456Z",
+      "lastLogin": "2025-07-31T13:20:48.576Z"
+    },
+    "path": "users"
+  },
+  {
+    "id": "MvDpNfscdPRPQm2jY2qVh7RkHsY2",
+    "data": {
+      "createdAt": "2025-06-19T22:48:53.366Z",
+      "lastLogin": "2025-06-19T22:48:53.366Z",
+      "ssoProvider": "empresa_partner",
+      "externalUserId": "20",
+      "email": "ansa060781@gmail.com",
+      "username": "Antonio_Salgado",
+      "instagramToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhbnRvbmlvc2FsZ2Fkb2dyZXVsaW5nIiwiZXhwIjoxNzgxOTA5NTE3fQ.arVrz0Ess4s6WSXO7ebq4gA6-ARIoKHP2KLgWmfKh1c",
+      "instagramUsername": "antoniosalgadogreuling",
+      "instagramLastLogin": "2025-06-19T22:52:01.806Z",
+      "instagramConnected": true,
+      "instagramDeviceId": "android-kaqu8avm6fg",
+      "last_error": null,
+      "worker_pid": null,
+      "active_agent_id": "3c2ad6ce-7d58-499a-b73f-1552c1ee4f38",
+      "updatedAt": "2025-06-19T23:22:43.241Z"
+    },
+    "path": "users"
+  },
+  {
+    "id": "N6Xgv6YQUrQHTAzH663j8juCjvt2",
+    "data": {
+      "createdAt": "2025-03-25T14:09:30.417Z",
+      "lastLogin": "2025-03-25T14:09:30.418Z",
+      "ssoProvider": "empresa_partner",
+      "externalUserId": "user454",
+      "email": "nuevo6.usuario@ejemplo.com",
+      "username": "nuevo6_usuario"
+    },
+    "path": "users"
+  },
+  {
+    "id": "O1gK9eC1GvZJVJi03rBu5sH1Vc63",
+    "data": {
+      "createdAt": "2025-04-07T00:04:13.862Z",
+      "ssoProvider": "empresa_partner",
+      "externalUserId": "94",
+      "email": "erika.gimena.galvan27@gmail.com",
+      "username": "Erika_Galvan",
+      "instagramToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJlcmlnYWx2YW44IiwiZXhwIjoxNzQ0NTg5MjUzfQ.wgjXwPXfyz8cmkILSdy6RIlmInfwpEa4GraC-lygIwQ",
+      "instagramUsername": "erigalvan8",
+      "instagramLastLogin": "2025-04-07T00:07:35.026Z",
+      "instagramConnected": true,
+      "instagramDeviceId": "android-zixjzmee9wh",
+      "lastLogin": "2025-04-08T01:57:51.050Z"
+    },
+    "path": "users"
+  },
+  {
+    "id": "O33lv3uaD8e0SiZeiaWJ8qhGhPC2",
+    "data": {
+      "createdAt": "2025-06-02T23:31:01.471Z",
+      "ssoProvider": "empresa_partner",
+      "externalUserId": "251",
+      "email": "agudm.29@hotmail.com",
+      "username": "Agustin dario _Miño",
+      "last_error": null,
+      "active_agent_id": "ee771873-9563-4243-9de7-834d0eb8107f",
+      "instagramToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZ3VzdGluLm1pbm8uMjkiLCJleHAiOjE3ODQwNjU4MzZ9.8gLgthGoGObN8WpKzb7i2yMkKWK2uxfRC8PZ3L2v6qY",
+      "instagramUsername": "agustin.mino.29",
+      "instagramLastLogin": "2025-07-14T21:50:35.387Z",
+      "instagramConnected": true,
+      "instagramDeviceId": "android-p5y1tbb8iyr",
+      "lastLogin": "2025-07-15T12:37:45.699Z",
+      "worker_pid": null,
+      "updatedAt": "2025-07-16T09:32:26.421Z",
+      "membershipUpdatedAt": "2025-07-24T21:06:52.382Z",
+      "membershipStatus": "Activa"
+    },
+    "path": "users"
+  },
+  {
+    "id": "O7KhAdG1SgNTEFd2TNTtOZ0NDIn2",
+    "data": {
+      "createdAt": "2025-06-28T01:36:59.842Z",
+      "ssoProvider": "empresa_partner",
+      "externalUserId": "267",
+      "email": "emiliano_casella@hotmail.com",
+      "username": "Emiliano Nicolas_Casella",
+      "instagramToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJlbWlsaWFub19jYXNlbGxhY2JhIiwiZXhwIjoxNzgyNjEwNjk5fQ.3Xn4u5XzroYN35Kj9URElXcfOJsYV0T5a7dItpRfSZQ",
+      "instagramUsername": "emiliano_casellacba",
+      "instagramLastLogin": "2025-06-28T01:38:19.161Z",
+      "instagramConnected": true,
+      "instagramDeviceId": "android-aonx70dq59",
+      "lastLogin": "2025-07-03T20:11:14.683Z"
+    },
+    "path": "users"
+  },
+  {
+    "id": "Q2gWd0POVUZuoyWQ1ETz8kIUQBQ2",
+    "data": {
+      "createdAt": "2025-06-27T21:52:55.265Z",
+      "ssoProvider": "empresa_partner",
+      "externalUserId": "22",
+      "email": "ghalibbishara+1@tribeinternational.net",
+      "username": "Ghalib_Bishara",
+      "lastLogin": "2025-07-10T17:59:51.052Z",
+      "last_error": null,
+      "worker_pid": null,
+      "active_agent_id": "f72ae52c-3ecb-4773-bb11-75e4260720fc",
+      "updatedAt": "2025-07-11T18:23:15.956Z",
+      "membershipUpdatedAt": "2025-07-24T21:06:52.382Z",
+      "membershipStatus": "Activa"
+    },
+    "path": "users"
+  },
+  {
+    "id": "QTD0AKmI1cQqtaB0LetfhmGJKBF3",
+    "data": {
+      "createdAt": "2025-06-20T18:58:11.771Z",
+      "ssoProvider": "empresa_partner",
+      "externalUserId": "265",
+      "email": "fliendo08@gmail.com",
+      "username": "Fatima _Liendo",
+      "active_agent_id": "45450ab4-bcf2-440c-868a-7df519ef86ed",
+      "lastLogin": "2025-07-18T00:13:06.820Z",
+      "last_error": null,
+      "instagramToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJmYXRpbGllbmRvIiwiZXhwIjoxNzg0ODM3MzEzfQ.io6MA8irFVEGZmqmfhpxyczml_AKFRFyink2irUPcDg",
+      "instagramUsername": "fatiliendo",
+      "instagramLastLogin": "2025-07-23T20:08:22.475Z",
+      "instagramConnected": true,
+      "instagramDeviceId": "android-bmfcz3qm0r",
+      "worker_pid": null,
+      "updatedAt": "2025-07-24T17:39:48.072Z",
+      "membershipUpdatedAt": "2025-07-24T21:06:52.383Z",
+      "membershipStatus": "Activa"
+    },
+    "path": "users"
+  },
+  {
+    "id": "QTeBM6CEvsgGMLA1KSrr2gpQmYw2",
+    "data": {
+      "createdAt": "2025-03-26T22:54:59.308Z",
+      "lastLogin": "2025-03-26T22:54:59.308Z",
+      "ssoProvider": "empresa_partner",
+      "externalUserId": "user454",
+      "email": "nuevo10.usuario@ejemplo.com",
+      "username": "nuevo10_usuario",
+      "instagramToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhbGV0cy5hZ2VuY2lhIiwiZXhwIjoxNzQzNjM0NjAzfQ.j-wfOideSY2Abb0UXjgDxv2TtR0K5MFAFhpSUdAComc",
+      "instagramUsername": "alets.agencia",
+      "instagramLastLogin": "2025-03-26T22:56:43.237Z",
+      "instagramConnected": true,
+      "instagramDeviceId": "android-cd5s2g96ah"
+    },
+    "path": "users"
+  },
+  {
+    "id": "Rn3k8ugMFeemQ1JhD1DbqiE0I532",
+    "data": {
+      "createdAt": "2025-04-04T22:12:10.262Z",
+      "ssoProvider": "empresa_partner",
+      "externalUserId": "9",
+      "email": "portergg87@gmail.com",
+      "username": "Lars_Porter",
+      "instagramToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJsYXJzcG9ydGVyciIsImV4cCI6MTc0NDQxMDE3N30.PUBrCSGUZnNHYOWvhlv1y9CHHQEzxscdqy64Sf33Yp4",
+      "instagramUsername": "larsporterr",
+      "instagramLastLogin": "2025-04-04T22:23:45.208Z",
+      "instagramConnected": true,
+      "instagramDeviceId": "android-9epdh0jpaod",
+      "lastLogin": "2025-04-26T01:37:52.060Z",
+      "membershipUpdatedAt": "2025-07-24T21:06:52.381Z",
+      "membershipStatus": "Activa"
+    },
+    "path": "users"
+  },
+  {
+    "id": "SNfzASZDssOg9hYmJ1B5DiQfu5w2",
+    "data": {
+      "createdAt": "2025-03-20T22:46:53.458Z",
+      "ssoProvider": "empresa_partner",
+      "externalUserId": "user456",
+      "email": "nuevo.usuario@ejemplo.com",
+      "username": "nuevo_usuario",
+      "instagramLastLogin": "2025-03-20T22:47:49.998Z",
+      "lastLogin": "2025-03-21T16:31:07.010Z",
+      "instagramCookies": null,
+      "instagramToken": null,
+      "instagramUsername": null,
+      "instagramConnected": false,
+      "instagramDeviceId": null
+    },
+    "path": "users"
+  },
+  {
+    "id": "TlEdjcU2xwTDBRK3HJgxOoiKdyw1",
+    "data": {
+      "createdAt": "2025-03-25T11:16:45.864Z",
+      "lastLogin": "2025-03-25T11:16:45.864Z",
+      "ssoProvider": "empresa_partner",
+      "externalUserId": "user454",
+      "email": "nuevo3.usuario@ejemplo.com",
+      "username": "nuevo3_usuario"
+    },
+    "path": "users"
+  },
+  {
+    "id": "URFijsCV3paO4MlWP4kFtLYOkKs1",
+    "data": {
+      "createdAt": "2025-05-21T19:15:53.727Z",
+      "ssoProvider": "empresa_partner",
+      "externalUserId": "242",
+      "email": "asma04.ambar25@gmail.com",
+      "username": "Damaris_Bustos ",
+      "lastLogin": "2025-06-20T20:40:03.692Z",
+      "membershipUpdatedAt": "2025-07-24T21:06:52.382Z",
+      "membershipStatus": "Activa"
+    },
+    "path": "users"
+  },
+  {
+    "id": "UmYLcvt4qYeeH4B1TIqaxSWqqvN2",
+    "data": {
+      "createdAt": "2025-06-20T17:49:39.745Z",
+      "ssoProvider": "empresa_partner",
+      "externalUserId": "223",
+      "email": "santiboero01@gmail.com",
+      "username": "Santiago _Boero",
+      "lastLogin": "2025-06-20T18:12:42.511Z",
+      "membershipUpdatedAt": "2025-07-24T21:06:52.382Z",
+      "membershipStatus": "Activa"
+    },
+    "path": "users"
+  },
+  {
+    "id": "VZsoyOy0BrTJMZgxkgrbYjYgg0H3",
+    "data": {
+      "createdAt": "2025-04-30T01:12:21.336Z",
+      "lastLogin": "2025-04-30T01:12:21.336Z",
+      "ssoProvider": "empresa_partner",
+      "externalUserId": "user454",
+      "email": "rrr-jack@ejemplo.com",
+      "username": "jacky",
+      "last_error": null,
+      "active_agent_id": "55e65582-37a1-47c7-885d-9af6829749c4",
+      "worker_pid": null,
+      "updatedAt": "2025-04-30T01:14:27.695Z"
+    },
+    "path": "users"
+  },
+  {
+    "id": "W5aQ4tvD6kR97tFW1mNH4GnR6hB3",
+    "data": {
+      "createdAt": "2025-06-20T18:12:56.228Z",
+      "ssoProvider": "empresa_partner",
+      "externalUserId": "264",
+      "email": "yami5.1.96@gmail.com",
+      "username": "Yamila_Benitez",
+      "last_error": null,
+      "lastLogin": "2025-06-26T11:51:37.826Z",
+      "worker_pid": null,
+      "updatedAt": "2025-06-27T14:32:45.553Z",
+      "membershipUpdatedAt": "2025-07-24T21:06:52.382Z",
+      "membershipStatus": "Activa"
+    },
+    "path": "users"
+  },
+  {
+    "id": "XJbCnKKJGZTtPpdXhNn9zWin3jJ2",
+    "data": {
+      "createdAt": "2025-04-01T19:53:06.351Z",
+      "ssoProvider": "empresa_partner",
+      "externalUserId": "user454",
+      "email": "nuevo15.usuario@ejemplo.com",
+      "username": "nuevo15_usuario",
+      "lastLogin": "2025-04-01T19:53:46.809Z"
+    },
+    "path": "users"
+  },
+  {
+    "id": "XRVoqJyTbadZtm59AK6Kb4E5XVS2",
+    "data": {
+      "createdAt": "2025-04-04T22:28:43.163Z",
+      "ssoProvider": "empresa_partner",
+      "externalUserId": "112",
+      "email": "jalmarberzosa@gmail.com",
+      "username": "Jalmar _Berzosa",
+      "lastLogin": "2025-07-18T00:23:49.733Z"
+    },
+    "path": "users"
+  },
+  {
+    "id": "XsBhP8IPDIcKU6NVdxtwmVqf7y03",
+    "data": {
+      "createdAt": "2025-07-24T16:05:41.309Z",
+      "ssoProvider": "empresa_partner",
+      "externalUserId": "273",
+      "email": "luciano.pilatti@yahoo.com.ar",
+      "username": "luciano_pilatti",
+      "lastLogin": "2025-07-24T16:29:16.198Z",
+      "last_error": null,
+      "worker_pid": null,
+      "updatedAt": "2025-07-24T17:39:47.821Z"
+    },
+    "path": "users"
+  },
+  {
+    "id": "eDigPLQPCwQ63jubGohk4GUUF5i1",
+    "data": {
+      "email": "demotesting@gmail.com",
+      "username": "testing demo",
+      "createdAt": "2025-07-28T09:10:11.080Z",
+      "instagramToken": null,
+      "role": "user",
+      "last_error": null,
+      "active_agent_id": "825feba6-e41f-421f-a93f-f8e13361b13f",
+      "worker_pid": null,
+      "last_qr_code": null,
+      "updatedAt": "2025-07-28T09:49:16.464Z"
+    },
+    "path": "users"
+  },
+  {
+    "id": "eI5tsfVrw3X6phWeERT26Ds9fEI2",
+    "data": {
+      "createdAt": "2025-05-29T04:46:26.921Z",
+      "ssoProvider": "empresa_partner",
+      "externalUserId": "243",
+      "email": "nicolasreal.n1995@gmail.com",
+      "username": "Nicolás _Real ",
+      "instagramToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJub21hLnBoLnJlYWwiLCJleHAiOjE3ODA0NTUyMDd9.DIHe34NtK217_p4M34QUBQJ2UcnNAg5-awXDt0Yq-04",
+      "instagramUsername": "noma.ph.real",
+      "instagramLastLogin": "2025-06-03T02:53:28.918Z",
+      "instagramConnected": true,
+      "instagramDeviceId": "android-m3tio6m0gf",
+      "last_error": null,
+      "active_agent_id": "d5bf37e7-59d2-486e-97d3-24449b58cb4a",
+      "worker_pid": null,
+      "updatedAt": "2025-06-10T10:02:44.078Z",
+      "lastLogin": "2025-06-22T00:42:09.166Z",
+      "membershipUpdatedAt": "2025-07-24T21:06:52.382Z",
+      "membershipStatus": "Activa"
+    },
+    "path": "users"
+  },
+  {
+    "id": "eWM2uSWxslhcmsvn1m0vOeHI7jm1",
+    "data": {
+      "createdAt": "2025-04-01T03:55:34.600Z",
+      "ssoProvider": "empresa_partner",
+      "externalUserId": "6",
+      "email": "pablocollomb@hotmail.com",
+      "username": "Pablo_Collomb",
+      "instagramCookies": null,
+      "last_error": null,
+      "instagramToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJwYWJsb2NvbGxvbWIiLCJleHAiOjE3ODAxNzEwNzZ9.abYBF9z5emaAMcNERTW_jnivLYJ3Q-6P9ic8BFOLwBY",
+      "instagramUsername": "pablocollomb",
+      "instagramLastLogin": "2025-05-30T19:57:56.809Z",
+      "instagramConnected": true,
+      "instagramDeviceId": "android-7viklp71ky",
+      "lastLogin": "2025-07-18T00:13:29.448Z",
+      "worker_pid": 1298354,
+      "active_agent_id": "747f6921-720f-48cd-87fe-a9a4381ddab2",
+      "updatedAt": "2025-07-18T00:53:33.980Z",
+      "membershipUpdatedAt": "2025-07-24T21:06:52.379Z",
+      "membershipStatus": "Activa"
+    },
+    "path": "users"
+  },
+  {
+    "id": "euarGC4M2GOiicJ4ImmJq7s8iW43",
+    "data": {
+      "createdAt": "2025-05-05T19:39:48.553Z",
+      "ssoProvider": "empresa_partner",
+      "externalUserId": "28",
+      "email": "jahirmanco@gmail.com",
+      "username": "Carlos_Manco",
+      "lastLogin": "2025-05-09T19:54:26.799Z"
+    },
+    "path": "users"
+  },
+  {
+    "id": "fOMLKZGqRdYLBDgsaTWb3UB9OBG2",
+    "data": {
+      "createdAt": "2025-04-16T02:52:20.834Z",
+      "ssoProvider": "empresa_partner",
+      "externalUserId": "1",
+      "email": "oscararaya@gmail.com",
+      "username": "Oscar_Araya",
+      "last_qr_code": null,
+      "last_error": null,
+      "worker_pid": null,
+      "status": "disconnected",
+      "updatedAt": "2025-04-26T01:34:58.376Z",
+      "lastLogin": "2025-06-28T02:50:40.962Z",
+      "membershipUpdatedAt": "2025-07-24T21:01:41.035Z",
+      "membershipStatus": "Activa"
+    },
+    "path": "users"
+  },
+  {
+    "id": "fQqtX4haNTSMLbade5a7Hw9Vi8v2",
+    "data": {
+      "createdAt": "2025-04-30T01:17:58.269Z",
+      "lastLogin": "2025-04-30T01:17:58.269Z",
+      "ssoProvider": "empresa_partner",
+      "externalUserId": "user454",
+      "email": "joacosila@ejemplo.com",
+      "username": "joacosila1",
+      "last_error": null,
+      "active_agent_id": "8084bcad-6491-49eb-86a8-adb9c0c53048",
+      "instagramToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhbGVfcXVpcm9nYTI2IiwiZXhwIjoyMDYxMzM2NjE1fQ.cq7k9Jx5VVFlnjF22PyJobLKNgpjY5jvS1h_eSctOn8",
+      "instagramUsername": "ale_quiroga26",
+      "instagramLastLogin": "2025-04-30T01:30:15.000Z",
+      "instagramConnected": true,
+      "instagramDeviceId": "android-bt1gkb7430n",
+      "worker_pid": null,
+      "updatedAt": "2025-05-03T16:32:50.394Z"
+    },
+    "path": "users"
+  },
+  {
+    "id": "fTCiQFfAJrVZi4G9GN4gM5jCatN2",
+    "data": {
+      "createdAt": "2025-04-02T04:23:46.733Z",
+      "ssoProvider": "empresa_partner",
+      "externalUserId": "7",
+      "email": "fabiolamasmud@gmail.com",
+      "username": "Fabiola_Masmud",
+      "instagramCookies": null,
+      "instagramToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJmYWJpaW1hc211ZCIsImV4cCI6MTc4MTgzMjUxOH0.pM70HFnlKNyRJGXWjkUEo60SrLg9YzsZIPNLVnoQHEk",
+      "instagramUsername": "fabiimasmud",
+      "instagramLastLogin": "2025-06-19T01:28:38.165Z",
+      "instagramConnected": true,
+      "instagramDeviceId": "android-f0l5uuqefdc",
+      "last_error": null,
+      "active_agent_id": "849b8121-e19b-4147-b4d6-449c9f7eee05",
+      "worker_pid": null,
+      "lastLogin": "2025-07-11T00:50:37.883Z",
+      "updatedAt": "2025-07-11T18:23:15.948Z",
+      "membershipUpdatedAt": "2025-07-24T21:06:52.381Z",
+      "membershipStatus": "Activa"
+    },
+    "path": "users"
+  },
+  {
+    "id": "fuWdGiXlLjfwCbXhfcRsgPi6Zq03",
+    "data": {
+      "createdAt": "2025-07-19T22:48:53.741Z",
+      "ssoProvider": "empresa_partner",
+      "externalUserId": "272",
+      "email": "anapaulinadelatorre@gmail.com",
+      "username": "ANA PAULINA_DE LA TORRE ",
+      "instagramToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhbmFwYXVsaW5hbGlkZXIiLCJleHAiOjE3ODQ1MDI1NDJ9.tueZHRoK2Ta_bDN8aTn9p-Fu7DXKm4Ay25wRTm2n9qc",
+      "instagramUsername": "anapaulinalider",
+      "instagramLastLogin": "2025-07-19T23:09:02.873Z",
+      "instagramConnected": true,
+      "instagramDeviceId": "android-atmn6awot2h",
+      "last_error": null,
+      "active_agent_id": "9377182e-eec8-466d-acae-70b796e851c7",
+      "worker_pid": null,
+      "updatedAt": "2025-07-24T17:39:48.176Z",
+      "lastLogin": "2025-07-30T04:24:58.745Z"
+    },
+    "path": "users"
+  },
+  {
+    "id": "gZC6G8eAbuSN6R8dwreh5IPXK3q1",
+    "data": {
+      "email": "joacosila23@gmail.com",
+      "username": "joacosila",
+      "createdAt": "2025-03-26T23:08:11.918Z",
+      "instagramToken": null,
+      "role": "user"
+    },
+    "path": "users"
+  },
+  {
+    "id": "gtEaIsL57mTSzV4U3aiCgX2WCei1",
+    "data": {
+      "id": "gtEaIsL57mTSzV4U3aiCgX2WCei1",
+      "name": "test2134",
+      "email": "test@testing.com",
+      "timezone": "America/Mexico_City",
+      "profilePicture": "default.jpg",
+      "isActive": true,
+      "calendarConnections": {
+        "googleCalendar": null
+      },
+      "createdAt": "2025-04-30T14:00:29.158Z",
+      "updatedAt": "2025-04-30T14:00:29.158Z"
+    },
+    "path": "users"
+  },
+  {
+    "id": "h1q2Vs3DhEQDmObYPoLFHcmJwwm1",
+    "data": {
+      "email": "test123@gmail.com",
+      "username": "test123",
+      "createdAt": "2025-07-17T00:40:36.825Z",
+      "role": "user",
+      "instagramConnected": false
+    },
+    "path": "users"
+  },
+  {
+    "id": "h8vfnCOG5NZpSiGs5fjhHzsJgk22",
+    "data": {
+      "createdAt": "2025-05-02T18:57:08.454Z",
+      "ssoProvider": "empresa_partner",
+      "externalUserId": "user454",
+      "email": "joaquinsila-ejemplo@gmail.com",
+      "username": "joaquinsila-ejemplo",
+      "lastLogin": "2025-05-02T19:50:36.255Z",
+      "instagramToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0aWVuZGFjaG9wcGVyIiwiZXhwIjoyMDYxNTc2MjgwfQ.F_BOx4wEpg7Xad8zkwMi77xp4gTWQKEpAtpwO6_xsaM",
+      "instagramUsername": "tiendachopper",
+      "instagramLastLogin": "2025-05-02T20:04:40.752Z",
+      "instagramConnected": true,
+      "instagramDeviceId": "android-697vm8btq5v"
+    },
+    "path": "users"
+  },
+  {
+    "id": "hZUpXaIyCbcN6XtxI9QJSF3XYo63",
+    "data": {
+      "email": "testeo54@nexfy.io",
+      "username": "testeo54@nexfy.io",
+      "createdAt": "2025-07-14T06:30:38.984Z",
+      "instagramToken": null,
+      "role": "user",
+      "last_error": null,
+      "active_agent_id": "8e8d09f9-0df7-4678-a43b-fca3cde6814b",
+      "worker_pid": null,
+      "updatedAt": "2025-07-14T07:40:25.186Z"
+    },
+    "path": "users"
+  },
+  {
+    "id": "iAwNVzQLDpgN36h395g9LKs3hsx1",
+    "data": {
+      "email": "test5@nexfy.io",
+      "username": "test5@nexfy.io",
+      "createdAt": "2025-07-12T03:08:08.490Z",
+      "instagramToken": null,
+      "role": "user",
+      "last_error": null,
+      "worker_pid": null,
+      "updatedAt": "2025-07-12T04:32:28.527Z"
+    },
+    "path": "users"
+  },
+  {
+    "id": "ihQgMoDZ3XQqyZC0UrbSHq8hEpk2",
+    "data": {
+      "email": "ttttt@ttttt.com",
+      "username": "TTTTT",
+      "createdAt": "2025-06-02T19:23:42.864Z",
+      "role": "user",
+      "instagramCookies": null
+    },
+    "path": "users"
+  },
+  {
+    "id": "jAYU1WvjrZOWOs420PVFk8zW2dk2",
+    "data": {
+      "createdAt": "2025-04-29T21:12:02.132Z",
+      "ssoProvider": "empresa_partner",
+      "externalUserId": "user454",
+      "email": "rrr-cass@ejemplo.com",
+      "username": "rcass",
+      "lastLogin": "2025-04-29T23:51:55.177Z"
+    },
+    "path": "users"
+  },
+  {
+    "id": "jETyRbab2rYZCCY9v24vXhbkRuy2",
+    "data": {
+      "email": "test45@gmail.com",
+      "username": "test45@gmail.com",
+      "createdAt": "2025-07-13T00:23:35.445Z",
+      "instagramToken": null,
+      "role": "user",
+      "last_error": null,
+      "worker_pid": null,
+      "updatedAt": "2025-07-13T06:37:30.886Z"
+    },
+    "path": "users"
+  },
+  {
+    "id": "jMsDAgAL9caPVlLpEzHwP1xEuzj1",
+    "data": {
+      "createdAt": "2025-04-19T13:55:08.059Z",
+      "ssoProvider": "empresa_partner",
+      "externalUserId": "209",
+      "email": "narcy_destino09@live.com.ar",
+      "username": "Narciso Emanuel_Miño",
+      "last_error": null,
+      "worker_pid": 1293157,
+      "updatedAt": "2025-07-17T19:29:40.504Z",
+      "instagramConnected": false,
+      "lastLogin": "2025-07-26T16:20:59.721Z"
+    },
+    "path": "users"
+  },
+  {
+    "id": "kU2CPgi59YbYHsQyDCGbkxnH1Uh1",
+    "data": {
+      "email": "pablo.c@example.com",
+      "username": "Pablo",
+      "createdAt": "2025-05-14T21:48:56.637Z",
+      "instagramToken": null,
+      "role": "user",
+      "last_error": null,
+      "worker_pid": null,
+      "active_agent_id": "4d066f0f-8530-44e6-b9c9-5682890f827b",
+      "updatedAt": "2025-05-16T02:26:54.858Z"
+    },
+    "path": "users"
+  },
+  {
+    "id": "knMVoWkf7TVNTC6UNnlMJL9CjdM2",
+    "data": {
+      "calendarConnections": [],
+      "id": "knMVoWkf7TVNTC6UNnlMJL9CjdM2",
+      "name": "jejeje",
+      "email": "jejeje@jejeje.com",
+      "timezone": "America/Mexico_City",
+      "profilePicture": "default.jpg",
+      "isActive": true,
+      "createdAt": "2025-04-17T18:23:28.243Z",
+      "updatedAt": "2025-04-17T18:23:28.243Z"
+    },
+    "path": "users"
+  },
+  {
+    "id": "ku1epnhELThntRy9vAgLkZwtCzC2",
+    "data": {
+      "createdAt": "2025-06-13T02:02:43.470Z",
+      "ssoProvider": "empresa_partner",
+      "externalUserId": "93",
+      "email": "alanbelletti840@gmail.com",
+      "username": "Alan_Belletti ",
+      "last_error": null,
+      "active_agent_id": "008cbcb3-6a31-4e4c-aca0-307aad976685",
+      "worker_pid": 1336134,
+      "updatedAt": "2025-07-18T19:14:31.012Z",
+      "membershipUpdatedAt": "2025-07-24T21:06:52.382Z",
+      "membershipStatus": "Activa",
+      "lastLogin": "2025-07-30T17:19:13.498Z",
+      "instagramConnected": false
+    },
+    "path": "users"
+  },
+  {
+    "id": "kyYJHsBhEFQs5JXwZJhJvxFdm9f2",
+    "data": {
+      "email": "tessssssst@gmail.com",
+      "username": "tessssssst",
+      "createdAt": "2025-04-30T16:12:03.089Z",
+      "instagramToken": null,
+      "role": "user"
+    },
+    "path": "users"
+  },
+  {
+    "id": "kz05kyzHCkeB4kD2seRViS4Kvag1",
+    "data": {
+      "createdAt": "2025-04-10T15:16:16.888Z",
+      "ssoProvider": "empresa_partner",
+      "externalUserId": "2",
+      "email": "jorgevico2021@gmail.com",
+      "username": "Jorge_Vico",
+      "lastLogin": "2025-05-06T03:10:23.137Z"
+    },
+    "path": "users"
+  },
+  {
+    "id": "lAR4fJkO1NUH8F5Q0bseIHm9QuG3",
+    "data": {
+      "createdAt": "2025-05-19T12:55:08.481Z",
+      "ssoProvider": "empresa_partner",
+      "externalUserId": "241",
+      "email": "majo_092@hotmail.com",
+      "username": "Maria jose_Tourn",
+      "lastLogin": "2025-06-12T14:31:45.240Z"
+    },
+    "path": "users"
+  },
+  {
+    "id": "lurk",
+    "data": {
+      "userId": "lurk",
+      "status": "disconnected",
+      "active_agent_id": null,
+      "last_qr_code": null,
+      "worker_pid": null,
+      "last_error": null,
+      "createdAt": "2025-04-25T02:26:21.745Z",
+      "updatedAt": "2025-04-25T02:26:21.745Z"
+    },
+    "path": "users"
+  },
+  {
+    "id": "mi-telefono",
+    "data": {
+      "userId": "mi-telefono",
+      "email": "mi-telefono@test.com",
+      "name": "Test User mi-telefono",
+      "tier": "standard",
+      "createdAt": "2025-07-31T00:23:53.729Z",
+      "isActive": true,
+      "last_error": null,
+      "worker_pid": 34938,
+      "updatedAt": "2025-07-31T02:56:23.853Z"
+    },
+    "path": "users"
+  },
+  {
+    "id": "mi-telefono-debug",
+    "data": {
+      "userId": "mi-telefono-debug",
+      "email": "mi-telefono-debug@test.com",
+      "name": "Test User mi-telefono-debug",
+      "tier": "standard",
+      "createdAt": "2025-07-31T00:41:45.385Z",
+      "isActive": true,
+      "worker_pid": 29409,
+      "last_error": null,
+      "updatedAt": "2025-07-31T00:41:48.391Z"
+    },
+    "path": "users"
+  },
+  {
+    "id": "mi-telefono-final",
+    "data": {
+      "userId": "mi-telefono-final",
+      "email": "mi-telefono-final@test.com",
+      "name": "Test User mi-telefono-final",
+      "tier": "standard",
+      "createdAt": "2025-07-31T00:45:06.629Z",
+      "isActive": true,
+      "last_error": null,
+      "worker_pid": null,
+      "updatedAt": "2025-07-31T00:47:16.950Z"
+    },
+    "path": "users"
+  },
+  {
+    "id": "mi-telefono-real",
+    "data": {
+      "userId": "mi-telefono-real",
+      "email": "mi-telefono-real@test.com",
+      "name": "Test User mi-telefono-real",
+      "tier": "standard",
+      "createdAt": "2025-07-31T00:30:29.219Z",
+      "isActive": true,
+      "last_error": null,
+      "worker_pid": null,
+      "updatedAt": "2025-07-31T00:36:26.840Z"
+    },
+    "path": "users"
+  },
+  {
+    "id": "mi-telefono-real-v2",
+    "data": {
+      "userId": "mi-telefono-real-v2",
+      "email": "mi-telefono-real-v2@test.com",
+      "name": "Test User mi-telefono-real-v2",
+      "tier": "standard",
+      "createdAt": "2025-07-31T00:36:50.411Z",
+      "isActive": true,
+      "worker_pid": 28980,
+      "last_error": null,
+      "updatedAt": "2025-07-31T00:36:53.091Z"
+    },
+    "path": "users"
+  },
+  {
+    "id": "mi_usuario_principal",
+    "data": {
+      "userId": "mi_usuario_principal",
+      "active_agent_id": null,
+      "last_qr_code": null,
+      "createdAt": "2025-04-23T23:40:16.806Z",
+      "last_error": null,
+      "worker_pid": null,
+      "status": "disconnected",
+      "updatedAt": "2025-04-24T13:13:38.483Z"
+    },
+    "path": "users"
+  },
+  {
+    "id": "n7iTLxJAFnajYUyUQr73YX9gxT23",
+    "data": {
+      "id": "n7iTLxJAFnajYUyUQr73YX9gxT23",
+      "name": "Leon Peña",
+      "email": "leonagustp1@gmail.com",
+      "timezone": "America/Mexico_City",
+      "profilePicture": "default.jpg",
+      "isActive": true,
+      "calendarConnections": {
+        "googleCalendar": null
+      },
+      "createdAt": "2025-04-28T21:16:28.658Z",
+      "updatedAt": "2025-04-28T21:16:28.658Z"
+    },
+    "path": "users"
+  },
+  {
+    "id": "ndKxKFliarOlTYDfS5CxIKBbHd42",
+    "data": {
+      "createdAt": "2025-07-03T16:41:57.577Z",
+      "ssoProvider": "empresa_partner",
+      "externalUserId": "257",
+      "email": "mariangelesnetworker@gmail.com",
+      "username": "Mariángeles_Cecilia",
+      "lastLogin": "2025-07-07T18:03:13.053Z",
+      "instagramToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJNYXJpYW5nZWxlc190cmltYW1hIiwiZXhwIjoxNzgzNTI1NzAwfQ.4KzcMn5ikvkHBPiGCZvP0Sd3eDx66u8KHCxRO2SCiJQ",
+      "instagramUsername": "Mariangeles_trimama",
+      "instagramLastLogin": "2025-07-08T15:48:21.130Z",
+      "instagramConnected": true,
+      "instagramDeviceId": "android-cqnc7cxtad6",
+      "membershipUpdatedAt": "2025-07-24T21:06:52.382Z",
+      "membershipStatus": "Activa"
+    },
+    "path": "users"
+  },
+  {
+    "id": "nuevoUsuarioEjemplo",
+    "data": {
+      "userId": "nuevoUsuarioEjemplo",
+      "last_qr_code": null,
+      "createdAt": "2025-04-23T16:01:14.896Z",
+      "last_error": null,
+      "active_agent_id": "26746763-27ad-45e6-aa6c-4cd1c5b6f1a5",
+      "worker_pid": null,
+      "status": "disconnected",
+      "updatedAt": "2025-04-24T14:27:14.208Z"
+    },
+    "path": "users"
+  },
+  {
+    "id": "olBW4m7JUaYSG3cz1MRBr3B1c8W2",
+    "data": {
+      "email": "iconcut.moron@gmail.com",
+      "username": "209",
+      "createdAt": "2025-07-25T15:58:25.248Z",
+      "instagramToken": null,
+      "role": "user"
+    },
+    "path": "users"
+  },
+  {
+    "id": "orNIRXnI3Dat0b5DMxxObWXYaeC2",
+    "data": {
+      "createdAt": "2025-06-10T16:05:33.389Z",
+      "ssoProvider": "empresa_partner",
+      "externalUserId": "13",
+      "email": "arielfran1987@gmail.com",
+      "username": "Ariel_Pezzone",
+      "last_error": null,
+      "worker_pid": null,
+      "updatedAt": "2025-06-19T23:08:16.761Z",
+      "instagramToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhcmllbGZyYW4uYXJnIiwiZXhwIjoxNzgzNjMwODk0fQ.T_dNnYbr_0Pm5sf8QPvzXAGzPt6rUoucptHZPTiArBA",
+      "instagramUsername": "arielfran.arg",
+      "instagramLastLogin": "2025-07-09T21:01:35.201Z",
+      "instagramConnected": true,
+      "instagramDeviceId": "android-3y4t6qtktgd",
+      "lastLogin": "2025-07-14T17:54:19.266Z",
+      "membershipUpdatedAt": "2025-07-24T21:06:52.382Z",
+      "membershipStatus": "Activa"
+    },
+    "path": "users"
+  },
+  {
+    "id": "pJ6rJNXxKBX8tuaosr8BQuGXghq2",
+    "data": {
+      "id": "pJ6rJNXxKBX8tuaosr8BQuGXghq2",
+      "name": "Alejandro Facundo Quiroga Vilte",
+      "email": "aletsdesidddgnn@gmail.com",
+      "timezone": "America/Mexico_City",
+      "profilePicture": "default.jpg",
+      "isActive": true,
+      "calendarConnections": {
+        "googleCalendar": null
+      },
+      "createdAt": "2025-05-06T03:08:36.569Z",
+      "updatedAt": "2025-05-06T03:08:36.569Z"
+    },
+    "path": "users"
+  },
+  {
+    "id": "pXosdZHkrFMEQYMFDXivYBXlEhr1",
+    "data": {
+      "createdAt": "2025-05-30T19:32:33.805Z",
+      "ssoProvider": "empresa_partner",
+      "externalUserId": "15",
+      "email": "tradingseguro58@gmail.com",
+      "username": "LV_Corp",
+      "instagramToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJsdWlzdmVudHVyYW9maWNpYWwyMDIzIiwiZXhwIjoxNzgzNjU1MzIwfQ.607d-pK4rEjvd8As0ftCaX81oeznFxGaCejSaA9WFAA",
+      "instagramUsername": "luisventuraoficial2023",
+      "instagramLastLogin": "2025-07-10T03:48:40.823Z",
+      "instagramConnected": true,
+      "instagramDeviceId": "android-eswpbkvmlfp",
+      "last_error": null,
+      "worker_pid": null,
+      "updatedAt": "2025-07-11T18:23:15.953Z",
+      "lastLogin": "2025-07-11T23:26:50.642Z"
+    },
+    "path": "users"
+  },
+  {
+    "id": "prueba-respuesta-completa",
+    "data": {
+      "userId": "prueba-respuesta-completa",
+      "email": "prueba-respuesta-completa@test.com",
+      "name": "Test User prueba-respuesta-completa",
+      "tier": "standard",
+      "createdAt": "2025-07-31T00:52:42.024Z",
+      "isActive": true,
+      "worker_pid": 30783,
+      "last_error": null,
+      "updatedAt": "2025-07-31T00:52:45.023Z"
+    },
+    "path": "users"
+  },
+  {
+    "id": "qXdcwqbJGlW7W0epAaWviu2DAvg1",
+    "data": {
+      "email": "testeo5@nexfy.io",
+      "username": "testeo5@nexfy.io",
+      "createdAt": "2025-07-11T21:25:47.148Z",
+      "instagramToken": null,
+      "role": "user",
+      "last_error": null,
+      "active_agent_id": "d9dc3696-8ca1-43e0-bcc6-4242cbc06727",
+      "worker_pid": null,
+      "updatedAt": "2025-07-12T04:32:28.528Z"
+    },
+    "path": "users"
+  },
+  {
+    "id": "qoBOA5SbtFTOye94m5s8GlVCumv1",
+    "data": {
+      "createdAt": "2025-03-26T20:18:22.977Z",
+      "ssoProvider": "empresa_partner",
+      "externalUserId": "user454",
+      "email": "nuevo7.usuario@ejemplo.com",
+      "username": "nuevo7_usuario",
+      "instagramToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJsZW9uLmFndXN0aW4ucCIsImV4cCI6MTc0MzYyNTY4NH0.zz8PjbqSEJI60b_ur1PUIz1_PV52bqu5_1KM4Ly5vhU",
+      "instagramUsername": "leon.agustin.p",
+      "instagramLastLogin": "2025-03-26T20:28:05.524Z",
+      "instagramConnected": true,
+      "instagramDeviceId": "android-cd5s2g96ah",
+      "lastLogin": "2025-03-26T20:40:11.310Z"
+    },
+    "path": "users"
+  },
+  {
+    "id": "qq8dGiE68BeIhK2JWKqBHRjLv2v1",
+    "data": {
+      "email": "test@gmail.com",
+      "username": "testing ",
+      "createdAt": "2025-06-26T15:42:16.590Z",
+      "instagramToken": null,
+      "role": "user",
+      "last_error": null,
+      "worker_pid": null,
+      "updatedAt": "2025-06-27T14:32:45.592Z"
+    },
+    "path": "users"
+  },
+  {
+    "id": "r7SDYMMT2NVuRvOuIXiYMp91kEI2",
+    "data": {
+      "calendarConnections": [],
+      "id": "r7SDYMMT2NVuRvOuIXiYMp91kEI2",
+      "name": "tttsttst",
+      "email": "tttsttst@tttsttst.com",
+      "timezone": "America/Mexico_City",
+      "profilePicture": "default.jpg",
+      "isActive": true,
+      "createdAt": "2025-04-16T14:32:12.026Z",
+      "updatedAt": "2025-04-16T14:32:12.026Z"
+    },
+    "path": "users"
+  },
+  {
+    "id": "rnY3yfJ2FHhYiQdrKajoOq2Z8Qe2",
+    "data": {
+      "email": "asd@gmail.com",
+      "username": "ASD",
+      "createdAt": "2025-07-12T20:41:14.474Z",
+      "instagramToken": null,
+      "role": "user",
+      "last_error": null,
+      "worker_pid": null,
+      "updatedAt": "2025-07-12T20:55:46.061Z"
+    },
+    "path": "users"
+  },
+  {
+    "id": "ro",
+    "data": {
+      "userId": "ro",
+      "active_agent_id": null,
+      "last_qr_code": null,
+      "createdAt": "2025-04-25T02:32:06.786Z",
+      "last_error": null,
+      "worker_pid": null,
+      "status": "disconnected",
+      "updatedAt": "2025-04-25T02:36:43.682Z"
+    },
+    "path": "users"
+  },
+  {
+    "id": "suAfEE9cu2a9NSvxgBH5OLSI6an2",
+    "data": {
+      "email": "jlunadecuir@gmail.com",
+      "username": "260",
+      "createdAt": "2025-06-20T05:16:30.920Z",
+      "role": "user",
+      "instagramToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJqal9kZWN1aXIiLCJleHAiOjE3ODE5MzI5OTh9.zB03KcDGxQ1WJfeW7YjYazYnU9NCDldoKzw5zcnufQw",
+      "instagramUsername": "jj_decuir",
+      "instagramLastLogin": "2025-06-20T05:23:17.200Z",
+      "instagramConnected": true,
+      "instagramDeviceId": "android-zan2xg46uwd",
+      "last_error": null,
+      "worker_pid": null,
+      "updatedAt": "2025-06-27T14:32:45.553Z"
+    },
+    "path": "users"
+  },
+  {
+    "id": "tJkTZsjaJqazIOhvlb0zufIVtCm1",
+    "data": {
+      "createdAt": "2025-04-04T22:16:03.451Z",
+      "ssoProvider": "empresa_partner",
+      "externalUserId": "5",
+      "email": "carmen196221torres@gmail.com",
+      "username": "Jonathan_Andrade",
+      "instagramCookies": null,
+      "instagramLastLogin": "2025-04-20T01:19:06.915Z",
+      "instagramToken": null,
+      "instagramUsername": null,
+      "instagramConnected": false,
+      "instagramDeviceId": null,
+      "lastLogin": "2025-06-06T00:21:58.929Z"
+    },
+    "path": "users"
+  },
+  {
+    "id": "tPChtEEa0hP8esCfuJi0bC3RA4F3",
+    "data": {
+      "createdAt": "2025-04-03T03:08:55.263Z",
+      "lastLogin": "2025-04-03T03:08:55.263Z",
+      "ssoProvider": "empresa_partner",
+      "externalUserId": "user454",
+      "email": "nuevo16.usuario@ejemplo.com",
+      "username": "nuevo16_usuario"
+    },
+    "path": "users"
+  },
+  {
+    "id": "test-agente-config",
+    "data": {
+      "userId": "test-agente-config",
+      "email": "test-agente-config@test.com",
+      "name": "Test User test-agente-config",
+      "tier": "standard",
+      "createdAt": "2025-07-31T00:48:56.232Z",
+      "isActive": true,
+      "worker_pid": 30189,
+      "last_error": null,
+      "updatedAt": "2025-07-31T00:48:59.216Z"
+    },
+    "path": "users"
+  },
+  {
+    "id": "test-ai-debug",
+    "data": {
+      "userId": "test-ai-debug",
+      "email": "test-ai-debug@test.com",
+      "name": "Test User test-ai-debug",
+      "tier": "standard",
+      "createdAt": "2025-07-31T03:20:15.835Z",
+      "isActive": true,
+      "last_error": null,
+      "worker_pid": null,
+      "updatedAt": "2025-07-31T03:58:44.748Z"
+    },
+    "path": "users"
+  },
+  {
+    "id": "test-ai-final",
+    "data": {
+      "userId": "test-ai-final",
+      "email": "test-ai-final@test.com",
+      "name": "Test User test-ai-final",
+      "tier": "standard",
+      "createdAt": "2025-07-31T03:08:47.088Z",
+      "isActive": true,
+      "last_error": null,
+      "worker_pid": 40274,
+      "updatedAt": "2025-07-31T03:18:11.605Z"
+    },
+    "path": "users"
+  },
+  {
+    "id": "test-final",
+    "data": {
+      "userId": "test-final",
+      "email": "test-final@test.com",
+      "name": "Test User test-final",
+      "tier": "standard",
+      "createdAt": "2025-07-31T02:59:37.551Z",
+      "isActive": true,
+      "worker_pid": 35620,
+      "last_error": null,
+      "updatedAt": "2025-07-31T02:59:40.566Z"
+    },
+    "path": "users"
+  },
+  {
+    "id": "test-final-ai",
+    "data": {
+      "userId": "test-final-ai",
+      "email": "test-final-ai@test.com",
+      "name": "Test User test-final-ai",
+      "tier": "standard",
+      "createdAt": "2025-07-31T03:06:19.805Z",
+      "isActive": true,
+      "worker_pid": 36953,
+      "last_error": null,
+      "updatedAt": "2025-07-31T03:06:22.852Z"
+    },
+    "path": "users"
+  },
+  {
+    "id": "test-final-con-agente",
+    "data": {
+      "userId": "test-final-con-agente",
+      "email": "test-final-con-agente@test.com",
+      "name": "Test User test-final-con-agente",
+      "tier": "standard",
+      "createdAt": "2025-07-31T00:50:38.222Z",
+      "isActive": true,
+      "worker_pid": 30436,
+      "last_error": null,
+      "updatedAt": "2025-07-31T00:50:41.222Z"
+    },
+    "path": "users"
+  },
+  {
+    "id": "test-multiagent-user",
+    "data": {
+      "userId": "test-multiagent-user",
+      "email": "test-multiagent-user@test.com",
+      "name": "Test User test-multiagent-user",
+      "tier": "standard",
+      "createdAt": "2025-07-31T06:02:11.991Z",
+      "isActive": true,
+      "last_error": null,
+      "worker_pid": 64178,
+      "updatedAt": "2025-07-31T06:57:19.118Z"
+    },
+    "path": "users"
+  },
+  {
+    "id": "test-powershell-user",
+    "data": {
+      "userId": "test-powershell-user",
+      "last_qr_code": null,
+      "createdAt": "2025-04-23T02:16:51.918Z",
+      "active_agent_id": "ff9d5108-9180-4cf6-892e-ac0af170eab1",
+      "last_error": null,
+      "worker_pid": null,
+      "status": "disconnected",
+      "updatedAt": "2025-04-23T02:50:36.298Z"
+    },
+    "path": "users"
+  },
+  {
+    "id": "test-respuesta-completa",
+    "data": {
+      "userId": "test-respuesta-completa",
+      "email": "test-respuesta-completa@test.com",
+      "name": "Test User test-respuesta-completa",
+      "tier": "standard",
+      "createdAt": "2025-07-31T00:47:21.523Z",
+      "isActive": true,
+      "worker_pid": 29981,
+      "last_error": null,
+      "updatedAt": "2025-07-31T00:47:24.519Z"
+    },
+    "path": "users"
+  },
+  {
+    "id": "test-respuesta-final",
+    "data": {
+      "userId": "test-respuesta-final",
+      "email": "test-respuesta-final@test.com",
+      "name": "Test User test-respuesta-final",
+      "tier": "standard",
+      "createdAt": "2025-07-31T00:51:02.371Z",
+      "isActive": true,
+      "worker_pid": 30556,
+      "last_error": null,
+      "updatedAt": "2025-07-31T00:51:05.361Z"
+    },
+    "path": "users"
+  },
+  {
+    "id": "test-user-001",
+    "data": {
+      "userId": "test-user-001",
+      "email": "test-user-001@test.com",
+      "name": "Test User test-user-001",
+      "tier": "standard",
+      "createdAt": "2025-07-30T17:11:51.552Z",
+      "isActive": true,
+      "last_error": null,
+      "worker_pid": null,
+      "updatedAt": "2025-07-31T00:22:10.251Z"
+    },
+    "path": "users"
+  },
+  {
+    "id": "testUser123",
+    "data": {
+      "userId": "testUser123",
+      "active_agent_id": null,
+      "last_qr_code": null,
+      "createdAt": "2025-04-24T16:36:16.701Z",
+      "last_error": null,
+      "worker_pid": null,
+      "status": "disconnected",
+      "updatedAt": "2025-04-27T09:21:56.109Z"
+    },
+    "path": "users"
+  },
+  {
+    "id": "test_user_001",
+    "data": {
+      "userId": "test_user_001",
+      "active_agent_id": null,
+      "last_qr_code": null,
+      "createdAt": "2025-04-26T18:27:34.781Z",
+      "last_error": null,
+      "worker_pid": null,
+      "status": "disconnected",
+      "updatedAt": "2025-04-27T18:17:43.734Z"
+    },
+    "path": "users"
+  },
+  {
+    "id": "u1bxemkpxiURkvTO9A81FCn8wiZ2",
+    "data": {
+      "email": "testestest@gmail.com",
+      "username": "testestest@gmail.com",
+      "createdAt": "2025-07-13T07:04:04.341Z",
+      "instagramToken": null,
+      "role": "user",
+      "last_error": null,
+      "worker_pid": null,
+      "active_agent_id": "309e4665-ba1e-417d-87c6-4da878ab9c06",
+      "updatedAt": "2025-07-14T06:29:13.646Z"
+    },
+    "path": "users"
+  },
+  {
+    "id": "u2Rc346rwrbLsjIBRMIZTq1N1qW2",
+    "data": {
+      "calendarConnections": [],
+      "id": "u2Rc346rwrbLsjIBRMIZTq1N1qW2",
+      "name": "ssdfgsd",
+      "email": "ssdfgsd@ssdfgsd.com",
+      "timezone": "America/Mexico_City",
+      "profilePicture": "default.jpg",
+      "isActive": true,
+      "createdAt": "2025-04-23T20:10:17.328Z",
+      "updatedAt": "2025-04-23T20:10:17.328Z"
+    },
+    "path": "users"
+  },
+  {
+    "id": "u5chxjOCZ1OcxnB3VJr5tl64SiE2",
+    "data": {
+      "email": "test66@gmail.com",
+      "username": "test66@gmail.com",
+      "createdAt": "2025-07-11T22:09:37.295Z",
+      "instagramToken": null,
+      "role": "user",
+      "last_error": null,
+      "active_agent_id": "03bb27de-35c3-4297-9c7a-051fbcb150c6",
+      "worker_pid": null,
+      "updatedAt": "2025-07-12T04:32:28.530Z"
+    },
+    "path": "users"
+  },
+  {
+    "id": "uexeDcbtQ5d8raBl4bt9GgaWZOS2",
+    "data": {
+      "email": "testdefinitivo@gmail.com",
+      "username": "testdefinitivo@gmail.com",
+      "createdAt": "2025-07-22T05:11:34.451Z",
+      "instagramToken": null,
+      "role": "user",
+      "last_error": null,
+      "last_qr_code": null,
+      "worker_pid": null,
+      "updatedAt": "2025-07-24T17:39:47.944Z"
+    },
+    "path": "users"
+  },
+  {
+    "id": "usuario1Demo",
+    "data": {
+      "userId": "usuario1Demo",
+      "active_agent_id": null,
+      "last_qr_code": null,
+      "createdAt": "2025-04-24T14:33:17.255Z",
+      "worker_pid": null,
+      "last_error": "Channel closed",
+      "status": "error",
+      "updatedAt": "2025-04-24T15:49:24.122Z"
+    },
+    "path": "users"
+  },
+  {
+    "id": "wANwYJ273rRTafXPgroN5mKJX9E3",
+    "data": {
+      "id": "wANwYJ273rRTafXPgroN5mKJX9E3",
+      "name": "afsdfs",
+      "email": "afsdfs@afsdfs.com",
+      "timezone": "America/Mexico_City",
+      "profilePicture": "default.jpg",
+      "isActive": true,
+      "calendarConnections": {
+        "googleCalendar": null
+      },
+      "createdAt": "2025-04-29T00:05:53.485Z",
+      "updatedAt": "2025-04-29T00:05:53.485Z"
+    },
+    "path": "users"
+  },
+  {
+    "id": "wUfNkPtQgMcJiyLV1RzyyApPNLl1",
+    "data": {
+      "email": "aletsdesignn@gmail.com",
+      "username": "Alets",
+      "createdAt": "2025-07-24T20:37:23.336Z",
+      "instagramToken": null,
+      "role": "user",
+      "last_error": null,
+      "membershipUpdatedAt": "2025-07-24T21:09:02.223Z",
+      "membershipStatus": "Inactive",
+      "worker_pid": null,
+      "active_agent_id": "641eff3d-a1a0-4b57-9d77-1827a7b012b9",
+      "updatedAt": "2025-07-30T19:30:30.909Z"
+    },
+    "path": "users"
+  },
+  {
+    "id": "wl0FDM9Y3uMGz0kwPJlsIqHPpHP2",
+    "data": {
+      "createdAt": "2025-04-04T22:13:06.250Z",
+      "ssoProvider": "empresa_partner",
+      "externalUserId": "26",
+      "email": "magalyruizpadilla@gmail.com",
+      "username": "Magaly_Ruiz",
+      "last_error": null,
+      "instagramToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhdXJ1bWJvdXRpcXVlaW5tb2JpbGlhcmlhIiwiZXhwIjoxNzgzNzI5NDc2fQ.ikfqKw5dhw1YYock7RprxKPHr8YKOou57ClHFtz33L0",
+      "instagramUsername": "aurumboutiqueinmobiliaria",
+      "instagramLastLogin": "2025-07-11T00:24:43.795Z",
+      "instagramConnected": true,
+      "instagramDeviceId": "android-js4cr81rxo",
+      "lastLogin": "2025-07-23T22:35:52.931Z",
+      "active_agent_id": "e8e0cd76-1eb7-4c7d-af83-25feb6d0c0b7",
+      "worker_pid": null,
+      "updatedAt": "2025-07-24T17:39:48.138Z",
+      "membershipUpdatedAt": "2025-07-24T21:06:52.382Z",
+      "membershipStatus": "Activa"
+    },
+    "path": "users"
+  },
+  {
+    "id": "xRzIc8IsYzP5bvgqiV0w4Pdq8d92",
+    "data": {
+      "id": "xRzIc8IsYzP5bvgqiV0w4Pdq8d92",
+      "name": "Alejandro Facundo Quiroga Vilte",
+      "email": "aletsdesignsssn@gmail.com",
+      "timezone": "America/Mexico_City",
+      "profilePicture": "default.jpg",
+      "isActive": true,
+      "calendarConnections": {
+        "googleCalendar": null
+      },
+      "createdAt": "2025-05-06T03:08:21.227Z",
+      "updatedAt": "2025-05-06T03:08:21.227Z"
+    },
+    "path": "users"
+  },
+  {
+    "id": "xXd97yeNzjMLQX54SkoAcsrliQ22",
+    "data": {
+      "id": "xXd97yeNzjMLQX54SkoAcsrliQ22",
+      "name": "josefda",
+      "email": "josefda@josefda.com",
+      "timezone": "America/Mexico_City",
+      "profilePicture": "default.jpg",
+      "isActive": true,
+      "calendarConnections": {
+        "googleCalendar": null
+      },
+      "createdAt": "2025-05-04T20:19:05.098Z",
+      "updatedAt": "2025-05-04T20:19:05.098Z"
+    },
+    "path": "users"
+  },
+  {
+    "id": "yISjnkGlDnUAPCJboGz0gn1vesO2",
+    "data": {
+      "createdAt": "2025-04-30T13:28:30.830Z",
+      "lastLogin": "2025-04-30T13:28:30.830Z",
+      "ssoProvider": "empresa_partner",
+      "externalUserId": "user454",
+      "email": "cuenta2-ejemplo@ejemplo.com",
+      "username": "usuario2Test",
+      "instagramToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWdpbW90b3JzLmFyZyIsImV4cCI6MjA2MTM3OTg1Nn0.Jm2R-ViGVB6dVz5MZhFHPXxBYercSOV7kpVhttEoZz8",
+      "instagramUsername": "digimotors.arg",
+      "instagramLastLogin": "2025-04-30T13:30:56.159Z",
+      "instagramConnected": true,
+      "instagramDeviceId": "android-ewwairyn4n"
+    },
+    "path": "users"
+  },
+  {
+    "id": "yUopvvchNKXr3oKT29TgSL5Ozjv1",
+    "data": {
+      "email": "example@example.com",
+      "username": "testuser",
+      "createdAt": "2025-04-22T20:34:18.686Z",
+      "instagramToken": null,
+      "role": "user"
+    },
+    "path": "users"
+  },
+  {
+    "id": "zFHOEBLE4yV7rTSpHzZOdeQpjD03",
+    "data": {
+      "email": "testeo23@gmail.com",
+      "username": "testeo23",
+      "createdAt": "2025-07-24T22:33:47.419Z",
+      "instagramToken": null,
+      "role": "user",
+      "membershipUpdatedAt": "2025-07-24T22:35:12.064Z",
+      "membershipStatus": "Inactive"
+    },
+    "path": "users"
+  },
+  {
+    "id": "zKxw6eRtcBXWpykYdyNRqXQ8bcm1",
+    "data": {
+      "email": "taniabricenoviscaino@gmail.com",
+      "username": "263",
+      "createdAt": "2025-06-26T15:59:23.678Z",
+      "role": "user",
+      "instagramToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ2ZXJvbmljYWFwaW5lZGExIiwiZXhwIjoxNzgyNjEyODU3fQ.203youBZiI7nAivNg2Cxfo6u4fxfMUy-ivEwP45bcHA",
+      "instagramUsername": "veronicaapineda1",
+      "instagramLastLogin": "2025-06-28T02:14:18.049Z",
+      "instagramConnected": true,
+      "instagramDeviceId": "android-l2764p2i5dl",
+      "last_error": null,
+      "worker_pid": null,
+      "updatedAt": "2025-06-30T23:41:22.753Z",
+      "membershipUpdatedAt": "2025-07-24T21:06:52.382Z",
+      "membershipStatus": "Activa",
+      "lastLogin": "2025-07-28T09:09:09.300Z"
+    },
+    "path": "users"
+  },
+  {
+    "id": "zOpfGUBVHmMG7hIYdKoPr7Ra7fz1",
+    "data": {
+      "createdAt": "2025-04-19T22:59:45.897Z",
+      "ssoProvider": "empresa_partner",
+      "externalUserId": "user454",
+      "email": "kevin-cass@ejemplo.com",
+      "username": "cass",
+      "instagramCookies": null,
+      "instagramToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhbGV0cy5hZ2VuY2lhIiwiZXhwIjoyMDYwNzE1ODQwfQ.4DkRme6Y14X2RlFy2Jhdn5FISi0VD87Hbzny4L9vvfw",
+      "instagramUsername": "alets.agencia",
+      "instagramLastLogin": "2025-04-22T21:04:01.402Z",
+      "instagramConnected": true,
+      "instagramDeviceId": "android-bt1gkb7430n",
+      "last_error": null,
+      "active_agent_id": "e7c917db-4b1f-433d-82f7-33bd18a70d31",
+      "lastLogin": "2025-04-29T21:08:18.385Z",
+      "worker_pid": null,
+      "updatedAt": "2025-05-03T16:32:50.394Z"
+    },
+    "path": "users"
+  },
+  {
+    "id": "zXufUruG6JYUFQkdi7IAKC21qmx2",
+    "data": {
+      "email": "usertest10@gmail.com",
+      "username": "usertest10",
+      "createdAt": "2025-04-30T15:09:22.014Z",
+      "role": "user",
+      "instagramToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWdpbW90b3JzLmFyZyIsImV4cCI6MjA2MTM4NTc4Mn0.cm9IvpnFIQsrJMJQ4FeDTrzt5t05_homqLnCiJFEpfI",
+      "instagramUsername": "digimotors.arg",
+      "instagramLastLogin": "2025-04-30T15:09:42.712Z",
+      "instagramConnected": true,
+      "instagramDeviceId": "android-ewwairyn4n"
+    },
+    "path": "users"
+  },
+  {
+    "id": "zcURiYlT8TegauqoyEKOmUIcsbC3",
+    "data": {
+      "calendarConnections": [],
+      "id": "zcURiYlT8TegauqoyEKOmUIcsbC3",
+      "name": "qwerty12",
+      "email": "qwerty12@qwerty12.com",
+      "timezone": "America/Mexico_City",
+      "profilePicture": "default.jpg",
+      "isActive": true,
+      "createdAt": "2025-04-17T05:47:50.225Z",
+      "updatedAt": "2025-04-17T05:47:50.225Z"
+    },
+    "path": "users"
+  },
+  {
+    "id": "zdcum5ADMXZZy9XIPAJIOWS2rqv1",
+    "data": {
+      "id": "zdcum5ADMXZZy9XIPAJIOWS2rqv1",
+      "name": "Alejandro Facundo Quiroga Vilte",
+      "email": "aletsdesign9n@gmail.com",
+      "timezone": "America/Mexico_City",
+      "profilePicture": "default.jpg",
+      "isActive": true,
+      "calendarConnections": {
+        "googleCalendar": null
+      },
+      "createdAt": "2025-05-01T23:30:34.723Z",
+      "updatedAt": "2025-05-01T23:30:34.723Z"
+    },
+    "path": "users"
+  }
+]

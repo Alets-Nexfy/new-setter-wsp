@@ -1,0 +1,32 @@
+[
+  {
+    "id": "2I48nwJgDAYLKerRFjyV",
+    "data": {
+      "text": "tenedor",
+      "type": "exact",
+      "description": "",
+      "createdAt": "2025-06-21T14:24:46.826Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/initial_triggers"
+  },
+  {
+    "id": "2nZGJ6YnQeRIqFnq08ID",
+    "data": {
+      "text": "holaa",
+      "type": "exact",
+      "description": "",
+      "createdAt": "2025-06-21T14:24:26.818Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/initial_triggers"
+  },
+  {
+    "id": "ZmjHdBC4BGhGC19WuWfw",
+    "data": {
+      "text": "hola",
+      "type": "contains",
+      "description": "",
+      "createdAt": "2025-06-20T22:11:28.824Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/initial_triggers"
+  }
+]

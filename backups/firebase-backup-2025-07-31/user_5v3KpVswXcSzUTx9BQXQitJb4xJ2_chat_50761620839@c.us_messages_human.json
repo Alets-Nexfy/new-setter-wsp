@@ -1,0 +1,16 @@
+[
+  {
+    "id": "l6osrjdLyh5zJI062Krn",
+    "data": {
+      "from": "me (5v3KpVswXcSzUTx9BQXQitJb4xJ2)",
+      "to": "50761620839@c.us",
+      "body": "Cual es el número",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "BA35A772FF7329ECCA35717AF76C7C9F",
+      "timestamp": "2025-06-21T17:23:17.350Z"
+    },
+    "path": "users/5v3KpVswXcSzUTx9BQXQitJb4xJ2/chats/50761620839@c.us/messages_human"
+  }
+]

@@ -1,0 +1,67 @@
+[
+  {
+    "id": "3QhtVxBXeh6NRjY9mBGh",
+    "data": {
+      "body": "Mañana consulto a Adrian x el resto",
+      "isFromMe": false,
+      "messageId": "0ACED5ECC3B8D736D85A778F3088AD27",
+      "from": "5493498475303@c.us",
+      "to": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "origin": "contact",
+      "timestamp": "2025-06-23T22:26:30.924Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5493498475303@c.us/messages_contact"
+  },
+  {
+    "id": "Lh0rSPSgiOLHeNxuCyPi",
+    "data": {
+      "body": "",
+      "isFromMe": false,
+      "messageId": "06BB3009890423BD40E59FA4354EE12F",
+      "from": "5493498475303@c.us",
+      "to": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "origin": "contact",
+      "timestamp": "2025-06-23T22:26:14.620Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5493498475303@c.us/messages_contact"
+  },
+  {
+    "id": "Ujvl59IdMvz2up0oGu0u",
+    "data": {
+      "body": "Hola. Ahora te reenvío lo que me pasaron",
+      "isFromMe": false,
+      "messageId": "0F854128209F9999D5F66A902268B8A4",
+      "from": "5493498475303@c.us",
+      "to": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "origin": "contact",
+      "timestamp": "2025-06-23T18:21:14.095Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5493498475303@c.us/messages_contact"
+  },
+  {
+    "id": "XkSITeGKwpES2b8kFfNP",
+    "data": {
+      "body": "Esto mandó Omar",
+      "isFromMe": false,
+      "messageId": "B51FAFC4356FFB91094B8F25FCC01C59",
+      "from": "5493498475303@c.us",
+      "to": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "origin": "contact",
+      "timestamp": "2025-06-23T18:21:37.493Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5493498475303@c.us/messages_contact"
+  },
+  {
+    "id": "f6NOoV3hS1gastiiB7Ed",
+    "data": {
+      "body": "Esta semana.Martes o Miercoles.",
+      "isFromMe": false,
+      "messageId": "82CCBB91E51FF9D2E070C699AAC08C30",
+      "from": "5493498475303@c.us",
+      "to": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "origin": "contact",
+      "timestamp": "2025-06-23T18:21:29.118Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5493498475303@c.us/messages_contact"
+  }
+]

@@ -1,0 +1,54 @@
+[
+  {
+    "id": "LaU9aJUbM21Eb393GgOp",
+    "data": {
+      "body": "",
+      "isFromMe": false,
+      "messageId": "3A1FB636891188C23E35",
+      "from": "5493425275959@c.us",
+      "to": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "origin": "contact",
+      "timestamp": "2025-06-24T18:51:26.222Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5493425275959@c.us/messages_contact"
+  },
+  {
+    "id": "Q7LAZr3gR3FoEPWNh1WV",
+    "data": {
+      "body": "Gracias por la info",
+      "isFromMe": false,
+      "messageId": "3AB85E9363BBDA70ACD8",
+      "from": "5493425275959@c.us",
+      "to": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "origin": "contact",
+      "timestamp": "2025-06-24T19:26:01.703Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5493425275959@c.us/messages_contact"
+  },
+  {
+    "id": "VLPgzjyd96rKPKrpSGtL",
+    "data": {
+      "body": "Me alegro mucho amigo",
+      "isFromMe": false,
+      "messageId": "3ADC8C70F5DAF9F57FAD",
+      "from": "5493425275959@c.us",
+      "to": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "origin": "contact",
+      "timestamp": "2025-06-24T19:25:44.394Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5493425275959@c.us/messages_contact"
+  },
+  {
+    "id": "bcaPJXoDyAgkqvTLR72v",
+    "data": {
+      "body": "Que pases unas excelentes vacaciones de  fiesta y trabajo!",
+      "isFromMe": false,
+      "messageId": "3AA55FBFB2C92F7747C4",
+      "from": "5493425275959@c.us",
+      "to": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "origin": "contact",
+      "timestamp": "2025-06-24T19:26:21.333Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5493425275959@c.us/messages_contact"
+  }
+]

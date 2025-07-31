@@ -1,0 +1,1325 @@
+[
+  {
+    "id": "0@c.us",
+    "data": {
+      "userIsActive": false,
+      "createdAt": "2025-06-24T03:45:08.949Z",
+      "lastBotMessageTimestamp": null,
+      "historyClearedAt": "2025-07-18T06:25:36.200Z",
+      "lastHumanMessageTimestamp": null,
+      "lastActivityTimestamp": "2025-07-18T13:55:28.282Z",
+      "lastMessageContent": "iVBORw0KGgoAAAANSUhEUgAABDgAAAQ4CAIAAABjcvvYAAAACXBIWXMAAAsTAAALEwEAmpwYAAAE9mlUWHRYTUw6Y29tLmFkb2JlLnhtcAAAAAAAPD94cGFja2V0IGJlZ2luPSLvu78iIGlkPSJXNU0wTXBDZWhpSHpyZVN6TlRjemtjOWQiPz4gPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczptZXRhLyIgeDp4bXB0az0iQWRvYmUgWE1QIENvcmUgOS4xLWMwMDIgNzkuYTZhNjM5NjhhLCAyMDI0LzAzLzA2LTExOjUyOjA1ICAgICAgICAiPiA8cmRmOlJERiB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiPiA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0iIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtbG5zOmRjPSJodHRwOi8vcHVybC5vcmcvZGMvZWxlbWVudHMvMS4xLyIgeG1sbnM6cGhvdG9zaG9wPSJodHRwOi8vbnMuYWRvYmUuY29tL3Bob3Rvc2hvcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RFdnQ9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZUV2ZW50IyIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgMjUuMTEgKE1hY2ludG9zaCkiIHhtcDpDcmVhdGVEYXRlPSIyMDI0LTA2LTI0VDA5OjE2OjMwLTA0OjAwIiB4bXA6TW9kaWZ5RGF0ZT0iMjAyNC0wNy0zMFQxMTo0NjoxMC0wNDowMCIgeG1wOk1ldGFkYXRhRGF0ZT0iMjAyNC0wNy0zMFQxMTo0NjoxMC0wNDowMCIgZGM6Zm9ybWF0PSJpbWFnZS9wbmciIHBob3Rvc2hvcDpDb2xvck1vZGU9IjMiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6NTZiNDZhYTUtYmUyYy00YTBjLTgyZDEtMzUzMjViMTZmMjBkIiB4bXBNTTpEb2N1bWVudElEPSJ4bXAuZGlkOjU2YjQ2YWE1LWJlMmMtNGEwYy04MmQxLTM1MzI1YjE2ZjIwZCIgeG1wTU06T3JpZ2luYWxEb2N1bWVudElEPSJ4bXAuZGlkOjU2YjQ2YWE1LWJlMmMtNGEwYy04MmQxLTM1MzI1YjE2ZjIwZCI+IDx4bXBNTTpIaXN0b3J5PiA8cmRmOlNlcT4gPHJkZjpsaSBzdEV2dDphY3Rpb249ImNyZWF0ZWQiIHN0RXZ0Omluc3RhbmNlSUQ9InhtcC5paWQ6NTZiNDZhYTUtYmUyYy00YTBjLTgyZDEtMzUzMjViMTZmMjBkIiBzdEV2dDp3aGVuPSIyMDI0LTA2LTI0VDA5OjE2OjMwLTA0OjAwIiBzdEV2dDpzb2Z0d2FyZUFnZW50PSJBZG9iZSBQaG90b3Nob3AgMjUuMTEgKE1hY2ludG9zaCkiLz4gPC9yZGY6U2VxPiA8L3htcE1NOkhpc3Rvcnk+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+jUMT+AAAFs9JREFUeJzt1zEBwCAAwLAxBcjAAv6N8WOAHomCvh1zrw8AAKDkfx0AAABwMyoAAECOUQEAAHKMCgAAkGNUAACAHKMCAADkGBUAACDHqAAAADlGBQAAyDEqAABAjlEBAAByjAoAAJBjVAAAgByjAgAA5BgVAAAgx6gAAAA5RgUAAMgxKgAAQI5RAQAAcowKAACQY1QAAIAcowIAAOQYFQAAIMeoAAAAOUYFAADIMSoAAECOUQEAAHKMCgAAkGNUAACAHKMCAADkGBUAACDHqAAAADlGBQAAyDEqAABAjlEBAAByjAoAAJBjVAAAgByjAgAA5BgVAAAgx6gAAAA5RgUAAMgxKgAAQI5RAQAAcowKAACQY1QAAIAcowIAAOQYFQAAIMeoAAAAOUYFAADIMSoAAECOUQEAAHKMCgAAkGNUAACAHKMCAADkGBUAACDHqAAAADlGBQAAyDEqAABAjlEBAAByjAoAAJBjVAAAgByjAgAA5BgVAAAgx6gAAAA5RgUAAMgxKgAAQI5RAQAAcowKAACQY1QAAIAcowIAAOQYFQAAIMeoAAAAOUYFAADIMSoAAECOUQEAAHKMCgAAkGNUAACAHKMCAADkGBUAACDHqAAAADlGBQAAyDEqAABAjlEBAAByjAoAAJBjVAAAgByjAgAA5BgVAAAgx6gAAAA5RgUAAMgxKgAAQI5RAQAAcowKAACQY1QAAIAcowIAAOQYFQAAIMeoAAAAOUYFAADIMSoAAECOUQEAAHKMCgAAkGNUAACAHKMCAADkGBUAACDHqAAAADlGBQAAyDEqAABAjlEBAAByjAoAAJBjVAAAgByjAgAA5BgVAAAgx6gAAAA5RgUAAMgxKgAAQI5RAQAAcowKAACQY1QAAIAcowIAAOQYFQAAIMeoAAAAOUYFAADIMSoAAECOUQEAAHKMCgAAkGNUAACAHKMCAADkGBUAACDHqAAAADlGBQAAyDEqAABAjlEBAAByjAoAAJBjVAAAgByjAgAA5BgVAAAgx6gAAAA5RgUAAMgxKgAAQI5RAQAAcowKAACQY1QAAIAcowIAAOQYFQAAIMeoAAAAOUYFAADIMSoAAECOUQEAAHKMCgAAkGNUAACAHKMCAADkGBUAACDHqAAAADlGBQAAyDEqAABAjlEBAAByjAoAAJBjVAAAgByjAgAA5BgVAAAgx6gAAAA5RgUAAMgxKgAAQI5RAQAAcowKAACQY1QAAIAcowIAAOQYFQAAIMeoAAAAOUYFAADIMSoAAECOUQEAAHKMCgAAkGNUAACAHKMCAADkGBUAACDHqAAAADlGBQAAyDEqAABAjlEBAAByjAoAAJBjVAAAgByjAgAA5BgVAAAgx6gAAAA5RgUAAMgxKgAAQI5RAQAAcowKAACQY1QAAIAcowIAAOQYFQAAIMeoAAAAOUYFAADIMSoAAECOUQEAAHKMCgAAkGNUAACAHKMCAADkGBUAACDHqAAAADlGBQAAyDEqAABAjlEBAAByjAoAAJBjVAAAgByjAgAA5BgVAAAgx6gAAAA5RgUAAMgxKgAAQI5RAQAAcowKAACQY1QAAIAcowIAAOQYFQAAIMeoAAAAOUYFAADIMSoAAECOUQEAAHKMCgAAkGNUAACAHKMCAADkGBUAACDHqAAAADlGBQAAyDEqAABAjlEBAAByjAoAAJBjVAAAgByjAgAA5BgVAAAgx6gAAAA5RgUAAMgxKgAAQI5RAQAAcowKAACQY1QAAIAcowIAAOQYFQAAIMeoAAAAOUYFAADIMSoAAECOUQEAAHKMCgAAkGNUAACAHKMCAADkGBUAACDHqAAAADlGBQAAyDEqAABAjlEBAAByjAoAAJBjVAAAgByjAgAA5BgVAAAgx6gAAAA5RgUAAMgxKgAAQI5RAQAAcowKAACQY1QAAIAcowIAAOQYFQAAIMeoAAAAOUYFAADIMSoAAECOUQEAAHKMCgAAkGNUAACAHKMCAADkGBUAACDHqAAAADlGBQAAyDEqAABAjlEBAAByjAoAAJBjVAAAgByjAgAA5BgVAAAgx6gAAAA5RgUAAMgxKgAAQI5RAQAAcowKAACQY1QAAIAcowIAAOQYFQAAIMeoAAAAOUYFAADIMSoAAECOUQEAAHKMCgAAkGNUAACAHKMCAADkGBUAACDHqAAAADlGBQAAyDEqAABAjlEBAAByjAoAAJBjVAAAgByjAgAA5BgVAAAgx6gAAAA5RgUAAMgxKgAAQI5RAQAAcowKAACQY1QAAIAcowIAAOQYFQAAIMeoAAAAOUYFAADIMSoAAECOUQEAAHKMCgAAkGNUAACAHKMCAADkGBUAACDHqAAAADlGBQAAyDEqAABAjlEBAAByjAoAAJBjVAAAgByjAgAA5BgVAAAgx6gAAAA5RgUAAMgxKgAAQI5RAQAAcowKAACQY1QAAIAcowIAAOQYFQAAIMeoAAAAOUYFAADIMSoAAECOUQEAAHKMCgAAkGNUAACAHKMCAADkGBUAACDHqAAAADlGBQAAyDEqAABAjlEBAAByjAoAAJBjVAAAgByjAgAA5BgVAAAgx6gAAAA5RgUAAMgxKgAAQI5RAQAAcowKAACQY1QAAIAcowIAAOQYFQAAIMeoAAAAOUYFAADIMSoAAECOUQEAAHKMCgAAkGNUAACAHKMCAADkGBUAACDHqAAAADlGBQAAyDEqAABAjlEBAAByjAoAAJBjVAAAgByjAgAA5BgVAAAgx6gAAAA5RgUAAMgxKgAAQI5RAQAAcowKAACQY1QAAIAcowIAAOQYFQAAIMeoAAAAOUYFAADIMSoAAECOUQEAAHKMCgAAkGNUAACAHKMCAADkGBUAACDHqAAAADlGBQAAyDEqAABAjlEBAAByjAoAAJBjVAAAgByjAgAA5BgVAAAgx6gAAAA5RgUAAMgxKgAAQI5RAQAAcowKAACQY1QAAIAcowIAAOQYFQAAIMeoAAAAOUYFAADIMSoAAECOUQEAAHKMCgAAkGNUAACAHKMCAADkGBUAACDHqAAAADlGBQAAyDEqAABAjlEBAAByjAoAAJBjVAAAgByjAgAA5BgVAAAgx6gAAAA5RgUAAMgxKgAAQI5RAQAAcowKAACQY1QAAIAcowIAAOQYFQAAIMeoAAAAOUYFAADIMSoAAECOUQEAAHKMCgAAkGNUAACAHKMCAADkGBUAACDHqAAAADlGBQAAyDEqAABAjlEBAAByjAoAAJBjVAAAgByjAgAA5BgVAAAgx6gAAAA5RgUAAMgxKgAAQI5RAQAAcowKAACQY1QAAIAcowIAAOQYFQAAIMeoAAAAOUYFAADIMSoAAECOUQEAAHKMCgAAkGNUAACAHKMCAADkGBUAACDHqAAAADlGBQAAyDEqAABAjlEBAAByjAoAAJBjVAAAgByjAgAA5BgVAAAgx6gAAAA5RgUAAMgxKgAAQI5RAQAAcowKAACQY1QAAIAcowIAAOQYFQAAIMeoAAAAOUYFAADIMSoAAECOUQEAAHKMCgAAkGNUAACAHKMCAADkGBUAACDHqAAAADlGBQAAyDEqAABAjlEBAAByjAoAAJBjVAAAgByjAgAA5BgVAAAgx6gAAAA5RgUAAMgxKgAAQI5RAQAAcowKAACQY1QAAIAcowIAAOQYFQAAIMeoAAAAOUYFAADIMSoAAECOUQEAAHKMCgAAkGNUAACAHKMCAADkGBUAACDHqAAAADlGBQAAyDEqAABAjlEBAAByjAoAAJBjVAAAgByjAgAA5BgVAAAgx6gAAAA5RgUAAMgxKgAAQI5RAQAAcowKAACQY1QAAIAcowIAAOQYFQAAIMeoAAAAOUYFAADIMSoAAECOUQEAAHKMCgAAkGNUAACAHKMCAADkGBUAACDHqAAAADlGBQAAyDEqAABAjlEBAAByjAoAAJBjVAAAgByjAgAA5BgVAAAgx6gAAAA5RgUAAMgxKgAAQI5RAQAAcowKAACQY1QAAIAcowIAAOQYFQAAIMeoAAAAOUYFAADIMSoAAECOUQEAAHKMCgAAkGNUAACAHKMCAADkGBUAACDHqAAAADlGBQAAyDEqAABAjlEBAAByjAoAAJBjVAAAgByjAgAA5BgVAAAgx6gAAAA5RgUAAMgxKgAAQI5RAQAAcowKAACQY1QAAIAcowIAAOQYFQAAIMeoAAAAOUYFAADIMSoAAECOUQEAAHKMCgAAkGNUAACAHKMCAADkGBUAACDHqAAAADlGBQAAyDEqAABAjlEBAAByjAoAAJBjVAAAgByjAgAA5BgVAAAgx6gAAAA5RgUAAMgxKgAAQI5RAQAAcowKAACQY1QAAIAcowIAAOQYFQAAIMeoAAAAOUYFAADIMSoAAECOUQEAAHKMCgAAkGNUAACAHKMCAADkGBUAACDHqAAAADlGBQAAyDEqAABAjlEBAAByjAoAAJBjVAAAgByjAgAA5BgVAAAgx6gAAAA5RgUAAMgxKgAAQI5RAQAAcowKAACQY1QAAIAcowIAAOQYFQAAIMeoAAAAOUYFAADIMSoAAECOUQEAAHKMCgAAkGNUAACAHKMCAADkGBUAACDHqAAAADlGBQAAyDEqAABAjlEBAAByjAoAAJBjVAAAgByjAgAA5BgVAAAgx6gAAAA5RgUAAMgxKgAAQI5RAQAAcowKAACQY1QAAIAcowIAAOQYFQAAIMeoAAAAOUYFAADIMSoAAECOUQEAAHKMCgAAkGNUAACAHKMCAADkGBUAACDHqAAAADlGBQAAyDEqAABAjlEBAAByjAoAAJBjVAAAgByjAgAA5BgVAAAgx6gAAAA5RgUAAMgxKgAAQI5RAQAAcowKAACQY1QAAIAcowIAAOQYFQAAIMeoAAAAOUYFAADIMSoAAECOUQEAAHKMCgAAkGNUAACAHKMCAADkGBUAACDHqAAAADlGBQAAyDEqAABAjlEBAAByjAoAAJBjVAAAgByjAgAA5BgVAAAgx6gAAAA5RgUAAMgxKgAAQI5RAQAAcowKAACQY1QAAIAcowIAAOQYFQAAIMeoAAAAOUYFAADIMSoAAECOUQEAAHKMCgAAkGNUAACAHKMCAADkGBUAACDHqAAAADlGBQAAyDEqAABAjlEBAAByjAoAAJBjVAAAgByjAgAA5BgVAAAgx6gAAAA5RgUAAMgxKgAAQI5RAQAAcowKAACQY1QAAIAcowIAAOQYFQAAIMeoAAAAOUYFAADIMSoAAECOUQEAAHKMCgAAkGNUAACAHKMCAADkGBUAACDHqAAAADlGBQAAyDEqAABAjlEBAAByjAoAAJBjVAAAgByjAgAA5BgVAAAgx6gAAAA5RgUAAMgxKgAAQI5RAQAAcowKAACQY1QAAIAcowIAAOQYFQAAIMeoAAAAOUYFAADIMSoAAECOUQEAAHKMCgAAkGNUAACAHKMCAADkGBUAACDHqAAAADlGBQAAyDEqAABAjlEBAAByjAoAAJBjVAAAgByjAgAA5BgVAAAgx6gAAAA5RgUAAMgxKgAAQI5RAQAAcowKAACQY1QAAIAcowIAAOQYFQAAIMeoAAAAOUYFAADIMSoAAECOUQEAAHKMCgAAkGNUAACAHKMCAADkGBUAACDHqAAAADlGBQAAyDEqAABAjlEBAAByjAoAAJBjVAAAgByjAgAA5BgVAAAgx6gAAAA5RgUAAMgxKgAAQI5RAQAAcowKAACQY1QAAIAcowIAAOQYFQAAIMeoAAAAOUYFAADIMSoAAECOUQEAAHKMCgAAkGNUAACAHKMCAADkGBUAACDHqAAAADlGBQAAyDEqAABAjlEBAAByjAoAAJBjVAAAgByjAgAA5BgVAAAgx6gAAAA5RgUAAMgxKgAAQI5RAQAAcowKAACQY1QAAIAcowIAAOQYFQAAIMeoAAAAOUYFAADIMSoAAECOUQEAAHKMCgAAkGNUAACAHKMCAADkGBUAACDHqAAAADlGBQAAyDEqAABAjlEBAAByjAoAAJBjVAAAgByjAgAA5BgVAAAgx6gAAAA5RgUAAMgxKgAAQI5RAQAAcowKAACQY1QAAIAcowIAAOQYFQAAIMeoAAAAOUYFAADIMSoAAECOUQEAAHKMCgAAkGNUAACAHKMCAADkGBUAACDHqAAAADlGBQAAyDEqAABAjlEBAAByjAoAAJBjVAAAgByjAgAA5BgVAAAgx6gAAAA5RgUAAMgxKgAAQI5RAQAAcowKAACQY1QAAIAcowIAAOQYFQAAIMeoAAAAOUYFAADIMSoAAECOUQEAAHKMCgAAkGNUAACAHKMCAADkGBUAACDHqAAAADlGBQAAyDEqAABAjlEBAAByjAoAAJBjVAAAgByjAgAA5BgVAAAgx6gAAAA5RgUAAMgxKgAAQI5RAQAAcowKAACQY1QAAIAcowIAAOQYFQAAIMeoAAAAOUYFAADIMSoAAECOUQEAAHKMCgAAkGNUAACAHKMCAADkGBUAACDHqAAAADlGBQAAyDEqAABAjlEBAAByjAoAAJBjVAAAgByjAgAA5BgVAAAgx6gAAAA5RgUAAMgxKgAAQI5RAQAAcowKAACQY1QAAIAcowIAAOQYFQAAIMeoAAAAOUYFAADIMSoAAECOUQEAAHKMCgAAkGNUAACAHKMCAADkGBUAACDHqAAAADlGBQAAyDEqAABAjlEBAAByjAoAAJBjVAAAgByjAgAA5BgVAAAgx6gAAAA5RgUAAMgxKgAAQI5RAQAAcowKAACQY1QAAIAcowIAAOQYFQAAIMeoAAAAOUYFAADIMSoAAECOUQEAAHKMCgAAkGNUAACAHKMCAADkGBUAACDHqAAAADlGBQAAyDEqAABAjlEBAAByjAoAAJBjVAAAgByjAgAA5BgVAAAgx6gAAAA5RgUAAMgxKgAAQI5RAQAAcowKAACQY1QAAIAcowIAAOQYFQAAIMeoAAAAOUYFAADIMSoAAECOUQEAAHKMCgAAkGNUAACAHKMCAADkGBUAACDHqAAAADlGBQAAyDEqAABAjlEBAAByjAoAAJBjVAAAgByjAgAA5BgVAAAgx6gAAAA5RgUAAMgxKgAAQI5RAQAAcowKAACQY1QAAIAcowIAAOQYFQAAIMeoAAAAOUYFAADIMSoAAECOUQEAAHKMCgAAkGNUAACAHKMCAADkGBUAACDHqAAAADlGBQAAyDEqAABAjlEBAAByjAoAAJBjVAAAgByjAgAA5BgVAAAgx6gAAAA5RgUAAMgxKgAAQI5RAQAAcowKAACQY1QAAIAcowIAAOQYFQAAIMeoAAAAOUYFAADIMSoAAECOUQEAAHKMCgAAkGNUAACAHKMCAADkGBUAACDHqAAAADlGBQAAyDEqAABAjlEBAAByjAoAAJBjVAAAgByjAgAA5BgVAAAgx6gAAAA5RgUAAMgxKgAAQI5RAQAAcowKAACQY1QAAIAcowIAAOQYFQAAIMeoAAAAOUYFAADIMSoAAECOUQEAAHKMCgAAkGNUAACAHKMCAADkGBUAACDHqAAAADlGBQAAyDEqAABAjlEBAAByjAoAAJBjVAAAgByjAgAA5BgVAAAgx6gAAAA5RgUAAMgxKgAAQI5RAQAAcowKAACQY1QAAIAcowIAAOQYFQAAIMeoAAAAOUYFAADIMSoAAECOUQEAAHKMCgAAkGNUAACAHKMCAADkGBUAACDHqAAAADlGBQAAyDEqAABAjlEBAAByjAoAAJBjVAAAgByjAgAA5BgVAAAgx6gAAAA5RgUAAMgxKgAAQI5RAQAAcowKAACQY1QAAIAcowIAAOQYFQAAIOcALSwI4fh69IQAAAAASUVORK5CYII=",
+      "lastContactMessageTimestamp": "2025-07-18T13:55:28.282Z",
+      "lastMessageTimestamp": "2025-07-18T13:55:28.282Z",
+      "lastActivityCheck": "2025-07-18T13:55:28.618Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats"
+  },
+  {
+    "id": "120363174580692823@newsletter",
+    "data": {
+      "userIsActive": false,
+      "createdAt": "2025-06-20T22:05:45.640Z",
+      "lastBotMessageTimestamp": null,
+      "lastHumanMessageTimestamp": null,
+      "lastActivityTimestamp": "2025-06-27T00:20:56.067Z",
+      "lastActivityCheck": "2025-06-27T00:20:56.261Z",
+      "historyClearedAt": "2025-07-18T06:25:36.224Z",
+      "lastMessageContent": null,
+      "lastContactMessageTimestamp": null,
+      "lastMessageTimestamp": null
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats"
+  },
+  {
+    "id": "120363214228751965@g.us",
+    "data": {
+      "createdAt": "2025-06-21T18:00:15.380Z",
+      "userActivitySource": "message_create_event",
+      "lastBotMessageTimestamp": null,
+      "historyClearedAt": "2025-07-18T06:25:36.226Z",
+      "lastContactMessageTimestamp": null,
+      "userIsActive": true,
+      "lastMessageContent": "Bonito inicio de semana para todos!🫰🏻✨ El zoom de hoy es clave! Y para aprovechar al máximo, con tremendos líderes y mentores 🙌🏻",
+      "lastMessageTimestamp": "2025-07-21T14:27:42.887Z",
+      "lastHumanMessageTimestamp": "2025-07-21T14:27:42.887Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats"
+  },
+  {
+    "id": "120363218905736596@g.us",
+    "data": {
+      "createdAt": "2025-07-18T15:44:50.290Z",
+      "userActivitySource": "message_create_event",
+      "userIsActive": true,
+      "lastMessageContent": "Jajajajajaja",
+      "lastMessageTimestamp": "2025-07-21T01:41:08.090Z",
+      "lastHumanMessageTimestamp": "2025-07-21T01:41:08.090Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats"
+  },
+  {
+    "id": "120363243545419472@g.us",
+    "data": {
+      "createdAt": "2025-06-22T02:54:46.097Z",
+      "userActivitySource": "message_create_event",
+      "lastBotMessageTimestamp": null,
+      "historyClearedAt": "2025-07-18T06:25:36.224Z",
+      "lastContactMessageTimestamp": null,
+      "userIsActive": true,
+      "lastMessageContent": "Es como una pequeña clase",
+      "lastMessageTimestamp": "2025-07-21T18:16:11.587Z",
+      "lastHumanMessageTimestamp": "2025-07-21T18:16:11.587Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats"
+  },
+  {
+    "id": "120363318495959001@g.us",
+    "data": {
+      "createdAt": "2025-06-22T16:38:00.056Z",
+      "userActivitySource": "message_create_event",
+      "lastBotMessageTimestamp": null,
+      "historyClearedAt": "2025-07-18T06:25:36.235Z",
+      "lastMessageContent": null,
+      "lastContactMessageTimestamp": null,
+      "lastMessageTimestamp": null,
+      "lastHumanMessageTimestamp": null,
+      "userIsActive": false
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats"
+  },
+  {
+    "id": "120363373827785380@newsletter",
+    "data": {
+      "userIsActive": false,
+      "createdAt": "2025-06-24T14:58:03.313Z",
+      "lastActivityTimestamp": "2025-06-24T15:02:37.441Z",
+      "lastActivityCheck": "2025-06-24T15:02:37.799Z",
+      "lastBotMessageTimestamp": null,
+      "historyClearedAt": "2025-07-18T06:25:36.228Z",
+      "lastMessageContent": null,
+      "lastContactMessageTimestamp": null,
+      "lastMessageTimestamp": null,
+      "lastHumanMessageTimestamp": null
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats"
+  },
+  {
+    "id": "120363400091750152@g.us",
+    "data": {
+      "createdAt": "2025-06-22T22:30:03.273Z",
+      "userActivitySource": "message_create_event",
+      "lastBotMessageTimestamp": null,
+      "historyClearedAt": "2025-07-18T06:25:36.222Z",
+      "lastContactMessageTimestamp": null,
+      "userIsActive": true,
+      "lastMessageContent": "Pero a detalle realmente no sé por lo que está pasando en su casa",
+      "lastMessageTimestamp": "2025-07-21T17:47:32.685Z",
+      "lastHumanMessageTimestamp": "2025-07-21T17:47:32.685Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats"
+  },
+  {
+    "id": "120363401184251548@g.us",
+    "data": {
+      "createdAt": "2025-07-18T19:54:04.889Z",
+      "userActivitySource": "message_create_event",
+      "userIsActive": true,
+      "lastMessageContent": "",
+      "lastMessageTimestamp": "2025-07-21T15:05:22.190Z",
+      "lastHumanMessageTimestamp": "2025-07-21T15:05:22.190Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats"
+  },
+  {
+    "id": "120363401202557508@g.us",
+    "data": {
+      "createdAt": "2025-06-22T20:36:13.124Z",
+      "userActivitySource": "message_create_event",
+      "lastBotMessageTimestamp": null,
+      "historyClearedAt": "2025-07-18T06:25:36.322Z",
+      "lastMessageContent": null,
+      "lastContactMessageTimestamp": null,
+      "lastMessageTimestamp": null,
+      "lastHumanMessageTimestamp": null,
+      "userIsActive": false
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats"
+  },
+  {
+    "id": "120363401761182419@g.us",
+    "data": {
+      "createdAt": "2025-06-20T23:41:45.916Z",
+      "userActivitySource": "message_create_event",
+      "lastBotMessageTimestamp": null,
+      "historyClearedAt": "2025-07-18T06:25:36.325Z",
+      "lastContactMessageTimestamp": null,
+      "userIsActive": true,
+      "lastMessageContent": "😳",
+      "lastMessageTimestamp": "2025-07-18T14:16:55.279Z",
+      "lastHumanMessageTimestamp": "2025-07-18T14:16:55.279Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats"
+  },
+  {
+    "id": "120363403569674087@g.us",
+    "data": {
+      "createdAt": "2025-07-19T15:11:55.191Z",
+      "userActivitySource": "message_create_event",
+      "userIsActive": true,
+      "lastMessageContent": "¡Felicitaciones chicas! ✨🌿🙌🏻 Enhorabuena y que vengan más éxitos en este lindo proyecto",
+      "lastMessageTimestamp": "2025-07-20T02:22:02.685Z",
+      "lastHumanMessageTimestamp": "2025-07-20T02:22:02.685Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats"
+  },
+  {
+    "id": "120363404073082883@g.us",
+    "data": {
+      "createdAt": "2025-07-18T14:56:52.448Z",
+      "userActivitySource": "message_create_event",
+      "userIsActive": true,
+      "lastMessageContent": "Y mañana se va a proyectar la presentación en la laptop?",
+      "lastMessageTimestamp": "2025-07-21T18:00:47.985Z",
+      "lastHumanMessageTimestamp": "2025-07-21T18:00:47.985Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats"
+  },
+  {
+    "id": "120363418252069509@g.us",
+    "data": {
+      "createdAt": "2025-06-21T22:30:04.207Z",
+      "userActivitySource": "message_create_event",
+      "lastBotMessageTimestamp": null,
+      "historyClearedAt": "2025-07-18T06:25:36.317Z",
+      "lastMessageContent": null,
+      "lastContactMessageTimestamp": null,
+      "lastMessageTimestamp": null,
+      "lastHumanMessageTimestamp": null,
+      "userIsActive": false
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats"
+  },
+  {
+    "id": "120363419700295265@newsletter",
+    "data": {
+      "userIsActive": false,
+      "createdAt": "2025-07-18T16:20:01.733Z",
+      "lastActivityTimestamp": "2025-07-21T18:58:14.791Z",
+      "lastMessageContent": "",
+      "lastContactMessageTimestamp": "2025-07-21T18:58:14.791Z",
+      "lastMessageTimestamp": "2025-07-21T18:58:14.791Z",
+      "lastActivityCheck": "2025-07-21T18:58:15.395Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats"
+  },
+  {
+    "id": "120363420043994087@g.us",
+    "data": {
+      "createdAt": "2025-06-23T16:14:10.646Z",
+      "userActivitySource": "message_create_event",
+      "lastBotMessageTimestamp": null,
+      "historyClearedAt": "2025-07-18T06:25:36.321Z",
+      "lastMessageContent": null,
+      "lastContactMessageTimestamp": null,
+      "lastMessageTimestamp": null,
+      "lastHumanMessageTimestamp": null,
+      "userIsActive": false
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats"
+  },
+  {
+    "id": "13059300610@c.us",
+    "data": {
+      "createdAt": "2025-07-18T15:37:08.641Z",
+      "userActivitySource": "message_create_event",
+      "lastActivityTimestamp": "2025-07-18T18:23:28.413Z",
+      "lastContactMessageTimestamp": "2025-07-18T18:23:28.413Z",
+      "lastActivityCheck": "2025-07-18T18:23:28.705Z",
+      "userIsActive": true,
+      "lastMessageContent": "Aquí poniéndome un poco al corriente",
+      "lastMessageTimestamp": "2025-07-18T20:31:47.016Z",
+      "lastHumanMessageTimestamp": "2025-07-18T20:31:47.016Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats"
+  },
+  {
+    "id": "15037571482@c.us",
+    "data": {
+      "createdAt": "2025-07-19T22:49:51.428Z",
+      "userActivitySource": "message_create_event",
+      "lastActivityTimestamp": "2025-07-20T14:32:49.281Z",
+      "lastContactMessageTimestamp": "2025-07-20T14:32:49.281Z",
+      "lastActivityCheck": "2025-07-20T14:32:49.693Z",
+      "lastMessageContent": "",
+      "lastMessageTimestamp": "2025-07-20T14:34:27.793Z",
+      "lastHumanMessageTimestamp": "2025-07-20T14:34:27.793Z",
+      "userIsActive": true
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats"
+  },
+  {
+    "id": "51944763164@c.us",
+    "data": {
+      "createdAt": "2025-07-19T15:54:37.890Z",
+      "userActivitySource": "message_create_event",
+      "lastActivityCheck": "2025-07-20T01:25:55.820Z",
+      "userIsActive": true,
+      "lastActivityTimestamp": "2025-07-21T00:30:10.717Z",
+      "lastContactMessageTimestamp": "2025-07-21T00:30:10.717Z",
+      "lastMessageContent": "",
+      "lastMessageTimestamp": "2025-07-21T00:49:04.694Z",
+      "lastHumanMessageTimestamp": "2025-07-21T00:49:04.694Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats"
+  },
+  {
+    "id": "5213121319066@c.us",
+    "data": {
+      "createdAt": "2025-06-25T13:55:26.021Z",
+      "userActivitySource": "message_create_event",
+      "lastActivityCheck": "2025-06-26T18:54:55.766Z",
+      "lastActivityTimestamp": "2025-06-26T18:55:52.822Z",
+      "lastBotMessageTimestamp": null,
+      "historyClearedAt": "2025-07-18T06:25:36.319Z",
+      "lastMessageContent": null,
+      "lastContactMessageTimestamp": null,
+      "lastMessageTimestamp": null,
+      "lastHumanMessageTimestamp": null,
+      "userIsActive": false
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats"
+  },
+  {
+    "id": "5213751022519@c.us",
+    "data": {
+      "createdAt": "2025-07-18T17:11:46.383Z",
+      "userActivitySource": "message_create_event",
+      "lastHumanMessageTimestamp": "2025-07-18T21:36:53.443Z",
+      "userIsActive": false,
+      "lastActivityTimestamp": "2025-07-18T22:11:35.624Z",
+      "lastMessageContent": "Dejame ver, porque si estoy algo ocupado estoy dias",
+      "lastContactMessageTimestamp": "2025-07-18T22:11:35.624Z",
+      "lastMessageTimestamp": "2025-07-18T22:11:35.624Z",
+      "lastActivityCheck": "2025-07-18T22:11:35.943Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats"
+  },
+  {
+    "id": "5213951190678@c.us",
+    "data": {
+      "createdAt": "2025-06-21T00:07:20.981Z",
+      "userActivitySource": "message_create_event",
+      "userIsActive": false,
+      "lastActivityTimestamp": "2025-06-26T19:47:56.693Z",
+      "lastActivityCheck": "2025-06-26T19:47:56.960Z",
+      "lastBotMessageTimestamp": null,
+      "historyClearedAt": "2025-07-18T06:25:36.325Z",
+      "lastMessageContent": null,
+      "lastContactMessageTimestamp": null,
+      "lastMessageTimestamp": null,
+      "lastHumanMessageTimestamp": null
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats"
+  },
+  {
+    "id": "5214429803429@c.us",
+    "data": {
+      "userIsActive": false,
+      "createdAt": "2025-07-18T15:20:25.378Z",
+      "lastActivityTimestamp": "2025-07-20T15:09:47.289Z",
+      "lastMessageContent": "🔑 Nidia，por ser reaplicante te damos acceso prioritario: conseguirás más éxito esta vez.\nSolo te quedan 24 horas para volver a aplicar por tu DiDi Card con evaluación rápida. Si eres aprobado, recibirás:\n\n✅Línea de crédito de hasta $20,000 m.n.\n✅Hasta 6% de cashback en gas y aerolíneas\n✅MSI y descuentos exclusivos\n✅0 anualidad de por vida\n\nAprovecha esta oportunidad, ¡Es ahora o nunca!\n\n*Sujeto a aprobación de crédito. Consulta Términos y Condiciones.",
+      "lastContactMessageTimestamp": "2025-07-20T15:09:47.289Z",
+      "lastMessageTimestamp": "2025-07-20T15:09:47.289Z",
+      "lastActivityCheck": "2025-07-20T15:09:48.115Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats"
+  },
+  {
+    "id": "5214443100502@c.us",
+    "data": {
+      "createdAt": "2025-06-21T16:22:24.907Z",
+      "userActivitySource": "message_create_event",
+      "lastActivityTimestamp": "2025-06-21T23:48:37.870Z",
+      "lastActivityCheck": "2025-06-21T23:48:38.101Z",
+      "lastBotMessageTimestamp": null,
+      "historyClearedAt": "2025-07-18T06:25:36.321Z",
+      "lastMessageContent": null,
+      "lastContactMessageTimestamp": null,
+      "lastMessageTimestamp": null,
+      "lastHumanMessageTimestamp": null,
+      "userIsActive": false
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats"
+  },
+  {
+    "id": "5214491085740@c.us",
+    "data": {
+      "createdAt": "2025-06-20T23:30:42.965Z",
+      "lastActivityCheck": "2025-06-20T23:30:48.152Z",
+      "userActivitySource": "message_create_event",
+      "lastActivityTimestamp": "2025-06-21T00:16:43.234Z",
+      "lastBotMessageTimestamp": null,
+      "historyClearedAt": "2025-07-18T06:25:36.326Z",
+      "lastMessageContent": null,
+      "lastContactMessageTimestamp": null,
+      "lastMessageTimestamp": null,
+      "lastHumanMessageTimestamp": null,
+      "userIsActive": false
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats"
+  },
+  {
+    "id": "5214491127493@c.us",
+    "data": {
+      "createdAt": "2025-06-22T02:15:13.765Z",
+      "userActivitySource": "message_create_event",
+      "lastBotMessageTimestamp": null,
+      "historyClearedAt": "2025-07-18T06:25:36.324Z",
+      "lastActivityCheck": "2025-07-21T17:45:25.489Z",
+      "lastMessageContent": "",
+      "userIsActive": true,
+      "lastActivityTimestamp": "2025-07-21T18:09:41.027Z",
+      "lastContactMessageTimestamp": "2025-07-21T18:09:41.027Z",
+      "lastMessageTimestamp": "2025-07-21T18:12:19.891Z",
+      "lastHumanMessageTimestamp": "2025-07-21T18:12:19.891Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats"
+  },
+  {
+    "id": "5214491190257@c.us",
+    "data": {
+      "createdAt": "2025-07-19T19:43:09.096Z",
+      "userActivitySource": "message_create_event",
+      "lastHumanMessageTimestamp": "2025-07-21T18:24:40.295Z",
+      "userIsActive": false,
+      "lastActivityTimestamp": "2025-07-21T18:35:19.075Z",
+      "lastMessageContent": "O darles info",
+      "lastContactMessageTimestamp": "2025-07-21T18:35:19.075Z",
+      "lastMessageTimestamp": "2025-07-21T18:35:19.075Z",
+      "lastActivityCheck": "2025-07-21T18:35:19.897Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats"
+  },
+  {
+    "id": "5214491207911@c.us",
+    "data": {
+      "createdAt": "2025-06-23T20:38:12.654Z",
+      "userActivitySource": "message_create_event",
+      "lastActivityCheck": "2025-06-23T21:10:27.265Z",
+      "lastBotMessageTimestamp": null,
+      "historyClearedAt": "2025-07-18T06:25:36.322Z",
+      "userIsActive": true,
+      "lastActivityTimestamp": "2025-07-18T14:17:48.455Z",
+      "lastContactMessageTimestamp": "2025-07-18T14:17:48.455Z",
+      "lastMessageContent": "",
+      "lastMessageTimestamp": "2025-07-18T14:21:27.993Z",
+      "lastHumanMessageTimestamp": "2025-07-18T14:21:27.993Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats"
+  },
+  {
+    "id": "5214491253914@c.us",
+    "data": {
+      "createdAt": "2025-06-23T18:23:33.130Z",
+      "userActivitySource": "message_create_event",
+      "lastBotMessageTimestamp": null,
+      "historyClearedAt": "2025-07-18T06:25:36.322Z",
+      "lastContactMessageTimestamp": null,
+      "userIsActive": true,
+      "lastMessageContent": "https://pay.hotmart.com/Q100911942T",
+      "lastMessageTimestamp": "2025-07-20T06:22:26.790Z",
+      "lastHumanMessageTimestamp": "2025-07-20T06:22:26.790Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats"
+  },
+  {
+    "id": "5214491273730@c.us",
+    "data": {
+      "createdAt": "2025-07-20T03:44:33.087Z",
+      "userActivitySource": "message_create_event",
+      "lastMessageContent": "",
+      "lastMessageTimestamp": "2025-07-20T03:44:34.990Z",
+      "lastHumanMessageTimestamp": "2025-07-20T03:44:34.990Z",
+      "userIsActive": true
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats"
+  },
+  {
+    "id": "5214491277803@c.us",
+    "data": {
+      "createdAt": "2025-07-20T02:09:15.289Z",
+      "userActivitySource": "message_create_event",
+      "lastMessageContent": "",
+      "lastActivityCheck": "2025-07-20T04:11:34.984Z",
+      "lastHumanMessageTimestamp": "2025-07-20T04:12:38.484Z",
+      "userIsActive": true,
+      "lastActivityTimestamp": "2025-07-20T04:13:46.094Z",
+      "lastContactMessageTimestamp": "2025-07-20T04:13:46.094Z",
+      "lastMessageTimestamp": "2025-07-20T04:13:46.094Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats"
+  },
+  {
+    "id": "5214491291829@c.us",
+    "data": {
+      "createdAt": "2025-07-19T15:09:52.935Z",
+      "userActivitySource": "message_create_event",
+      "lastActivityTimestamp": "2025-07-19T22:37:14.483Z",
+      "lastContactMessageTimestamp": "2025-07-19T22:37:14.483Z",
+      "lastActivityCheck": "2025-07-19T22:37:14.981Z",
+      "lastMessageContent": "",
+      "userIsActive": true,
+      "lastMessageTimestamp": "2025-07-19T22:41:09.289Z",
+      "lastHumanMessageTimestamp": "2025-07-19T22:41:09.289Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats"
+  },
+  {
+    "id": "5214491373211@c.us",
+    "data": {
+      "createdAt": "2025-07-20T21:01:54.809Z",
+      "userActivitySource": "message_create_event",
+      "lastMessageContent": "Presentación de productos RIMAN_20250714_121929_0000.pdf",
+      "lastMessageTimestamp": "2025-07-20T21:01:57.192Z",
+      "lastHumanMessageTimestamp": "2025-07-20T21:01:57.192Z",
+      "userIsActive": true
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats"
+  },
+  {
+    "id": "5214491423173@c.us",
+    "data": {
+      "createdAt": "2025-07-20T16:40:40.200Z",
+      "userActivitySource": "message_create_event",
+      "userIsActive": true,
+      "lastHumanMessageTimestamp": "2025-07-20T16:44:54.088Z",
+      "lastActivityTimestamp": "2025-07-20T16:47:36.189Z",
+      "lastMessageContent": "En fatima",
+      "lastContactMessageTimestamp": "2025-07-20T16:47:36.189Z",
+      "lastMessageTimestamp": "2025-07-20T16:47:36.189Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats"
+  },
+  {
+    "id": "5214491518200@c.us",
+    "data": {
+      "createdAt": "2025-07-18T22:15:52.932Z",
+      "userActivitySource": "message_create_event",
+      "lastActivityTimestamp": "2025-07-21T00:10:59.090Z",
+      "lastContactMessageTimestamp": "2025-07-21T00:10:59.090Z",
+      "lastActivityCheck": "2025-07-21T00:11:00.490Z",
+      "lastMessageContent": "Bendiciones Mike 🙌🏻🫂 que tengas linda tarde",
+      "lastMessageTimestamp": "2025-07-21T00:21:47.878Z",
+      "lastHumanMessageTimestamp": "2025-07-21T00:21:47.878Z",
+      "userIsActive": true
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats"
+  },
+  {
+    "id": "5214491553807@c.us",
+    "data": {
+      "createdAt": "2025-07-21T02:19:38.789Z",
+      "lastActivityCheck": "2025-07-21T02:19:46.092Z",
+      "userActivitySource": "message_create_event",
+      "userIsActive": true,
+      "lastActivityTimestamp": "2025-07-21T03:53:27.948Z",
+      "lastContactMessageTimestamp": "2025-07-21T03:53:27.948Z",
+      "lastMessageContent": "igualmente chula, linda noche 💖 descansa",
+      "lastMessageTimestamp": "2025-07-21T03:56:43.295Z",
+      "lastHumanMessageTimestamp": "2025-07-21T03:56:43.295Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats"
+  },
+  {
+    "id": "5214491826402@c.us",
+    "data": {
+      "createdAt": "2025-06-23T19:54:47.036Z",
+      "userActivitySource": "message_create_event",
+      "lastBotMessageTimestamp": null,
+      "historyClearedAt": "2025-07-18T06:25:36.325Z",
+      "lastActivityTimestamp": "2025-07-19T15:22:21.388Z",
+      "lastContactMessageTimestamp": "2025-07-19T15:22:21.388Z",
+      "lastActivityCheck": "2025-07-19T15:22:21.927Z",
+      "userIsActive": true,
+      "lastMessageContent": "",
+      "lastMessageTimestamp": "2025-07-19T15:41:13.593Z",
+      "lastHumanMessageTimestamp": "2025-07-19T15:41:13.593Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats"
+  },
+  {
+    "id": "5214491830932@c.us",
+    "data": {
+      "createdAt": "2025-07-20T03:45:26.184Z",
+      "userActivitySource": "message_create_event",
+      "lastActivityTimestamp": "2025-07-20T04:29:27.582Z",
+      "lastContactMessageTimestamp": "2025-07-20T04:29:27.582Z",
+      "lastActivityCheck": "2025-07-20T04:29:28.013Z",
+      "lastMessageContent": "",
+      "lastMessageTimestamp": "2025-07-20T04:30:38.481Z",
+      "lastHumanMessageTimestamp": "2025-07-20T04:30:38.481Z",
+      "userIsActive": true
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats"
+  },
+  {
+    "id": "5214491915026@c.us",
+    "data": {
+      "createdAt": "2025-07-18T21:44:27.161Z",
+      "userActivitySource": "message_create_event",
+      "lastHumanMessageTimestamp": "2025-07-21T18:09:31.796Z",
+      "lastActivityTimestamp": "2025-07-21T18:20:31.802Z",
+      "lastMessageContent": "Siiii claro. Ntp",
+      "lastContactMessageTimestamp": "2025-07-21T18:20:31.802Z",
+      "lastMessageTimestamp": "2025-07-21T18:20:31.802Z",
+      "lastActivityCheck": "2025-07-21T18:20:32.889Z",
+      "userIsActive": false
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats"
+  },
+  {
+    "id": "5214492250678@c.us",
+    "data": {
+      "createdAt": "2025-07-18T22:21:01.428Z",
+      "userActivitySource": "message_create_event",
+      "lastActivityTimestamp": "2025-07-19T17:53:11.585Z",
+      "lastContactMessageTimestamp": "2025-07-19T17:53:11.585Z",
+      "lastActivityCheck": "2025-07-19T17:53:12.096Z",
+      "userIsActive": true,
+      "lastMessageContent": "Así ya ve súper bien cómo funciona la plataforma",
+      "lastMessageTimestamp": "2025-07-19T17:54:21.794Z",
+      "lastHumanMessageTimestamp": "2025-07-19T17:54:21.794Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats"
+  },
+  {
+    "id": "5214492560822@c.us",
+    "data": {
+      "createdAt": "2025-07-18T13:55:55.138Z",
+      "userActivitySource": "message_create_event",
+      "lastMessageContent": "",
+      "lastActivityCheck": "2025-07-19T19:38:54.181Z",
+      "userIsActive": true,
+      "lastActivityTimestamp": "2025-07-19T19:44:34.892Z",
+      "lastContactMessageTimestamp": "2025-07-19T19:44:34.892Z",
+      "lastMessageTimestamp": "2025-07-19T21:14:23.092Z",
+      "lastHumanMessageTimestamp": "2025-07-19T21:14:23.092Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats"
+  },
+  {
+    "id": "5214492734221@c.us",
+    "data": {
+      "createdAt": "2025-06-23T02:24:44.587Z",
+      "userActivitySource": "message_create_event",
+      "lastBotMessageTimestamp": null,
+      "historyClearedAt": "2025-07-18T06:25:36.318Z",
+      "lastActivityCheck": "2025-07-21T18:35:59.180Z",
+      "lastMessageContent": "",
+      "userIsActive": true,
+      "lastActivityTimestamp": "2025-07-21T18:56:52.096Z",
+      "lastContactMessageTimestamp": "2025-07-21T18:56:52.096Z",
+      "lastMessageTimestamp": "2025-07-21T19:02:58.197Z",
+      "lastHumanMessageTimestamp": "2025-07-21T19:02:58.197Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats"
+  },
+  {
+    "id": "5214492832484@c.us",
+    "data": {
+      "createdAt": "2025-06-23T19:36:23.551Z",
+      "userActivitySource": "message_create_event",
+      "userIsActive": false,
+      "lastActivityTimestamp": "2025-06-23T20:42:57.377Z",
+      "lastActivityCheck": "2025-06-23T20:42:57.598Z",
+      "lastBotMessageTimestamp": null,
+      "historyClearedAt": "2025-07-18T06:25:36.329Z",
+      "lastMessageContent": null,
+      "lastContactMessageTimestamp": null,
+      "lastMessageTimestamp": null,
+      "lastHumanMessageTimestamp": null
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats"
+  },
+  {
+    "id": "5214492837003@c.us",
+    "data": {
+      "createdAt": "2025-06-18T06:19:46.114Z",
+      "userActivitySource": "message_create_event",
+      "lastBotMessageTimestamp": null,
+      "historyClearedAt": "2025-07-18T06:25:36.326Z",
+      "lastActivityTimestamp": "2025-07-21T16:37:45.380Z",
+      "lastContactMessageTimestamp": "2025-07-21T16:37:45.380Z",
+      "lastActivityCheck": "2025-07-21T16:37:46.287Z",
+      "userIsActive": true,
+      "lastMessageContent": "",
+      "lastMessageTimestamp": "2025-07-21T16:45:35.399Z",
+      "lastHumanMessageTimestamp": "2025-07-21T16:45:35.399Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats"
+  },
+  {
+    "id": "5214492881493@c.us",
+    "data": {
+      "createdAt": "2025-07-19T20:44:04.495Z",
+      "userActivitySource": "message_create_event",
+      "lastHumanMessageTimestamp": "2025-07-19T22:36:23.990Z",
+      "lastActivityTimestamp": "2025-07-19T23:42:37.328Z",
+      "lastMessageContent": "Muy bien \nMuchas gracias 😘",
+      "lastContactMessageTimestamp": "2025-07-19T23:42:37.328Z",
+      "lastMessageTimestamp": "2025-07-19T23:42:37.328Z",
+      "lastActivityCheck": "2025-07-19T23:42:37.925Z",
+      "userIsActive": false
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats"
+  },
+  {
+    "id": "5214493125656@c.us",
+    "data": {
+      "createdAt": "2025-07-20T16:32:15.521Z",
+      "lastActivityTimestamp": "2025-07-20T16:32:17.585Z",
+      "lastContactMessageTimestamp": "2025-07-20T16:32:17.585Z",
+      "lastActivityCheck": "2025-07-20T16:32:18.126Z",
+      "userActivitySource": "message_create_event",
+      "lastMessageContent": "Presentación de productos RIMAN_20250714_121929_0000.pdf",
+      "lastMessageTimestamp": "2025-07-20T21:01:25.396Z",
+      "lastHumanMessageTimestamp": "2025-07-20T21:01:25.396Z",
+      "userIsActive": true
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats"
+  },
+  {
+    "id": "5214493292672@c.us",
+    "data": {
+      "createdAt": "2025-06-22T04:01:37.304Z",
+      "userActivitySource": "message_create_event",
+      "lastActivityTimestamp": "2025-06-25T00:43:13.663Z",
+      "lastActivityCheck": "2025-06-25T00:43:13.978Z",
+      "lastBotMessageTimestamp": null,
+      "historyClearedAt": "2025-07-18T06:25:36.329Z",
+      "lastMessageContent": null,
+      "lastContactMessageTimestamp": null,
+      "lastMessageTimestamp": null,
+      "lastHumanMessageTimestamp": null,
+      "userIsActive": false
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats"
+  },
+  {
+    "id": "5214493403088@c.us",
+    "data": {
+      "createdAt": "2025-06-24T16:11:50.510Z",
+      "userActivitySource": "message_create_event",
+      "lastBotMessageTimestamp": null,
+      "historyClearedAt": "2025-07-18T06:25:36.324Z",
+      "lastActivityCheck": "2025-07-21T18:48:21.388Z",
+      "lastMessageContent": "",
+      "userIsActive": true,
+      "lastActivityTimestamp": "2025-07-21T18:56:10.793Z",
+      "lastContactMessageTimestamp": "2025-07-21T18:56:10.793Z",
+      "lastMessageTimestamp": "2025-07-21T19:07:19.494Z",
+      "lastHumanMessageTimestamp": "2025-07-21T19:07:19.494Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats"
+  },
+  {
+    "id": "5214493476904@c.us",
+    "data": {
+      "createdAt": "2025-06-20T21:58:49.996Z",
+      "userActivitySource": "message_create_event",
+      "lastBotMessageTimestamp": null,
+      "lastActivityTimestamp": "2025-06-27T03:55:50.916Z",
+      "lastActivityCheck": "2025-06-27T03:55:51.216Z",
+      "userIsActive": false,
+      "historyClearedAt": "2025-07-18T06:25:36.324Z",
+      "lastMessageContent": null,
+      "lastContactMessageTimestamp": null,
+      "lastMessageTimestamp": null,
+      "lastHumanMessageTimestamp": null
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats"
+  },
+  {
+    "id": "5214493482510@c.us",
+    "data": {
+      "createdAt": "2025-06-23T01:04:26.056Z",
+      "userActivitySource": "message_create_event",
+      "lastBotMessageTimestamp": null,
+      "historyClearedAt": "2025-07-18T06:25:36.326Z",
+      "lastHumanMessageTimestamp": "2025-07-20T17:30:12.189Z",
+      "lastActivityTimestamp": "2025-07-20T17:46:09.484Z",
+      "lastMessageContent": "",
+      "lastContactMessageTimestamp": "2025-07-20T17:46:09.484Z",
+      "lastMessageTimestamp": "2025-07-20T17:46:09.484Z",
+      "lastActivityCheck": "2025-07-20T17:46:10.074Z",
+      "userIsActive": false
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats"
+  },
+  {
+    "id": "5214493488475@c.us",
+    "data": {
+      "createdAt": "2025-06-24T02:04:08.329Z",
+      "lastActivityTimestamp": "2025-06-24T02:04:09.180Z",
+      "lastActivityCheck": "2025-06-24T02:04:09.363Z",
+      "userActivitySource": "message_create_event",
+      "lastBotMessageTimestamp": null,
+      "historyClearedAt": "2025-07-18T06:25:36.326Z",
+      "lastMessageContent": null,
+      "lastContactMessageTimestamp": null,
+      "lastMessageTimestamp": null,
+      "lastHumanMessageTimestamp": null,
+      "userIsActive": false
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats"
+  },
+  {
+    "id": "5214493664181-1493944373@g.us",
+    "data": {
+      "createdAt": "2025-06-21T18:01:38.518Z",
+      "userActivitySource": "message_create_event",
+      "lastBotMessageTimestamp": null,
+      "historyClearedAt": "2025-07-18T06:25:36.326Z",
+      "lastContactMessageTimestamp": null,
+      "userIsActive": true,
+      "lastMessageContent": "Abuelooo sheiishh y abuelaaaa",
+      "lastMessageTimestamp": "2025-07-20T16:43:45.185Z",
+      "lastHumanMessageTimestamp": "2025-07-20T16:43:45.185Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats"
+  },
+  {
+    "id": "5214493664181@c.us",
+    "data": {
+      "createdAt": "2025-06-22T00:03:18.275Z",
+      "userActivitySource": "message_create_event",
+      "lastBotMessageTimestamp": null,
+      "historyClearedAt": "2025-07-18T06:25:36.331Z",
+      "lastActivityTimestamp": "2025-07-19T13:59:07.795Z",
+      "lastContactMessageTimestamp": "2025-07-19T13:59:07.795Z",
+      "lastActivityCheck": "2025-07-19T13:59:09.295Z",
+      "userIsActive": true,
+      "lastMessageContent": "Ya voy",
+      "lastMessageTimestamp": "2025-07-20T14:02:17.701Z",
+      "lastHumanMessageTimestamp": "2025-07-20T14:02:17.701Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats"
+  },
+  {
+    "id": "5214493939384@c.us",
+    "data": {
+      "createdAt": "2025-07-18T14:29:01.743Z",
+      "userActivitySource": "message_create_event",
+      "userIsActive": true,
+      "lastActivityTimestamp": "2025-07-18T14:38:35.131Z",
+      "lastContactMessageTimestamp": "2025-07-18T14:38:35.131Z",
+      "lastMessageContent": "Presentación de productos RIMAN_20250714_121929_0000.pdf",
+      "lastMessageTimestamp": "2025-07-20T21:02:01.595Z",
+      "lastHumanMessageTimestamp": "2025-07-20T21:02:01.595Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats"
+  },
+  {
+    "id": "5214494140744@c.us",
+    "data": {
+      "createdAt": "2025-07-19T20:30:29.786Z",
+      "userActivitySource": "message_create_event",
+      "userIsActive": true,
+      "lastMessageContent": "Y estuve pensando que incluso si 3 personas lo eligen, tú puedes tener tu plataforma sin esperar a enero",
+      "lastMessageTimestamp": "2025-07-19T20:32:24.300Z",
+      "lastHumanMessageTimestamp": "2025-07-19T20:32:24.300Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats"
+  },
+  {
+    "id": "5214494255223@c.us",
+    "data": {
+      "userIsActive": false,
+      "createdAt": "2025-06-24T20:32:45.506Z",
+      "lastActivityTimestamp": "2025-06-25T01:20:01.145Z",
+      "lastActivityCheck": "2025-06-25T01:20:01.363Z",
+      "lastBotMessageTimestamp": null,
+      "historyClearedAt": "2025-07-18T06:25:36.327Z",
+      "lastMessageContent": null,
+      "lastContactMessageTimestamp": null,
+      "lastMessageTimestamp": null,
+      "lastHumanMessageTimestamp": null
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats"
+  },
+  {
+    "id": "5214494387235@c.us",
+    "data": {
+      "createdAt": "2025-07-20T05:00:24.613Z",
+      "userActivitySource": "message_create_event",
+      "lastActivityTimestamp": "2025-07-20T06:32:23.818Z",
+      "lastContactMessageTimestamp": "2025-07-20T06:32:23.818Z",
+      "lastActivityCheck": "2025-07-20T06:32:24.331Z",
+      "lastMessageContent": "Descansa ✨🫰🏻",
+      "lastMessageTimestamp": "2025-07-20T06:34:03.392Z",
+      "lastHumanMessageTimestamp": "2025-07-20T06:34:03.392Z",
+      "userIsActive": true
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats"
+  },
+  {
+    "id": "5214494392285@c.us",
+    "data": {
+      "userIsActive": false,
+      "createdAt": "2025-06-22T03:17:16.919Z",
+      "lastActivityTimestamp": "2025-06-22T03:17:17.911Z",
+      "lastActivityCheck": "2025-06-22T03:17:18.124Z",
+      "lastBotMessageTimestamp": null,
+      "historyClearedAt": "2025-07-18T06:25:36.325Z",
+      "lastMessageContent": null,
+      "lastContactMessageTimestamp": null,
+      "lastMessageTimestamp": null,
+      "lastHumanMessageTimestamp": null
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats"
+  },
+  {
+    "id": "5214494949723@c.us",
+    "data": {
+      "createdAt": "2025-06-22T16:10:14.157Z",
+      "userActivitySource": "message_create_event",
+      "lastActivityCheck": "2025-06-22T16:41:54.347Z",
+      "lastActivityTimestamp": "2025-06-22T18:36:16.591Z",
+      "lastBotMessageTimestamp": null,
+      "historyClearedAt": "2025-07-18T06:25:36.324Z",
+      "lastMessageContent": null,
+      "lastContactMessageTimestamp": null,
+      "lastMessageTimestamp": null,
+      "lastHumanMessageTimestamp": null,
+      "userIsActive": false
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats"
+  },
+  {
+    "id": "5214494975106@c.us",
+    "data": {
+      "createdAt": "2025-07-18T21:15:39.295Z",
+      "lastActivityCheck": "2025-07-18T21:15:40.710Z",
+      "userActivitySource": "message_create_event",
+      "userIsActive": true,
+      "lastActivityTimestamp": "2025-07-18T21:43:47.181Z",
+      "lastContactMessageTimestamp": "2025-07-18T21:43:47.181Z",
+      "lastMessageContent": "Okay",
+      "lastMessageTimestamp": "2025-07-18T21:45:33.973Z",
+      "lastHumanMessageTimestamp": "2025-07-18T21:45:33.973Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats"
+  },
+  {
+    "id": "5214495016620@c.us",
+    "data": {
+      "userIsActive": false,
+      "createdAt": "2025-06-25T19:51:49.183Z",
+      "lastActivityTimestamp": "2025-06-25T19:51:50.627Z",
+      "lastActivityCheck": "2025-06-25T19:51:50.887Z",
+      "lastBotMessageTimestamp": null,
+      "historyClearedAt": "2025-07-18T06:25:36.344Z",
+      "lastMessageContent": null,
+      "lastContactMessageTimestamp": null,
+      "lastMessageTimestamp": null,
+      "lastHumanMessageTimestamp": null
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats"
+  },
+  {
+    "id": "5214495377281@c.us",
+    "data": {
+      "createdAt": "2025-06-24T21:15:28.300Z",
+      "lastActivityTimestamp": "2025-06-24T21:15:29.282Z",
+      "lastActivityCheck": "2025-06-24T21:15:29.497Z",
+      "userActivitySource": "message_create_event",
+      "lastBotMessageTimestamp": null,
+      "historyClearedAt": "2025-07-18T06:25:36.325Z",
+      "lastMessageContent": null,
+      "lastContactMessageTimestamp": null,
+      "lastMessageTimestamp": null,
+      "lastHumanMessageTimestamp": null,
+      "userIsActive": false
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats"
+  },
+  {
+    "id": "5214495427846@c.us",
+    "data": {
+      "createdAt": "2025-06-22T17:44:53.915Z",
+      "userActivitySource": "message_create_event",
+      "lastBotMessageTimestamp": null,
+      "historyClearedAt": "2025-07-18T06:25:36.326Z",
+      "lastActivityCheck": "2025-07-18T23:39:02.827Z",
+      "lastHumanMessageTimestamp": "2025-07-18T23:39:12.694Z",
+      "userIsActive": true,
+      "lastActivityTimestamp": "2025-07-18T23:39:37.009Z",
+      "lastMessageContent": "Ya comiste",
+      "lastContactMessageTimestamp": "2025-07-18T23:39:37.009Z",
+      "lastMessageTimestamp": "2025-07-18T23:39:37.009Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats"
+  },
+  {
+    "id": "5214495443431@c.us",
+    "data": {
+      "createdAt": "2025-07-18T23:15:16.248Z",
+      "userActivitySource": "message_create_event",
+      "lastActivityCheck": "2025-07-20T01:40:25.679Z",
+      "userIsActive": true,
+      "lastActivityTimestamp": "2025-07-20T02:52:23.591Z",
+      "lastContactMessageTimestamp": "2025-07-20T02:52:23.591Z",
+      "lastMessageContent": "Puedes enviar este PDF a quienes crees que quieran asistir para conocer los productos, ya nada más me confirmas asistencia de las personas, y listo 🌿✨🙌🏻",
+      "lastMessageTimestamp": "2025-07-20T03:40:43.195Z",
+      "lastHumanMessageTimestamp": "2025-07-20T03:40:43.195Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats"
+  },
+  {
+    "id": "5214495487499@c.us",
+    "data": {
+      "createdAt": "2025-06-21T20:36:14.806Z",
+      "userActivitySource": "message_create_event",
+      "lastActivityTimestamp": "2025-06-21T20:40:02.671Z",
+      "lastBotMessageTimestamp": null,
+      "historyClearedAt": "2025-07-18T06:25:36.327Z",
+      "lastMessageContent": null,
+      "lastContactMessageTimestamp": null,
+      "lastMessageTimestamp": null,
+      "lastHumanMessageTimestamp": null,
+      "userIsActive": false
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats"
+  },
+  {
+    "id": "5214495840007@c.us",
+    "data": {
+      "createdAt": "2025-06-22T16:01:23.019Z",
+      "userActivitySource": "message_create_event",
+      "userIsActive": false,
+      "lastActivityTimestamp": "2025-06-23T13:38:25.178Z",
+      "lastActivityCheck": "2025-06-23T13:38:25.368Z",
+      "lastBotMessageTimestamp": null,
+      "historyClearedAt": "2025-07-18T06:25:36.336Z",
+      "lastMessageContent": null,
+      "lastContactMessageTimestamp": null,
+      "lastMessageTimestamp": null,
+      "lastHumanMessageTimestamp": null
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats"
+  },
+  {
+    "id": "5214495899469@c.us",
+    "data": {
+      "createdAt": "2025-07-20T16:18:51.927Z",
+      "lastActivityCheck": "2025-07-20T16:19:00.817Z",
+      "userActivitySource": "message_create_event",
+      "userIsActive": true,
+      "lastActivityTimestamp": "2025-07-20T21:26:32.094Z",
+      "lastContactMessageTimestamp": "2025-07-20T21:26:32.094Z",
+      "lastMessageContent": "Va!",
+      "lastMessageTimestamp": "2025-07-20T21:41:43.788Z",
+      "lastHumanMessageTimestamp": "2025-07-20T21:41:43.788Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats"
+  },
+  {
+    "id": "5214497690292@c.us",
+    "data": {
+      "createdAt": "2025-06-23T20:25:24.790Z",
+      "userActivitySource": "message_create_event",
+      "lastActivityCheck": "2025-06-23T20:37:41.674Z",
+      "lastActivityTimestamp": "2025-06-23T21:23:23.234Z",
+      "lastBotMessageTimestamp": null,
+      "historyClearedAt": "2025-07-18T06:25:36.330Z",
+      "lastMessageContent": null,
+      "lastContactMessageTimestamp": null,
+      "lastMessageTimestamp": null,
+      "lastHumanMessageTimestamp": null,
+      "userIsActive": false
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats"
+  },
+  {
+    "id": "5214498065189@c.us",
+    "data": {
+      "createdAt": "2025-06-25T21:54:48.377Z",
+      "lastActivityTimestamp": "2025-06-25T21:54:49.701Z",
+      "lastActivityCheck": "2025-06-25T21:54:49.979Z",
+      "userActivitySource": "message_create_event",
+      "lastBotMessageTimestamp": null,
+      "historyClearedAt": "2025-07-18T06:25:36.332Z",
+      "lastMessageContent": null,
+      "lastContactMessageTimestamp": null,
+      "lastMessageTimestamp": null,
+      "lastHumanMessageTimestamp": null,
+      "userIsActive": false
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats"
+  },
+  {
+    "id": "5214499063902@c.us",
+    "data": {
+      "createdAt": "2025-07-19T14:39:49.283Z",
+      "userActivitySource": "message_create_event",
+      "activatedAt": "2025-07-20T04:22:45.789Z",
+      "isActivated": true,
+      "activationMethod": "initial_trigger",
+      "lastActivityCheck": "2025-07-21T17:19:26.593Z",
+      "userIsActive": true,
+      "lastHumanMessageTimestamp": "2025-07-21T17:55:19.887Z",
+      "lastActivityTimestamp": "2025-07-21T17:58:20.188Z",
+      "lastMessageContent": "gracias!! si, todo lo que tengas me sirve",
+      "lastContactMessageTimestamp": "2025-07-21T17:58:20.188Z",
+      "lastMessageTimestamp": "2025-07-21T17:58:20.188Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats"
+  },
+  {
+    "id": "5214499305144@c.us",
+    "data": {
+      "createdAt": "2025-07-20T21:54:14.186Z",
+      "userActivitySource": "message_create_event",
+      "lastActivityCheck": "2025-07-20T22:25:12.192Z",
+      "userIsActive": true,
+      "lastMessageContent": "",
+      "lastHumanMessageTimestamp": "2025-07-20T22:30:21.586Z",
+      "lastActivityTimestamp": "2025-07-20T22:34:40.303Z",
+      "lastContactMessageTimestamp": "2025-07-20T22:34:40.303Z",
+      "lastMessageTimestamp": "2025-07-20T22:34:40.303Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats"
+  },
+  {
+    "id": "5214499910717@c.us",
+    "data": {
+      "createdAt": "2025-07-18T19:37:07.770Z",
+      "userActivitySource": "message_create_event",
+      "lastActivityCheck": "2025-07-21T19:01:29.986Z",
+      "userIsActive": true,
+      "lastActivityTimestamp": "2025-07-21T19:05:34.389Z",
+      "lastContactMessageTimestamp": "2025-07-21T19:05:34.389Z",
+      "lastMessageContent": "",
+      "lastMessageTimestamp": "2025-07-21T19:08:10.797Z",
+      "lastHumanMessageTimestamp": "2025-07-21T19:08:10.797Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats"
+  },
+  {
+    "id": "5214778971100@c.us",
+    "data": {
+      "createdAt": "2025-06-23T22:46:52.238Z",
+      "userActivitySource": "message_create_event",
+      "lastBotMessageTimestamp": null,
+      "historyClearedAt": "2025-07-18T06:25:36.326Z",
+      "lastActivityTimestamp": "2025-07-18T20:35:03.866Z",
+      "lastContactMessageTimestamp": "2025-07-18T20:35:03.866Z",
+      "lastActivityCheck": "2025-07-18T20:35:04.178Z",
+      "lastMessageContent": "Solucioné la duda que te había enviado, por eso borre el audio 🤭",
+      "lastMessageTimestamp": "2025-07-18T20:35:35.788Z",
+      "lastHumanMessageTimestamp": "2025-07-18T20:35:35.788Z",
+      "userIsActive": true
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats"
+  },
+  {
+    "id": "5214951027505@c.us",
+    "data": {
+      "createdAt": "2025-06-26T14:02:04.003Z",
+      "userActivitySource": "message_create_event",
+      "lastActivityTimestamp": "2025-06-26T14:48:11.992Z",
+      "lastActivityCheck": "2025-06-26T14:48:12.277Z",
+      "userIsActive": false,
+      "lastBotMessageTimestamp": null,
+      "historyClearedAt": "2025-07-18T06:25:36.328Z",
+      "lastMessageContent": null,
+      "lastContactMessageTimestamp": null,
+      "lastMessageTimestamp": null,
+      "lastHumanMessageTimestamp": null
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats"
+  },
+  {
+    "id": "5214961165002@c.us",
+    "data": {
+      "createdAt": "2025-07-19T15:25:44.691Z",
+      "userActivitySource": "message_create_event",
+      "lastActivityCheck": "2025-07-20T18:00:04.228Z",
+      "userIsActive": true,
+      "lastActivityTimestamp": "2025-07-20T18:04:33.990Z",
+      "lastContactMessageTimestamp": "2025-07-20T18:04:33.990Z",
+      "lastMessageContent": "",
+      "lastMessageTimestamp": "2025-07-20T18:06:13.084Z",
+      "lastHumanMessageTimestamp": "2025-07-20T18:06:13.084Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats"
+  },
+  {
+    "id": "5215520319554@c.us",
+    "data": {
+      "createdAt": "2025-06-21T21:15:56.435Z",
+      "userActivitySource": "message_create_event",
+      "lastActivityCheck": "2025-06-22T04:56:39.331Z",
+      "lastActivityTimestamp": "2025-06-22T04:58:44.187Z",
+      "lastBotMessageTimestamp": null,
+      "historyClearedAt": "2025-07-18T06:25:36.326Z",
+      "lastMessageContent": null,
+      "lastContactMessageTimestamp": null,
+      "lastMessageTimestamp": null,
+      "lastHumanMessageTimestamp": null,
+      "userIsActive": false
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats"
+  },
+  {
+    "id": "5215531209673@c.us",
+    "data": {
+      "createdAt": "2025-06-21T01:07:56.152Z",
+      "userActivitySource": "message_create_event",
+      "lastBotMessageTimestamp": null,
+      "historyClearedAt": "2025-07-18T06:25:36.326Z",
+      "lastActivityCheck": "2025-07-21T17:20:45.890Z",
+      "userIsActive": true,
+      "lastActivityTimestamp": "2025-07-21T17:40:37.880Z",
+      "lastContactMessageTimestamp": "2025-07-21T17:40:37.880Z",
+      "lastMessageContent": "",
+      "lastMessageTimestamp": "2025-07-21T18:20:13.094Z",
+      "lastHumanMessageTimestamp": "2025-07-21T18:20:13.094Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats"
+  },
+  {
+    "id": "5215617143752@c.us",
+    "data": {
+      "createdAt": "2025-07-20T03:51:25.692Z",
+      "userActivitySource": "message_create_event",
+      "lastActivityTimestamp": "2025-07-20T12:51:17.219Z",
+      "lastContactMessageTimestamp": "2025-07-20T12:51:17.219Z",
+      "lastActivityCheck": "2025-07-20T12:51:17.799Z",
+      "lastMessageContent": "Gracias hermosa, bendiciones!🙌🏻",
+      "lastMessageTimestamp": "2025-07-20T14:00:01.094Z",
+      "lastHumanMessageTimestamp": "2025-07-20T14:00:01.094Z",
+      "userIsActive": true
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats"
+  },
+  {
+    "id": "5218114131696@c.us",
+    "data": {
+      "userIsActive": false,
+      "createdAt": "2025-06-26T04:41:26.316Z",
+      "lastActivityTimestamp": "2025-06-26T04:41:31.114Z",
+      "lastActivityCheck": "2025-06-26T04:41:31.383Z",
+      "lastBotMessageTimestamp": null,
+      "historyClearedAt": "2025-07-18T06:25:36.331Z",
+      "lastMessageContent": null,
+      "lastContactMessageTimestamp": null,
+      "lastMessageTimestamp": null,
+      "lastHumanMessageTimestamp": null
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats"
+  },
+  {
+    "id": "5492644514944@c.us",
+    "data": {
+      "createdAt": "2025-06-25T21:14:03.810Z",
+      "userActivitySource": "message_create_event",
+      "userIsActive": false,
+      "lastActivityTimestamp": "2025-06-27T02:12:01.542Z",
+      "lastActivityCheck": "2025-06-27T02:12:01.747Z",
+      "lastBotMessageTimestamp": null,
+      "historyClearedAt": "2025-07-18T06:25:36.327Z",
+      "lastMessageContent": null,
+      "lastContactMessageTimestamp": null,
+      "lastMessageTimestamp": null,
+      "lastHumanMessageTimestamp": null
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats"
+  },
+  {
+    "id": "5493424092108@c.us",
+    "data": {
+      "createdAt": "2025-06-20T22:09:24.694Z",
+      "userActivitySource": "message_create_event",
+      "activatedAt": "2025-06-28T17:32:31.821Z",
+      "isActivated": true,
+      "activationMethod": "initial_trigger",
+      "historyClearedAt": "2025-07-18T06:25:36.327Z",
+      "lastBotMessageTimestamp": "2025-07-19T21:50:04.584Z",
+      "lastActivityTimestamp": "2025-07-21T15:00:03.890Z",
+      "lastContactMessageTimestamp": "2025-07-21T15:00:03.890Z",
+      "lastActivityCheck": "2025-07-21T15:00:04.499Z",
+      "userIsActive": true,
+      "lastMessageContent": "",
+      "lastMessageTimestamp": "2025-07-21T15:01:32.087Z",
+      "lastHumanMessageTimestamp": "2025-07-21T15:01:32.087Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats"
+  },
+  {
+    "id": "5493424854909@c.us",
+    "data": {
+      "createdAt": "2025-06-23T19:20:27.497Z",
+      "lastActivityTimestamp": "2025-06-23T19:20:28.422Z",
+      "userActivitySource": "message_create_event",
+      "lastBotMessageTimestamp": null,
+      "historyClearedAt": "2025-07-18T06:25:36.330Z",
+      "lastMessageContent": null,
+      "lastContactMessageTimestamp": null,
+      "lastMessageTimestamp": null,
+      "lastHumanMessageTimestamp": null,
+      "userIsActive": false
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats"
+  },
+  {
+    "id": "5493425194170@c.us",
+    "data": {
+      "userIsActive": false,
+      "createdAt": "2025-06-20T22:04:26.468Z",
+      "lastActivityTimestamp": "2025-06-20T22:06:42.626Z",
+      "lastActivityCheck": "2025-06-20T22:06:42.877Z",
+      "lastBotMessageTimestamp": null,
+      "lastMessageContent": null,
+      "lastContactMessageTimestamp": null,
+      "lastMessageTimestamp": null,
+      "lastHumanMessageTimestamp": null,
+      "historyClearedAt": "2025-07-18T06:25:36.333Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats"
+  },
+  {
+    "id": "5493426512682@c.us",
+    "data": {
+      "createdAt": "2025-06-20T22:03:12.769Z",
+      "lastBotMessageTimestamp": null,
+      "userActivitySource": "message_create_event",
+      "historyClearedAt": "2025-07-18T06:25:36.332Z",
+      "lastActivityCheck": "2025-07-21T16:28:57.287Z",
+      "userIsActive": true,
+      "lastActivityTimestamp": "2025-07-21T16:33:00.675Z",
+      "lastContactMessageTimestamp": "2025-07-21T16:33:00.675Z",
+      "lastMessageContent": "BEGIN:VCARD\nVERSION:3.0\nN:Torre;Ana Paulina de;la;;\nFN:Ana Paulina de la Torre\nORG:Ana Paulina de la Torre\nTITLE:\nitem1.TEL;waid=5214499063902:+52 449 906 3902\nitem1.X-ABLabel:Celular\nX-WA-BIZ-DESCRIPTION:Creer para crear ✨🧘🏼‍♀️\nX-WA-BIZ-NAME:Ana Paulina de la Torre\nEND:VCARD",
+      "lastMessageTimestamp": "2025-07-21T16:33:22.595Z",
+      "lastHumanMessageTimestamp": "2025-07-21T16:33:22.595Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats"
+  },
+  {
+    "id": "status@broadcast",
+    "data": {
+      "userIsActive": false,
+      "createdAt": "2025-06-20T22:10:42.196Z",
+      "lastBotMessageTimestamp": null,
+      "lastHumanMessageTimestamp": null,
+      "historyClearedAt": "2025-07-18T06:25:36.344Z",
+      "lastActivityTimestamp": "2025-07-21T19:07:48.497Z",
+      "lastMessageContent": "https://www.instagram.com/equinnesis?igsh=ZHNjdzFjaW5tY2Nu\n\nSíganme!",
+      "lastContactMessageTimestamp": "2025-07-21T19:07:48.497Z",
+      "lastMessageTimestamp": "2025-07-21T19:07:48.497Z",
+      "lastActivityCheck": "2025-07-21T19:07:49.092Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats"
+  }
+]

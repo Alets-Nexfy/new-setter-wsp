@@ -1,0 +1,28 @@
+[
+  {
+    "id": "OZmGknaVTqhpZz5pDI0u",
+    "data": {
+      "body": "",
+      "isFromMe": false,
+      "messageId": "3A1579D4F4C4C5784750",
+      "from": "status@broadcast",
+      "to": "me (MAZ7zaPxFtN2ehEeYn3A42NMli23)",
+      "origin": "contact",
+      "timestamp": "2025-07-15T16:17:36.461Z"
+    },
+    "path": "users/MAZ7zaPxFtN2ehEeYn3A42NMli23/chats/status@broadcast/messages_contact"
+  },
+  {
+    "id": "px9WSmOuCtHcHXGTn80F",
+    "data": {
+      "body": "",
+      "isFromMe": false,
+      "messageId": "3A1579D4F4C4C5784750",
+      "from": "status@broadcast",
+      "to": "me (MAZ7zaPxFtN2ehEeYn3A42NMli23)",
+      "origin": "contact",
+      "timestamp": "2025-07-15T02:06:00.224Z"
+    },
+    "path": "users/MAZ7zaPxFtN2ehEeYn3A42NMli23/chats/status@broadcast/messages_contact"
+  }
+]

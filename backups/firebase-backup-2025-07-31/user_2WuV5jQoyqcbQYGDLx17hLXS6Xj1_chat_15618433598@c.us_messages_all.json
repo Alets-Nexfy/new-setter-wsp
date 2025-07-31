@@ -1,0 +1,450 @@
+[
+  {
+    "id": "0YrbW4vEy0HmtlKkus52",
+    "data": {
+      "from": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "to": "15618433598@c.us",
+      "body": "Jajaja",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "3AD7024BC833AA7BD867",
+      "timestamp": "2025-06-25T02:15:23.719Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/15618433598@c.us/messages_all"
+  },
+  {
+    "id": "0tGO2SnQzmBB2GlDh29J",
+    "data": {
+      "body": "Jajaja, justo tengo un examen el 3, así que voy a estar con la cabeza llena, pero de ley armamos algo chévere",
+      "isFromMe": false,
+      "messageId": "3A274F8D8051504FD886",
+      "from": "15618433598@c.us",
+      "to": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "origin": "contact",
+      "timestamp": "2025-06-25T02:14:55.218Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/15618433598@c.us/messages_all"
+  },
+  {
+    "id": "28ExXB0MbE2uMnxAiY0B",
+    "data": {
+      "from": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "to": "15618433598@c.us",
+      "body": "Bueno",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "3A0BF47703C0562C84D6",
+      "timestamp": "2025-06-25T02:16:52.673Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/15618433598@c.us/messages_all"
+  },
+  {
+    "id": "8ptKRkrsyc82YidqvrZ2",
+    "data": {
+      "from": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "to": "15618433598@c.us",
+      "body": "Debes ser buena anfitriona",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "3ABE3D9A91CADA83D13C",
+      "timestamp": "2025-06-25T02:10:03.360Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/15618433598@c.us/messages_all"
+  },
+  {
+    "id": "AKhwSDVIrsQwQzlT6h0O",
+    "data": {
+      "body": "Como así estás ahí? Me sacaste de onda jajaja",
+      "isFromMe": false,
+      "messageId": "3AA482865224935B74C0",
+      "from": "15618433598@c.us",
+      "to": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "origin": "contact",
+      "timestamp": "2025-06-25T02:07:14.525Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/15618433598@c.us/messages_all"
+  },
+  {
+    "id": "B3fCjmMzgJ3AQ9qIXb7M",
+    "data": {
+      "from": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "to": "15618433598@c.us",
+      "body": "Jajaja",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "3A36C515FD4A030BEC6E",
+      "timestamp": "2025-06-25T02:08:02.418Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/15618433598@c.us/messages_all"
+  },
+  {
+    "id": "E0JhcicrMP31AJD4anrh",
+    "data": {
+      "from": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "to": "15618433598@c.us",
+      "body": "Toy manija jajaja",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "3ABEE95CEE5671B4BF0C",
+      "timestamp": "2025-06-25T02:22:13.109Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/15618433598@c.us/messages_all"
+  },
+  {
+    "id": "E0lfUx7mHy2rXnzZUGBN",
+    "data": {
+      "body": "",
+      "isFromMe": false,
+      "messageId": "3AB68D2BB94CE96DE1EF",
+      "from": "15618433598@c.us",
+      "to": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "origin": "contact",
+      "timestamp": "2025-06-25T02:17:36.806Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/15618433598@c.us/messages_all"
+  },
+  {
+    "id": "F5X1Gp3qjtT2ia8pxtxV",
+    "data": {
+      "from": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "to": "15618433598@c.us",
+      "body": "Seeee",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "3ACA73F2C8F610459F50",
+      "timestamp": "2025-06-25T02:22:07.800Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/15618433598@c.us/messages_all"
+  },
+  {
+    "id": "Jq7K54wUHVNpWdOCsNWE",
+    "data": {
+      "body": "",
+      "isFromMe": false,
+      "messageId": "3AFD4586FCA7CC7D5B7B",
+      "from": "15618433598@c.us",
+      "to": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "origin": "contact",
+      "timestamp": "2025-06-25T02:15:15.730Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/15618433598@c.us/messages_all"
+  },
+  {
+    "id": "Q4o8w7Dbc9tFjbGQhlLW",
+    "data": {
+      "from": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "to": "15618433598@c.us",
+      "body": "Semana próxima creo estaré en Miami ! Vamos a la playita",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "3A94A08315B1F765169D",
+      "timestamp": "2025-06-25T02:03:48.719Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/15618433598@c.us/messages_all"
+  },
+  {
+    "id": "U6HgsA4C1tZqTtU7HcsN",
+    "data": {
+      "from": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "to": "15618433598@c.us",
+      "body": "Jajajajaja la mamiiii",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "3A4680503571823F9677",
+      "timestamp": "2025-06-25T02:03:24.141Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/15618433598@c.us/messages_all"
+  },
+  {
+    "id": "U7hgj1MkbSzC5V3mNuiE",
+    "data": {
+      "body": "Mucha buena vibra",
+      "isFromMe": false,
+      "messageId": "3A24FAA4DA5A3E9F600D",
+      "from": "15618433598@c.us",
+      "to": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "origin": "contact",
+      "timestamp": "2025-06-25T02:17:32.806Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/15618433598@c.us/messages_all"
+  },
+  {
+    "id": "UQiRAlxGa7MgWn7JE1RL",
+    "data": {
+      "body": "lol, no lo sé rick. \nhasta cuando te quedas por acá",
+      "isFromMe": false,
+      "messageId": "3ABBD1F257FA2672CD40",
+      "from": "15618433598@c.us",
+      "to": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "origin": "contact",
+      "timestamp": "2025-06-25T02:16:17.364Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/15618433598@c.us/messages_all"
+  },
+  {
+    "id": "VI5bLd6PjBiaE5hqn5Vk",
+    "data": {
+      "from": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "to": "15618433598@c.us",
+      "body": "Entonces el 4 ya libre de cargas nos rompemos la cabeza-",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "3A91F3DBAB0FF16B61A7",
+      "timestamp": "2025-06-25T02:15:42.946Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/15618433598@c.us/messages_all"
+  },
+  {
+    "id": "YXA3MjK5gdXOOVuse9bx",
+    "data": {
+      "from": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "to": "15618433598@c.us",
+      "body": "🤣🤣🤣",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "3ACC8CE2C222895B4992",
+      "timestamp": "2025-06-25T02:15:45.248Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/15618433598@c.us/messages_all"
+  },
+  {
+    "id": "b7KTLthtyEP01NNiwRry",
+    "data": {
+      "from": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "to": "15618433598@c.us",
+      "body": "Iré el 1 y veré",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "3A8481612C8188D9E22B",
+      "timestamp": "2025-06-25T02:17:00.769Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/15618433598@c.us/messages_all"
+  },
+  {
+    "id": "cb3gq6LH7C1jjS6gKKPr",
+    "data": {
+      "body": "Una de las mejores fechas en Estados Unidos creo yo",
+      "isFromMe": false,
+      "messageId": "3AEC0A0797838C570C92",
+      "from": "15618433598@c.us",
+      "to": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "origin": "contact",
+      "timestamp": "2025-06-25T02:09:20.381Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/15618433598@c.us/messages_all"
+  },
+  {
+    "id": "crCCL7g07Mj9Ysc4Q04o",
+    "data": {
+      "from": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "to": "15618433598@c.us",
+      "body": "🍾🍾🍾",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "3A2EB9F2BC78AA75B15C",
+      "timestamp": "2025-06-25T02:15:47.726Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/15618433598@c.us/messages_all"
+  },
+  {
+    "id": "es5nhinVanP1UxUpL1jH",
+    "data": {
+      "body": "Que chevere te va a gustar",
+      "isFromMe": false,
+      "messageId": "3A5BA28DA1F2F08FF5F9",
+      "from": "15618433598@c.us",
+      "to": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "origin": "contact",
+      "timestamp": "2025-06-25T02:17:23.045Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/15618433598@c.us/messages_all"
+  },
+  {
+    "id": "gIb2BwwcTYZsrkMHpbGj",
+    "data": {
+      "from": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "to": "15618433598@c.us",
+      "body": "Hace mucho no voy",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "3A84F4C963A996156FC0",
+      "timestamp": "2025-06-25T02:22:10.850Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/15618433598@c.us/messages_all"
+  },
+  {
+    "id": "hssLpHkBkaPuQbIHKF5L",
+    "data": {
+      "body": "",
+      "isFromMe": false,
+      "messageId": "3AEA239F9F1E0AEFDFE7",
+      "from": "15618433598@c.us",
+      "to": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "origin": "contact",
+      "timestamp": "2025-06-25T02:15:26.343Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/15618433598@c.us/messages_all"
+  },
+  {
+    "id": "jAR8gpNuK4omPMK8q8fj",
+    "data": {
+      "body": "Jajajaj que sorpresaaa",
+      "isFromMe": false,
+      "messageId": "3A74244261F50CC27D9B",
+      "from": "15618433598@c.us",
+      "to": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "origin": "contact",
+      "timestamp": "2025-06-25T02:03:05.304Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/15618433598@c.us/messages_all"
+  },
+  {
+    "id": "m31afQZ7e9fBGAHDIsun",
+    "data": {
+      "from": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "to": "15618433598@c.us",
+      "body": "Ya tienes tarea",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "3A458FF6604270E24863",
+      "timestamp": "2025-06-25T02:09:55.076Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/15618433598@c.us/messages_all"
+  },
+  {
+    "id": "nIwO7N9iPMUREZVKRwjm",
+    "data": {
+      "from": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "to": "15618433598@c.us",
+      "body": "Ahh el día de la independenciaaaaaa",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "3A48C8AC3C3EE1B05B03",
+      "timestamp": "2025-06-25T02:07:33.378Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/15618433598@c.us/messages_all"
+  },
+  {
+    "id": "nNwl64cxWe5pwvmwuQEO",
+    "data": {
+      "body": "",
+      "isFromMe": false,
+      "messageId": "3AA33BFD296E515166D4",
+      "from": "15618433598@c.us",
+      "to": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "origin": "contact",
+      "timestamp": "2025-06-25T02:01:45.801Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/15618433598@c.us/messages_all"
+  },
+  {
+    "id": "or1jDNDM8BdtUAmzQ72o",
+    "data": {
+      "body": "ohhh si jajaja",
+      "isFromMe": false,
+      "messageId": "3A9070E5DEF886D45FED",
+      "from": "15618433598@c.us",
+      "to": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "origin": "contact",
+      "timestamp": "2025-06-25T02:08:55.860Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/15618433598@c.us/messages_all"
+  },
+  {
+    "id": "pR8Dwt1fRdme77A1lr82",
+    "data": {
+      "body": "Es 4 de julio",
+      "isFromMe": false,
+      "messageId": "3A800FE14CFE98607F3E",
+      "from": "15618433598@c.us",
+      "to": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "origin": "contact",
+      "timestamp": "2025-06-25T02:06:58.778Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/15618433598@c.us/messages_all"
+  },
+  {
+    "id": "quRxPNi4hcFfKcQbsT4V",
+    "data": {
+      "from": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "to": "15618433598@c.us",
+      "body": "Jajajaja",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "3A1A6B399865C3A0C2E1",
+      "timestamp": "2025-06-25T02:16:47.891Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/15618433598@c.us/messages_all"
+  },
+  {
+    "id": "rg6AfYXrk0AKV9VVFiag",
+    "data": {
+      "from": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "to": "15618433598@c.us",
+      "body": "No lo sé",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "3AB8853CB9A1BD21685A",
+      "timestamp": "2025-06-25T02:16:56.797Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/15618433598@c.us/messages_all"
+  },
+  {
+    "id": "sdn3WFOQVnEQx3WLfhEP",
+    "data": {
+      "from": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "to": "15618433598@c.us",
+      "body": "Jajajaja te vi en una historia la otra vez con Pablo y Oscar y eso",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "3AD15066A6671AA0C284",
+      "timestamp": "2025-06-25T02:08:02.196Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/15618433598@c.us/messages_all"
+  },
+  {
+    "id": "t81QzHmr8pltgBHsXROG",
+    "data": {
+      "from": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "to": "15618433598@c.us",
+      "body": "Bueno nos debes hacer pasar alto día",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "3A5A6421A5EFFD36DC85",
+      "timestamp": "2025-06-25T02:09:51.377Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/15618433598@c.us/messages_all"
+  },
+  {
+    "id": "zoJwwerZH3oPv7cI2Xqg",
+    "data": {
+      "body": "",
+      "isFromMe": false,
+      "messageId": "3EB06E1DF207C78A1678",
+      "from": "15618433598@c.us",
+      "to": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "origin": "contact",
+      "timestamp": "2025-06-25T02:01:44.948Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/15618433598@c.us/messages_all"
+  }
+]

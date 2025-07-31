@@ -1,0 +1,29 @@
+[
+  {
+    "id": "84AiHcT1qGWMO8UgcK1V",
+    "data": {
+      "from": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "to": "5493425875017@c.us",
+      "body": "",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "3A41C693C096D45A3AE1",
+      "timestamp": "2025-06-26T22:15:11.397Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5493425875017@c.us/messages_all"
+  },
+  {
+    "id": "e3UeioIOC6MJOc8oG3rq",
+    "data": {
+      "body": "Lo mismo amiguito, a darle con todo que ya nos veremos 🤍",
+      "isFromMe": false,
+      "messageId": "3ABFA1F4971A64744EF8",
+      "from": "5493425875017@c.us",
+      "to": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "origin": "contact",
+      "timestamp": "2025-06-26T22:33:28.635Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5493425875017@c.us/messages_all"
+  }
+]

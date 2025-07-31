@@ -1,0 +1,58 @@
+[
+  {
+    "id": "28Z3mokrAkjQaY9WBHlz",
+    "data": {
+      "from": "me (5v3KpVswXcSzUTx9BQXQitJb4xJ2)",
+      "to": "50768954812@c.us",
+      "body": "Gracias",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "4BA5B0BDABA8F3DFB045DD4A86836F24",
+      "timestamp": "2025-06-25T16:32:29.785Z"
+    },
+    "path": "users/5v3KpVswXcSzUTx9BQXQitJb4xJ2/chats/50768954812@c.us/messages_human"
+  },
+  {
+    "id": "AbFWWhZ0lHVa356R1NnV",
+    "data": {
+      "from": "me (5v3KpVswXcSzUTx9BQXQitJb4xJ2)",
+      "to": "50768954812@c.us",
+      "body": "Tanque de preparación y T4 o para liberar",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "81A2A85E8E4867A516CC56CC1B2F2E6A",
+      "timestamp": "2025-06-25T16:32:19.365Z"
+    },
+    "path": "users/5v3KpVswXcSzUTx9BQXQitJb4xJ2/chats/50768954812@c.us/messages_human"
+  },
+  {
+    "id": "fqJZZin8yEOmJGakM7AT",
+    "data": {
+      "from": "me (5v3KpVswXcSzUTx9BQXQitJb4xJ2)",
+      "to": "50768954812@c.us",
+      "body": "Gracias compañera",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "50052437813BF31DBB49E65E5AFB1FB0",
+      "timestamp": "2025-06-27T11:54:04.124Z"
+    },
+    "path": "users/5v3KpVswXcSzUTx9BQXQitJb4xJ2/chats/50768954812@c.us/messages_human"
+  },
+  {
+    "id": "w0qzpQ37LaoCs4KZwpCm",
+    "data": {
+      "from": "me (5v3KpVswXcSzUTx9BQXQitJb4xJ2)",
+      "to": "50768954812@c.us",
+      "body": "",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "28D11A02C51792454989F6737F7ED758",
+      "timestamp": "2025-06-27T11:54:14.983Z"
+    },
+    "path": "users/5v3KpVswXcSzUTx9BQXQitJb4xJ2/chats/50768954812@c.us/messages_human"
+  }
+]

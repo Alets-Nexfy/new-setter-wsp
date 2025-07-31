@@ -1,0 +1,98 @@
+[
+  {
+    "id": "5KMg23wWI9RVHQTgRciO",
+    "data": {
+      "body": "rooftop?",
+      "isFromMe": false,
+      "messageId": "3A511885F0E74F913A1D",
+      "from": "351914055324@c.us",
+      "to": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "origin": "contact",
+      "timestamp": "2025-06-26T01:32:33.720Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/351914055324@c.us/messages_all"
+  },
+  {
+    "id": "CnJXNArTqayiHu7VhOAg",
+    "data": {
+      "from": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "to": "351914055324@c.us",
+      "body": "Lholivera789@gmail.com",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "3AFB320EB750D2C1618B",
+      "timestamp": "2025-06-25T18:14:22.675Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/351914055324@c.us/messages_all"
+  },
+  {
+    "id": "IE8F4MsOb8Mze1knAAYS",
+    "data": {
+      "from": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "to": "351914055324@c.us",
+      "body": "Acá Luis reservó para ti y Oscar",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "3A241C74035D0E8F6894",
+      "timestamp": "2025-06-26T01:34:37.021Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/351914055324@c.us/messages_all"
+  },
+  {
+    "id": "RwoNOqcAm855zSElnYWP",
+    "data": {
+      "from": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "to": "351914055324@c.us",
+      "body": "Veni sisi",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "3A3E4FE3CAB7DDBF3AEF",
+      "timestamp": "2025-06-26T01:34:14.275Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/351914055324@c.us/messages_all"
+  },
+  {
+    "id": "WTN0ZF3gKlY4XngEQqu9",
+    "data": {
+      "from": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "to": "351914055324@c.us",
+      "body": "Siii venite",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "3AAE079D93F916EC122F",
+      "timestamp": "2025-06-26T01:32:45.907Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/351914055324@c.us/messages_all"
+  },
+  {
+    "id": "YMSFoMpdygYwh7XiQVZI",
+    "data": {
+      "body": "Ricardo e tal tambien estavan para ir a comer. tienes ai lugar? para cenar?",
+      "isFromMe": false,
+      "messageId": "3A49DD524326A8691EA2",
+      "from": "351914055324@c.us",
+      "to": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "origin": "contact",
+      "timestamp": "2025-06-26T01:33:25.571Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/351914055324@c.us/messages_all"
+  },
+  {
+    "id": "aywMzRdaNvF1UH4nZQT7",
+    "data": {
+      "from": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "to": "351914055324@c.us",
+      "body": "",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "3A08676979ED85FFFB78",
+      "timestamp": "2025-06-26T01:31:00.464Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/351914055324@c.us/messages_all"
+  }
+]

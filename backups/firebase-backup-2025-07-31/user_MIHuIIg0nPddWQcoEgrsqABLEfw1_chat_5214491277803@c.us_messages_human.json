@@ -1,0 +1,114 @@
+[
+  {
+    "id": "5kvbvTtmsogLDq7PUphc",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5214491277803@c.us",
+      "body": "",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "5F795956DE64770F04FB64C7DBE4EE4B",
+      "timestamp": "2025-07-20T02:41:49.392Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214491277803@c.us/messages_human"
+  },
+  {
+    "id": "8UhrDhBBucyWOiyGVqxE",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5214491277803@c.us",
+      "body": "Amigaaaa",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "9A0FB44DB5E129B6DBBC996CB5E3A681",
+      "timestamp": "2025-07-20T02:09:17.081Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214491277803@c.us/messages_human"
+  },
+  {
+    "id": "ECDc2NtNMYbZAYBRXJdD",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5214491277803@c.us",
+      "body": "Presentación de productos RIMAN_20250714_121929_0000.pdf",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "C27BD7DE9A9DF0BF335ABE404634F57E",
+      "timestamp": "2025-07-20T02:19:57.705Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214491277803@c.us/messages_human"
+  },
+  {
+    "id": "JqGotE321yH0qc3DzfIl",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5214491277803@c.us",
+      "body": "Okay amiga!🙌🏻🌿",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "D81CCD558670C523215A3C37C23CA0B3",
+      "timestamp": "2025-07-20T03:39:25.000Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214491277803@c.us/messages_human"
+  },
+  {
+    "id": "PmIdYLRhB4zrafTWyXra",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5214491277803@c.us",
+      "body": "",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "779A7B39553FEB52505DE7F8E706D2D4",
+      "timestamp": "2025-07-20T02:09:40.780Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214491277803@c.us/messages_human"
+  },
+  {
+    "id": "WXaUVDd0M9tgeXCjO9p4",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5214491277803@c.us",
+      "body": "",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "FD539D39D6749F4F8A520CD073497D89",
+      "timestamp": "2025-07-20T03:40:00.792Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214491277803@c.us/messages_human"
+  },
+  {
+    "id": "j55tgDhFrfwxOj0lX63g",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5214491277803@c.us",
+      "body": "",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "D3BE2C5804FE52DD325285FF4FEBB66E",
+      "timestamp": "2025-07-20T04:12:38.388Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214491277803@c.us/messages_human"
+  },
+  {
+    "id": "qek6c7MbEXlyRndfXGxU",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5214491277803@c.us",
+      "body": "",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "91DAD711F65A78A8300E1278A9560951",
+      "timestamp": "2025-07-20T02:19:43.084Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214491277803@c.us/messages_human"
+  }
+]

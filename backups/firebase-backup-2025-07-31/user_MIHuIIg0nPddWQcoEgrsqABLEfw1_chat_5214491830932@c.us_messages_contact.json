@@ -1,0 +1,80 @@
+[
+  {
+    "id": "1xxX4IcO4VppprvfzDuS",
+    "data": {
+      "body": "Le voy a proporcionar el número de mi hermana Isidra para que también lo vea con ella",
+      "isFromMe": false,
+      "messageId": "F44947C8A97797F7BE293167135A6443",
+      "from": "5214491830932@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-20T04:28:38.991Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214491830932@c.us/messages_contact"
+  },
+  {
+    "id": "8I1HQlc1rf39WY4LY9Cj",
+    "data": {
+      "body": "",
+      "isFromMe": false,
+      "messageId": "3EB032FEB06CE5570278",
+      "from": "5214491830932@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-20T04:26:11.991Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214491830932@c.us/messages_contact"
+  },
+  {
+    "id": "Gl76IKzfGP4M3bZ9NdC7",
+    "data": {
+      "body": "Si como le hacemos para checar los viajes",
+      "isFromMe": false,
+      "messageId": "32BD2F77618D627764B7359602294EB7",
+      "from": "5214491830932@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-20T04:27:30.285Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214491830932@c.us/messages_contact"
+  },
+  {
+    "id": "VN9Il1s4QSnHmbxgimPH",
+    "data": {
+      "body": "Buenas noches",
+      "isFromMe": false,
+      "messageId": "2BB23E21B1A1E58F1B5D6E6B5C38FC9C",
+      "from": "5214491830932@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-20T04:26:12.092Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214491830932@c.us/messages_contact"
+  },
+  {
+    "id": "ajHOWhtyCDFYr70Sg6KR",
+    "data": {
+      "body": "",
+      "isFromMe": false,
+      "messageId": "3EB0FC9275B483C7E787",
+      "from": "5214491830932@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-20T03:45:27.892Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214491830932@c.us/messages_contact"
+  },
+  {
+    "id": "dr8jrJ0ii5m5VGdhV4WA",
+    "data": {
+      "body": "BEGIN:VCARD\nVERSION:3.0\nN:;Isidrahermana;;;\nFN:Isidrahermana\nitem1.TEL;waid=16264866390:+1 (626) 486-6390\nitem1.X-ABLabel:Celular\nitem2.TEL:+52 626 486 6390\nitem2.X-ABLabel:Celular\nEND:VCARD",
+      "isFromMe": false,
+      "messageId": "6736156417B109AFD23F9AE7441E974C",
+      "from": "5214491830932@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-20T04:29:27.288Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214491830932@c.us/messages_contact"
+  }
+]

@@ -1,0 +1,119 @@
+[
+  {
+    "id": "1EAgGTukONAp1N15UWcX",
+    "data": {
+      "body": "",
+      "isFromMe": false,
+      "messageId": "C7B29E25C320AD20CBE665C32972A9F5",
+      "from": "5493437443935@c.us",
+      "to": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "origin": "contact",
+      "timestamp": "2025-06-25T01:16:33.781Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5493437443935@c.us/messages_contact"
+  },
+  {
+    "id": "9cmUpTuHzraCoSkMT7Vn",
+    "data": {
+      "body": "",
+      "isFromMe": false,
+      "messageId": "0A69C8F3D5B838F1EC51B7E6622E8EA9",
+      "from": "5493437443935@c.us",
+      "to": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "origin": "contact",
+      "timestamp": "2025-06-25T01:20:31.509Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5493437443935@c.us/messages_contact"
+  },
+  {
+    "id": "BbNn2l6deEnLsy0sbRMY",
+    "data": {
+      "body": "Hola Lucas como va ?",
+      "isFromMe": false,
+      "messageId": "06860363FB3D636D348F5D084B58D3ED",
+      "from": "5493437443935@c.us",
+      "to": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "origin": "contact",
+      "timestamp": "2025-06-25T21:23:36.298Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5493437443935@c.us/messages_contact"
+  },
+  {
+    "id": "Iv0z1e6Mp5dBlepri6sw",
+    "data": {
+      "body": "Si podés organizamos para mañana a esta ahora te parece ?",
+      "isFromMe": false,
+      "messageId": "E38DC32B8A0506697B71DEDF27F2FCFE",
+      "from": "5493437443935@c.us",
+      "to": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "origin": "contact",
+      "timestamp": "2025-06-25T21:23:58.630Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5493437443935@c.us/messages_contact"
+  },
+  {
+    "id": "MSAGKVl38j9ujlkyGzBN",
+    "data": {
+      "body": "Perfecto muchas gracias Lucas, su querés mañana te hablo y coordinamos la hora",
+      "isFromMe": false,
+      "messageId": "003C9F0D66B6187823D7639FDEF5976E",
+      "from": "5493437443935@c.us",
+      "to": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "origin": "contact",
+      "timestamp": "2025-06-25T01:36:36.043Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5493437443935@c.us/messages_contact"
+  },
+  {
+    "id": "SDsILZrZLyOYl52YplCj",
+    "data": {
+      "body": "",
+      "isFromMe": false,
+      "messageId": "79FE667D42F8FC07ABA42BB78F65F5FA",
+      "from": "5493437443935@c.us",
+      "to": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "origin": "contact",
+      "timestamp": "2025-06-25T01:15:53.574Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5493437443935@c.us/messages_contact"
+  },
+  {
+    "id": "Tb37qr5J8RweYx3DEq7O",
+    "data": {
+      "body": "Perfecto Lucas, mañana nos conectamos",
+      "isFromMe": false,
+      "messageId": "A8DE0C918CF6BE30A3EF3D15DC48882D",
+      "from": "5493437443935@c.us",
+      "to": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "origin": "contact",
+      "timestamp": "2025-06-25T22:47:14.435Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5493437443935@c.us/messages_contact"
+  },
+  {
+    "id": "h03Z2quSQoO7CF9DJlwL",
+    "data": {
+      "body": "Hola Lucas, como va ? Todo bien",
+      "isFromMe": false,
+      "messageId": "B5B0951B0699507158FFBEB620573132",
+      "from": "5493437443935@c.us",
+      "to": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "origin": "contact",
+      "timestamp": "2025-06-25T00:54:42.553Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5493437443935@c.us/messages_contact"
+  },
+  {
+    "id": "sroT98Px9OMCdghQ5kjj",
+    "data": {
+      "body": "En estos momentos no, me encuentro en una clase",
+      "isFromMe": false,
+      "messageId": "AEF32B593C2670C6300DE03557406148",
+      "from": "5493437443935@c.us",
+      "to": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "origin": "contact",
+      "timestamp": "2025-06-25T21:23:44.875Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5493437443935@c.us/messages_contact"
+  }
+]

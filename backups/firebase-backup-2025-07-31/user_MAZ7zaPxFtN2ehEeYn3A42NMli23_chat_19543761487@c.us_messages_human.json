@@ -1,0 +1,58 @@
+[
+  {
+    "id": "QEwmk2AG7LfEUORJve58",
+    "data": {
+      "from": "me (MAZ7zaPxFtN2ehEeYn3A42NMli23)",
+      "to": "19543761487@c.us",
+      "body": "Hola Alfredo! Buenas tardes! Nos vemos hoy 6pm argentina!",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "3A76A0224A5E35C533DD",
+      "timestamp": "2025-07-14T17:09:23.696Z"
+    },
+    "path": "users/MAZ7zaPxFtN2ehEeYn3A42NMli23/chats/19543761487@c.us/messages_human"
+  },
+  {
+    "id": "cZnpln9oRsPU4zbuLIl8",
+    "data": {
+      "from": "me (MAZ7zaPxFtN2ehEeYn3A42NMli23)",
+      "to": "19543761487@c.us",
+      "body": "Estamos dentro de la sala",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "3A2333D5162FB8006083",
+      "timestamp": "2025-07-14T21:02:17.209Z"
+    },
+    "path": "users/MAZ7zaPxFtN2ehEeYn3A42NMli23/chats/19543761487@c.us/messages_human"
+  },
+  {
+    "id": "g0Vi9w8EvkFTzBsCBE4w",
+    "data": {
+      "from": "me (MAZ7zaPxFtN2ehEeYn3A42NMli23)",
+      "to": "19543761487@c.us",
+      "body": "Buen día Alfredo! Cuando tengas algún agente para testear envíamelo porfavor, estamos a la espera",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "3A6725B58CEC1128D57C",
+      "timestamp": "2025-07-15T14:48:46.276Z"
+    },
+    "path": "users/MAZ7zaPxFtN2ehEeYn3A42NMli23/chats/19543761487@c.us/messages_human"
+  },
+  {
+    "id": "kTfY1ChzzF2bSiVQpKCW",
+    "data": {
+      "from": "me (MAZ7zaPxFtN2ehEeYn3A42NMli23)",
+      "to": "19543761487@c.us",
+      "body": "Alfredo! Gracias por la reunión de hoy.\n\nCuando tengas los agentes para testear genial, así podemos evaluarlo",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "3AE9EA2BAFBF30157D60",
+      "timestamp": "2025-07-14T22:43:27.116Z"
+    },
+    "path": "users/MAZ7zaPxFtN2ehEeYn3A42NMli23/chats/19543761487@c.us/messages_human"
+  }
+]

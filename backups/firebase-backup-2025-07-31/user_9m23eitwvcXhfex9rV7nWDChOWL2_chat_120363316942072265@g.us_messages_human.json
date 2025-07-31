@@ -1,0 +1,16 @@
+[
+  {
+    "id": "LOM0g7gWhPGusnoX0vUc",
+    "data": {
+      "from": "me (9m23eitwvcXhfex9rV7nWDChOWL2)",
+      "to": "120363316942072265@g.us",
+      "body": "Tranqui mi tarde",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "3A4F81210A4C4CDB5133",
+      "timestamp": "2025-06-20T20:18:03.073Z"
+    },
+    "path": "users/9m23eitwvcXhfex9rV7nWDChOWL2/chats/120363316942072265@g.us/messages_human"
+  }
+]

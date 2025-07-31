@@ -1,0 +1,72 @@
+[
+  {
+    "id": "Hi27PGKZjQxpPg5odxR2",
+    "data": {
+      "from": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "to": "351914055324@c.us",
+      "body": "Acá Luis reservó para ti y Oscar",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "3A241C74035D0E8F6894",
+      "timestamp": "2025-06-26T01:34:36.991Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/351914055324@c.us/messages_human"
+  },
+  {
+    "id": "pQ9Fw4pa73QAVefg0ad8",
+    "data": {
+      "from": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "to": "351914055324@c.us",
+      "body": "Lholivera789@gmail.com",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "3AFB320EB750D2C1618B",
+      "timestamp": "2025-06-25T18:14:22.547Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/351914055324@c.us/messages_human"
+  },
+  {
+    "id": "pkiF22AE4IyXxwxCs2SM",
+    "data": {
+      "from": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "to": "351914055324@c.us",
+      "body": "Siii venite",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "3AAE079D93F916EC122F",
+      "timestamp": "2025-06-26T01:32:45.865Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/351914055324@c.us/messages_human"
+  },
+  {
+    "id": "sA2JE87lUK4XUBwA0d5X",
+    "data": {
+      "from": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "to": "351914055324@c.us",
+      "body": "",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "3A08676979ED85FFFB78",
+      "timestamp": "2025-06-26T01:31:00.358Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/351914055324@c.us/messages_human"
+  },
+  {
+    "id": "yXroYy7kqZ7uK8TgVXqp",
+    "data": {
+      "from": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "to": "351914055324@c.us",
+      "body": "Veni sisi",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "3A3E4FE3CAB7DDBF3AEF",
+      "timestamp": "2025-06-26T01:34:14.326Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/351914055324@c.us/messages_human"
+  }
+]

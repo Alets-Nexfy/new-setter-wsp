@@ -1,0 +1,535 @@
+[
+  {
+    "id": "0HTwguT5WXe8PdB3KAu5",
+    "data": {
+      "body": "",
+      "isFromMe": false,
+      "messageId": "53F46546B028EFDB7EF11847D3F4C04B",
+      "from": "5493425468611@c.us",
+      "to": "me (9m23eitwvcXhfex9rV7nWDChOWL2)",
+      "origin": "contact",
+      "timestamp": "2025-06-21T02:42:49.379Z"
+    },
+    "path": "users/9m23eitwvcXhfex9rV7nWDChOWL2/chats/5493425468611@c.us/messages_contact"
+  },
+  {
+    "id": "0o0XrVovlgRqmmSwkvuO",
+    "data": {
+      "body": "No amiga, sos loca?",
+      "isFromMe": false,
+      "messageId": "8C10810F3928362C378945C146C8946F",
+      "from": "5493425468611@c.us",
+      "to": "me (9m23eitwvcXhfex9rV7nWDChOWL2)",
+      "origin": "contact",
+      "timestamp": "2025-06-21T03:02:54.009Z"
+    },
+    "path": "users/9m23eitwvcXhfex9rV7nWDChOWL2/chats/5493425468611@c.us/messages_contact"
+  },
+  {
+    "id": "1xeJB95GgW4w3z31YBAf",
+    "data": {
+      "body": "Naaa",
+      "isFromMe": false,
+      "messageId": "1D315A6CE2971922160748E7EB5BB8DE",
+      "from": "5493425468611@c.us",
+      "to": "me (9m23eitwvcXhfex9rV7nWDChOWL2)",
+      "origin": "contact",
+      "timestamp": "2025-06-21T02:39:32.323Z"
+    },
+    "path": "users/9m23eitwvcXhfex9rV7nWDChOWL2/chats/5493425468611@c.us/messages_contact"
+  },
+  {
+    "id": "2lwwAwLhjepYCi6sQFcB",
+    "data": {
+      "body": "Estoy muy enamorada 🥹",
+      "isFromMe": false,
+      "messageId": "E91FDC71C780BA7987EAEC0ABBB9BEAE",
+      "from": "5493425468611@c.us",
+      "to": "me (9m23eitwvcXhfex9rV7nWDChOWL2)",
+      "origin": "contact",
+      "timestamp": "2025-06-21T02:39:14.300Z"
+    },
+    "path": "users/9m23eitwvcXhfex9rV7nWDChOWL2/chats/5493425468611@c.us/messages_contact"
+  },
+  {
+    "id": "2ukMh5sYRxoqz3FhFiIW",
+    "data": {
+      "body": "🙄",
+      "isFromMe": false,
+      "messageId": "680B4044D21BE1174D1491CA0E2BE2DD",
+      "from": "5493425468611@c.us",
+      "to": "me (9m23eitwvcXhfex9rV7nWDChOWL2)",
+      "origin": "contact",
+      "timestamp": "2025-06-21T02:39:29.799Z"
+    },
+    "path": "users/9m23eitwvcXhfex9rV7nWDChOWL2/chats/5493425468611@c.us/messages_contact"
+  },
+  {
+    "id": "424dn7tWlT3ZVv3p3SZH",
+    "data": {
+      "body": "Casi 8 meses amiga",
+      "isFromMe": false,
+      "messageId": "513205DDE72C1A8C0B7D6582F65CFAB8",
+      "from": "5493425468611@c.us",
+      "to": "me (9m23eitwvcXhfex9rV7nWDChOWL2)",
+      "origin": "contact",
+      "timestamp": "2025-06-21T02:45:03.693Z"
+    },
+    "path": "users/9m23eitwvcXhfex9rV7nWDChOWL2/chats/5493425468611@c.us/messages_contact"
+  },
+  {
+    "id": "4QVJSq75BLOeC3ADRTwp",
+    "data": {
+      "body": "Nadie sabe boluda, es de hace 2 días",
+      "isFromMe": false,
+      "messageId": "ABA492AE9225113C85BD1532B011D6FD",
+      "from": "5493425468611@c.us",
+      "to": "me (9m23eitwvcXhfex9rV7nWDChOWL2)",
+      "origin": "contact",
+      "timestamp": "2025-06-21T02:40:37.725Z"
+    },
+    "path": "users/9m23eitwvcXhfex9rV7nWDChOWL2/chats/5493425468611@c.us/messages_contact"
+  },
+  {
+    "id": "9bQxacnmJxCaRJfLUVYh",
+    "data": {
+      "body": "Totalmente amiga, para nada soy la misma mujer qje era en noviembre",
+      "isFromMe": false,
+      "messageId": "31CC266B7F37AF3B656D9536B5CDCA09",
+      "from": "5493425468611@c.us",
+      "to": "me (9m23eitwvcXhfex9rV7nWDChOWL2)",
+      "origin": "contact",
+      "timestamp": "2025-06-21T02:44:57.062Z"
+    },
+    "path": "users/9m23eitwvcXhfex9rV7nWDChOWL2/chats/5493425468611@c.us/messages_contact"
+  },
+  {
+    "id": "AiLgWCtARmdaCMRx5OMc",
+    "data": {
+      "body": "",
+      "isFromMe": false,
+      "messageId": "FC476BB90DE0999F6F2B174EB873BA77",
+      "from": "5493425468611@c.us",
+      "to": "me (9m23eitwvcXhfex9rV7nWDChOWL2)",
+      "origin": "contact",
+      "timestamp": "2025-06-21T03:05:43.392Z"
+    },
+    "path": "users/9m23eitwvcXhfex9rV7nWDChOWL2/chats/5493425468611@c.us/messages_contact"
+  },
+  {
+    "id": "BHI0kRRfC8jK5NkE59xY",
+    "data": {
+      "body": "Disfrutalo 💖",
+      "isFromMe": false,
+      "messageId": "2FB9FFA5D0DF3789EC5FA5009AC0E2B2",
+      "from": "5493425468611@c.us",
+      "to": "me (9m23eitwvcXhfex9rV7nWDChOWL2)",
+      "origin": "contact",
+      "timestamp": "2025-06-21T02:38:04.588Z"
+    },
+    "path": "users/9m23eitwvcXhfex9rV7nWDChOWL2/chats/5493425468611@c.us/messages_contact"
+  },
+  {
+    "id": "CTSGTrVwzACE55jUbD0b",
+    "data": {
+      "body": "Lpm",
+      "isFromMe": false,
+      "messageId": "F614F61AA5E2EDA41556124E5E94F2D6",
+      "from": "5493425468611@c.us",
+      "to": "me (9m23eitwvcXhfex9rV7nWDChOWL2)",
+      "origin": "contact",
+      "timestamp": "2025-06-21T02:39:48.658Z"
+    },
+    "path": "users/9m23eitwvcXhfex9rV7nWDChOWL2/chats/5493425468611@c.us/messages_contact"
+  },
+  {
+    "id": "HWCw3NxPZPELrQX0rJcb",
+    "data": {
+      "body": "Es larga la histotia",
+      "isFromMe": false,
+      "messageId": "392DAADDE29FE329D3401A91DA3CBF18",
+      "from": "5493425468611@c.us",
+      "to": "me (9m23eitwvcXhfex9rV7nWDChOWL2)",
+      "origin": "contact",
+      "timestamp": "2025-06-21T02:40:42.947Z"
+    },
+    "path": "users/9m23eitwvcXhfex9rV7nWDChOWL2/chats/5493425468611@c.us/messages_contact"
+  },
+  {
+    "id": "HYyGhjBiXoKJrfffUwFe",
+    "data": {
+      "body": "Seguro que si amiga, se viene mi. Cumple...",
+      "isFromMe": false,
+      "messageId": "366A132C5207062DC96AB75C057F9D70",
+      "from": "5493425468611@c.us",
+      "to": "me (9m23eitwvcXhfex9rV7nWDChOWL2)",
+      "origin": "contact",
+      "timestamp": "2025-06-21T02:49:40.424Z"
+    },
+    "path": "users/9m23eitwvcXhfex9rV7nWDChOWL2/chats/5493425468611@c.us/messages_contact"
+  },
+  {
+    "id": "HzPptR8pPxtYa6paxe6O",
+    "data": {
+      "body": "",
+      "isFromMe": false,
+      "messageId": "4200BB91DFC3560CAC75B422EFE37D3C",
+      "from": "5493425468611@c.us",
+      "to": "me (9m23eitwvcXhfex9rV7nWDChOWL2)",
+      "origin": "contact",
+      "timestamp": "2025-06-21T03:10:43.010Z"
+    },
+    "path": "users/9m23eitwvcXhfex9rV7nWDChOWL2/chats/5493425468611@c.us/messages_contact"
+  },
+  {
+    "id": "IVE91n0inhvZmEAbxwRy",
+    "data": {
+      "body": "De mi novio",
+      "isFromMe": false,
+      "messageId": "9E24C8505479EE13FD730590B4C6BE10",
+      "from": "5493425468611@c.us",
+      "to": "me (9m23eitwvcXhfex9rV7nWDChOWL2)",
+      "origin": "contact",
+      "timestamp": "2025-06-21T02:39:26.724Z"
+    },
+    "path": "users/9m23eitwvcXhfex9rV7nWDChOWL2/chats/5493425468611@c.us/messages_contact"
+  },
+  {
+    "id": "JpOkKppmt5CCsaRkubR9",
+    "data": {
+      "body": "Que lindo amiga, planazo",
+      "isFromMe": false,
+      "messageId": "00591053B1ECB4C01112C847649DD785",
+      "from": "5493425468611@c.us",
+      "to": "me (9m23eitwvcXhfex9rV7nWDChOWL2)",
+      "origin": "contact",
+      "timestamp": "2025-06-21T02:38:56.290Z"
+    },
+    "path": "users/9m23eitwvcXhfex9rV7nWDChOWL2/chats/5493425468611@c.us/messages_contact"
+  },
+  {
+    "id": "LaSoyZdLQrKWMq84bOYb",
+    "data": {
+      "body": "Hermoso amiga, me encanta",
+      "isFromMe": false,
+      "messageId": "FA2DF543E8AF79029665266488101525",
+      "from": "5493425468611@c.us",
+      "to": "me (9m23eitwvcXhfex9rV7nWDChOWL2)",
+      "origin": "contact",
+      "timestamp": "2025-06-21T02:38:01.571Z"
+    },
+    "path": "users/9m23eitwvcXhfex9rV7nWDChOWL2/chats/5493425468611@c.us/messages_contact"
+  },
+  {
+    "id": "P6T77KyeHhA3AuNNoga0",
+    "data": {
+      "body": "",
+      "isFromMe": false,
+      "messageId": "65309985B09CE2DC65A88649F60617E9",
+      "from": "5493425468611@c.us",
+      "to": "me (9m23eitwvcXhfex9rV7nWDChOWL2)",
+      "origin": "contact",
+      "timestamp": "2025-06-21T02:44:10.687Z"
+    },
+    "path": "users/9m23eitwvcXhfex9rV7nWDChOWL2/chats/5493425468611@c.us/messages_contact"
+  },
+  {
+    "id": "PdK2bIsXef6Zp9vo8Hn2",
+    "data": {
+      "body": "So loca vo?",
+      "isFromMe": false,
+      "messageId": "1ED7AF5E74BEE8FD18A2BF5BC3BA0222",
+      "from": "5493425468611@c.us",
+      "to": "me (9m23eitwvcXhfex9rV7nWDChOWL2)",
+      "origin": "contact",
+      "timestamp": "2025-06-21T02:39:34.993Z"
+    },
+    "path": "users/9m23eitwvcXhfex9rV7nWDChOWL2/chats/5493425468611@c.us/messages_contact"
+  },
+  {
+    "id": "Q3RCGYA4tVcSS2pAUsYf",
+    "data": {
+      "body": "",
+      "isFromMe": false,
+      "messageId": "DEEA98BBFCFF16752C806A891F357A93",
+      "from": "5493425468611@c.us",
+      "to": "me (9m23eitwvcXhfex9rV7nWDChOWL2)",
+      "origin": "contact",
+      "timestamp": "2025-06-21T03:06:03.917Z"
+    },
+    "path": "users/9m23eitwvcXhfex9rV7nWDChOWL2/chats/5493425468611@c.us/messages_contact"
+  },
+  {
+    "id": "S2EEpAXNDr73pbIyNvw6",
+    "data": {
+      "body": "Jajajaja",
+      "isFromMe": false,
+      "messageId": "D4FAFFA3DA213138B1E20C507FF4EB79",
+      "from": "5493425468611@c.us",
+      "to": "me (9m23eitwvcXhfex9rV7nWDChOWL2)",
+      "origin": "contact",
+      "timestamp": "2025-06-21T02:39:41.981Z"
+    },
+    "path": "users/9m23eitwvcXhfex9rV7nWDChOWL2/chats/5493425468611@c.us/messages_contact"
+  },
+  {
+    "id": "VVaEfHQofV87h4rFZgWm",
+    "data": {
+      "body": "",
+      "isFromMe": false,
+      "messageId": "1D955466F8496ADACF8B8E5278D7BFB5",
+      "from": "5493425468611@c.us",
+      "to": "me (9m23eitwvcXhfex9rV7nWDChOWL2)",
+      "origin": "contact",
+      "timestamp": "2025-06-21T03:10:43.196Z"
+    },
+    "path": "users/9m23eitwvcXhfex9rV7nWDChOWL2/chats/5493425468611@c.us/messages_contact"
+  },
+  {
+    "id": "WQ45YP161QWHYDTl1UiW",
+    "data": {
+      "body": "No te cuento entonces",
+      "isFromMe": false,
+      "messageId": "E1DD171E4BBC56EEA8FB5CF6FD7D21CC",
+      "from": "5493425468611@c.us",
+      "to": "me (9m23eitwvcXhfex9rV7nWDChOWL2)",
+      "origin": "contact",
+      "timestamp": "2025-06-21T02:40:12.584Z"
+    },
+    "path": "users/9m23eitwvcXhfex9rV7nWDChOWL2/chats/5493425468611@c.us/messages_contact"
+  },
+  {
+    "id": "Wn3DDxWpydKNar0Rvsty",
+    "data": {
+      "body": "Jajajajaja",
+      "isFromMe": false,
+      "messageId": "C560CC78AF649FF3EA8DE614E78867F1",
+      "from": "5493425468611@c.us",
+      "to": "me (9m23eitwvcXhfex9rV7nWDChOWL2)",
+      "origin": "contact",
+      "timestamp": "2025-06-21T02:39:38.152Z"
+    },
+    "path": "users/9m23eitwvcXhfex9rV7nWDChOWL2/chats/5493425468611@c.us/messages_contact"
+  },
+  {
+    "id": "Y0IY1p9EvDQBLWqqt27M",
+    "data": {
+      "body": "Siempre con corazón y amor amiga",
+      "isFromMe": false,
+      "messageId": "FCCBEAEA4BEA69CCC8D914020B9B4127",
+      "from": "5493425468611@c.us",
+      "to": "me (9m23eitwvcXhfex9rV7nWDChOWL2)",
+      "origin": "contact",
+      "timestamp": "2025-06-21T02:47:29.828Z"
+    },
+    "path": "users/9m23eitwvcXhfex9rV7nWDChOWL2/chats/5493425468611@c.us/messages_contact"
+  },
+  {
+    "id": "fXIK6xYZXcpKR6FVytPl",
+    "data": {
+      "body": "",
+      "isFromMe": false,
+      "messageId": "C0B9EB54A4619B3F864A38422210EC60",
+      "from": "5493425468611@c.us",
+      "to": "me (9m23eitwvcXhfex9rV7nWDChOWL2)",
+      "origin": "contact",
+      "timestamp": "2025-06-21T02:33:19.786Z"
+    },
+    "path": "users/9m23eitwvcXhfex9rV7nWDChOWL2/chats/5493425468611@c.us/messages_contact"
+  },
+  {
+    "id": "fyc2ICuqo6NLphdTe1Fq",
+    "data": {
+      "body": "Depende a la hora que me levante amiga",
+      "isFromMe": false,
+      "messageId": "AF7A489585EB6AA147E4C30BE9D675F2",
+      "from": "5493425468611@c.us",
+      "to": "me (9m23eitwvcXhfex9rV7nWDChOWL2)",
+      "origin": "contact",
+      "timestamp": "2025-06-21T01:59:34.421Z"
+    },
+    "path": "users/9m23eitwvcXhfex9rV7nWDChOWL2/chats/5493425468611@c.us/messages_contact"
+  },
+  {
+    "id": "j3uJaGCo7RFirVjzY1Kp",
+    "data": {
+      "body": "",
+      "isFromMe": false,
+      "messageId": "DA18F44EA01FC6D4AAC6007FEF347833",
+      "from": "5493425468611@c.us",
+      "to": "me (9m23eitwvcXhfex9rV7nWDChOWL2)",
+      "origin": "contact",
+      "timestamp": "2025-06-21T15:38:06.386Z"
+    },
+    "path": "users/9m23eitwvcXhfex9rV7nWDChOWL2/chats/5493425468611@c.us/messages_contact"
+  },
+  {
+    "id": "kMYc8d1AheQP4x4UpMy8",
+    "data": {
+      "body": "",
+      "isFromMe": false,
+      "messageId": "1C213AD462C0C018BEF7735B090231AE",
+      "from": "5493425468611@c.us",
+      "to": "me (9m23eitwvcXhfex9rV7nWDChOWL2)",
+      "origin": "contact",
+      "timestamp": "2025-06-21T02:49:07.615Z"
+    },
+    "path": "users/9m23eitwvcXhfex9rV7nWDChOWL2/chats/5493425468611@c.us/messages_contact"
+  },
+  {
+    "id": "kRfQsUyEooRZddsmX9cK",
+    "data": {
+      "body": "Una ansiedad",
+      "isFromMe": false,
+      "messageId": "ECABCDD642E2A6F49BDB817DB1B9E621",
+      "from": "5493425468611@c.us",
+      "to": "me (9m23eitwvcXhfex9rV7nWDChOWL2)",
+      "origin": "contact",
+      "timestamp": "2025-06-21T02:39:45.597Z"
+    },
+    "path": "users/9m23eitwvcXhfex9rV7nWDChOWL2/chats/5493425468611@c.us/messages_contact"
+  },
+  {
+    "id": "pO6wbTh16rnkBpYUJEno",
+    "data": {
+      "body": "Bueno no te enojes",
+      "isFromMe": false,
+      "messageId": "373B1B84F2DC089EB1CA3B721FA0844C",
+      "from": "5493425468611@c.us",
+      "to": "me (9m23eitwvcXhfex9rV7nWDChOWL2)",
+      "origin": "contact",
+      "timestamp": "2025-06-21T02:39:58.341Z"
+    },
+    "path": "users/9m23eitwvcXhfex9rV7nWDChOWL2/chats/5493425468611@c.us/messages_contact"
+  },
+  {
+    "id": "q2RYdehurLCe6LbKj4Lx",
+    "data": {
+      "body": "Es hernan amiga",
+      "isFromMe": false,
+      "messageId": "A1644B5EC4127D46425237D89F32A3B4",
+      "from": "5493425468611@c.us",
+      "to": "me (9m23eitwvcXhfex9rV7nWDChOWL2)",
+      "origin": "contact",
+      "timestamp": "2025-06-21T02:40:40.350Z"
+    },
+    "path": "users/9m23eitwvcXhfex9rV7nWDChOWL2/chats/5493425468611@c.us/messages_contact"
+  },
+  {
+    "id": "rfsMqT0GzWV5eAFLmH8U",
+    "data": {
+      "body": "Yo de novia amiga 🫠",
+      "isFromMe": false,
+      "messageId": "C2B342E290F011BAF18A28513E8EDDD7",
+      "from": "5493425468611@c.us",
+      "to": "me (9m23eitwvcXhfex9rV7nWDChOWL2)",
+      "origin": "contact",
+      "timestamp": "2025-06-21T02:37:53.377Z"
+    },
+    "path": "users/9m23eitwvcXhfex9rV7nWDChOWL2/chats/5493425468611@c.us/messages_contact"
+  },
+  {
+    "id": "roprjNczNMBpiwlH4pEn",
+    "data": {
+      "body": "Y sería mi regreso recién...estuve muy enferma y hoy recién terminé el atb",
+      "isFromMe": false,
+      "messageId": "AE9E469DD6A58BA8B13B3FD17BD6F942",
+      "from": "5493425468611@c.us",
+      "to": "me (9m23eitwvcXhfex9rV7nWDChOWL2)",
+      "origin": "contact",
+      "timestamp": "2025-06-21T02:00:45.746Z"
+    },
+    "path": "users/9m23eitwvcXhfex9rV7nWDChOWL2/chats/5493425468611@c.us/messages_contact"
+  },
+  {
+    "id": "rzQx89J6kz4zkoxBqY9B",
+    "data": {
+      "body": "",
+      "isFromMe": false,
+      "messageId": "BCFEB8465C1E6BD430124DC73EFF196D",
+      "from": "5493425468611@c.us",
+      "to": "me (9m23eitwvcXhfex9rV7nWDChOWL2)",
+      "origin": "contact",
+      "timestamp": "2025-06-21T02:41:34.747Z"
+    },
+    "path": "users/9m23eitwvcXhfex9rV7nWDChOWL2/chats/5493425468611@c.us/messages_contact"
+  },
+  {
+    "id": "tJkj47x7wCJ2O7DbCjEX",
+    "data": {
+      "body": "Jódete por no darme bola 🙄",
+      "isFromMe": false,
+      "messageId": "2A73A36AD09AE1DC0E43A5B0B465D014",
+      "from": "5493425468611@c.us",
+      "to": "me (9m23eitwvcXhfex9rV7nWDChOWL2)",
+      "origin": "contact",
+      "timestamp": "2025-06-21T02:40:05.041Z"
+    },
+    "path": "users/9m23eitwvcXhfex9rV7nWDChOWL2/chats/5493425468611@c.us/messages_contact"
+  },
+  {
+    "id": "tyQWhHg8S5V5espM4f05",
+    "data": {
+      "body": "Prefiero no repetir lo que me dice xk  yo no tengo expectativas, prefiero verlo y experimentarlo ( Él dice qje cambio y entendió muchísimas cosas)",
+      "isFromMe": false,
+      "messageId": "06B3AECDDEBCE71B8A61E85E51282932",
+      "from": "5493425468611@c.us",
+      "to": "me (9m23eitwvcXhfex9rV7nWDChOWL2)",
+      "origin": "contact",
+      "timestamp": "2025-06-21T02:46:06.236Z"
+    },
+    "path": "users/9m23eitwvcXhfex9rV7nWDChOWL2/chats/5493425468611@c.us/messages_contact"
+  },
+  {
+    "id": "vfANzLGtyZZz0OqA2DI7",
+    "data": {
+      "body": "",
+      "isFromMe": false,
+      "messageId": "AB7807BF824B86EB75E1126849D44427",
+      "from": "5493425468611@c.us",
+      "to": "me (9m23eitwvcXhfex9rV7nWDChOWL2)",
+      "origin": "contact",
+      "timestamp": "2025-06-21T02:47:13.052Z"
+    },
+    "path": "users/9m23eitwvcXhfex9rV7nWDChOWL2/chats/5493425468611@c.us/messages_contact"
+  },
+  {
+    "id": "y7tybWh0PIxntXbdEFGM",
+    "data": {
+      "body": "Yo salgo de laburar a las 00 y entre pitó y flauta me duermo a las 2 así que a las 10 o 10.30 me puedo levantar y estoy para entrenar un rato",
+      "isFromMe": false,
+      "messageId": "D8FBB4B78800478E2251E900EF1FC357",
+      "from": "5493425468611@c.us",
+      "to": "me (9m23eitwvcXhfex9rV7nWDChOWL2)",
+      "origin": "contact",
+      "timestamp": "2025-06-21T02:00:22.970Z"
+    },
+    "path": "users/9m23eitwvcXhfex9rV7nWDChOWL2/chats/5493425468611@c.us/messages_contact"
+  },
+  {
+    "id": "y9wCJIWyseN3yJFS1pui",
+    "data": {
+      "body": "Se está dando y se va a dar amiga, así va a ser, losé, lo siento, es él, siempre lo fue 🥹",
+      "isFromMe": false,
+      "messageId": "0C97305B584C3AAEFDADBD690DE17514",
+      "from": "5493425468611@c.us",
+      "to": "me (9m23eitwvcXhfex9rV7nWDChOWL2)",
+      "origin": "contact",
+      "timestamp": "2025-06-21T02:44:41.447Z"
+    },
+    "path": "users/9m23eitwvcXhfex9rV7nWDChOWL2/chats/5493425468611@c.us/messages_contact"
+  },
+  {
+    "id": "yeh00LP2DivPiOwb9rbU",
+    "data": {
+      "body": "Hola amiga, acá andamos, con muchas novedadesss 🫠🫠🫠",
+      "isFromMe": false,
+      "messageId": "E701180BAE38C0EEE53181DE2C912284",
+      "from": "5493425468611@c.us",
+      "to": "me (9m23eitwvcXhfex9rV7nWDChOWL2)",
+      "origin": "contact",
+      "timestamp": "2025-06-21T01:59:25.195Z"
+    },
+    "path": "users/9m23eitwvcXhfex9rV7nWDChOWL2/chats/5493425468611@c.us/messages_contact"
+  }
+]

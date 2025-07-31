@@ -1,0 +1,42 @@
+[
+  {
+    "id": "sGjfkhCsgNwFX3XjExcS",
+    "data": {
+      "body": "",
+      "isFromMe": false,
+      "messageId": "219C6BBE489455F8EB018AE68231AF98",
+      "from": "50765221249@c.us",
+      "to": "me (5v3KpVswXcSzUTx9BQXQitJb4xJ2)",
+      "origin": "contact",
+      "timestamp": "2025-06-21T17:22:24.551Z"
+    },
+    "path": "users/5v3KpVswXcSzUTx9BQXQitJb4xJ2/chats/50765221249@c.us/messages_all"
+  },
+  {
+    "id": "ve0EDPEA4m8GDNvp2WkI",
+    "data": {
+      "from": "me (5v3KpVswXcSzUTx9BQXQitJb4xJ2)",
+      "to": "50765221249@c.us",
+      "body": "Gracias vecino 🙏🏼💪🏽😃",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "9B1B19178B12298D87E67C27CC7D8B47",
+      "timestamp": "2025-06-21T17:48:24.176Z"
+    },
+    "path": "users/5v3KpVswXcSzUTx9BQXQitJb4xJ2/chats/50765221249@c.us/messages_all"
+  },
+  {
+    "id": "wVlKfffjai97e0RfWO7J",
+    "data": {
+      "body": "Bendiciones  a la señora veci",
+      "isFromMe": false,
+      "messageId": "20523FF608E0D058B0CFA39850657497",
+      "from": "50765221249@c.us",
+      "to": "me (5v3KpVswXcSzUTx9BQXQitJb4xJ2)",
+      "origin": "contact",
+      "timestamp": "2025-06-21T17:21:59.278Z"
+    },
+    "path": "users/5v3KpVswXcSzUTx9BQXQitJb4xJ2/chats/50765221249@c.us/messages_all"
+  }
+]

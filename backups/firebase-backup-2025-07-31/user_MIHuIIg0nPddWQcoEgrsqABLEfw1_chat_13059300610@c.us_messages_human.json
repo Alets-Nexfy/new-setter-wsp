@@ -1,0 +1,58 @@
+[
+  {
+    "id": "eHZkfRfuzJCHMn1aDlEc",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "13059300610@c.us",
+      "body": "Aquí poniéndome un poco al corriente",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "AE0DCEEEE9BB8BA8D32B9858985E1002",
+      "timestamp": "2025-07-18T20:31:46.838Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/13059300610@c.us/messages_human"
+  },
+  {
+    "id": "w1igVaSGHJShJqQKF3xJ",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "13059300610@c.us",
+      "body": "Yo muy bien, gracias a Dios ✨",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "2E2DB01FA5917CE3943B743AA35F158A",
+      "timestamp": "2025-07-18T20:31:40.149Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/13059300610@c.us/messages_human"
+  },
+  {
+    "id": "xi99Iwwaf7Ya243jZxn3",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "13059300610@c.us",
+      "body": "Cuidate mucho hermosa!",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "5232FD338A56332C247B63708774ECD9",
+      "timestamp": "2025-07-18T20:31:31.988Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/13059300610@c.us/messages_human"
+  },
+  {
+    "id": "zMAAY1ax2wNpFYDGqO3y",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "13059300610@c.us",
+      "body": "Hola bella ✨ lindo día! ¿Cómo estás?",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "6BCD69B50378555E35BA7057296C90B1",
+      "timestamp": "2025-07-18T15:37:09.539Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/13059300610@c.us/messages_human"
+  }
+]

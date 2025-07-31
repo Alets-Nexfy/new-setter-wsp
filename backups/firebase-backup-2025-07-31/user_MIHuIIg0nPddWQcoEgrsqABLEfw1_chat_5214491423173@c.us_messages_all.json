@@ -1,0 +1,83 @@
+[
+  {
+    "id": "DQWqyvvOET7f4rS5ZqLe",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5214491423173@c.us",
+      "body": "De hecho sí 🙂‍↕️ jajaja, estará antes de las 7?",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "B886E979840E5C1B859D569A4FC4D604",
+      "timestamp": "2025-07-20T16:44:23.692Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214491423173@c.us/messages_all"
+  },
+  {
+    "id": "Fandsemf7qsfA08AS55z",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5214491423173@c.us",
+      "body": "",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "B3BBA79DA12EF4BCE8B265EE780EF36E",
+      "timestamp": "2025-07-20T16:44:53.787Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214491423173@c.us/messages_all"
+  },
+  {
+    "id": "JYDCtqHBtiOkMIeaEWwY",
+    "data": {
+      "body": "Aprovecha",
+      "isFromMe": false,
+      "messageId": "E3352B1AE0AB862A0E08F28C4C1FE7AC",
+      "from": "5214491423173@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-20T16:42:22.991Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214491423173@c.us/messages_all"
+  },
+  {
+    "id": "RUQMtbOqruYQyTowZzOv",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5214491423173@c.us",
+      "body": "Hoy mismo voy 😅😅😅",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "7BC13DF20C15E171181D2C82EB3A89B4",
+      "timestamp": "2025-07-20T16:40:42.117Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214491423173@c.us/messages_all"
+  },
+  {
+    "id": "kdiGXleU6Iz0fExzATzK",
+    "data": {
+      "body": "En fatima",
+      "isFromMe": false,
+      "messageId": "F0EEAB21B051DE0B81E9269AB78851F6",
+      "from": "5214491423173@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-20T16:47:36.092Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214491423173@c.us/messages_all"
+  },
+  {
+    "id": "oDrfHloz95dmpbg5klCX",
+    "data": {
+      "body": "🤣🤣🤣🤣",
+      "isFromMe": false,
+      "messageId": "D570941144378FA9884D8D1EC364214E",
+      "from": "5214491423173@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-20T16:41:51.394Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214491423173@c.us/messages_all"
+  }
+]

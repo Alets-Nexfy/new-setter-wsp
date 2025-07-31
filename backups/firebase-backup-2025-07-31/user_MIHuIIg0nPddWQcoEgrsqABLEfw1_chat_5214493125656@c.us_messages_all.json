@@ -1,0 +1,29 @@
+[
+  {
+    "id": "32VK17FRqldbiLTfmIO4",
+    "data": {
+      "body": "https://youtu.be/QDNHtjjURVE?si=voOq2jO1nu0nxKn6",
+      "isFromMe": false,
+      "messageId": "236CE509BBE5098BE925D8E5D84D634F",
+      "from": "5214493125656@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-20T16:32:17.387Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214493125656@c.us/messages_all"
+  },
+  {
+    "id": "cUjcMk2Di7v1WMprbRAo",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5214493125656@c.us",
+      "body": "Presentación de productos RIMAN_20250714_121929_0000.pdf",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "7E7F4D116B852D3E61B3B11E292A1FA3",
+      "timestamp": "2025-07-20T21:01:24.918Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214493125656@c.us/messages_all"
+  }
+]

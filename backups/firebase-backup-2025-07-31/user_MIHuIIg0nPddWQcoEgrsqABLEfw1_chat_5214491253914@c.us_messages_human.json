@@ -1,0 +1,44 @@
+[
+  {
+    "id": "YDI1Q0Z7gHJ5731Iaz0j",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5214491253914@c.us",
+      "body": "",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "3F79896FE08031B69ABA",
+      "timestamp": "2025-07-20T06:19:43.820Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214491253914@c.us/messages_human"
+  },
+  {
+    "id": "c7ugu0qPYGJLxpzB5257",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5214491253914@c.us",
+      "body": "https://www.instagram.com/p/DKzZju2gF9d/?igsh=MXNzeWNlNHU4Z2JmeQ==",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "64B4A826FFDC5604A9875593C81F2F04",
+      "timestamp": "2025-07-18T13:59:15.373Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214491253914@c.us/messages_human"
+  },
+  {
+    "id": "rgDkoRG1G2LJ6jJ8rKIP",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5214491253914@c.us",
+      "body": "https://pay.hotmart.com/Q100911942T",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "3FF6BA386CE0743001B5",
+      "timestamp": "2025-07-20T06:22:26.524Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214491253914@c.us/messages_human"
+  }
+]

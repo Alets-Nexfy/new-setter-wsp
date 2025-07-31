@@ -1,0 +1,67 @@
+[
+  {
+    "id": "7EbUwPfvwMFydRQGB6tH",
+    "data": {
+      "from": "me (IA - 2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "to": "5493424092108@c.us",
+      "body": "Hola!  Entiendo que estás ocupado/a.  ¿Te gustaría saber brevemente cómo el Club de Viajes de Lucas te puede ayudar a viajar más, ahorrar dinero o generar ingresos extra?\n",
+      "isFromMe": true,
+      "isAutoReply": true,
+      "origin": "bot",
+      "timestamp": "2025-06-24T12:34:42.607Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5493424092108@c.us/messages_bot"
+  },
+  {
+    "id": "HekuI7KhFDDgC3SSlurl",
+    "data": {
+      "from": "me (IA - 2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "to": "5493424092108@c.us",
+      "body": "Jajaja, ¡entiendo!  Dime, ¿qué te interesa saber del Club de Viajes de Lucas? ¿Viajar más o generar ingresos?\n",
+      "isFromMe": true,
+      "isAutoReply": true,
+      "origin": "bot",
+      "timestamp": "2025-06-24T12:33:26.743Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5493424092108@c.us/messages_bot"
+  },
+  {
+    "id": "M63Zhfe6u5tnPRUUydRY",
+    "data": {
+      "from": "me (IA - 2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "to": "5493424092108@c.us",
+      "body": "¡Hola! Soy el Asistente del Club de Viajes de Lucas 🌍  Estoy para ayudarte a conocer cómo funciona. Por cierto, no puedo escuchar audios, pero te leo atentamente.\n\n¿Te interesa viajar más y pagar menos, o quizás generar ingresos compartiendo experiencias increíbles?\n",
+      "isFromMe": true,
+      "isAutoReply": true,
+      "origin": "bot",
+      "timestamp": "2025-06-23T19:07:58.362Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5493424092108@c.us/messages_bot"
+  },
+  {
+    "id": "Pb13sJH2stC7boa5UVAY",
+    "data": {
+      "from": "me (IA - 2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "to": "5493424092108@c.us",
+      "body": "Hola!  Entiendo tu preocupación.  No, el Club de Viajes de Lucas no es una pirámide.  Es una plataforma de membresía con acceso a precios mayoristas en viajes y la opción de generar ingresos *recomendando* el club a otros,  pero sin obligación de reclutar. ¿Te gustaría saber más sobre cómo funciona el sistema de recomendaciones o sobre los descuentos en viajes?\n",
+      "isFromMe": true,
+      "isAutoReply": true,
+      "origin": "bot",
+      "timestamp": "2025-06-24T13:07:07.231Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5493424092108@c.us/messages_bot"
+  },
+  {
+    "id": "uRwgjjC5rS4GdjwCfapm",
+    "data": {
+      "from": "me (IA - 2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "to": "5493424092108@c.us",
+      "body": "¡Hola!  Soy el asistente virtual del Club de Viajes de Lucas.  Estoy aquí para ayudarte a planificar tus viajes.  ¿Te interesa saber más sobre cómo podemos ayudarte a viajar más y pagar menos?\n",
+      "isFromMe": true,
+      "isAutoReply": true,
+      "origin": "bot",
+      "timestamp": "2025-06-23T23:46:49.584Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5493424092108@c.us/messages_bot"
+  }
+]

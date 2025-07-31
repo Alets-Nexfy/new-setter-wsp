@@ -1,0 +1,68 @@
+[
+  {
+    "id": "Gkg0B0OzQ3lBiUVL3DWR",
+    "data": {
+      "body": "",
+      "isFromMe": false,
+      "messageId": "3EB035FEF2CD354A59E6",
+      "from": "5493426303914@c.us",
+      "to": "me (9m23eitwvcXhfex9rV7nWDChOWL2)",
+      "origin": "contact",
+      "timestamp": "2025-06-21T15:37:53.447Z"
+    },
+    "path": "users/9m23eitwvcXhfex9rV7nWDChOWL2/chats/5493426303914@c.us/messages_all"
+  },
+  {
+    "id": "Hvytps2M4NwiKVXEy4Zk",
+    "data": {
+      "body": "",
+      "isFromMe": false,
+      "messageId": "3EB0F085D6B4A5131E95",
+      "from": "5493426303914@c.us",
+      "to": "me (9m23eitwvcXhfex9rV7nWDChOWL2)",
+      "origin": "contact",
+      "timestamp": "2025-06-21T15:37:53.573Z"
+    },
+    "path": "users/9m23eitwvcXhfex9rV7nWDChOWL2/chats/5493426303914@c.us/messages_all"
+  },
+  {
+    "id": "WD5lU0OMWyZKGpKKhgjt",
+    "data": {
+      "body": "hola Ro, soy Fatima.. la chica del grupo! cucha, te queiro hacer una consulta porque a lucas no le llegan los wsp jajajaja",
+      "isFromMe": false,
+      "messageId": "3EB08340B35EDC7495DDE1",
+      "from": "5493426303914@c.us",
+      "to": "me (9m23eitwvcXhfex9rV7nWDChOWL2)",
+      "origin": "contact",
+      "timestamp": "2025-06-21T15:37:53.480Z"
+    },
+    "path": "users/9m23eitwvcXhfex9rV7nWDChOWL2/chats/5493426303914@c.us/messages_all"
+  },
+  {
+    "id": "gCWJ898S127CfvltotD8",
+    "data": {
+      "from": "me (9m23eitwvcXhfex9rV7nWDChOWL2)",
+      "to": "5493426303914@c.us",
+      "body": "",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "3A4EDB1C8AF2C5E0968E",
+      "timestamp": "2025-06-21T15:41:36.177Z"
+    },
+    "path": "users/9m23eitwvcXhfex9rV7nWDChOWL2/chats/5493426303914@c.us/messages_all"
+  },
+  {
+    "id": "gOepQ2HyLVkva8ipwjv1",
+    "data": {
+      "body": "en la pagina de viajes, se puede hacer en cuotas?",
+      "isFromMe": false,
+      "messageId": "3EB09E2553D134E213BD08",
+      "from": "5493426303914@c.us",
+      "to": "me (9m23eitwvcXhfex9rV7nWDChOWL2)",
+      "origin": "contact",
+      "timestamp": "2025-06-21T15:38:02.996Z"
+    },
+    "path": "users/9m23eitwvcXhfex9rV7nWDChOWL2/chats/5493426303914@c.us/messages_all"
+  }
+]

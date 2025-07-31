@@ -1,0 +1,57 @@
+[
+  {
+    "id": "9DwboZTr2unD1iZZavzI",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5214492837003@c.us",
+      "body": "",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "33C819A6C5530C0D4E616EA66B2DCBDD",
+      "timestamp": "2025-07-20T22:09:03.310Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214492837003@c.us/messages_all"
+  },
+  {
+    "id": "EgaKbYG0ZK850itAXytj",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5214492837003@c.us",
+      "body": "",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "242A60B1ED3C237165201EF43E649E00",
+      "timestamp": "2025-07-21T16:45:35.184Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214492837003@c.us/messages_all"
+  },
+  {
+    "id": "XrpehRTBb8RZ5iVC5YDw",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5214492837003@c.us",
+      "body": "Que hermoso!🙌🏻",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "4D67654F7CD8F324BCA1F4004653792D",
+      "timestamp": "2025-07-21T16:43:48.917Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214492837003@c.us/messages_all"
+  },
+  {
+    "id": "zTme29DP6b76O8RvnoV1",
+    "data": {
+      "body": "https://www.facebook.com/share/v/1CPQMgFfSp/",
+      "isFromMe": false,
+      "messageId": "9B48E3A22000FD5FDD2975BBD86270E5",
+      "from": "5214492837003@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-21T16:37:45.190Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214492837003@c.us/messages_all"
+  }
+]

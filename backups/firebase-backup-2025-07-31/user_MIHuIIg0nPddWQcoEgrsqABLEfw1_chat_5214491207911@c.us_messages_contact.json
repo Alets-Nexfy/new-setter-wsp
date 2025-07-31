@@ -1,0 +1,54 @@
+[
+  {
+    "id": "3jO7zK0ghoAxYwxGnU4t",
+    "data": {
+      "body": "Hola hola jaja perdón bien mal educada",
+      "isFromMe": false,
+      "messageId": "3A63BEDCF84705805AFB",
+      "from": "5214491207911@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-18T14:17:48.285Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214491207911@c.us/messages_contact"
+  },
+  {
+    "id": "6349SL1X9F67shHx2iGv",
+    "data": {
+      "body": "Los demás están muy temprano o súper tarde",
+      "isFromMe": false,
+      "messageId": "3A789CDCD3669626EF76",
+      "from": "5214491207911@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-18T14:17:36.584Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214491207911@c.us/messages_contact"
+  },
+  {
+    "id": "7uCorJRZYCGUy3dFprUg",
+    "data": {
+      "body": "O tú qué opinas",
+      "isFromMe": false,
+      "messageId": "3A466FC3C4DA39A11748",
+      "from": "5214491207911@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-18T14:17:25.620Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214491207911@c.us/messages_contact"
+  },
+  {
+    "id": "UYrXwZ5HQuD5KTF9nTso",
+    "data": {
+      "body": "Este de las 5:10 está bien no ?",
+      "isFromMe": false,
+      "messageId": "3A04695D9D5913DEDA14",
+      "from": "5214491207911@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-18T14:17:20.735Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214491207911@c.us/messages_contact"
+  }
+]

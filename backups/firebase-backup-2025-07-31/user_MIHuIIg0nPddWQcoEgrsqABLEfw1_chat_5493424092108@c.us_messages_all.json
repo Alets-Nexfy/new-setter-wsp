@@ -1,0 +1,1037 @@
+[
+  {
+    "id": "1OKSsDLIvpyQuvPge5bj",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5493424092108@c.us",
+      "body": "Como para que esté presente también y conecte",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "4EBFEF1421C24E39985D917EEAB122F3",
+      "timestamp": "2025-07-18T17:21:07.707Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5493424092108@c.us/messages_all"
+  },
+  {
+    "id": "1wGC8YFnGG9xbyvo6Sra",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5493424092108@c.us",
+      "body": "",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "08795ECB13FA98C7F20C7B647B8CF2DE",
+      "timestamp": "2025-07-18T18:05:49.894Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5493424092108@c.us/messages_all"
+  },
+  {
+    "id": "2BOXkEPurgCISAs2E4zp",
+    "data": {
+      "body": "En 15 min me libero",
+      "isFromMe": false,
+      "messageId": "A2163B96F35EBA7FC82F36C0342966C0",
+      "from": "5493424092108@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-19T21:28:35.319Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5493424092108@c.us/messages_all"
+  },
+  {
+    "id": "5bNEa1yD1opzv13MA3He",
+    "data": {
+      "body": "Ahí busco",
+      "isFromMe": false,
+      "messageId": "B474990C4650E19E7D3FEAD105EC5E43",
+      "from": "5493424092108@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-18T22:27:43.446Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5493424092108@c.us/messages_all"
+  },
+  {
+    "id": "6hKvWcKe4OhbaYbuAHGL",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5493424092108@c.us",
+      "body": "Ya vi que uno es de Amway",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "6BBAD4FA406711C6D2AFDAD4532CD56D",
+      "timestamp": "2025-07-18T18:06:39.829Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5493424092108@c.us/messages_all"
+  },
+  {
+    "id": "6wZPqRbB01CoSo9naKvi",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5493424092108@c.us",
+      "body": "¡Perfecto!  En 15 minutos te escribo para coordinar una breve llamada.  Mientras tanto, si quieres ir adelantando, puedes echar un vistazo a nuestro formulario de aplicación para ver si el Método ALMA se ajusta a tus necesidades y objetivos: [form.jotform.com/251631636926057] .  No te preocupes, no hay compromiso.  Solo te permitirá saber si eres candidata ideal para el programa y te ayudará a descubrir cómo podemos ayudarte a construir una marca personal potente y a atraer a tus clientes ideales con seguridad y confianza. ¡Nos vemos en 15 minutos!\n",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "3EB06890CC85BEC380BE4C",
+      "timestamp": "2025-07-19T21:50:01.294Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5493424092108@c.us/messages_all"
+  },
+  {
+    "id": "7giiQ9s0HVFhw9VZbNTa",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5493424092108@c.us",
+      "body": "",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "F425F0726EDAA423AF286C49521EA29B",
+      "timestamp": "2025-07-19T00:07:41.638Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5493424092108@c.us/messages_all"
+  },
+  {
+    "id": "88Orf1WP72TWvLkhuP15",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5493424092108@c.us",
+      "body": "",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "7FACBCC51FEC5F98424DE5F7D439C052",
+      "timestamp": "2025-07-18T17:26:54.736Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5493424092108@c.us/messages_all"
+  },
+  {
+    "id": "8iuxEnpKeUiw5bIaYI9o",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5493424092108@c.us",
+      "body": "Quedé impresionada con la respuesta al vídeo ! Ahora estoy dando la información y ver quiénes realmente me confirman",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "7600FEBB3B036353B44D8B1EED01F3C7",
+      "timestamp": "2025-07-21T15:01:25.597Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5493424092108@c.us/messages_all"
+  },
+  {
+    "id": "9c7k1xwT2IF2pdY78abB",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5493424092108@c.us",
+      "body": "",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "A994E17DED2B84BEDE85F05E3299A7A2",
+      "timestamp": "2025-07-18T17:19:21.556Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5493424092108@c.us/messages_all"
+  },
+  {
+    "id": "ACMYZgXwLG3SXCfFCHZA",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5493424092108@c.us",
+      "body": "",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "93B70861E0A3BEC8474A8C38BC303066",
+      "timestamp": "2025-07-18T18:06:55.062Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5493424092108@c.us/messages_all"
+  },
+  {
+    "id": "B5dE8LLWmVbphtjDIhdA",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5493424092108@c.us",
+      "body": "Y que hablan eventos muy seguido!",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "18886B64D78E0105F48566CC9DDB5831",
+      "timestamp": "2025-07-18T17:20:44.014Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5493424092108@c.us/messages_all"
+  },
+  {
+    "id": "BJwe54wJqktJzE1dGCqT",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5493424092108@c.us",
+      "body": "https://nidiagtzbeauty.riman.com",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "3FF822125A36D645189E",
+      "timestamp": "2025-07-19T22:07:23.219Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5493424092108@c.us/messages_all"
+  },
+  {
+    "id": "BXjMd2L0A6jSg00lHkzM",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5493424092108@c.us",
+      "body": "Suiza",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "0093420236456B46B34DE5756432CDD3",
+      "timestamp": "2025-07-18T22:37:40.993Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5493424092108@c.us/messages_all"
+  },
+  {
+    "id": "BygH6YXN52p4E6suK43A",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5493424092108@c.us",
+      "body": "Tiempo perfecto para llegar!",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "4AA0823506E286E52924CC11C70F358D",
+      "timestamp": "2025-07-19T21:28:49.918Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5493424092108@c.us/messages_all"
+  },
+  {
+    "id": "DNeLtbAR09q54ihxPBQT",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5493424092108@c.us",
+      "body": "Ya casi llego a mi casa",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "882855AF78A8BF86AB4DC494C7FB68BE",
+      "timestamp": "2025-07-19T21:27:48.021Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5493424092108@c.us/messages_all"
+  },
+  {
+    "id": "DOCm2ECVAajRFSDPffwc",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5493424092108@c.us",
+      "body": "",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "65F8D9208EE42B4BE67ACB59987D4787",
+      "timestamp": "2025-07-18T23:38:49.784Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5493424092108@c.us/messages_all"
+  },
+  {
+    "id": "Dl4pEJa953YSGlqkhCin",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5493424092108@c.us",
+      "body": "",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "5AC5F471FE05849E686DB6D4A28AECF9",
+      "timestamp": "2025-07-18T17:25:30.095Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5493424092108@c.us/messages_all"
+  },
+  {
+    "id": "Ee4pibUOYrYchdho7UzE",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5493424092108@c.us",
+      "body": "",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "34F782332870AC0AE453A278B109D196",
+      "timestamp": "2025-07-18T22:24:14.616Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5493424092108@c.us/messages_all"
+  },
+  {
+    "id": "FYfJkVv9KLjv6oAFLB7p",
+    "data": {
+      "body": "965 total\nNo tiene mucho descuento ese hotel, a cuánto le sale a ella?",
+      "isFromMe": false,
+      "messageId": "56E1F797F9AD381974ABB3A4C0D1501C",
+      "from": "5493424092108@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-18T22:40:09.451Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5493424092108@c.us/messages_all"
+  },
+  {
+    "id": "GH2axxd1LgQZ9bHlMnes",
+    "data": {
+      "body": "Si me parece excelente",
+      "isFromMe": false,
+      "messageId": "D608D8FFFB82C61C3E844FD9E8FA43D8",
+      "from": "5493424092108@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-18T17:26:23.465Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5493424092108@c.us/messages_all"
+  },
+  {
+    "id": "H3BG9QKxrfAkfavRPZQF",
+    "data": {
+      "body": "De que país es?",
+      "isFromMe": false,
+      "messageId": "BEC018D6FE00A8683FB59FA2E54F979F",
+      "from": "5493424092108@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-18T22:28:15.200Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5493424092108@c.us/messages_all"
+  },
+  {
+    "id": "HgfUFzvHSbXwC2LPpnYk",
+    "data": {
+      "body": "",
+      "isFromMe": false,
+      "messageId": "A5A30B6E193B062A2EBC8B26CC795176",
+      "from": "5493424092108@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-19T18:01:29.223Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5493424092108@c.us/messages_all"
+  },
+  {
+    "id": "IDq59JzOEn8JvQK8bcdN",
+    "data": {
+      "body": "Que productos tiene?",
+      "isFromMe": false,
+      "messageId": "5E1BC9CEE0B999D29E5643E60B2DE22B",
+      "from": "5493424092108@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-18T18:03:30.898Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5493424092108@c.us/messages_all"
+  },
+  {
+    "id": "K4OVQA3OJqZUSiNx5FL0",
+    "data": {
+      "body": "",
+      "isFromMe": false,
+      "messageId": "D4F6AA55D9B10CBCDDCA898FCA5F4A12",
+      "from": "5493424092108@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-18T18:10:12.051Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5493424092108@c.us/messages_all"
+  },
+  {
+    "id": "MjCmEx3nHdDpETWyUjJ3",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5493424092108@c.us",
+      "body": "",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "0B896D32C58B6729764E48C3E7059275",
+      "timestamp": "2025-07-18T17:22:22.284Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5493424092108@c.us/messages_all"
+  },
+  {
+    "id": "OYuFddqNn7ZWjEqxNY0r",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5493424092108@c.us",
+      "body": "",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "E9EDC6E4E8E1C0AA8F42CA3D54E59BEE",
+      "timestamp": "2025-07-19T17:50:41.029Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5493424092108@c.us/messages_all"
+  },
+  {
+    "id": "ObmtIbYcc9A61MRUwvrb",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5493424092108@c.us",
+      "body": "Hola!  Entiendo que estabas buscando información sobre hoteles.  Aunque no puedo ayudarte con eso directamente, me gustaría saber si como mujer emprendedora estás buscando algo más, algo que te ayude a crecer en tu negocio.\n\nMuchas veces, el éxito en los negocios depende tanto de la calidad de nuestros productos o servicios como de la confianza que proyectamos.  ¿Te sientes a veces insegura al presentarte a posibles clientes o al hablar de tu negocio? ¿Te gustaría tener más claridad y enfoque para atraer a los clientes ideales?\n\nEl Método ALMA, creado por Nidia Gutiérrez,  está diseñado para mujeres emprendedoras como tú que buscan fortalecer su marca personal y superar esos miedos que a veces nos frenan.  Nos enfocamos en desarrollar la confianza, la claridad y el enfoque estratégico para que puedas construir una marca personal sólida y atraer a tus clientes ideales con seguridad.\n\nSi te sientes identificada y quieres explorar cómo el Método ALMA puede ayudarte a alcanzar tus objetivos empresariales, te invito a visitar nuestro formulario de aplicación: [form.jotform.com/251631636926057]  Ahí encontrarás más detalles sobre el programa, su duración y precio.  También puedes contactarme si tienes alguna otra pregunta.  Estoy aquí para ayudarte a dar el siguiente paso en tu camino al éxito.\n",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "3EB091BB49F149D40CD91C",
+      "timestamp": "2025-07-19T17:47:39.223Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5493424092108@c.us/messages_all"
+  },
+  {
+    "id": "Pnk7Ccu3JZXWycJJ2pBd",
+    "data": {
+      "from": "me (IA - MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5493424092108@c.us",
+      "body": "Hola!  Entiendo que estabas buscando información sobre hoteles, pero me alegra la oportunidad de saber si como mujer emprendedora estás buscando algo más que te ayude a crecer en tu negocio.  A veces, nos enfocamos tanto en los aspectos operativos que olvidamos la importancia de una marca personal sólida y la confianza que proyectamos.\n\n¿Te sientes alguna vez insegura al presentarte a clientes potenciales o al hablar de tu negocio? ¿Te gustaría tener mayor claridad y enfoque para atraer a los clientes ideales?\n\nEl Método ALMA, de Nidia Gutiérrez, está diseñado para mujeres emprendedoras como tú que buscan fortalecer su marca personal y superar esos miedos que a veces nos frenan.  Nos enfocamos en desarrollar la confianza, la claridad y el enfoque estratégico necesario para construir una marca personal sólida y atraer a tus clientes ideales con seguridad y convicción.  \n\nSi te interesa saber más, o si te sientes identificada con esta situación, te invito a visitar nuestro formulario de aplicación: [form.jotform.com/251631636926057].  Ahí encontrarás más detalles sobre el programa, incluyendo su duración y precio.  También puedes contactarme si tienes alguna otra pregunta.  Estoy aquí para ayudarte a dar el siguiente paso en tu camino al éxito.\n",
+      "isFromMe": true,
+      "isAutoReply": true,
+      "origin": "bot",
+      "timestamp": "2025-07-19T18:01:45.624Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5493424092108@c.us/messages_all"
+  },
+  {
+    "id": "Qk8c7gTk7UAClRt9QcPX",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5493424092108@c.us",
+      "body": "Exacto dice que no ha podido estar atento al grupo, pero a mis estados les da corazón y claro que está pendiente de lo que hacemos, por eso le moví",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "E3078586DAFB4C662B90D7F466007D15",
+      "timestamp": "2025-07-18T17:19:06.780Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5493424092108@c.us/messages_all"
+  },
+  {
+    "id": "TKM1xwQPvgtS9RLTdsIc",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5493424092108@c.us",
+      "body": "",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "B381603FCF443D9254E022D7E76ADD81",
+      "timestamp": "2025-07-19T00:07:53.324Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5493424092108@c.us/messages_all"
+  },
+  {
+    "id": "TnABYkK3qJWTH49fmJJn",
+    "data": {
+      "from": "me (IA - MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5493424092108@c.us",
+      "body": "¡Hola! Me alegra que estés interesada en el Método ALMA.  Para responder a tu pregunta sobre qué productos ofrecemos,  el Método ALMA en sí mismo es un programa completo de desarrollo personal y empresarial enfocado en fortalecer tu marca personal.  No se trata de productos físicos, sino de un conjunto de herramientas, estrategias y sesiones de coaching diseñadas para ayudarte a:\n\n* **Clarificar tu mensaje y enfoque:**  A menudo las emprendedoras se sienten perdidas o abrumadas.  El Método ALMA te ayuda a definir tu nicho,  a identificar tu público objetivo y a crear un mensaje claro y conciso que resuene con tus clientes ideales.\n* **Construir una marca personal sólida y auténtica:**  Te guiaremos para que desarrolles una marca personal que refleje tu verdadera esencia y te permita conectar con tu audiencia de manera genuina.\n* **Superar el miedo a no ser tomada en serio:** Muchas mujeres emprendedoras se enfrentan a este desafío.  El Método ALMA te proporcionará las herramientas y la confianza que necesitas para proyectar seguridad y autoridad en tu industria.\n* **Atraer clientes con confianza:**  Aprenderás a comunicar el valor de tu negocio de forma efectiva y a atraer a los clientes adecuados, generando un impacto positivo en tu rentabilidad.\n\n\nSi quieres conocer más detalles sobre el programa, incluyendo su duración y precio, o prefieres ir directamente al formulario de aplicación para ver si eres candidata, aquí te dejo el enlace: [form.jotform.com/251631636926057]  Espero poder ayudarte a alcanzar tus objetivos empresariales.\n",
+      "isFromMe": true,
+      "isAutoReply": true,
+      "origin": "bot",
+      "timestamp": "2025-07-18T18:03:41.656Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5493424092108@c.us/messages_all"
+  },
+  {
+    "id": "TvKpBHf5Qoew3oXhYWmO",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5493424092108@c.us",
+      "body": "¿Qué sugieres?",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "52A7AF2FB66DF7186190371CE73269A9",
+      "timestamp": "2025-07-18T17:42:06.451Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5493424092108@c.us/messages_all"
+  },
+  {
+    "id": "UmscpqLtP3x956uBnGcO",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5493424092108@c.us",
+      "body": "",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "82B40053F4E4F1E2C51DA253B3EF88D3",
+      "timestamp": "2025-07-18T21:36:24.100Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5493424092108@c.us/messages_all"
+  },
+  {
+    "id": "WXgB5taLdA15LFlKdSZ3",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5493424092108@c.us",
+      "body": "",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "F008717EB8A9471A0D5B91909A0C7C6C",
+      "timestamp": "2025-07-18T22:23:53.306Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5493424092108@c.us/messages_all"
+  },
+  {
+    "id": "XLaqENCAG5eU4xEWnFOX",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5493424092108@c.us",
+      "body": "Genial, me da mucho gusto saber que el equipo está unido",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "18701E45E764C4F64E8C3A8AA9693161",
+      "timestamp": "2025-07-18T17:22:25.661Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5493424092108@c.us/messages_all"
+  },
+  {
+    "id": "YTHG7XItCNvzGk0pY1h6",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5493424092108@c.us",
+      "body": "Hola!  Entiendo que estabas buscando información sobre hoteles, pero me alegra la oportunidad de saber si como mujer emprendedora estás buscando algo más que te ayude a crecer en tu negocio.  A veces, nos enfocamos tanto en los aspectos operativos que olvidamos la importancia de una marca personal sólida y la confianza que proyectamos.\n\n¿Te sientes alguna vez insegura al presentarte a clientes potenciales o al hablar de tu negocio? ¿Te gustaría tener mayor claridad y enfoque para atraer a los clientes ideales?\n\nEl Método ALMA, de Nidia Gutiérrez, está diseñado para mujeres emprendedoras como tú que buscan fortalecer su marca personal y superar esos miedos que a veces nos frenan.  Nos enfocamos en desarrollar la confianza, la claridad y el enfoque estratégico necesario para construir una marca personal sólida y atraer a tus clientes ideales con seguridad y convicción.  \n\nSi te interesa saber más, o si te sientes identificada con esta situación, te invito a visitar nuestro formulario de aplicación: [form.jotform.com/251631636926057].  Ahí encontrarás más detalles sobre el programa, incluyendo su duración y precio.  También puedes contactarme si tienes alguna otra pregunta.  Estoy aquí para ayudarte a dar el siguiente paso en tu camino al éxito.\n",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "3EB0708E7ECA4F682CDC80",
+      "timestamp": "2025-07-19T18:01:45.224Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5493424092108@c.us/messages_all"
+  },
+  {
+    "id": "YneeXgsgifdcBZXZq2qt",
+    "data": {
+      "body": "Bien ahí! \nLo que tiene Angel es que no toma iniciativa, las veces que tuvo oportunidad no acciono, pero si lo incentivas, dale para adelante nomás 💪",
+      "isFromMe": false,
+      "messageId": "F61935C94CA590D1B932CE85EA11A4ED",
+      "from": "5493424092108@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-18T17:17:47.604Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5493424092108@c.us/messages_all"
+  },
+  {
+    "id": "ZTlXkN6yDI4ph3AVHix5",
+    "data": {
+      "body": "Porque puedo buscarle que hay con mucho descuento y al mismo precio que lo ve ella, buscarle algo de más calidad",
+      "isFromMe": false,
+      "messageId": "9805A71F430EB42C8452CBA5CDD92905",
+      "from": "5493424092108@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-18T22:40:32.514Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5493424092108@c.us/messages_all"
+  },
+  {
+    "id": "ZhemaflHGAnW4P2Xqe6r",
+    "data": {
+      "body": "",
+      "isFromMe": false,
+      "messageId": "E5501AC4AB5FA4D0AD9FB0935B2135C4",
+      "from": "5493424092108@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-19T00:04:04.614Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5493424092108@c.us/messages_all"
+  },
+  {
+    "id": "aF91BnWwltr0rIpi57AN",
+    "data": {
+      "body": "Creo que lo de Riman puede ser lo más rápido para alguien como el que no cuenta con mucho presupuesto",
+      "isFromMe": false,
+      "messageId": "2370372E06D227E2C4B17CF1081209AF",
+      "from": "5493424092108@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-18T17:20:02.390Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5493424092108@c.us/messages_all"
+  },
+  {
+    "id": "aOZgztFvCEcO86OBTeC2",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5493424092108@c.us",
+      "body": "Son grandes líderes, es muy bueno contar con él tanto como con Alan",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "BDC1C759FAA75FEA7868566A8DB57D22",
+      "timestamp": "2025-07-18T17:22:54.247Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5493424092108@c.us/messages_all"
+  },
+  {
+    "id": "aPnvpCjfQ67GlhnnJoIE",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5493424092108@c.us",
+      "body": "",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "B54852C3BA97DCD127A3206B2DEE5FB8",
+      "timestamp": "2025-07-18T18:06:51.646Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5493424092108@c.us/messages_all"
+  },
+  {
+    "id": "ap4NE1HaVuGBpZ8e94ug",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5493424092108@c.us",
+      "body": "Me dice que ese también",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "9D6A84976E8AD87B77006740F05A20C6",
+      "timestamp": "2025-07-18T22:51:45.814Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5493424092108@c.us/messages_all"
+  },
+  {
+    "id": "atkCzXvOIlORezrYmnXQ",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5493424092108@c.us",
+      "body": "",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "51BFF7CAE7CC8D03E5CFDE6D1E1A9172",
+      "timestamp": "2025-07-21T15:01:31.690Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5493424092108@c.us/messages_all"
+  },
+  {
+    "id": "b9z74GtFbf8UoDSIFQ0E",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5493424092108@c.us",
+      "body": "Tú andas libre?",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "D9FF583516AC57511BC420CBDC361619",
+      "timestamp": "2025-07-19T21:28:09.321Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5493424092108@c.us/messages_all"
+  },
+  {
+    "id": "bs0WlltRPn50v5eowm01",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5493424092108@c.us",
+      "body": "",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "1D70BD4634DA7354D2987290CF193D7E",
+      "timestamp": "2025-07-18T17:42:00.441Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5493424092108@c.us/messages_all"
+  },
+  {
+    "id": "dxxuFZDWlJ8wo2idrOYl",
+    "data": {
+      "body": "Impresionante!!! \nFelicitaciones",
+      "isFromMe": false,
+      "messageId": "E96920BB1A32469325EDEE6F470263C7",
+      "from": "5493424092108@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-21T15:00:03.764Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5493424092108@c.us/messages_all"
+  },
+  {
+    "id": "dzUPLut0vVSVM5FyiGHD",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5493424092108@c.us",
+      "body": "",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "6362540E3188D9A684D9F6CE4DF1E918",
+      "timestamp": "2025-07-18T18:06:56.362Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5493424092108@c.us/messages_all"
+  },
+  {
+    "id": "e1cPxG5Y3mJMNz8LYuHx",
+    "data": {
+      "body": "Si me salen de varios países ese hotel",
+      "isFromMe": false,
+      "messageId": "C8A421930A883B9C1F69B47B257F248E",
+      "from": "5493424092108@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-18T22:32:34.565Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5493424092108@c.us/messages_all"
+  },
+  {
+    "id": "eOESw4GtKmxRLuJLPckx",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5493424092108@c.us",
+      "body": "",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "3DABBA24E0CEF3A038686025BFCA91EF",
+      "timestamp": "2025-07-18T17:42:00.089Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5493424092108@c.us/messages_all"
+  },
+  {
+    "id": "fsw82E9OIaWxM0VatEew",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5493424092108@c.us",
+      "body": "Le mandé eso:",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "25DA8728F5AE954AAC7F4CBCA2CD9B82",
+      "timestamp": "2025-07-18T17:18:15.542Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5493424092108@c.us/messages_all"
+  },
+  {
+    "id": "gBdEyHPE85mNKOMsoaEy",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5493424092108@c.us",
+      "body": "https://www.booking.com/hotel/it/rubner-s-rudolf.es-mx.html?aid=318615&label=cc1_Spanish_MexicoESMX176785006064-c%2AXZ5dad2zWbIhRVrJXLAQS721980991179%3Apl%3Ata%3Ap1%3Ap2%3Aac%3Aap%3Aneg&sid=dbd23de6e494b93d6a282b44d54eca15&activeTab=photosGallery&all_sr_blocks=8358107_106841738_2_33_0&checkin=2025-11-04&checkout=2025-11-07&dest_id=1438&dest_type=region&group_adults=2&group_children=0&hapos=47&highlighted_blocks=8358107_106841738_2_33_0&hpos=22&matching_block_id=8358107_106841738_2_33_0&nflt=ht_id%3D204%3Bhotelfacility%3D433%3Bmealplan%3D1&no_rooms=1&req_adults=2&req_children=0&room1=A%2CA&sb_price_type=total&sr_order=popularity&sr_pri_blocks=8358107_106841738_2_33_0__81510&srepoch=1751425715&srpvid=b8498a5fe1cca28bbbc06dc43960acc6&type=total&ucfs=1&",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "896B318B2F1BD2BF5572F416BEDED210",
+      "timestamp": "2025-07-18T22:51:37.547Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5493424092108@c.us/messages_all"
+  },
+  {
+    "id": "hTnaM8f1eK03i4pmIjkH",
+    "data": {
+      "body": "",
+      "isFromMe": false,
+      "messageId": "963D2D6B77974AC7F147D6E8EDE452A5",
+      "from": "5493424092108@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-18T22:57:38.433Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5493424092108@c.us/messages_all"
+  },
+  {
+    "id": "iz2ovXK4QhGN5ZBUOSOH",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5493424092108@c.us",
+      "body": "",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "89ECCE90900ABB6F86C7A0BB5BDB3B39",
+      "timestamp": "2025-07-18T22:32:46.434Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5493424092108@c.us/messages_all"
+  },
+  {
+    "id": "jZG66Bv9HENTPIO7i5hA",
+    "data": {
+      "body": "Excelente mensaje",
+      "isFromMe": false,
+      "messageId": "1CD4B3AFFC1A545A4DF31F5D43772CF0",
+      "from": "5493424092108@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-18T17:19:35.648Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5493424092108@c.us/messages_all"
+  },
+  {
+    "id": "muk8hqRUg7bAgWAFDw4o",
+    "data": {
+      "body": "",
+      "isFromMe": false,
+      "messageId": "94A4ACB306A707564A69DC9A0E7E7A29",
+      "from": "5493424092108@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-19T00:07:51.493Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5493424092108@c.us/messages_all"
+  },
+  {
+    "id": "nFAcSUNSFBWgh9d8vQie",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5493424092108@c.us",
+      "body": "",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "23EB3572EE4BE337316928A23B325DFC",
+      "timestamp": "2025-07-18T22:29:23.969Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5493424092108@c.us/messages_all"
+  },
+  {
+    "id": "ntQ5F2AvyiI6wTRqEO56",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5493424092108@c.us",
+      "body": "",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "466B93FA95A069E1E6D2855BE40A32DC",
+      "timestamp": "2025-07-18T17:15:51.282Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5493424092108@c.us/messages_all"
+  },
+  {
+    "id": "oZ2Iu6DK1M2Z9SE76KVJ",
+    "data": {
+      "body": "Dale si avísame y nos conectamos,  voy a estar en mi casa nomas",
+      "isFromMe": false,
+      "messageId": "26CDCD0ABEE34C4A70DB1A8ADAF83E2D",
+      "from": "5493424092108@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-18T21:37:22.214Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5493424092108@c.us/messages_all"
+  },
+  {
+    "id": "pYGVCCrNO851BVeDPSZ0",
+    "data": {
+      "from": "me (IA - MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5493424092108@c.us",
+      "body": "¡Perfecto!  En 15 minutos te escribo para coordinar una breve llamada.  Mientras tanto, si quieres ir adelantando, puedes echar un vistazo a nuestro formulario de aplicación para ver si el Método ALMA se ajusta a tus necesidades y objetivos: [form.jotform.com/251631636926057] .  No te preocupes, no hay compromiso.  Solo te permitirá saber si eres candidata ideal para el programa y te ayudará a descubrir cómo podemos ayudarte a construir una marca personal potente y a atraer a tus clientes ideales con seguridad y confianza. ¡Nos vemos en 15 minutos!\n",
+      "isFromMe": true,
+      "isAutoReply": true,
+      "origin": "bot",
+      "timestamp": "2025-07-19T21:50:04.488Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5493424092108@c.us/messages_all"
+  },
+  {
+    "id": "rvQUh1QhjaWMBIvbsFRK",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5493424092108@c.us",
+      "body": "Excelente Ari, me parece perfecto!🙌🏻",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "3AB2F4C3A2312802AD9FF92A1D754887",
+      "timestamp": "2025-07-19T18:14:51.749Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5493424092108@c.us/messages_all"
+  },
+  {
+    "id": "t6fX5kRduvLGiyTuG6AC",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5493424092108@c.us",
+      "body": "Manda link",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "FEB4902490114358595D397AF421E521",
+      "timestamp": "2025-07-19T21:50:50.172Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5493424092108@c.us/messages_all"
+  },
+  {
+    "id": "tEdKmhbYnYmIOW2HXkJM",
+    "data": {
+      "from": "me (IA - MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5493424092108@c.us",
+      "body": "Hola!  Entiendo que estabas buscando información sobre hoteles.  Aunque no puedo ayudarte con eso directamente, me gustaría saber si como mujer emprendedora estás buscando algo más, algo que te ayude a crecer en tu negocio.\n\nMuchas veces, el éxito en los negocios depende tanto de la calidad de nuestros productos o servicios como de la confianza que proyectamos.  ¿Te sientes a veces insegura al presentarte a posibles clientes o al hablar de tu negocio? ¿Te gustaría tener más claridad y enfoque para atraer a los clientes ideales?\n\nEl Método ALMA, creado por Nidia Gutiérrez,  está diseñado para mujeres emprendedoras como tú que buscan fortalecer su marca personal y superar esos miedos que a veces nos frenan.  Nos enfocamos en desarrollar la confianza, la claridad y el enfoque estratégico para que puedas construir una marca personal sólida y atraer a tus clientes ideales con seguridad.\n\nSi te sientes identificada y quieres explorar cómo el Método ALMA puede ayudarte a alcanzar tus objetivos empresariales, te invito a visitar nuestro formulario de aplicación: [form.jotform.com/251631636926057]  Ahí encontrarás más detalles sobre el programa, su duración y precio.  También puedes contactarme si tienes alguna otra pregunta.  Estoy aquí para ayudarte a dar el siguiente paso en tu camino al éxito.\n",
+      "isFromMe": true,
+      "isAutoReply": true,
+      "origin": "bot",
+      "timestamp": "2025-07-19T17:47:39.887Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5493424092108@c.us/messages_all"
+  },
+  {
+    "id": "tXBEXtYGZaBIA9VNpgrl",
+    "data": {
+      "from": "me (IA - MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5493424092108@c.us",
+      "body": "Hola!  Entiendo que estás buscando información sobre hoteles y has encontrado uno por 830.  Aunque no soy una experta en reservas de hoteles, puedo ayudarte en otro aspecto si eres una mujer emprendedora que busca fortalecer su marca personal y su negocio.  El Método ALMA de Nidia Gutiérrez está diseñado precisamente para eso.  \n\n¿Te sientes alguna vez insegura al presentarte a posibles clientes? ¿Te gustaría tener más claridad y enfoque en tu negocio para atraer a los clientes ideales? El Método ALMA te proporciona las herramientas y el apoyo que necesitas para construir una marca personal sólida y proyectar confianza.  \n\nSi te interesa saber más sobre cómo puedes superar tus inseguridades y lograr el éxito en tu emprendimiento,  te invito a visitar nuestro formulario de aplicación: [form.jotform.com/251631636926057].  Allí encontrarás más información sobre el programa y podrás ver si es la solución adecuada para ti.  \n\nNo dudes en preguntarme cualquier otra cosa que te interese sobre el Método ALMA.  Estoy aquí para ayudarte.\n",
+      "isFromMe": true,
+      "isAutoReply": true,
+      "origin": "bot",
+      "timestamp": "2025-07-19T00:04:11.590Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5493424092108@c.us/messages_all"
+  },
+  {
+    "id": "tkAkjaUG3cudGc7A16ta",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5493424092108@c.us",
+      "body": "",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "6DEBF5F9B45FD1002502708EAADED75F",
+      "timestamp": "2025-07-19T00:47:23.387Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5493424092108@c.us/messages_all"
+  },
+  {
+    "id": "trMLSIDgMh2qVdafHIzb",
+    "data": {
+      "body": "meet.google.com/uqs-mjya-soz",
+      "isFromMe": false,
+      "messageId": "F4C365456B0E01BA044DEBA855759E90",
+      "from": "5493424092108@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-19T21:52:46.389Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5493424092108@c.us/messages_all"
+  },
+  {
+    "id": "uheEc0tyi4SVfSItWDAz",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5493424092108@c.us",
+      "body": "",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "2DCCEEF872B6453D3FB6AB39971E223F",
+      "timestamp": "2025-07-18T17:18:22.138Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5493424092108@c.us/messages_all"
+  },
+  {
+    "id": "wS0z6LMlD6mo5j67bSb3",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5493424092108@c.us",
+      "body": "A ver qué me dice !",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "9332924914B65460077DD3162B2A0E2F",
+      "timestamp": "2025-07-18T17:26:41.170Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5493424092108@c.us/messages_all"
+  },
+  {
+    "id": "wk74dAmvhMwK10Nqhcc9",
+    "data": {
+      "body": "",
+      "isFromMe": false,
+      "messageId": "C4BA212E8FF567147072CE9E2AD8DD36",
+      "from": "5493424092108@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-19T00:10:04.190Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5493424092108@c.us/messages_all"
+  },
+  {
+    "id": "wt2nav5bEk6vUUJR9R0P",
+    "data": {
+      "body": "Cuando quieras nomás",
+      "isFromMe": false,
+      "messageId": "9E4D21D8B0E094931319CCA2A79BDE6D",
+      "from": "5493424092108@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-19T21:49:51.381Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5493424092108@c.us/messages_all"
+  },
+  {
+    "id": "xCZoNWVsSYxZsvO9ev7o",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5493424092108@c.us",
+      "body": "",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "B63E82C2190C0655EAE84FBD0A0E7368",
+      "timestamp": "2025-07-18T18:12:52.022Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5493424092108@c.us/messages_all"
+  },
+  {
+    "id": "xNVHDY9hcNNVr82LJclO",
+    "data": {
+      "body": "Está 830",
+      "isFromMe": false,
+      "messageId": "6E7F04B8EB0811D647BFD5327C6FF461",
+      "from": "5493424092108@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-18T22:56:35.822Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5493424092108@c.us/messages_all"
+  },
+  {
+    "id": "yPUFdn3I3obQoSaKnXIG",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5493424092108@c.us",
+      "body": "Yo moviéndole jaja y viendo que se reintegre",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "352E1DFAEA99B69B2488D932DD2FCE1F",
+      "timestamp": "2025-07-18T17:16:00.113Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5493424092108@c.us/messages_all"
+  },
+  {
+    "id": "zW7OU6n5Yb6bVsPcGSVL",
+    "data": {
+      "body": "Invitalo a ver un poco de Riman a ver qué dice",
+      "isFromMe": false,
+      "messageId": "95ED8C8AE048ED3D3579AF73EFA0665D",
+      "from": "5493424092108@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-18T17:24:48.837Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5493424092108@c.us/messages_all"
+  },
+  {
+    "id": "zYUXoDgIC2KSzK9zxB80",
+    "data": {
+      "body": "",
+      "isFromMe": false,
+      "messageId": "6CD1ADDB538BC62C74DB278E0A0109CE",
+      "from": "5493424092108@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-19T17:47:27.592Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5493424092108@c.us/messages_all"
+  }
+]

@@ -1,0 +1,93 @@
+[
+  {
+    "id": "0fW31AkE356VVP7LAeLI",
+    "data": {
+      "body": "Pero a qué pasas en la mañana? Recuerda que los chicos comienzan clases.",
+      "isFromMe": false,
+      "messageId": "E183D22B74CFC3E8EAC4637A2E619CC5",
+      "from": "50760636607@c.us",
+      "to": "me (5v3KpVswXcSzUTx9BQXQitJb4xJ2)",
+      "origin": "contact",
+      "timestamp": "2025-06-23T01:02:28.409Z"
+    },
+    "path": "users/5v3KpVswXcSzUTx9BQXQitJb4xJ2/chats/50760636607@c.us/messages_contact"
+  },
+  {
+    "id": "4XJ2de4n0BC18R1kmbx2",
+    "data": {
+      "body": "",
+      "isFromMe": false,
+      "messageId": "C229974D33901209EE6F5F22E705E92A",
+      "from": "50760636607@c.us",
+      "to": "me (5v3KpVswXcSzUTx9BQXQitJb4xJ2)",
+      "origin": "contact",
+      "timestamp": "2025-06-24T20:02:54.300Z"
+    },
+    "path": "users/5v3KpVswXcSzUTx9BQXQitJb4xJ2/chats/50760636607@c.us/messages_contact"
+  },
+  {
+    "id": "CjkSNtJx3Crg75QTRB6R",
+    "data": {
+      "body": "Qué hay...ahorita estaba durmiendo.",
+      "isFromMe": false,
+      "messageId": "11D0840F261B992FD792E861773AA1A1",
+      "from": "50760636607@c.us",
+      "to": "me (5v3KpVswXcSzUTx9BQXQitJb4xJ2)",
+      "origin": "contact",
+      "timestamp": "2025-06-23T01:01:35.755Z"
+    },
+    "path": "users/5v3KpVswXcSzUTx9BQXQitJb4xJ2/chats/50760636607@c.us/messages_contact"
+  },
+  {
+    "id": "fkZViYTW9tfItVJWMxPm",
+    "data": {
+      "body": "👍🏽",
+      "isFromMe": false,
+      "messageId": "B46A8B8A7E898DAA0609634CD937B93E",
+      "from": "50760636607@c.us",
+      "to": "me (5v3KpVswXcSzUTx9BQXQitJb4xJ2)",
+      "origin": "contact",
+      "timestamp": "2025-06-24T19:53:19.855Z"
+    },
+    "path": "users/5v3KpVswXcSzUTx9BQXQitJb4xJ2/chats/50760636607@c.us/messages_contact"
+  },
+  {
+    "id": "t9efA43WJouiKMMMAhnu",
+    "data": {
+      "body": "",
+      "isFromMe": false,
+      "messageId": "BF3DA3BA5B5EE54CC4D50032CFE73D5F",
+      "from": "50760636607@c.us",
+      "to": "me (5v3KpVswXcSzUTx9BQXQitJb4xJ2)",
+      "origin": "contact",
+      "timestamp": "2025-06-24T20:01:11.465Z"
+    },
+    "path": "users/5v3KpVswXcSzUTx9BQXQitJb4xJ2/chats/50760636607@c.us/messages_contact"
+  },
+  {
+    "id": "uVisAsxKgDyLtASWMJm7",
+    "data": {
+      "body": "Está bien, dale 👌🏽",
+      "isFromMe": false,
+      "messageId": "DEEBC7F7C0DCB320EB2C2D653656349F",
+      "from": "50760636607@c.us",
+      "to": "me (5v3KpVswXcSzUTx9BQXQitJb4xJ2)",
+      "origin": "contact",
+      "timestamp": "2025-06-24T13:59:04.384Z"
+    },
+    "path": "users/5v3KpVswXcSzUTx9BQXQitJb4xJ2/chats/50760636607@c.us/messages_contact"
+  },
+  {
+    "id": "zzWzWOdausdBo2k2tIpN",
+    "data": {
+      "body": "",
+      "isFromMe": false,
+      "messageId": "9403BEE6C02F4AD2EA75472ED4724462",
+      "from": "50760636607@c.us",
+      "to": "me (5v3KpVswXcSzUTx9BQXQitJb4xJ2)",
+      "origin": "contact",
+      "timestamp": "2025-06-24T20:01:48.995Z"
+    },
+    "path": "users/5v3KpVswXcSzUTx9BQXQitJb4xJ2/chats/50760636607@c.us/messages_contact"
+  }
+]

@@ -1,0 +1,54 @@
+[
+  {
+    "id": "D0pC2Dh4KaiUQ7bZc6ry",
+    "data": {
+      "body": "Holaa, muy bien gracias a Dios y tú?",
+      "isFromMe": false,
+      "messageId": "595B263783C9348384924BF48AAC9654",
+      "from": "5214491127493@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-21T17:45:24.280Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214491127493@c.us/messages_contact"
+  },
+  {
+    "id": "F5QY9or9vBYLoV2XNXYN",
+    "data": {
+      "body": "",
+      "isFromMe": false,
+      "messageId": "F9C8CE6C24F64C199A739F4F526EFA0E",
+      "from": "5214491127493@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-21T18:09:14.089Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214491127493@c.us/messages_contact"
+  },
+  {
+    "id": "W8Mhuph2RmD7gfjeZdlb",
+    "data": {
+      "body": "",
+      "isFromMe": false,
+      "messageId": "9EFA07C65335F1A72165B81E6F642488",
+      "from": "5214491127493@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-21T18:09:40.696Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214491127493@c.us/messages_contact"
+  },
+  {
+    "id": "a2xufO6aFFVFgcWZrvEu",
+    "data": {
+      "body": "",
+      "isFromMe": false,
+      "messageId": "51A7E8BD452D46C0E8477FD7B3B33167",
+      "from": "5214491127493@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-21T17:56:29.088Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214491127493@c.us/messages_contact"
+  }
+]

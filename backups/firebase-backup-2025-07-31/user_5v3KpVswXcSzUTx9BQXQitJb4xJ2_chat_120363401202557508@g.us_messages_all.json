@@ -1,0 +1,44 @@
+[
+  {
+    "id": "MkIj9Li4RbWxd4WqMkR8",
+    "data": {
+      "from": "me (5v3KpVswXcSzUTx9BQXQitJb4xJ2)",
+      "to": "120363401202557508@g.us",
+      "body": "Bienvenidos!!! ✨🥳🥳",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "86C7CE1AA8BEC7F033AEF00CF5353D3C",
+      "timestamp": "2025-06-23T17:53:48.350Z"
+    },
+    "path": "users/5v3KpVswXcSzUTx9BQXQitJb4xJ2/chats/120363401202557508@g.us/messages_all"
+  },
+  {
+    "id": "ZZV1x32dvQw18JwrzD2r",
+    "data": {
+      "from": "me (5v3KpVswXcSzUTx9BQXQitJb4xJ2)",
+      "to": "120363401202557508@g.us",
+      "body": "",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "119DEB49DD5CE442FEA706C4B92EE518",
+      "timestamp": "2025-06-25T16:02:47.081Z"
+    },
+    "path": "users/5v3KpVswXcSzUTx9BQXQitJb4xJ2/chats/120363401202557508@g.us/messages_all"
+  },
+  {
+    "id": "wYccKH49K4vUDjaGzeN6",
+    "data": {
+      "from": "me (5v3KpVswXcSzUTx9BQXQitJb4xJ2)",
+      "to": "120363401202557508@g.us",
+      "body": "",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "79DE5745BE4C672BCB1ABBE632C23CD0",
+      "timestamp": "2025-06-27T02:25:08.610Z"
+    },
+    "path": "users/5v3KpVswXcSzUTx9BQXQitJb4xJ2/chats/120363401202557508@g.us/messages_all"
+  }
+]

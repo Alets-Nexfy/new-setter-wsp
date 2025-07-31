@@ -1,0 +1,203 @@
+[
+  {
+    "id": "0ItEWNMfYiboe0cfdrus",
+    "data": {
+      "from": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "to": "5219845444978@c.us",
+      "body": "Vos donde andas ? Jaja",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "3A684034AACA4CF163E5",
+      "timestamp": "2025-06-24T19:30:28.297Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5219845444978@c.us/messages_all"
+  },
+  {
+    "id": "6MtOhQbSG8BBvCXpl3i2",
+    "data": {
+      "from": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "to": "5219845444978@c.us",
+      "body": "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",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "3A37A38824F9EB68CD0A",
+      "timestamp": "2025-06-24T18:44:18.656Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5219845444978@c.us/messages_all"
+  },
+  {
+    "id": "ByRIjaPp20MYeuvKkzIO",
+    "data": {
+      "body": "Ajajajajajjajajaja",
+      "isFromMe": false,
+      "messageId": "3A45E8D8E4A5FA579339",
+      "from": "5219845444978@c.us",
+      "to": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "origin": "contact",
+      "timestamp": "2025-06-24T19:26:07.660Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5219845444978@c.us/messages_all"
+  },
+  {
+    "id": "CtYVeQPJTCnNUqxVhJEm",
+    "data": {
+      "body": "Siiii re",
+      "isFromMe": false,
+      "messageId": "3A8D06C9814F9C9C5C4E",
+      "from": "5219845444978@c.us",
+      "to": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "origin": "contact",
+      "timestamp": "2025-06-24T19:36:00.621Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5219845444978@c.us/messages_all"
+  },
+  {
+    "id": "G0k1ongI5PV28uavc8Sv",
+    "data": {
+      "from": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "to": "5219845444978@c.us",
+      "body": "",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "3AA96F67C53CF240971E",
+      "timestamp": "2025-06-24T19:39:09.931Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5219845444978@c.us/messages_all"
+  },
+  {
+    "id": "J6LefJcDEkAH5qfzk6k1",
+    "data": {
+      "body": "Que hermoso lugar corazón",
+      "isFromMe": false,
+      "messageId": "3A205D33E6EA38B82A14",
+      "from": "5219845444978@c.us",
+      "to": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "origin": "contact",
+      "timestamp": "2025-06-24T19:35:52.874Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5219845444978@c.us/messages_all"
+  },
+  {
+    "id": "cUoPSAsPmQMrgkGtwBic",
+    "data": {
+      "from": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "to": "5219845444978@c.us",
+      "body": "Jajajajaja",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "3A3B4E07D9125E0BCB95",
+      "timestamp": "2025-06-24T19:30:19.253Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5219845444978@c.us/messages_all"
+  },
+  {
+    "id": "dckOg3UnYz8djKXUvGs7",
+    "data": {
+      "body": "",
+      "isFromMe": false,
+      "messageId": "3A6E605AF9CB2133410F",
+      "from": "5219845444978@c.us",
+      "to": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "origin": "contact",
+      "timestamp": "2025-06-24T19:26:36.758Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5219845444978@c.us/messages_all"
+  },
+  {
+    "id": "grf9fOE5TrzwX3U5aqhx",
+    "data": {
+      "body": "Ay nonono",
+      "isFromMe": false,
+      "messageId": "3A8EA53A6DB0CE58D0B6",
+      "from": "5219845444978@c.us",
+      "to": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "origin": "contact",
+      "timestamp": "2025-06-24T19:26:12.031Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5219845444978@c.us/messages_all"
+  },
+  {
+    "id": "pJ5RF8hZ0ddWC2mRkcSZ",
+    "data": {
+      "body": "AHHHHHHHH❤️‍🔥",
+      "isFromMe": false,
+      "messageId": "3AADE98CAA0E45632D19",
+      "from": "5219845444978@c.us",
+      "to": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "origin": "contact",
+      "timestamp": "2025-06-24T19:26:27.663Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5219845444978@c.us/messages_all"
+  },
+  {
+    "id": "rDIUuS6sOC5up1EZWoKt",
+    "data": {
+      "body": "Hasta cuando ?",
+      "isFromMe": false,
+      "messageId": "3AE4B9BA1530D4FF2939",
+      "from": "5219845444978@c.us",
+      "to": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "origin": "contact",
+      "timestamp": "2025-06-24T19:35:54.676Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5219845444978@c.us/messages_all"
+  },
+  {
+    "id": "vQR5dQ3izH4prapyLvOC",
+    "data": {
+      "body": "Vivo en Cancún amor",
+      "isFromMe": false,
+      "messageId": "3A081370BEA7F2F7B223",
+      "from": "5219845444978@c.us",
+      "to": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "origin": "contact",
+      "timestamp": "2025-06-24T19:36:05.940Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5219845444978@c.us/messages_all"
+  },
+  {
+    "id": "vyVzKcZbwXUW3Pv9J9iS",
+    "data": {
+      "from": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "to": "5219845444978@c.us",
+      "body": "Te siento cerca jajaja",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "3A26105858F362C90A6A",
+      "timestamp": "2025-06-24T19:30:23.731Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5219845444978@c.us/messages_all"
+  },
+  {
+    "id": "yVWPsAxSwfZfI4hPYBlB",
+    "data": {
+      "body": "A veeeeeer",
+      "isFromMe": false,
+      "messageId": "3AED4B315E58C6C387AD",
+      "from": "5219845444978@c.us",
+      "to": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "origin": "contact",
+      "timestamp": "2025-06-24T19:26:13.699Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5219845444978@c.us/messages_all"
+  },
+  {
+    "id": "zTzmBONUisvJ5YcRIuhH",
+    "data": {
+      "from": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "to": "5219845444978@c.us",
+      "body": "",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "3A3326A6725F958F7A4F",
+      "timestamp": "2025-06-24T19:39:24.506Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5219845444978@c.us/messages_all"
+  }
+]

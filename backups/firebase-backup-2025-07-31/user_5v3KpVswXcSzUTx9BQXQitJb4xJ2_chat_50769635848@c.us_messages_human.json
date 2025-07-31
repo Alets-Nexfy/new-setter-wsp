@@ -1,0 +1,44 @@
+[
+  {
+    "id": "E8EyOX5BbxVVx5jd1SkU",
+    "data": {
+      "from": "me (5v3KpVswXcSzUTx9BQXQitJb4xJ2)",
+      "to": "50769635848@c.us",
+      "body": "",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "2127D114B305CDBE2CFCCE78D5BDCBF7",
+      "timestamp": "2025-06-25T23:35:52.049Z"
+    },
+    "path": "users/5v3KpVswXcSzUTx9BQXQitJb4xJ2/chats/50769635848@c.us/messages_human"
+  },
+  {
+    "id": "a33P2wAhjTBzxJtkXJam",
+    "data": {
+      "from": "me (5v3KpVswXcSzUTx9BQXQitJb4xJ2)",
+      "to": "50769635848@c.us",
+      "body": "Bendiciones",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "A5D8F3B8FCFCC73E807A9BC424D4D4B3",
+      "timestamp": "2025-06-25T22:37:23.179Z"
+    },
+    "path": "users/5v3KpVswXcSzUTx9BQXQitJb4xJ2/chats/50769635848@c.us/messages_human"
+  },
+  {
+    "id": "yfrD82QQXnw1jmZD6dk7",
+    "data": {
+      "from": "me (5v3KpVswXcSzUTx9BQXQitJb4xJ2)",
+      "to": "50769635848@c.us",
+      "body": "Hola mi Liz como le va",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "A3AA451584B09CA856EECF23F44E4621",
+      "timestamp": "2025-06-25T22:37:21.087Z"
+    },
+    "path": "users/5v3KpVswXcSzUTx9BQXQitJb4xJ2/chats/50769635848@c.us/messages_human"
+  }
+]

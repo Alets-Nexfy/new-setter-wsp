@@ -1,0 +1,44 @@
+[
+  {
+    "id": "lyMTA0y60f7mpwGOQNDr",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "120363403569674087@g.us",
+      "body": "",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "5DE5347520AC2F9D550EB297DB1BC170",
+      "timestamp": "2025-07-19T15:11:57.524Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/120363403569674087@g.us/messages_all"
+  },
+  {
+    "id": "nU6eZelWGPkDdJZqndLh",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "120363403569674087@g.us",
+      "body": "Hecho está!",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "727B7CB62FA9865BFDA2728CCE750808",
+      "timestamp": "2025-07-19T15:12:07.327Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/120363403569674087@g.us/messages_all"
+  },
+  {
+    "id": "nmNtWP6aZK4fHFxL2qB8",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "120363403569674087@g.us",
+      "body": "¡Felicitaciones chicas! ✨🌿🙌🏻 Enhorabuena y que vengan más éxitos en este lindo proyecto",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "A0E10C41C2F8D981C48F903232B5461F",
+      "timestamp": "2025-07-20T02:22:02.596Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/120363403569674087@g.us/messages_all"
+  }
+]

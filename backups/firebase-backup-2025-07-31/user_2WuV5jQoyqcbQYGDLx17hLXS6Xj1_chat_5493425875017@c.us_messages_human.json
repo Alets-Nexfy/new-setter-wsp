@@ -1,0 +1,16 @@
+[
+  {
+    "id": "CcsgpCXcjlz2MexsHnX3",
+    "data": {
+      "from": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "to": "5493425875017@c.us",
+      "body": "",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "3A41C693C096D45A3AE1",
+      "timestamp": "2025-06-26T22:15:11.395Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5493425875017@c.us/messages_human"
+  }
+]

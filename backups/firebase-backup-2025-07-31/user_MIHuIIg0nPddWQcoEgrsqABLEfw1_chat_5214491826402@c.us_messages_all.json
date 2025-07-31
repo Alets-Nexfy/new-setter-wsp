@@ -1,0 +1,70 @@
+[
+  {
+    "id": "7HUIqaU1OdYzxEFJHFOp",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5214491826402@c.us",
+      "body": "",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "94E11AE2C03A8CD59B9E6CB4ABD03A12",
+      "timestamp": "2025-07-19T05:52:05.890Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214491826402@c.us/messages_all"
+  },
+  {
+    "id": "8J5KC6lk1Qfe1J5OTYQp",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5214491826402@c.us",
+      "body": "",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "CF89AC021E605E2468DE378293444322",
+      "timestamp": "2025-07-19T15:41:13.420Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214491826402@c.us/messages_all"
+  },
+  {
+    "id": "h09tKs1rawuoDdxO6AQg",
+    "data": {
+      "body": "Se ve maquillaje de 2000 se ve demasiaaaaaaaado",
+      "isFromMe": false,
+      "messageId": "3A921E368BF92D061D3E",
+      "from": "5214491826402@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-19T15:22:21.192Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214491826402@c.us/messages_all"
+  },
+  {
+    "id": "mavaPvsQErytUeBOlZmv",
+    "data": {
+      "body": "A no ma esa no la había visto",
+      "isFromMe": false,
+      "messageId": "3ABD825BAEF227CC99C1",
+      "from": "5214491826402@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-19T15:22:09.887Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214491826402@c.us/messages_all"
+  },
+  {
+    "id": "yLhM5W39vp2s9r0t8uxa",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5214491826402@c.us",
+      "body": "Sí",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "E483B37525DB82556CAA63D40630B63C",
+      "timestamp": "2025-07-19T15:41:09.667Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214491826402@c.us/messages_all"
+  }
+]

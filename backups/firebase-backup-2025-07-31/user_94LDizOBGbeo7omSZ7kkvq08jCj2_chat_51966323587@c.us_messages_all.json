@@ -1,0 +1,15 @@
+[
+  {
+    "id": "L6A5N0DH5WiEHWFigA95",
+    "data": {
+      "from": "me (IA - 94LDizOBGbeo7omSZ7kkvq08jCj2)",
+      "to": "51966323587@c.us",
+      "body": "Hola! Soy un nuevo asistente conversacional, listo para ayudarte. ¿En qué puedo ayudarte hoy?\n",
+      "isFromMe": true,
+      "isAutoReply": true,
+      "origin": "bot",
+      "timestamp": "2025-05-12T17:21:03.158Z"
+    },
+    "path": "users/94LDizOBGbeo7omSZ7kkvq08jCj2/chats/51966323587@c.us/messages_all"
+  }
+]

@@ -1,0 +1,80 @@
+[
+  {
+    "id": "7P7E1qUwVV22IboQtLgx",
+    "data": {
+      "body": "Si!",
+      "isFromMe": false,
+      "messageId": "3AAFB9F985300C80801A",
+      "from": "34675142184@c.us",
+      "to": "me (HSc1epQ1QpWpbFqVrnTF4dSVW5h1)",
+      "origin": "contact",
+      "timestamp": "2025-07-09T14:59:37.521Z"
+    },
+    "path": "users/HSc1epQ1QpWpbFqVrnTF4dSVW5h1/chats/34675142184@c.us/messages_all"
+  },
+  {
+    "id": "Rqv8DgnPTPWaPvsEk2dS",
+    "data": {
+      "body": "Hola",
+      "isFromMe": false,
+      "messageId": "3AAD553BC463AA27D4AF",
+      "from": "34675142184@c.us",
+      "to": "me (HSc1epQ1QpWpbFqVrnTF4dSVW5h1)",
+      "origin": "contact",
+      "timestamp": "2025-07-09T14:58:39.344Z"
+    },
+    "path": "users/HSc1epQ1QpWpbFqVrnTF4dSVW5h1/chats/34675142184@c.us/messages_all"
+  },
+  {
+    "id": "YpTuYkAkJHBgFvnbyPaf",
+    "data": {
+      "from": "me (IA - HSc1epQ1QpWpbFqVrnTF4dSVW5h1)",
+      "to": "34675142184@c.us",
+      "body": "Hola!  Gracias por contactar a [Nombre de tu Agencia/Zona].  Entiendo que está interesado en un departamento.  Para poder ayudarle mejor, necesito un poco más de información. ¿Podría indicarme, por favor:\n\n* **¿Es para compra o alquiler?**\n* **¿En qué zona de [Nombre de tu Agencia/Zona] está interesado?** (Si tiene varias zonas en mente, por favor indíquelas todas).\n* **¿Cuántas habitaciones necesita?**\n* **¿Algún otro requisito importante?** (Ej:  garaje, piscina, tamaño aproximado,  condiciones específicas, etc.)\n* **¿Cuál sería su presupuesto aproximado?** (Entendemos que puede ser un rango).\n\n\nCuanto más detallada sea su información, mejor podré asistirle en su búsqueda.\n",
+      "isFromMe": true,
+      "isAutoReply": true,
+      "origin": "bot",
+      "timestamp": "2025-07-09T14:59:23.635Z"
+    },
+    "path": "users/HSc1epQ1QpWpbFqVrnTF4dSVW5h1/chats/34675142184@c.us/messages_all"
+  },
+  {
+    "id": "ammmibiRB7n6ngR4ItBM",
+    "data": {
+      "from": "me (IA - HSc1epQ1QpWpbFqVrnTF4dSVW5h1)",
+      "to": "34675142184@c.us",
+      "body": "Entiendo que \"Sí!\" es una respuesta afirmativa a mis preguntas anteriores.  Para poder continuar ayudándole, necesito que me proporcione la información solicitada:\n\n* **¿Es para compra o alquiler?**\n* **¿En qué zona de [Nombre de tu Agencia/Zona] está interesado?** (Si tiene varias zonas en mente, por favor indíquelas todas).\n* **¿Cuántas habitaciones necesita?**\n* **¿Algún otro requisito importante?** (Ej:  garaje, piscina, tamaño aproximado,  condiciones específicas, etc.)\n* **¿Cuál sería su presupuesto aproximado?** (Entendemos que puede ser un rango).\n\nUna vez me proporcione estos detalles, podré comenzar su búsqueda de departamentos.  ¡Espero su respuesta!\n",
+      "isFromMe": true,
+      "isAutoReply": true,
+      "origin": "bot",
+      "timestamp": "2025-07-09T14:59:44.954Z"
+    },
+    "path": "users/HSc1epQ1QpWpbFqVrnTF4dSVW5h1/chats/34675142184@c.us/messages_all"
+  },
+  {
+    "id": "y1XJxwDP7zy1fCon40FI",
+    "data": {
+      "body": "departamento",
+      "isFromMe": false,
+      "messageId": "3A535BFCF16B519E08BF",
+      "from": "34675142184@c.us",
+      "to": "me (HSc1epQ1QpWpbFqVrnTF4dSVW5h1)",
+      "origin": "contact",
+      "timestamp": "2025-07-09T14:59:17.241Z"
+    },
+    "path": "users/HSc1epQ1QpWpbFqVrnTF4dSVW5h1/chats/34675142184@c.us/messages_all"
+  },
+  {
+    "id": "ymwiFbWEyD282Rl5DJmZ",
+    "data": {
+      "body": "Hola",
+      "isFromMe": false,
+      "messageId": "3A4EE3DF320988DBD77B",
+      "from": "34675142184@c.us",
+      "to": "me (HSc1epQ1QpWpbFqVrnTF4dSVW5h1)",
+      "origin": "contact",
+      "timestamp": "2025-07-09T14:58:45.327Z"
+    },
+    "path": "users/HSc1epQ1QpWpbFqVrnTF4dSVW5h1/chats/34675142184@c.us/messages_all"
+  }
+]

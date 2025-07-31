@@ -1,0 +1,30 @@
+[
+  {
+    "id": "1sTXkHkrQZgNm6UjnhFS",
+    "data": {
+      "from": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "to": "573188342058@c.us",
+      "body": "Chushiiiiii",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "3AFF6A8746165FE9DDD2",
+      "timestamp": "2025-06-26T22:25:20.595Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/573188342058@c.us/messages_human"
+  },
+  {
+    "id": "ScIQgKHsIOvQ7dnOPCB5",
+    "data": {
+      "from": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "to": "573188342058@c.us",
+      "body": "Cómo estás corazón ?",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "3A45729337D85BD5326E",
+      "timestamp": "2025-06-26T22:27:35.154Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/573188342058@c.us/messages_human"
+  }
+]

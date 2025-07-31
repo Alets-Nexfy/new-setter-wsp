@@ -1,0 +1,54 @@
+[
+  {
+    "id": "4W4HyQ8dpKPjuEm30QLT",
+    "data": {
+      "body": "",
+      "isFromMe": false,
+      "messageId": "3EB0ACC6E22260B98BBF",
+      "from": "5493416184608@c.us",
+      "to": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "origin": "contact",
+      "timestamp": "2025-06-26T19:14:57.998Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5493416184608@c.us/messages_contact"
+  },
+  {
+    "id": "FStbf3gvFzKSmOAUhabZ",
+    "data": {
+      "body": "Alto sticker! Gracias por la buena onda!!",
+      "isFromMe": false,
+      "messageId": "27CCF2C18CFD285881406DA7DDA46F7D",
+      "from": "5493416184608@c.us",
+      "to": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "origin": "contact",
+      "timestamp": "2025-06-26T19:18:54.034Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5493416184608@c.us/messages_contact"
+  },
+  {
+    "id": "PLYLlfPcFBqRpVA4i7UB",
+    "data": {
+      "body": "",
+      "isFromMe": false,
+      "messageId": "3EB0D82B373FE95172A7",
+      "from": "5493416184608@c.us",
+      "to": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "origin": "contact",
+      "timestamp": "2025-06-26T19:14:57.944Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5493416184608@c.us/messages_contact"
+  },
+  {
+    "id": "on0gR5PrrERmaggWHqWU",
+    "data": {
+      "body": "🙋‍♀️",
+      "isFromMe": false,
+      "messageId": "747ED1ED0891F29D7338BC5112EF8039",
+      "from": "5493416184608@c.us",
+      "to": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "origin": "contact",
+      "timestamp": "2025-06-26T19:14:57.902Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5493416184608@c.us/messages_contact"
+  }
+]

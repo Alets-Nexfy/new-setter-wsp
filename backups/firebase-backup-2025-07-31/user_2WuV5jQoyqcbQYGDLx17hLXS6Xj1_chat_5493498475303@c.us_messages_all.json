@@ -1,0 +1,95 @@
+[
+  {
+    "id": "40zAsO7DJAoHWbqoVZlk",
+    "data": {
+      "from": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "to": "5493498475303@c.us",
+      "body": "Oka ! Y lo demás ?",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "3A8EB81F6F3D5F517F88",
+      "timestamp": "2025-06-23T18:22:43.601Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5493498475303@c.us/messages_all"
+  },
+  {
+    "id": "EtLT8NceGJgg4wcWYgUt",
+    "data": {
+      "body": "Hola. Ahora te reenvío lo que me pasaron",
+      "isFromMe": false,
+      "messageId": "0F854128209F9999D5F66A902268B8A4",
+      "from": "5493498475303@c.us",
+      "to": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "origin": "contact",
+      "timestamp": "2025-06-23T18:21:14.162Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5493498475303@c.us/messages_all"
+  },
+  {
+    "id": "fPAp2EakfcR8N8dA3UEx",
+    "data": {
+      "from": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "to": "5493498475303@c.us",
+      "body": "Gracias 🙏 Luis",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "3A19536B37C2581F4452",
+      "timestamp": "2025-06-23T22:26:43.802Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5493498475303@c.us/messages_all"
+  },
+  {
+    "id": "iaxxuSXpqsUEZeDxQX8f",
+    "data": {
+      "body": "Esta semana.Martes o Miercoles.",
+      "isFromMe": false,
+      "messageId": "82CCBB91E51FF9D2E070C699AAC08C30",
+      "from": "5493498475303@c.us",
+      "to": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "origin": "contact",
+      "timestamp": "2025-06-23T18:21:29.183Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5493498475303@c.us/messages_all"
+  },
+  {
+    "id": "kpP256f1oiO0XzPKRSyf",
+    "data": {
+      "body": "Mañana consulto a Adrian x el resto",
+      "isFromMe": false,
+      "messageId": "0ACED5ECC3B8D736D85A778F3088AD27",
+      "from": "5493498475303@c.us",
+      "to": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "origin": "contact",
+      "timestamp": "2025-06-23T22:26:31.037Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5493498475303@c.us/messages_all"
+  },
+  {
+    "id": "oaDCQ8pmJRfNffecZP2m",
+    "data": {
+      "body": "Esto mandó Omar",
+      "isFromMe": false,
+      "messageId": "B51FAFC4356FFB91094B8F25FCC01C59",
+      "from": "5493498475303@c.us",
+      "to": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "origin": "contact",
+      "timestamp": "2025-06-23T18:21:37.575Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5493498475303@c.us/messages_all"
+  },
+  {
+    "id": "y4pI0Q1Ln5I0ew8aF4lm",
+    "data": {
+      "body": "",
+      "isFromMe": false,
+      "messageId": "06BB3009890423BD40E59FA4354EE12F",
+      "from": "5493498475303@c.us",
+      "to": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "origin": "contact",
+      "timestamp": "2025-06-23T22:26:14.695Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5493498475303@c.us/messages_all"
+  }
+]

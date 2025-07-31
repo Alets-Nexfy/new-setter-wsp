@@ -1,0 +1,15 @@
+[
+  {
+    "id": "4W03yRChd87j0v7yYUhD",
+    "data": {
+      "body": "Hola",
+      "isFromMe": false,
+      "messageId": "3AEB705940267B95B381",
+      "from": "17868213959@c.us",
+      "to": "me (MAZ7zaPxFtN2ehEeYn3A42NMli23)",
+      "origin": "contact",
+      "timestamp": "2025-07-14T15:12:34.709Z"
+    },
+    "path": "users/MAZ7zaPxFtN2ehEeYn3A42NMli23/chats/17868213959@c.us/messages_contact"
+  }
+]

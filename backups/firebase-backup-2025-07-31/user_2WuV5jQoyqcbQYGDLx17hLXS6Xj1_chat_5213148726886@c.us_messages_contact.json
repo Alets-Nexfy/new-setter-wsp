@@ -1,0 +1,67 @@
+[
+  {
+    "id": "FRY2QULSwBSTVf6R2Tkg",
+    "data": {
+      "body": "🙌",
+      "isFromMe": false,
+      "messageId": "3AB8227271BD1720103A",
+      "from": "5213148726886@c.us",
+      "to": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "origin": "contact",
+      "timestamp": "2025-06-27T14:26:52.928Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5213148726886@c.us/messages_contact"
+  },
+  {
+    "id": "HUguhebTsxvvt23APfW1",
+    "data": {
+      "body": "Planta 4\nSala breakout 2",
+      "isFromMe": false,
+      "messageId": "3A66BA3AB133298C810B",
+      "from": "5213148726886@c.us",
+      "to": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "origin": "contact",
+      "timestamp": "2025-06-25T15:09:16.232Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5213148726886@c.us/messages_contact"
+  },
+  {
+    "id": "I5Eya7VUHFklcbFdItad",
+    "data": {
+      "body": "",
+      "isFromMe": false,
+      "messageId": "3A634FE56DDF5A778D42",
+      "from": "5213148726886@c.us",
+      "to": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "origin": "contact",
+      "timestamp": "2025-06-24T17:44:11.959Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5213148726886@c.us/messages_contact"
+  },
+  {
+    "id": "VRXhXmoKXHAoWlax9PpG",
+    "data": {
+      "body": "",
+      "isFromMe": false,
+      "messageId": "3A4091940AC7F2C5F0D0",
+      "from": "5213148726886@c.us",
+      "to": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "origin": "contact",
+      "timestamp": "2025-06-25T15:11:40.368Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5213148726886@c.us/messages_contact"
+  },
+  {
+    "id": "x1zICWeh3e3NomBEhdUm",
+    "data": {
+      "body": "Bro",
+      "isFromMe": false,
+      "messageId": "3A2433CF19E0B1F8AB66",
+      "from": "5213148726886@c.us",
+      "to": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "origin": "contact",
+      "timestamp": "2025-06-24T17:27:11.217Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5213148726886@c.us/messages_contact"
+  }
+]

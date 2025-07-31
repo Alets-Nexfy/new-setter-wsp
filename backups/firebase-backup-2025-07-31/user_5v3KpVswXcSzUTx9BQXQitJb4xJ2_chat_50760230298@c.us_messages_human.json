@@ -1,0 +1,30 @@
+[
+  {
+    "id": "3u7m2R5wWigPWMkG6B1w",
+    "data": {
+      "from": "me (5v3KpVswXcSzUTx9BQXQitJb4xJ2)",
+      "to": "50760230298@c.us",
+      "body": "Que tal mi hermano todo bien gracias a Dios",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "600B765A6C9D2C4C80B07B0C33DED866",
+      "timestamp": "2025-06-21T19:52:18.495Z"
+    },
+    "path": "users/5v3KpVswXcSzUTx9BQXQitJb4xJ2/chats/50760230298@c.us/messages_human"
+  },
+  {
+    "id": "HD7gLlqsVK8ww7xpzP3M",
+    "data": {
+      "from": "me (5v3KpVswXcSzUTx9BQXQitJb4xJ2)",
+      "to": "50760230298@c.us",
+      "body": "Claro q si",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "C7C1F69C7B8875A143BE453E9A595BA1",
+      "timestamp": "2025-06-21T19:52:23.886Z"
+    },
+    "path": "users/5v3KpVswXcSzUTx9BQXQitJb4xJ2/chats/50760230298@c.us/messages_human"
+  }
+]

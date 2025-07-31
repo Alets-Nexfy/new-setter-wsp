@@ -1,0 +1,43 @@
+[
+  {
+    "id": "gdDJbfv38TpOpH0hIlhj",
+    "data": {
+      "from": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "to": "5214492941341@c.us",
+      "body": "",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "3AF89779DD14793BA357",
+      "timestamp": "2025-06-26T22:49:19.223Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5214492941341@c.us/messages_all"
+  },
+  {
+    "id": "jfQM8ptmwS7foBZbbdWm",
+    "data": {
+      "body": "",
+      "isFromMe": false,
+      "messageId": "3EB0E8417607C518CC44",
+      "from": "5214492941341@c.us",
+      "to": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "origin": "contact",
+      "timestamp": "2025-06-26T22:49:17.201Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5214492941341@c.us/messages_all"
+  },
+  {
+    "id": "rpEJYNgJuBP4MTYao2wP",
+    "data": {
+      "from": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "to": "5214492941341@c.us",
+      "body": "Lucas Olivera argentino",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "3A1A2E0EAEDDFAB84462",
+      "timestamp": "2025-06-26T22:49:17.134Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5214492941341@c.us/messages_all"
+  }
+]

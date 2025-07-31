@@ -1,0 +1,58 @@
+[
+  {
+    "id": "03T52sIll6YERI92nLfZ",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5214491830932@c.us",
+      "body": "Hola, buenas noches! 😁 soy Nidia (hija de Toño)",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "DAE8E1D6856FE9AEA8D05190A4752F3F",
+      "timestamp": "2025-07-20T03:45:30.726Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214491830932@c.us/messages_human"
+  },
+  {
+    "id": "HsSiR8PpXiu7a6mx2nyh",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5214491830932@c.us",
+      "body": "Para ver lo de la plataforma de viajes",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "2E7F7BC53E599494C98A9EC64FE1324D",
+      "timestamp": "2025-07-20T03:46:08.220Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214491830932@c.us/messages_human"
+  },
+  {
+    "id": "eEgxKQTvXRNyDr23Nmp8",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5214491830932@c.us",
+      "body": "Hace unos días me proporcionó su número, pero no había tenido oportunidad de comunicarme",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "34B300B0C3A87486765D0820938001CD",
+      "timestamp": "2025-07-20T03:45:44.817Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214491830932@c.us/messages_human"
+  },
+  {
+    "id": "szawi2wtqtvTkFxaHRMb",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5214491830932@c.us",
+      "body": "",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "A1C9E998DC6CFD99096624C475DE173B",
+      "timestamp": "2025-07-20T04:30:38.302Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214491830932@c.us/messages_human"
+  }
+]

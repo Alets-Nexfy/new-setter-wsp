@@ -1,0 +1,69 @@
+[
+  {
+    "id": "1rmVbffqlkzjeK2wA2yw",
+    "data": {
+      "from": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "to": "5219983243203@c.us",
+      "body": "Estás disponible para buscarnos en aeropuerto ?",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "3AED08158CDE6E09AF90",
+      "timestamp": "2025-06-24T17:07:46.149Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5219983243203@c.us/messages_all"
+  },
+  {
+    "id": "Ip4tKE20WT7XAo99BD5R",
+    "data": {
+      "body": "A que hora??",
+      "isFromMe": false,
+      "messageId": "CD32E3343EB123320212F32A16D912B7",
+      "from": "5219983243203@c.us",
+      "to": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "origin": "contact",
+      "timestamp": "2025-06-24T17:09:22.952Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5219983243203@c.us/messages_all"
+  },
+  {
+    "id": "KH1lpt0hzscDqH0SBjEl",
+    "data": {
+      "from": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "to": "5219983243203@c.us",
+      "body": "Hola Yanira",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "3A7445FDADD317C9CEDD",
+      "timestamp": "2025-06-24T17:07:03.114Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5219983243203@c.us/messages_all"
+  },
+  {
+    "id": "bVdq95tEcdKqnf25fWQ3",
+    "data": {
+      "body": "Hola",
+      "isFromMe": false,
+      "messageId": "7A1BD1251AC5917A4A9974A3336F9F32",
+      "from": "5219983243203@c.us",
+      "to": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "origin": "contact",
+      "timestamp": "2025-06-24T17:09:16.333Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5219983243203@c.us/messages_all"
+  },
+  {
+    "id": "fCbXBzx8pLBKVjD5P4js",
+    "data": {
+      "body": "",
+      "isFromMe": false,
+      "messageId": "3EB07C73DD4F00E4847D",
+      "from": "5219983243203@c.us",
+      "to": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "origin": "contact",
+      "timestamp": "2025-06-24T17:06:56.061Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5219983243203@c.us/messages_all"
+  }
+]

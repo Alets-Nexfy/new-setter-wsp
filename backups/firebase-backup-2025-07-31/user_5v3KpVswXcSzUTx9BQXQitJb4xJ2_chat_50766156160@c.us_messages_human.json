@@ -1,0 +1,86 @@
+[
+  {
+    "id": "L8JghknkEIPBlIxeUFPY",
+    "data": {
+      "from": "me (5v3KpVswXcSzUTx9BQXQitJb4xJ2)",
+      "to": "50766156160@c.us",
+      "body": "Tu eres tigo o más móvil",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "DB3DB0C61A5F4847EEF0BF331513819C",
+      "timestamp": "2025-06-21T18:44:39.142Z"
+    },
+    "path": "users/5v3KpVswXcSzUTx9BQXQitJb4xJ2/chats/50766156160@c.us/messages_human"
+  },
+  {
+    "id": "PUtsd7JdKdCiE9DEtNO8",
+    "data": {
+      "from": "me (5v3KpVswXcSzUTx9BQXQitJb4xJ2)",
+      "to": "50766156160@c.us",
+      "body": "Ha ok",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "CF9869EC6CFD5FCA4A7F99D2E7E60F70",
+      "timestamp": "2025-06-21T18:44:29.793Z"
+    },
+    "path": "users/5v3KpVswXcSzUTx9BQXQitJb4xJ2/chats/50766156160@c.us/messages_human"
+  },
+  {
+    "id": "dYIqc9kW0jWI5P6JzC8w",
+    "data": {
+      "from": "me (5v3KpVswXcSzUTx9BQXQitJb4xJ2)",
+      "to": "50766156160@c.us",
+      "body": "Hasta que hora te quedas",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "28612CA2E859B54D141EFD680D440EB5",
+      "timestamp": "2025-06-21T18:45:05.158Z"
+    },
+    "path": "users/5v3KpVswXcSzUTx9BQXQitJb4xJ2/chats/50766156160@c.us/messages_human"
+  },
+  {
+    "id": "hN6tB8g4ZOH6V1zU18I2",
+    "data": {
+      "from": "me (5v3KpVswXcSzUTx9BQXQitJb4xJ2)",
+      "to": "50766156160@c.us",
+      "body": "Ok me avisas cuando mamá se despierte para hablar con ella",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "FE799B336EFC2D2ACFE97B2E9B453CBC",
+      "timestamp": "2025-06-21T18:45:54.336Z"
+    },
+    "path": "users/5v3KpVswXcSzUTx9BQXQitJb4xJ2/chats/50766156160@c.us/messages_human"
+  },
+  {
+    "id": "jGEUc91fEvbuPzQ7Rpbd",
+    "data": {
+      "from": "me (5v3KpVswXcSzUTx9BQXQitJb4xJ2)",
+      "to": "50766156160@c.us",
+      "body": "Estas con mamá?",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "FF46740F2BA59546E0F7F1E16246A6EF",
+      "timestamp": "2025-06-21T18:43:40.394Z"
+    },
+    "path": "users/5v3KpVswXcSzUTx9BQXQitJb4xJ2/chats/50766156160@c.us/messages_human"
+  },
+  {
+    "id": "wrVDDMPAPYbUvlk9zeYc",
+    "data": {
+      "from": "me (5v3KpVswXcSzUTx9BQXQitJb4xJ2)",
+      "to": "50766156160@c.us",
+      "body": "Hola soy Dionel",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "049C607305E7B4EBEFA27FF1578D1DF8",
+      "timestamp": "2025-06-21T18:43:36.115Z"
+    },
+    "path": "users/5v3KpVswXcSzUTx9BQXQitJb4xJ2/chats/50766156160@c.us/messages_human"
+  }
+]

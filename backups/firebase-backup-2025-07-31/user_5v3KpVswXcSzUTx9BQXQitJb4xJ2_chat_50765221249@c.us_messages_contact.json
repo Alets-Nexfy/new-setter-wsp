@@ -1,0 +1,28 @@
+[
+  {
+    "id": "TnsQFGzDhBtWgYGZRg4j",
+    "data": {
+      "body": "Bendiciones  a la señora veci",
+      "isFromMe": false,
+      "messageId": "20523FF608E0D058B0CFA39850657497",
+      "from": "50765221249@c.us",
+      "to": "me (5v3KpVswXcSzUTx9BQXQitJb4xJ2)",
+      "origin": "contact",
+      "timestamp": "2025-06-21T17:21:59.190Z"
+    },
+    "path": "users/5v3KpVswXcSzUTx9BQXQitJb4xJ2/chats/50765221249@c.us/messages_contact"
+  },
+  {
+    "id": "eUAioj7FbZm2JKMGbx5r",
+    "data": {
+      "body": "",
+      "isFromMe": false,
+      "messageId": "219C6BBE489455F8EB018AE68231AF98",
+      "from": "50765221249@c.us",
+      "to": "me (5v3KpVswXcSzUTx9BQXQitJb4xJ2)",
+      "origin": "contact",
+      "timestamp": "2025-06-21T17:22:24.436Z"
+    },
+    "path": "users/5v3KpVswXcSzUTx9BQXQitJb4xJ2/chats/50765221249@c.us/messages_contact"
+  }
+]

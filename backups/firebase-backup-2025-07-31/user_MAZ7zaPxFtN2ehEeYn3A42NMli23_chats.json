@@ -1,0 +1,142 @@
+[
+  {
+    "id": "120363366614336200@g.us",
+    "data": {
+      "createdAt": "2025-07-15T01:56:59.994Z",
+      "userActivitySource": "message_create_event",
+      "userIsActive": true,
+      "lastMessageContent": "Dale",
+      "lastMessageTimestamp": "2025-07-15T02:02:20.089Z",
+      "lastHumanMessageTimestamp": "2025-07-15T02:02:20.089Z"
+    },
+    "path": "users/MAZ7zaPxFtN2ehEeYn3A42NMli23/chats"
+  },
+  {
+    "id": "120363415870027115@g.us",
+    "data": {
+      "createdAt": "2025-05-19T17:51:46.675Z",
+      "userActivitySource": "message_create_event",
+      "lastBotMessageTimestamp": null,
+      "lastMessageContent": null,
+      "lastContactMessageTimestamp": null,
+      "lastMessageTimestamp": null,
+      "lastHumanMessageTimestamp": null,
+      "userIsActive": false,
+      "historyClearedAt": "2025-07-14T15:12:15.116Z"
+    },
+    "path": "users/MAZ7zaPxFtN2ehEeYn3A42NMli23/chats"
+  },
+  {
+    "id": "17868213959@c.us",
+    "data": {
+      "userIsActive": false,
+      "createdAt": "2025-07-12T04:39:10.704Z",
+      "activatedAt": "2025-07-12T04:39:12.556Z",
+      "isActivated": true,
+      "activationMethod": "initial_trigger",
+      "historyClearedAt": "2025-07-14T15:12:15.051Z",
+      "lastHumanMessageTimestamp": null,
+      "lastContactMessageTimestamp": "2025-07-14T15:12:34.890Z",
+      "lastActivityCheck": "2025-07-14T15:12:35.156Z",
+      "lastBotMessageTimestamp": "2025-07-14T15:12:40.659Z",
+      "lastActivityTimestamp": "2025-07-14T15:12:40.659Z",
+      "lastMessageContent": "Hola! Soy Robocop, el asistente personal de Joaquín.  ¿En qué puedo ayudarte hoy para que tengas un día increíble?  \n",
+      "lastMessageTimestamp": "2025-07-14T15:12:40.659Z"
+    },
+    "path": "users/MAZ7zaPxFtN2ehEeYn3A42NMli23/chats"
+  },
+  {
+    "id": "19543761487@c.us",
+    "data": {
+      "createdAt": "2025-07-14T17:09:22.453Z",
+      "userActivitySource": "message_create_event",
+      "userIsActive": true,
+      "lastActivityTimestamp": "2025-07-14T17:12:05.497Z",
+      "lastContactMessageTimestamp": "2025-07-14T17:12:05.497Z",
+      "lastMessageContent": "Buen día Alfredo! Cuando tengas algún agente para testear envíamelo porfavor, estamos a la espera",
+      "lastMessageTimestamp": "2025-07-15T14:48:46.451Z",
+      "lastHumanMessageTimestamp": "2025-07-15T14:48:46.451Z"
+    },
+    "path": "users/MAZ7zaPxFtN2ehEeYn3A42NMli23/chats"
+  },
+  {
+    "id": "447823681158@c.us",
+    "data": {
+      "userIsActive": false,
+      "createdAt": "2025-07-14T17:05:01.181Z",
+      "lastActivityTimestamp": "2025-07-14T17:05:02.587Z",
+      "lastMessageContent": "Hi Joaqun, I wanted to know if you have made any progress.",
+      "lastContactMessageTimestamp": "2025-07-14T17:05:02.587Z",
+      "lastMessageTimestamp": "2025-07-14T17:05:02.587Z",
+      "lastActivityCheck": "2025-07-14T17:05:03.006Z"
+    },
+    "path": "users/MAZ7zaPxFtN2ehEeYn3A42NMli23/chats"
+  },
+  {
+    "id": "5491135529282@c.us",
+    "data": {
+      "createdAt": "2025-07-14T15:50:20.400Z",
+      "userActivitySource": "message_create_event",
+      "userIsActive": true,
+      "lastActivityCheck": "2025-07-14T15:50:22.350Z",
+      "lastHumanMessageTimestamp": "2025-07-15T14:08:02.684Z",
+      "lastActivityTimestamp": "2025-07-15T14:08:08.730Z",
+      "lastMessageContent": "¡Hola! 💕 Bienvenidx a Lisha Moda. ¿Me pasás tu nombre y localidad para agendarte y ayudarte mejor? 😊\n",
+      "lastContactMessageTimestamp": "2025-07-15T14:08:08.730Z",
+      "lastMessageTimestamp": "2025-07-15T14:08:08.730Z"
+    },
+    "path": "users/MAZ7zaPxFtN2ehEeYn3A42NMli23/chats"
+  },
+  {
+    "id": "5493516868632@c.us",
+    "data": {
+      "createdAt": "2025-05-19T17:53:38.713Z",
+      "userActivitySource": "message_create_event",
+      "lastHumanMessageTimestamp": null,
+      "userIsActive": false,
+      "historyClearedAt": "2025-07-14T15:12:15.053Z",
+      "activatedAt": "2025-07-14T15:17:13.264Z",
+      "isActivated": true,
+      "activationMethod": "initial_trigger",
+      "lastContactMessageTimestamp": "2025-07-14T15:17:39.028Z",
+      "lastActivityCheck": "2025-07-14T15:17:39.315Z",
+      "lastBotMessageTimestamp": "2025-07-14T15:17:44.488Z",
+      "lastActivityTimestamp": "2025-07-14T15:17:44.488Z",
+      "lastMessageContent": "¡TKM también!  Me alegra saber de ti.  ¿Hay algo más en lo que pueda ayudarte hoy?  Ya sea que necesites planificar ese viaje, buscar información, o simplemente quieras charlar un rato, estoy aquí para ti.  Si, por ejemplo, te decides a reservar ese viaje de ensueño, un teléfono con buena cámara para capturar los recuerdos, y una batería de larga duración para mantenerte conectado, sería muy práctico.  Por cierto, si necesitas ideas para un nuevo teléfono, puedes visitar la página de Apple en [https://www.apple.com/](https://www.apple.com/). Tienen dispositivos increíbles.  Dime, ¿qué tal tu día?\n",
+      "lastMessageTimestamp": "2025-07-14T15:17:44.488Z"
+    },
+    "path": "users/MAZ7zaPxFtN2ehEeYn3A42NMli23/chats"
+  },
+  {
+    "id": "5493518604276@c.us",
+    "data": {
+      "createdAt": "2025-05-19T17:44:59.598Z",
+      "lastActivityCheck": "2025-05-19T17:48:56.650Z",
+      "lastBotMessageTimestamp": null,
+      "lastContactMessageTimestamp": null,
+      "userActivitySource": "message_create_event",
+      "lastMessageContent": null,
+      "lastMessageTimestamp": null,
+      "lastHumanMessageTimestamp": null,
+      "userIsActive": false,
+      "historyClearedAt": "2025-07-14T15:12:15.119Z"
+    },
+    "path": "users/MAZ7zaPxFtN2ehEeYn3A42NMli23/chats"
+  },
+  {
+    "id": "status@broadcast",
+    "data": {
+      "userIsActive": false,
+      "createdAt": "2025-05-19T17:43:22.895Z",
+      "lastHumanMessageTimestamp": null,
+      "lastBotMessageTimestamp": null,
+      "historyClearedAt": "2025-07-14T15:12:15.049Z",
+      "lastMessageContent": "",
+      "lastActivityTimestamp": "2025-07-15T16:17:36.680Z",
+      "lastContactMessageTimestamp": "2025-07-15T16:17:36.680Z",
+      "lastMessageTimestamp": "2025-07-15T16:17:36.680Z",
+      "lastActivityCheck": "2025-07-15T16:17:36.967Z"
+    },
+    "path": "users/MAZ7zaPxFtN2ehEeYn3A42NMli23/chats"
+  }
+]

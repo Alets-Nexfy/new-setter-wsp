@@ -1,0 +1,56 @@
+[
+  {
+    "id": "5ADJKUvGnkIBL9IFfAXx",
+    "data": {
+      "from": "me (5v3KpVswXcSzUTx9BQXQitJb4xJ2)",
+      "to": "17868213959@c.us",
+      "body": "Al ingresar el l\n\nAl ingresar el link de instragram, no se genera usuarios para poder enviar la campaña. ( probé en celular, tanto como en laptop) \nEmail: dio2089@gmail.com\nUsuario : 138\nPassword: 12345678",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "C1FB434E180A665F06CB794BCF73F516",
+      "timestamp": "2025-06-26T16:56:55.727Z"
+    },
+    "path": "users/5v3KpVswXcSzUTx9BQXQitJb4xJ2/chats/17868213959@c.us/messages_all"
+  },
+  {
+    "id": "8lUuEpofg7U7CHyBz11M",
+    "data": {
+      "from": "me (5v3KpVswXcSzUTx9BQXQitJb4xJ2)",
+      "to": "17868213959@c.us",
+      "body": "Hola, casualmente le iba a escribir, en una hora le estaré enviando toda esa información. Gracias",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "CFBACD7A6EE3A869BE475BD5697B9890",
+      "timestamp": "2025-06-26T15:32:45.275Z"
+    },
+    "path": "users/5v3KpVswXcSzUTx9BQXQitJb4xJ2/chats/17868213959@c.us/messages_all"
+  },
+  {
+    "id": "EnLSpCevMzoxvMlsk8HK",
+    "data": {
+      "body": "Excelente, muchas gracias!",
+      "isFromMe": false,
+      "messageId": "3AE804D630D5459A345A",
+      "from": "17868213959@c.us",
+      "to": "me (5v3KpVswXcSzUTx9BQXQitJb4xJ2)",
+      "origin": "contact",
+      "timestamp": "2025-06-26T15:35:00.592Z"
+    },
+    "path": "users/5v3KpVswXcSzUTx9BQXQitJb4xJ2/chats/17868213959@c.us/messages_all"
+  },
+  {
+    "id": "rPHVgyaKtndS4HKvlkxF",
+    "data": {
+      "body": "Buenos dias dionel! quería saber si soluciono tu problema? \n\nY sino \n\nte voy a pedir un favor para darte solución\n\nLista de incidencias con :\n-Descripcion de la incidencia\n-Cuenta del usuario de la incidencia (usuario, correo y password de UBUNTU TRIBE )\n\nejemplo:\nNo se genera el Codigo QR en setter\nEmail ususario: ejemplo@gmail.com\nUsario: 254\nPassword: ejemplo",
+      "isFromMe": false,
+      "messageId": "3A658E3DA55B8E647853",
+      "from": "17868213959@c.us",
+      "to": "me (5v3KpVswXcSzUTx9BQXQitJb4xJ2)",
+      "origin": "contact",
+      "timestamp": "2025-06-26T15:05:56.733Z"
+    },
+    "path": "users/5v3KpVswXcSzUTx9BQXQitJb4xJ2/chats/17868213959@c.us/messages_all"
+  }
+]

@@ -1,0 +1,28 @@
+[
+  {
+    "id": "TKLYs4lHXs17L2dwsArN",
+    "data": {
+      "from": "me (IA - 94LDizOBGbeo7omSZ7kkvq08jCj2)",
+      "to": "593963936712@c.us",
+      "body": "Parece que hay mucho tráfico en el sistema. Intentaré responder tu mensaje más tarde cuando haya menos carga.",
+      "isFromMe": true,
+      "isAutoReply": true,
+      "origin": "bot",
+      "timestamp": "2025-05-12T17:21:03.858Z"
+    },
+    "path": "users/94LDizOBGbeo7omSZ7kkvq08jCj2/chats/593963936712@c.us/messages_all"
+  },
+  {
+    "id": "uGoVQVnoaHuy3LmCpIs0",
+    "data": {
+      "body": "",
+      "isFromMe": false,
+      "messageId": "3EB0641C859FB5478298",
+      "from": "593963936712@c.us",
+      "to": "me (94LDizOBGbeo7omSZ7kkvq08jCj2)",
+      "origin": "contact",
+      "timestamp": "2025-05-12T17:20:22.148Z"
+    },
+    "path": "users/94LDizOBGbeo7omSZ7kkvq08jCj2/chats/593963936712@c.us/messages_all"
+  }
+]

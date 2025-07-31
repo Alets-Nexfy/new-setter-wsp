@@ -1,0 +1,30 @@
+[
+  {
+    "id": "H9lHopPfIGNF1n8WT3J2",
+    "data": {
+      "from": "me (5v3KpVswXcSzUTx9BQXQitJb4xJ2)",
+      "to": "5493516868632@c.us",
+      "body": "El setter si lo pude conectar, pero la campaña aun me salen así",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "BEB15752060CE2577DB051781E0B2DA1",
+      "timestamp": "2025-06-21T16:43:18.455Z"
+    },
+    "path": "users/5v3KpVswXcSzUTx9BQXQitJb4xJ2/chats/5493516868632@c.us/messages_human"
+  },
+  {
+    "id": "bhphYLx0xOXI3pNfEnT6",
+    "data": {
+      "from": "me (5v3KpVswXcSzUTx9BQXQitJb4xJ2)",
+      "to": "5493516868632@c.us",
+      "body": "Hola amigo buenas tardes, disculpe pudo ver mi caso",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "E80A651B74A109D62396A9CCBDF0CEEA",
+      "timestamp": "2025-06-23T18:00:37.055Z"
+    },
+    "path": "users/5v3KpVswXcSzUTx9BQXQitJb4xJ2/chats/5493516868632@c.us/messages_human"
+  }
+]

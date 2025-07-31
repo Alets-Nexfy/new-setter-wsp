@@ -1,0 +1,28 @@
+[
+  {
+    "id": "MgpAEm4sVExe9zwf8CDX",
+    "data": {
+      "body": "No puedo. Estoy en la ruta",
+      "isFromMe": false,
+      "messageId": "646D4C9FE8E0533E7F6BFCEE7AB689CE",
+      "from": "5493492611888@c.us",
+      "to": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "origin": "contact",
+      "timestamp": "2025-06-23T19:22:14.645Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5493492611888@c.us/messages_contact"
+  },
+  {
+    "id": "TkLTUmdKXiwg3EmyrnpV",
+    "data": {
+      "body": "Te llamo después con el del trabajo",
+      "isFromMe": false,
+      "messageId": "EDA7C6926E10DE59BCCA06B8C1DA3D9D",
+      "from": "5493492611888@c.us",
+      "to": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "origin": "contact",
+      "timestamp": "2025-06-23T19:22:32.518Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5493492611888@c.us/messages_contact"
+  }
+]

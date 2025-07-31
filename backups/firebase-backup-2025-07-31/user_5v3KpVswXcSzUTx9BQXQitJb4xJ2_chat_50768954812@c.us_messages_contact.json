@@ -1,0 +1,41 @@
+[
+  {
+    "id": "A3Lm0um5q60x0pkPE0Nv",
+    "data": {
+      "body": "Liberado",
+      "isFromMe": false,
+      "messageId": "A6152F1E787CF1A8E75884FB3557AB01",
+      "from": "50768954812@c.us",
+      "to": "me (5v3KpVswXcSzUTx9BQXQitJb4xJ2)",
+      "origin": "contact",
+      "timestamp": "2025-06-27T11:45:35.474Z"
+    },
+    "path": "users/5v3KpVswXcSzUTx9BQXQitJb4xJ2/chats/50768954812@c.us/messages_contact"
+  },
+  {
+    "id": "g8dmEeGRJKqZRcvvw1dg",
+    "data": {
+      "body": "Esta bien",
+      "isFromMe": false,
+      "messageId": "B84B3035988B8DCE9307BB6207E6C548",
+      "from": "50768954812@c.us",
+      "to": "me (5v3KpVswXcSzUTx9BQXQitJb4xJ2)",
+      "origin": "contact",
+      "timestamp": "2025-06-27T11:45:32.839Z"
+    },
+    "path": "users/5v3KpVswXcSzUTx9BQXQitJb4xJ2/chats/50768954812@c.us/messages_contact"
+  },
+  {
+    "id": "gbJsID9GQ1oyYMtUKWmL",
+    "data": {
+      "body": "",
+      "isFromMe": false,
+      "messageId": "F5EB80508DABB2249D31DE67DE384BD8",
+      "from": "50768954812@c.us",
+      "to": "me (5v3KpVswXcSzUTx9BQXQitJb4xJ2)",
+      "origin": "contact",
+      "timestamp": "2025-06-27T11:45:30.663Z"
+    },
+    "path": "users/5v3KpVswXcSzUTx9BQXQitJb4xJ2/chats/50768954812@c.us/messages_contact"
+  }
+]

@@ -1,0 +1,67 @@
+[
+  {
+    "id": "8GqwK4VEXbhlcCk5uEav",
+    "data": {
+      "body": "Info",
+      "isFromMe": false,
+      "messageId": "C011644610B5A758EFCB24C869C7C650",
+      "from": "584120827575@c.us",
+      "to": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "origin": "contact",
+      "timestamp": "2025-06-23T20:01:11.400Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/584120827575@c.us/messages_all"
+  },
+  {
+    "id": "P1avZbjpnmEbmPdyVSjh",
+    "data": {
+      "body": "Hola",
+      "isFromMe": false,
+      "messageId": "E9EC3B8B21B54967EBA8E884C225BCA6",
+      "from": "584120827575@c.us",
+      "to": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "origin": "contact",
+      "timestamp": "2025-06-23T19:11:24.315Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/584120827575@c.us/messages_all"
+  },
+  {
+    "id": "i7y79pPi87Hux1fFXlJj",
+    "data": {
+      "body": "",
+      "isFromMe": false,
+      "messageId": "3EB07A23A27459E7AA38",
+      "from": "584120827575@c.us",
+      "to": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "origin": "contact",
+      "timestamp": "2025-06-23T19:11:24.292Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/584120827575@c.us/messages_all"
+  },
+  {
+    "id": "naDGUCF0VVLezSHgbqVr",
+    "data": {
+      "body": "",
+      "isFromMe": false,
+      "messageId": "3EB0E43A6E36E6F940CE",
+      "from": "584120827575@c.us",
+      "to": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "origin": "contact",
+      "timestamp": "2025-06-23T19:11:24.287Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/584120827575@c.us/messages_all"
+  },
+  {
+    "id": "uCE0da2lgzCJYHLMdyvR",
+    "data": {
+      "body": "Club de viaje",
+      "isFromMe": false,
+      "messageId": "626762E50FAA9769C96763DB8C68D938",
+      "from": "584120827575@c.us",
+      "to": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "origin": "contact",
+      "timestamp": "2025-06-23T19:11:42.909Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/584120827575@c.us/messages_all"
+  }
+]

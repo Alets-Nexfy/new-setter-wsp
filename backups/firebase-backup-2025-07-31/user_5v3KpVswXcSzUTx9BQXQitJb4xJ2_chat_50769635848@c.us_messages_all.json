@@ -1,0 +1,57 @@
+[
+  {
+    "id": "CNkxD7mF5dEZkmoXhRLi",
+    "data": {
+      "from": "me (5v3KpVswXcSzUTx9BQXQitJb4xJ2)",
+      "to": "50769635848@c.us",
+      "body": "Hola mi Liz como le va",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "A3AA451584B09CA856EECF23F44E4621",
+      "timestamp": "2025-06-25T22:37:21.132Z"
+    },
+    "path": "users/5v3KpVswXcSzUTx9BQXQitJb4xJ2/chats/50769635848@c.us/messages_all"
+  },
+  {
+    "id": "dIYyZv5yO8JqUuofX5vA",
+    "data": {
+      "from": "me (5v3KpVswXcSzUTx9BQXQitJb4xJ2)",
+      "to": "50769635848@c.us",
+      "body": "",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "2127D114B305CDBE2CFCCE78D5BDCBF7",
+      "timestamp": "2025-06-25T23:35:52.150Z"
+    },
+    "path": "users/5v3KpVswXcSzUTx9BQXQitJb4xJ2/chats/50769635848@c.us/messages_all"
+  },
+  {
+    "id": "pAI4pHhKgjGVnQKwHaZX",
+    "data": {
+      "body": "Hola Dio bastante bien y uds",
+      "isFromMe": false,
+      "messageId": "3ABF75FB1192EB306787",
+      "from": "50769635848@c.us",
+      "to": "me (5v3KpVswXcSzUTx9BQXQitJb4xJ2)",
+      "origin": "contact",
+      "timestamp": "2025-06-25T23:11:29.651Z"
+    },
+    "path": "users/5v3KpVswXcSzUTx9BQXQitJb4xJ2/chats/50769635848@c.us/messages_all"
+  },
+  {
+    "id": "zEGODDC3G61x020yqlem",
+    "data": {
+      "from": "me (5v3KpVswXcSzUTx9BQXQitJb4xJ2)",
+      "to": "50769635848@c.us",
+      "body": "Bendiciones",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "A5D8F3B8FCFCC73E807A9BC424D4D4B3",
+      "timestamp": "2025-06-25T22:37:23.295Z"
+    },
+    "path": "users/5v3KpVswXcSzUTx9BQXQitJb4xJ2/chats/50769635848@c.us/messages_all"
+  }
+]

@@ -1,0 +1,72 @@
+[
+  {
+    "id": "63Bn2CoYsyJW8Bv6lKhQ",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5214494140744@c.us",
+      "body": "",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "495B5CBE07595511B2D4B52B20E90308",
+      "timestamp": "2025-07-19T20:31:11.288Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214494140744@c.us/messages_human"
+  },
+  {
+    "id": "6ax3v74gLqgnIN9WGVPu",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5214494140744@c.us",
+      "body": "Y estuve pensando que incluso si 3 personas lo eligen, tú puedes tener tu plataforma sin esperar a enero",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "B268B6204EEAF90D6D2E6F3E10FA5CAB",
+      "timestamp": "2025-07-19T20:32:24.125Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214494140744@c.us/messages_human"
+  },
+  {
+    "id": "EjtUzDCkpFJKgp7qOBaE",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5214494140744@c.us",
+      "body": "El lunes habrá un zoom de 30 minutos en dónde uno de mis socios de equipo va a explicar cómo funciona",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "65C3D7C636A20817048D208DEFD0313B",
+      "timestamp": "2025-07-19T20:30:59.223Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214494140744@c.us/messages_human"
+  },
+  {
+    "id": "Wmog3LBXZai3tvBYlYP6",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5214494140744@c.us",
+      "body": "",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "D77458529AFE4239B6F74E701F6F5E22",
+      "timestamp": "2025-07-19T20:30:39.690Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214494140744@c.us/messages_human"
+  },
+  {
+    "id": "iYJnyz1E6mcnPFkLHQCN",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5214494140744@c.us",
+      "body": "Amiga, ¿Conoces personas a las que les guste viajar y ahorrar o que les interese generar ingresos por medio de la plataforma?🙌🏻✨",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "D1B7257122C2098F0709864D4081D988",
+      "timestamp": "2025-07-19T20:30:32.396Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214494140744@c.us/messages_human"
+  }
+]

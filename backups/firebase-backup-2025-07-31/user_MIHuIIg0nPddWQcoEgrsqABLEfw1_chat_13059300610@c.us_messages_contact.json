@@ -1,0 +1,28 @@
+[
+  {
+    "id": "DO4HKFgin0P4gKtT2SP2",
+    "data": {
+      "body": "Y tú cómo estás)",
+      "isFromMe": false,
+      "messageId": "3A7CB38E5947362B80BA",
+      "from": "13059300610@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-18T18:23:28.200Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/13059300610@c.us/messages_contact"
+  },
+  {
+    "id": "nQqhjyrK6ThGNAGpCLYV",
+    "data": {
+      "body": "Hola Nidia bella! Estoy bien, recuperándome! Me enfermé 😭",
+      "isFromMe": false,
+      "messageId": "3A190CBFF342E6C8E685",
+      "from": "13059300610@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-18T18:23:25.559Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/13059300610@c.us/messages_contact"
+  }
+]

@@ -1,0 +1,54 @@
+[
+  {
+    "id": "5psZ2ZfNBfFKlsJEWKbj",
+    "data": {
+      "body": "Todo bien ,por 😴.",
+      "isFromMe": false,
+      "messageId": "1836EAB485C5B31D548550C7E12D721D",
+      "from": "5493425374766@c.us",
+      "to": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "origin": "contact",
+      "timestamp": "2025-06-26T01:16:50.013Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5493425374766@c.us/messages_contact"
+  },
+  {
+    "id": "PyE7RXoJmUyGBbfhaMkC",
+    "data": {
+      "body": "",
+      "isFromMe": false,
+      "messageId": "3EB0B2F0EAF69561E49B",
+      "from": "5493425374766@c.us",
+      "to": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "origin": "contact",
+      "timestamp": "2025-06-26T01:04:47.871Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5493425374766@c.us/messages_contact"
+  },
+  {
+    "id": "WWdOM8SBrrDNWFoadfAC",
+    "data": {
+      "body": "Hola Lucas,te felicito.",
+      "isFromMe": false,
+      "messageId": "6FB61FF42F4AB97E1CF06EA2437AFCB8",
+      "from": "5493425374766@c.us",
+      "to": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "origin": "contact",
+      "timestamp": "2025-06-26T01:15:45.409Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5493425374766@c.us/messages_contact"
+  },
+  {
+    "id": "dr2pg0n5KnMmcTxXaIeD",
+    "data": {
+      "body": "👏",
+      "isFromMe": false,
+      "messageId": "171650BA48958C652ED403347FAFB3C5",
+      "from": "5493425374766@c.us",
+      "to": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "origin": "contact",
+      "timestamp": "2025-06-26T01:04:47.871Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5493425374766@c.us/messages_contact"
+  }
+]

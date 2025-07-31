@@ -1,0 +1,71 @@
+[
+  {
+    "id": "Hwnuy0GRAav5lwgAr6W3",
+    "data": {
+      "from": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "to": "5492920407369@c.us",
+      "body": "JAJAJA SOS un distinto vos",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "3A3F702C71D954D62E11",
+      "timestamp": "2025-06-26T21:42:22.104Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5492920407369@c.us/messages_all"
+  },
+  {
+    "id": "Z6n6rMBvusMyfxQPYxeQ",
+    "data": {
+      "from": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "to": "5492920407369@c.us",
+      "body": "Literal hasta la pija estaba river en ese momento jajajaja",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "3A58441CAE521FF6BECF",
+      "timestamp": "2025-06-26T21:42:37.621Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5492920407369@c.us/messages_all"
+  },
+  {
+    "id": "bXu4aUcrQ7F9nulyFTZR",
+    "data": {
+      "from": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "to": "5492920407369@c.us",
+      "body": "En todos lados jajaja",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "3A546F5848E612EEA111",
+      "timestamp": "2025-06-26T21:42:25.890Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5492920407369@c.us/messages_all"
+  },
+  {
+    "id": "fZ8TVVRDBAcyt2nxNjZY",
+    "data": {
+      "body": "Jajajaa estuve saliendo en telefé y tmb en espn, una cara de “que difícil la tenemos”😂",
+      "isFromMe": false,
+      "messageId": "3A0539C75A50A061984D",
+      "from": "5492920407369@c.us",
+      "to": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "origin": "contact",
+      "timestamp": "2025-06-26T21:10:29.170Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5492920407369@c.us/messages_all"
+  },
+  {
+    "id": "sTbgb2fDRolVySEoD3Gi",
+    "data": {
+      "from": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "to": "5492920407369@c.us",
+      "body": "",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "3AC537E470DEED81649A",
+      "timestamp": "2025-06-26T17:21:28.442Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5492920407369@c.us/messages_all"
+  }
+]

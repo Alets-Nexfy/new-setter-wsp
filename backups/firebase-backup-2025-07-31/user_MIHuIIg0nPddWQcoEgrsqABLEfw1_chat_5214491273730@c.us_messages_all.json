@@ -1,0 +1,16 @@
+[
+  {
+    "id": "O1qKfOuSyMiW9W1Z1Fdz",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5214491273730@c.us",
+      "body": "",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "03FD1EC9A789E0909CA5568C581838AF",
+      "timestamp": "2025-07-20T03:44:34.817Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214491273730@c.us/messages_all"
+  }
+]

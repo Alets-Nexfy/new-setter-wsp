@@ -1,0 +1,446 @@
+[
+  {
+    "id": "0ULXfc4L7ZwW3Jx4u2EJ",
+    "data": {
+      "body": "Estamos hay",
+      "isFromMe": false,
+      "messageId": "7EBB2D15ACFB7ACBA077E08D4E2DFDF9",
+      "from": "50764305958@c.us",
+      "to": "me (5v3KpVswXcSzUTx9BQXQitJb4xJ2)",
+      "origin": "contact",
+      "timestamp": "2025-06-22T23:49:24.036Z"
+    },
+    "path": "users/5v3KpVswXcSzUTx9BQXQitJb4xJ2/chats/50764305958@c.us/messages_all"
+  },
+  {
+    "id": "3jr6vKSsRttoNouplucd",
+    "data": {
+      "from": "me (5v3KpVswXcSzUTx9BQXQitJb4xJ2)",
+      "to": "50764305958@c.us",
+      "body": "",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "282A545592F4CE90E50C1C6EDBBD83A0",
+      "timestamp": "2025-06-22T23:37:55.711Z"
+    },
+    "path": "users/5v3KpVswXcSzUTx9BQXQitJb4xJ2/chats/50764305958@c.us/messages_all"
+  },
+  {
+    "id": "6bJi0V2bwHmxvf2Mk5rT",
+    "data": {
+      "body": "Salsas",
+      "isFromMe": false,
+      "messageId": "EEC184DFD6B716A90E5F741C15F5D528",
+      "from": "50764305958@c.us",
+      "to": "me (5v3KpVswXcSzUTx9BQXQitJb4xJ2)",
+      "origin": "contact",
+      "timestamp": "2025-06-22T23:37:39.519Z"
+    },
+    "path": "users/5v3KpVswXcSzUTx9BQXQitJb4xJ2/chats/50764305958@c.us/messages_all"
+  },
+  {
+    "id": "8OuzaoRgAF4iCgXr2FW4",
+    "data": {
+      "body": "Anuncie a luis González",
+      "isFromMe": false,
+      "messageId": "4426C80EF179D6A54912C31EBC5CF8A2",
+      "from": "50764305958@c.us",
+      "to": "me (5v3KpVswXcSzUTx9BQXQitJb4xJ2)",
+      "origin": "contact",
+      "timestamp": "2025-06-22T23:39:52.450Z"
+    },
+    "path": "users/5v3KpVswXcSzUTx9BQXQitJb4xJ2/chats/50764305958@c.us/messages_all"
+  },
+  {
+    "id": "9YJxcJkNsgMgQPAzIHrL",
+    "data": {
+      "body": "",
+      "isFromMe": false,
+      "messageId": "EC4FA1D2F93E035DCAC4A5A54F60B799",
+      "from": "50764305958@c.us",
+      "to": "me (5v3KpVswXcSzUTx9BQXQitJb4xJ2)",
+      "origin": "contact",
+      "timestamp": "2025-06-25T23:36:36.681Z"
+    },
+    "path": "users/5v3KpVswXcSzUTx9BQXQitJb4xJ2/chats/50764305958@c.us/messages_all"
+  },
+  {
+    "id": "BG2ZkeQa91IzXprNlxE4",
+    "data": {
+      "from": "me (5v3KpVswXcSzUTx9BQXQitJb4xJ2)",
+      "to": "50764305958@c.us",
+      "body": "En las apartamentos de al frente",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "4A44999052055540B81829115D9CF7A6",
+      "timestamp": "2025-06-22T23:35:53.027Z"
+    },
+    "path": "users/5v3KpVswXcSzUTx9BQXQitJb4xJ2/chats/50764305958@c.us/messages_all"
+  },
+  {
+    "id": "BT9Ue7W1xu3Ah52WfZgL",
+    "data": {
+      "from": "me (5v3KpVswXcSzUTx9BQXQitJb4xJ2)",
+      "to": "50764305958@c.us",
+      "body": "Ya deje dicho en garita su entrada",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "ED8EBABF4F276A86A06D4F134102611A",
+      "timestamp": "2025-06-22T23:39:21.619Z"
+    },
+    "path": "users/5v3KpVswXcSzUTx9BQXQitJb4xJ2/chats/50764305958@c.us/messages_all"
+  },
+  {
+    "id": "CMXNeRDH4OjeWjIWH8sg",
+    "data": {
+      "from": "me (5v3KpVswXcSzUTx9BQXQitJb4xJ2)",
+      "to": "50764305958@c.us",
+      "body": "Uno de cada sabor",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "7CA8ED4E5D50007859C20479EEE3C596",
+      "timestamp": "2025-06-22T23:33:24.418Z"
+    },
+    "path": "users/5v3KpVswXcSzUTx9BQXQitJb4xJ2/chats/50764305958@c.us/messages_all"
+  },
+  {
+    "id": "DK7mHzQxA1VqZ8KoVf6r",
+    "data": {
+      "from": "me (5v3KpVswXcSzUTx9BQXQitJb4xJ2)",
+      "to": "50764305958@c.us",
+      "body": "Recibido, gracias",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "4E6DDE58D69FF5844BFB7849813324F3",
+      "timestamp": "2025-06-22T23:50:15.155Z"
+    },
+    "path": "users/5v3KpVswXcSzUTx9BQXQitJb4xJ2/chats/50764305958@c.us/messages_all"
+  },
+  {
+    "id": "K9HEgZSBILWLZK9rEoRT",
+    "data": {
+      "from": "me (5v3KpVswXcSzUTx9BQXQitJb4xJ2)",
+      "to": "50764305958@c.us",
+      "body": "Chimichurri, salsa de la casa y ketchup",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "58A920C705510C5E3359D6CAA45DE7C5",
+      "timestamp": "2025-06-22T23:38:24.285Z"
+    },
+    "path": "users/5v3KpVswXcSzUTx9BQXQitJb4xJ2/chats/50764305958@c.us/messages_all"
+  },
+  {
+    "id": "Ll01Hb0pHCYEYWIWOr05",
+    "data": {
+      "from": "me (5v3KpVswXcSzUTx9BQXQitJb4xJ2)",
+      "to": "50764305958@c.us",
+      "body": "Que tiene de tomar?",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "74994FDD59E79E223C39C41E4EC49AD8",
+      "timestamp": "2025-06-22T23:32:26.862Z"
+    },
+    "path": "users/5v3KpVswXcSzUTx9BQXQitJb4xJ2/chats/50764305958@c.us/messages_all"
+  },
+  {
+    "id": "MSJq2YIBxOlAOjXwUbbA",
+    "data": {
+      "body": "Dirección,gps y forma de pago",
+      "isFromMe": false,
+      "messageId": "97218822C07FF2613AF490ECF20ED399",
+      "from": "50764305958@c.us",
+      "to": "me (5v3KpVswXcSzUTx9BQXQitJb4xJ2)",
+      "origin": "contact",
+      "timestamp": "2025-06-22T23:34:47.104Z"
+    },
+    "path": "users/5v3KpVswXcSzUTx9BQXQitJb4xJ2/chats/50764305958@c.us/messages_all"
+  },
+  {
+    "id": "PUUJaz9pqi3srvM7wFsl",
+    "data": {
+      "body": "Ok",
+      "isFromMe": false,
+      "messageId": "738172799578C939FCDC11D9B7E50938",
+      "from": "50764305958@c.us",
+      "to": "me (5v3KpVswXcSzUTx9BQXQitJb4xJ2)",
+      "origin": "contact",
+      "timestamp": "2025-06-22T23:38:43.402Z"
+    },
+    "path": "users/5v3KpVswXcSzUTx9BQXQitJb4xJ2/chats/50764305958@c.us/messages_all"
+  },
+  {
+    "id": "QSW9qIEiKarNMjZeEeRR",
+    "data": {
+      "body": "*Saludos atentos hoy miércoles De 4;30 a 11;00 pm .* \n\n *Saludos*",
+      "isFromMe": false,
+      "messageId": "611A69D8E145ECFA68C96EFC580F4355",
+      "from": "50764305958@c.us",
+      "to": "me (5v3KpVswXcSzUTx9BQXQitJb4xJ2)",
+      "origin": "contact",
+      "timestamp": "2025-06-25T21:27:59.711Z"
+    },
+    "path": "users/5v3KpVswXcSzUTx9BQXQitJb4xJ2/chats/50764305958@c.us/messages_all"
+  },
+  {
+    "id": "RAdk47kimQimfW2A11HB",
+    "data": {
+      "body": "Naranja y limón con raspadura",
+      "isFromMe": false,
+      "messageId": "57232FA601AA6D0491604761D50FDC5C",
+      "from": "50764305958@c.us",
+      "to": "me (5v3KpVswXcSzUTx9BQXQitJb4xJ2)",
+      "origin": "contact",
+      "timestamp": "2025-06-22T23:32:57.445Z"
+    },
+    "path": "users/5v3KpVswXcSzUTx9BQXQitJb4xJ2/chats/50764305958@c.us/messages_all"
+  },
+  {
+    "id": "UtcrGuTBgZskMO8BEM72",
+    "data": {
+      "body": "Gracias por comunicarte con La Casa de los Asados. ¿Cómo podemos ayudarte?😁",
+      "isFromMe": false,
+      "messageId": "8DF1FE96E0CF9A9E8C21418325332A4E",
+      "from": "50764305958@c.us",
+      "to": "me (5v3KpVswXcSzUTx9BQXQitJb4xJ2)",
+      "origin": "contact",
+      "timestamp": "2025-06-22T23:31:31.496Z"
+    },
+    "path": "users/5v3KpVswXcSzUTx9BQXQitJb4xJ2/chats/50764305958@c.us/messages_all"
+  },
+  {
+    "id": "XNHH2bEZODuv1RXnLqIL",
+    "data": {
+      "from": "me (5v3KpVswXcSzUTx9BQXQitJb4xJ2)",
+      "to": "50764305958@c.us",
+      "body": "Hola buenas, para un delivery",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "8326B412ABCC5274E707FCD1B9F3E47C",
+      "timestamp": "2025-06-22T23:31:30.643Z"
+    },
+    "path": "users/5v3KpVswXcSzUTx9BQXQitJb4xJ2/chats/50764305958@c.us/messages_all"
+  },
+  {
+    "id": "axAQKXnGLjLb44nxt1ZA",
+    "data": {
+      "body": "12$",
+      "isFromMe": false,
+      "messageId": "3318005CCC5281EDF16A8D7A7A314E75",
+      "from": "50764305958@c.us",
+      "to": "me (5v3KpVswXcSzUTx9BQXQitJb4xJ2)",
+      "origin": "contact",
+      "timestamp": "2025-06-22T23:35:54.040Z"
+    },
+    "path": "users/5v3KpVswXcSzUTx9BQXQitJb4xJ2/chats/50764305958@c.us/messages_all"
+  },
+  {
+    "id": "ea1mlsLLAs9cVPoMwwiY",
+    "data": {
+      "body": "Que salsas desea? Tenemos chimichurri,  Ketchup, Mayonesa, salsa blanca de la casa, mostaza y salsa china",
+      "isFromMe": false,
+      "messageId": "21B49B34AF886428E5A127CBA423F3EC",
+      "from": "50764305958@c.us",
+      "to": "me (5v3KpVswXcSzUTx9BQXQitJb4xJ2)",
+      "origin": "contact",
+      "timestamp": "2025-06-22T23:36:26.757Z"
+    },
+    "path": "users/5v3KpVswXcSzUTx9BQXQitJb4xJ2/chats/50764305958@c.us/messages_all"
+  },
+  {
+    "id": "fkVt0zCg20Hpl1TDQJgw",
+    "data": {
+      "from": "me (5v3KpVswXcSzUTx9BQXQitJb4xJ2)",
+      "to": "50764305958@c.us",
+      "body": "Medio pollo asado con patacones y una orden de yuca",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "E276D7CD715D23EDD5F0471109F3776E",
+      "timestamp": "2025-06-22T23:32:21.675Z"
+    },
+    "path": "users/5v3KpVswXcSzUTx9BQXQitJb4xJ2/chats/50764305958@c.us/messages_all"
+  },
+  {
+    "id": "fnQhztXed6gZ9Rx0v18M",
+    "data": {
+      "from": "me (5v3KpVswXcSzUTx9BQXQitJb4xJ2)",
+      "to": "50764305958@c.us",
+      "body": "Cuanto seria por todo?",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "C6EA6AF7ABC81E49746C4F98E50EB7A7",
+      "timestamp": "2025-06-22T23:33:43.213Z"
+    },
+    "path": "users/5v3KpVswXcSzUTx9BQXQitJb4xJ2/chats/50764305958@c.us/messages_all"
+  },
+  {
+    "id": "gnCeN0lPeNbFFOcvuTah",
+    "data": {
+      "from": "me (5v3KpVswXcSzUTx9BQXQitJb4xJ2)",
+      "to": "50764305958@c.us",
+      "body": "Me puede enviar las salsas por separado porfa",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "1E1C8C10A9F28E03A69415BDD7920815",
+      "timestamp": "2025-06-22T23:38:07.494Z"
+    },
+    "path": "users/5v3KpVswXcSzUTx9BQXQitJb4xJ2/chats/50764305958@c.us/messages_all"
+  },
+  {
+    "id": "im5bvFItMa4i0fDsFGkZ",
+    "data": {
+      "body": "Ya llego",
+      "isFromMe": false,
+      "messageId": "85758E8BD1ABF2B42504DCB75A07C864",
+      "from": "50764305958@c.us",
+      "to": "me (5v3KpVswXcSzUTx9BQXQitJb4xJ2)",
+      "origin": "contact",
+      "timestamp": "2025-06-22T23:48:47.442Z"
+    },
+    "path": "users/5v3KpVswXcSzUTx9BQXQitJb4xJ2/chats/50764305958@c.us/messages_all"
+  },
+  {
+    "id": "mhCdVlBHAMJ4dqgVHSjI",
+    "data": {
+      "body": "",
+      "isFromMe": false,
+      "messageId": "5AD871CA733E824C1B199120526D5567",
+      "from": "50764305958@c.us",
+      "to": "me (5v3KpVswXcSzUTx9BQXQitJb4xJ2)",
+      "origin": "contact",
+      "timestamp": "2025-06-25T23:36:37.114Z"
+    },
+    "path": "users/5v3KpVswXcSzUTx9BQXQitJb4xJ2/chats/50764305958@c.us/messages_all"
+  },
+  {
+    "id": "plBv4J6RX0KqwwutzoIC",
+    "data": {
+      "from": "me (5v3KpVswXcSzUTx9BQXQitJb4xJ2)",
+      "to": "50764305958@c.us",
+      "body": "Perfecto",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "83F52300258FF5911B617859C52F3CE6",
+      "timestamp": "2025-06-22T23:36:04.789Z"
+    },
+    "path": "users/5v3KpVswXcSzUTx9BQXQitJb4xJ2/chats/50764305958@c.us/messages_all"
+  },
+  {
+    "id": "qZq2RezApkqYYcNE5uVH",
+    "data": {
+      "from": "me (5v3KpVswXcSzUTx9BQXQitJb4xJ2)",
+      "to": "50764305958@c.us",
+      "body": "Por yappy",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "6BA394A157415AF2C093AE8CA43492D5",
+      "timestamp": "2025-06-22T23:35:16.557Z"
+    },
+    "path": "users/5v3KpVswXcSzUTx9BQXQitJb4xJ2/chats/50764305958@c.us/messages_all"
+  },
+  {
+    "id": "qcEV4zWhdGpmM44U6R4I",
+    "data": {
+      "body": ": *Tenemos < nachos >* \n\n1 - salsas , queso y carne molida especial.  5.00$\n\n\n2- salsas , queso  carne y Cerdo ahumado  7.00$\n[",
+      "isFromMe": false,
+      "messageId": "C48CFCFCF132D1A3DAE6516E3B54252B",
+      "from": "50764305958@c.us",
+      "to": "me (5v3KpVswXcSzUTx9BQXQitJb4xJ2)",
+      "origin": "contact",
+      "timestamp": "2025-06-25T23:36:55.949Z"
+    },
+    "path": "users/5v3KpVswXcSzUTx9BQXQitJb4xJ2/chats/50764305958@c.us/messages_all"
+  },
+  {
+    "id": "rFFv6CVCHD21XLJYGLDn",
+    "data": {
+      "body": ": Hoy jueves  saludos \n\n: *Carnes*\n\n● Costillas de cerdo , Res, Pollo , Cerdo ahumado, Chorizos de cerdo \n\n● Yuca , bollos de maíz Nuevo,  patacones,papitas\n\n● Salchipapas , salchicerdo, salchipollo, choripapas .\n\n● CHICHARRONES\n● *Nachos _ Cerdos*",
+      "isFromMe": false,
+      "messageId": "66113751761AB20C87E628B415D365F1",
+      "from": "50764305958@c.us",
+      "to": "me (5v3KpVswXcSzUTx9BQXQitJb4xJ2)",
+      "origin": "contact",
+      "timestamp": "2025-06-26T21:19:27.085Z"
+    },
+    "path": "users/5v3KpVswXcSzUTx9BQXQitJb4xJ2/chats/50764305958@c.us/messages_all"
+  },
+  {
+    "id": "sPde73bmFii2KN87ubFc",
+    "data": {
+      "body": "Si",
+      "isFromMe": false,
+      "messageId": "FCF28BCE4CF122962BEAAD24EF486E1E",
+      "from": "50764305958@c.us",
+      "to": "me (5v3KpVswXcSzUTx9BQXQitJb4xJ2)",
+      "origin": "contact",
+      "timestamp": "2025-06-22T23:31:56.280Z"
+    },
+    "path": "users/5v3KpVswXcSzUTx9BQXQitJb4xJ2/chats/50764305958@c.us/messages_all"
+  },
+  {
+    "id": "t2f9VgxC2bWq8SGdurQm",
+    "data": {
+      "body": "Atentos a sus pedidos 😉",
+      "isFromMe": false,
+      "messageId": "9E093556FA1DEA72850AE7FE6A22CBDF",
+      "from": "50764305958@c.us",
+      "to": "me (5v3KpVswXcSzUTx9BQXQitJb4xJ2)",
+      "origin": "contact",
+      "timestamp": "2025-06-23T21:37:48.694Z"
+    },
+    "path": "users/5v3KpVswXcSzUTx9BQXQitJb4xJ2/chats/50764305958@c.us/messages_all"
+  },
+  {
+    "id": "tLBWaPY3poPcWUoXbCe5",
+    "data": {
+      "from": "me (5v3KpVswXcSzUTx9BQXQitJb4xJ2)",
+      "to": "50764305958@c.us",
+      "body": "Sería en el PH Reserva santa fe torre 100pba",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "3D9649684FB5ACE807F200EFF6199E6F",
+      "timestamp": "2025-06-22T23:34:43.428Z"
+    },
+    "path": "users/5v3KpVswXcSzUTx9BQXQitJb4xJ2/chats/50764305958@c.us/messages_all"
+  },
+  {
+    "id": "wO8HeGHamRjrZY0vxYXa",
+    "data": {
+      "body": ".",
+      "isFromMe": false,
+      "messageId": "C609C85147013548A88B9BD75513148E",
+      "from": "50764305958@c.us",
+      "to": "me (5v3KpVswXcSzUTx9BQXQitJb4xJ2)",
+      "origin": "contact",
+      "timestamp": "2025-06-25T21:28:01.447Z"
+    },
+    "path": "users/5v3KpVswXcSzUTx9BQXQitJb4xJ2/chats/50764305958@c.us/messages_all"
+  },
+  {
+    "id": "ybp8Yfx5n0XaJMJXZIU1",
+    "data": {
+      "from": "me (5v3KpVswXcSzUTx9BQXQitJb4xJ2)",
+      "to": "50764305958@c.us",
+      "body": "Listo",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "D331236AF0CD999D180135F4C2606228",
+      "timestamp": "2025-06-22T23:42:24.315Z"
+    },
+    "path": "users/5v3KpVswXcSzUTx9BQXQitJb4xJ2/chats/50764305958@c.us/messages_all"
+  }
+]

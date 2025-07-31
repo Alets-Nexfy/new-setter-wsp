@@ -1,0 +1,44 @@
+[
+  {
+    "id": "5r6XFcVk3thrrOcXc0rr",
+    "data": {
+      "from": "me (5v3KpVswXcSzUTx9BQXQitJb4xJ2)",
+      "to": "120363401202557508@g.us",
+      "body": "",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "79DE5745BE4C672BCB1ABBE632C23CD0",
+      "timestamp": "2025-06-27T02:25:08.520Z"
+    },
+    "path": "users/5v3KpVswXcSzUTx9BQXQitJb4xJ2/chats/120363401202557508@g.us/messages_human"
+  },
+  {
+    "id": "EY6dksGRI8xISUHWIqzI",
+    "data": {
+      "from": "me (5v3KpVswXcSzUTx9BQXQitJb4xJ2)",
+      "to": "120363401202557508@g.us",
+      "body": "",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "119DEB49DD5CE442FEA706C4B92EE518",
+      "timestamp": "2025-06-25T16:02:46.939Z"
+    },
+    "path": "users/5v3KpVswXcSzUTx9BQXQitJb4xJ2/chats/120363401202557508@g.us/messages_human"
+  },
+  {
+    "id": "d1dhryfmnXDt61Cl1n7O",
+    "data": {
+      "from": "me (5v3KpVswXcSzUTx9BQXQitJb4xJ2)",
+      "to": "120363401202557508@g.us",
+      "body": "Bienvenidos!!! ✨🥳🥳",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "86C7CE1AA8BEC7F033AEF00CF5353D3C",
+      "timestamp": "2025-06-23T17:53:48.355Z"
+    },
+    "path": "users/5v3KpVswXcSzUTx9BQXQitJb4xJ2/chats/120363401202557508@g.us/messages_human"
+  }
+]

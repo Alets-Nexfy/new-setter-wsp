@@ -1,0 +1,41 @@
+[
+  {
+    "id": "9gnGNmzLfii8RAJkwxGf",
+    "data": {
+      "body": "Info",
+      "isFromMe": false,
+      "messageId": "3A84A5EEABC2D7CB987C",
+      "from": "17868213959@c.us",
+      "to": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "origin": "contact",
+      "timestamp": "2025-06-23T19:24:39.333Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/17868213959@c.us/messages_all"
+  },
+  {
+    "id": "HrgQIQ3WksgJKHkYYAwf",
+    "data": {
+      "body": "info",
+      "isFromMe": false,
+      "messageId": "3AFE3A478CC6EBE6CF6D",
+      "from": "17868213959@c.us",
+      "to": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "origin": "contact",
+      "timestamp": "2025-06-23T19:25:19.296Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/17868213959@c.us/messages_all"
+  },
+  {
+    "id": "oWJHn8Kq809Daq5Ltjbd",
+    "data": {
+      "body": "Club de viaje",
+      "isFromMe": false,
+      "messageId": "3A92F871F8CAB8F5B219",
+      "from": "17868213959@c.us",
+      "to": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "origin": "contact",
+      "timestamp": "2025-06-23T19:24:55.805Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/17868213959@c.us/messages_all"
+  }
+]

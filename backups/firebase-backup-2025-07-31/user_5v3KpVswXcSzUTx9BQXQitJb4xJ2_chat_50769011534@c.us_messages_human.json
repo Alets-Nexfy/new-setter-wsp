@@ -1,0 +1,30 @@
+[
+  {
+    "id": "717iE0qKUp9IisAmtyKe",
+    "data": {
+      "from": "me (5v3KpVswXcSzUTx9BQXQitJb4xJ2)",
+      "to": "50769011534@c.us",
+      "body": "Lo envié por munily pero al parecer no le llega.",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "E6975B68ECAEF35010ADDEB2A889E2AB",
+      "timestamp": "2025-06-22T23:42:16.032Z"
+    },
+    "path": "users/5v3KpVswXcSzUTx9BQXQitJb4xJ2/chats/50769011534@c.us/messages_human"
+  },
+  {
+    "id": "CRqIvNjb5A2g62xAa3sY",
+    "data": {
+      "from": "me (5v3KpVswXcSzUTx9BQXQitJb4xJ2)",
+      "to": "50769011534@c.us",
+      "body": "Hola que tal amigo, ahora llega un delivery de la casa de los asados porfa para que lo deje pasar Luis González",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "B00326E19B79D1676F18A81861E45344",
+      "timestamp": "2025-06-22T23:41:58.013Z"
+    },
+    "path": "users/5v3KpVswXcSzUTx9BQXQitJb4xJ2/chats/50769011534@c.us/messages_human"
+  }
+]

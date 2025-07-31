@@ -1,0 +1,28 @@
+[
+  {
+    "id": "dUdGtODNRteosQhd6lm6",
+    "data": {
+      "body": "Me llamas",
+      "isFromMe": false,
+      "messageId": "59FED9C17A55DAD28705EEF1C7B2D374",
+      "from": "50768691766@c.us",
+      "to": "me (5v3KpVswXcSzUTx9BQXQitJb4xJ2)",
+      "origin": "contact",
+      "timestamp": "2025-06-23T10:04:56.456Z"
+    },
+    "path": "users/5v3KpVswXcSzUTx9BQXQitJb4xJ2/chats/50768691766@c.us/messages_contact"
+  },
+  {
+    "id": "xfOoPRx1oZuS0mzKvMN9",
+    "data": {
+      "body": "Buen dia",
+      "isFromMe": false,
+      "messageId": "7F8900380A6BD2037694815A1601BE55",
+      "from": "50768691766@c.us",
+      "to": "me (5v3KpVswXcSzUTx9BQXQitJb4xJ2)",
+      "origin": "contact",
+      "timestamp": "2025-06-23T09:55:06.062Z"
+    },
+    "path": "users/5v3KpVswXcSzUTx9BQXQitJb4xJ2/chats/50768691766@c.us/messages_contact"
+  }
+]

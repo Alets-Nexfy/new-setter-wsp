@@ -1,0 +1,49 @@
+[
+  {
+    "id": "120363417377128955@g.us",
+    "data": {
+      "createdAt": "2025-07-09T15:00:20.362Z",
+      "userActivitySource": "message_create_event",
+      "lastMessageContent": "Si ya está todo creado en clickup",
+      "lastMessageTimestamp": "2025-07-09T15:00:21.370Z",
+      "lastHumanMessageTimestamp": "2025-07-09T15:00:21.370Z",
+      "userIsActive": true
+    },
+    "path": "users/HSc1epQ1QpWpbFqVrnTF4dSVW5h1/chats"
+  },
+  {
+    "id": "34675142184@c.us",
+    "data": {
+      "userIsActive": false,
+      "createdAt": "2025-07-09T14:57:16.421Z",
+      "historyClearedAt": "2025-07-09T14:58:32.111Z",
+      "lastHumanMessageTimestamp": null,
+      "activatedAt": "2025-07-09T14:59:17.668Z",
+      "isActivated": true,
+      "activationMethod": "initial_trigger",
+      "lastContactMessageTimestamp": "2025-07-09T14:59:37.603Z",
+      "lastActivityCheck": "2025-07-09T14:59:37.801Z",
+      "lastBotMessageTimestamp": "2025-07-09T14:59:45.037Z",
+      "lastActivityTimestamp": "2025-07-09T14:59:45.037Z",
+      "lastMessageContent": "Entiendo que \"Sí!\" es una respuesta afirmativa a mis preguntas anteriores.  Para poder continuar ayudándole, necesito que me proporcione la información solicitada:\n\n* **¿Es para compra o alquiler?**\n* **¿En qué zona de [Nombre de tu Agencia/Zona] está interesado?** (Si tiene varias zonas en mente, por favor indíquelas todas).\n* **¿Cuántas habitaciones necesita?**\n* **¿Algún otro requisito importante?** (Ej:  garaje, piscina, tamaño aproximado,  condiciones específicas, etc.)\n* **¿Cuál sería su presupuesto aproximado?** (Entendemos que puede ser un rango).\n\nUna vez me proporcione estos detalles, podré comenzar su búsqueda de departamentos.  ¡Espero su respuesta!\n",
+      "lastMessageTimestamp": "2025-07-09T14:59:45.037Z"
+    },
+    "path": "users/HSc1epQ1QpWpbFqVrnTF4dSVW5h1/chats"
+  },
+  {
+    "id": "status@broadcast",
+    "data": {
+      "userIsActive": false,
+      "createdAt": "2025-07-09T14:55:44.876Z",
+      "lastActivityTimestamp": "2025-07-09T14:55:46.803Z",
+      "lastActivityCheck": "2025-07-09T14:55:47.244Z",
+      "lastBotMessageTimestamp": null,
+      "historyClearedAt": "2025-07-09T14:58:32.125Z",
+      "lastMessageContent": null,
+      "lastContactMessageTimestamp": null,
+      "lastMessageTimestamp": null,
+      "lastHumanMessageTimestamp": null
+    },
+    "path": "users/HSc1epQ1QpWpbFqVrnTF4dSVW5h1/chats"
+  }
+]

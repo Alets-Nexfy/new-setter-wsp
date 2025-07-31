@@ -1,0 +1,54 @@
+[
+  {
+    "id": "QZjhuHanbwOhUhwEsEwg",
+    "data": {
+      "body": "Muchas gracias amiga!! Ya me avisas cuando llegue",
+      "isFromMe": false,
+      "messageId": "3A9324C2F237E504434A",
+      "from": "5214493482510@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-18T20:39:36.375Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214493482510@c.us/messages_contact"
+  },
+  {
+    "id": "Y6QrLPMuvIAyrG9FYvBF",
+    "data": {
+      "body": "",
+      "isFromMe": false,
+      "messageId": "3A663585753C0FEAB657",
+      "from": "5214493482510@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-20T17:46:09.177Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214493482510@c.us/messages_contact"
+  },
+  {
+    "id": "sDSDe7kIGbN390VOAzCp",
+    "data": {
+      "body": "https://www.instagram.com/luna_media1?igsh=MThjbjRsY2o0cGk3dw==",
+      "isFromMe": false,
+      "messageId": "3A10CC8E3412C5DE40CF",
+      "from": "5214493482510@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-19T21:03:28.336Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214493482510@c.us/messages_contact"
+  },
+  {
+    "id": "uT0jREShKZwnQ6FNnjMT",
+    "data": {
+      "body": "",
+      "isFromMe": false,
+      "messageId": "3A775003DBC6379FC1E6",
+      "from": "5214493482510@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-19T21:03:49.291Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214493482510@c.us/messages_contact"
+  }
+]

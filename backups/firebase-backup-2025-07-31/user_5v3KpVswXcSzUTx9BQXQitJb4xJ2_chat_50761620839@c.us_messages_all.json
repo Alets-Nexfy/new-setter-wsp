@@ -1,0 +1,42 @@
+[
+  {
+    "id": "pr8trGWy2Ub4N9amM7XE",
+    "data": {
+      "body": "BEGIN:VCARD\nVERSION:3.0\nN:🫶🏼;Nieta;Aura;;\nFN:Nieta Aura 🫶🏼\nitem1.TEL;waid=50766156160:+507 6615-6160\nitem1.X-ABLabel:Móvil\nEND:VCARD",
+      "isFromMe": false,
+      "messageId": "ABB8F6C58635C7536E83C669EA698599",
+      "from": "50761620839@c.us",
+      "to": "me (5v3KpVswXcSzUTx9BQXQitJb4xJ2)",
+      "origin": "contact",
+      "timestamp": "2025-06-21T17:23:42.395Z"
+    },
+    "path": "users/5v3KpVswXcSzUTx9BQXQitJb4xJ2/chats/50761620839@c.us/messages_all"
+  },
+  {
+    "id": "rzYJK5T2YhKUcH2No4df",
+    "data": {
+      "body": "",
+      "isFromMe": false,
+      "messageId": "97E85F7FE4B606B72E48ACE2EB3702D2",
+      "from": "50761620839@c.us",
+      "to": "me (5v3KpVswXcSzUTx9BQXQitJb4xJ2)",
+      "origin": "contact",
+      "timestamp": "2025-06-21T17:22:45.966Z"
+    },
+    "path": "users/5v3KpVswXcSzUTx9BQXQitJb4xJ2/chats/50761620839@c.us/messages_all"
+  },
+  {
+    "id": "u0qpqGSlVtDpHB8ukAZu",
+    "data": {
+      "from": "me (5v3KpVswXcSzUTx9BQXQitJb4xJ2)",
+      "to": "50761620839@c.us",
+      "body": "Cual es el número",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "BA35A772FF7329ECCA35717AF76C7C9F",
+      "timestamp": "2025-06-21T17:23:17.376Z"
+    },
+    "path": "users/5v3KpVswXcSzUTx9BQXQitJb4xJ2/chats/50761620839@c.us/messages_all"
+  }
+]

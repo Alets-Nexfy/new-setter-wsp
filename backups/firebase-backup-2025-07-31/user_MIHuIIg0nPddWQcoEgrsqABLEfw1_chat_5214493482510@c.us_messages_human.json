@@ -1,0 +1,58 @@
+[
+  {
+    "id": "Dl6BINA71NVasxkBdC9K",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5214493482510@c.us",
+      "body": "El short aún no lo estreno, pero cuenta con que me tome la foto y te etiqueto",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "D9E41D61AE201B93FDFAF338E44E75A1",
+      "timestamp": "2025-07-20T17:30:11.639Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214493482510@c.us/messages_human"
+  },
+  {
+    "id": "MtHayVNfMGFQnzmSVgf0",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5214493482510@c.us",
+      "body": "Sí amiga",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "2E20DF5E7D745140BDDA1C3DE02175CB",
+      "timestamp": "2025-07-18T20:39:45.194Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214493482510@c.us/messages_human"
+  },
+  {
+    "id": "sGfaJ5VrWoqaHl6EG6lk",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5214493482510@c.us",
+      "body": "Ya quedó",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "ED6C893928F4FCD9E66F83F38C8F3342",
+      "timestamp": "2025-07-18T20:36:24.856Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214493482510@c.us/messages_human"
+  },
+  {
+    "id": "uOFJL83Ab7Ez4dsDrbub",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5214493482510@c.us",
+      "body": "",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "20CCCDC62D3EBE4F1A482100B75A4414",
+      "timestamp": "2025-07-20T17:22:25.988Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214493482510@c.us/messages_human"
+  }
+]

@@ -1,0 +1,56 @@
+[
+  {
+    "id": "EGIQ1sMWMf1ZWyFBojK7",
+    "data": {
+      "from": "me (5v3KpVswXcSzUTx9BQXQitJb4xJ2)",
+      "to": "50768691766@c.us",
+      "body": "Ya vamos saliendo",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "CAC4CA1E84B5264EE45ACE0062FDCFA3",
+      "timestamp": "2025-06-23T10:04:02.077Z"
+    },
+    "path": "users/5v3KpVswXcSzUTx9BQXQitJb4xJ2/chats/50768691766@c.us/messages_all"
+  },
+  {
+    "id": "ElaV0pR1YmlrA6Fp3QDi",
+    "data": {
+      "from": "me (5v3KpVswXcSzUTx9BQXQitJb4xJ2)",
+      "to": "50768691766@c.us",
+      "body": "Buenos días",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "7D55D83F31CF49FFB873EC9808E6A767",
+      "timestamp": "2025-06-23T10:03:57.089Z"
+    },
+    "path": "users/5v3KpVswXcSzUTx9BQXQitJb4xJ2/chats/50768691766@c.us/messages_all"
+  },
+  {
+    "id": "WqP6nJPEsfUtQWb0fznL",
+    "data": {
+      "body": "Buen dia",
+      "isFromMe": false,
+      "messageId": "7F8900380A6BD2037694815A1601BE55",
+      "from": "50768691766@c.us",
+      "to": "me (5v3KpVswXcSzUTx9BQXQitJb4xJ2)",
+      "origin": "contact",
+      "timestamp": "2025-06-23T09:55:06.149Z"
+    },
+    "path": "users/5v3KpVswXcSzUTx9BQXQitJb4xJ2/chats/50768691766@c.us/messages_all"
+  },
+  {
+    "id": "nqpN8Iwz6mGzWCWcveU8",
+    "data": {
+      "body": "Me llamas",
+      "isFromMe": false,
+      "messageId": "59FED9C17A55DAD28705EEF1C7B2D374",
+      "from": "50768691766@c.us",
+      "to": "me (5v3KpVswXcSzUTx9BQXQitJb4xJ2)",
+      "origin": "contact",
+      "timestamp": "2025-06-23T10:04:56.533Z"
+    },
+    "path": "users/5v3KpVswXcSzUTx9BQXQitJb4xJ2/chats/50768691766@c.us/messages_all"
+  }
+]

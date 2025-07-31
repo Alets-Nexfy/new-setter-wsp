@@ -1,0 +1,16 @@
+[
+  {
+    "id": "Zdfg8ih5Xzs5shq6qlaz",
+    "data": {
+      "from": "me (5v3KpVswXcSzUTx9BQXQitJb4xJ2)",
+      "to": "50769482809@c.us",
+      "body": "Buenas ya saliste, me ayudas con mi comida para la semana",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "9728F443F227D091B4CF8FCA5A30FA78",
+      "timestamp": "2025-06-21T22:05:44.750Z"
+    },
+    "path": "users/5v3KpVswXcSzUTx9BQXQitJb4xJ2/chats/50769482809@c.us/messages_human"
+  }
+]

@@ -1,0 +1,30 @@
+[
+  {
+    "id": "67QCsWJJyGDewBUn5BRX",
+    "data": {
+      "from": "me (5v3KpVswXcSzUTx9BQXQitJb4xJ2)",
+      "to": "17868213959@c.us",
+      "body": "Al ingresar el l\n\nAl ingresar el link de instragram, no se genera usuarios para poder enviar la campaña. ( probé en celular, tanto como en laptop) \nEmail: dio2089@gmail.com\nUsuario : 138\nPassword: 12345678",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "C1FB434E180A665F06CB794BCF73F516",
+      "timestamp": "2025-06-26T16:56:55.724Z"
+    },
+    "path": "users/5v3KpVswXcSzUTx9BQXQitJb4xJ2/chats/17868213959@c.us/messages_human"
+  },
+  {
+    "id": "s85zfeYtxBRaDsQSWjug",
+    "data": {
+      "from": "me (5v3KpVswXcSzUTx9BQXQitJb4xJ2)",
+      "to": "17868213959@c.us",
+      "body": "Hola, casualmente le iba a escribir, en una hora le estaré enviando toda esa información. Gracias",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "CFBACD7A6EE3A869BE475BD5697B9890",
+      "timestamp": "2025-06-26T15:32:45.213Z"
+    },
+    "path": "users/5v3KpVswXcSzUTx9BQXQitJb4xJ2/chats/17868213959@c.us/messages_human"
+  }
+]

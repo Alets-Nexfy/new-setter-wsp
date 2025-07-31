@@ -54,14 +54,15 @@ export class DatabaseService {
         
         const requiredEnvVars = {
           projectId: process.env.FIREBASE_PROJECT_ID,
-          privateKey: process.env.FIREBASE_PRIVATE_KEY,
+          privateKey: process.env.FIREBASE_PRIVATEKEY || process.env.FIREBASE_PRIVATE_KEY,
           clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
         };
 
         // Validate required environment variables
         for (const [key, value] of Object.entries(requiredEnvVars)) {
           if (!value) {
-            throw new Error(`Missing required environment variable: FIREBASE_${key.toUpperCase()}`);
+            const envVarName = key === 'privateKey' ? 'FIREBASE_PRIVATEKEY or FIREBASE_PRIVATE_KEY' : `FIREBASE_${key.toUpperCase().replace(/([A-Z])/g, '_$1').replace(/^_/, '')}`;
+            throw new Error(`Missing required environment variable: ${envVarName}`);
           }
         }
 
@@ -103,21 +104,21 @@ export class DatabaseService {
     }
   }
 
-  public getFirestore(): Firestore {
+  public getFirestore(): admin.firestore.Firestore {
     if (!this.initialized) {
       throw new Error('DatabaseService not initialized. Call initialize() first.');
     }
     return this.firestore;
   }
 
-  public getStorage(): Storage {
+  public getStorage(): admin.storage.Storage {
     if (!this.initialized) {
       throw new Error('DatabaseService not initialized. Call initialize() first.');
     }
     return this.storage;
   }
 
-  public getApp(): App {
+  public getApp(): admin.app.App {
     if (!this.initialized) {
       throw new Error('DatabaseService not initialized. Call initialize() first.');
     }

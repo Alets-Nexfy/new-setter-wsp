@@ -1,0 +1,54 @@
+[
+  {
+    "id": "YDESrIBkIR5pUMDUkgVb",
+    "data": {
+      "body": "departamento",
+      "isFromMe": false,
+      "messageId": "3A535BFCF16B519E08BF",
+      "from": "34675142184@c.us",
+      "to": "me (HSc1epQ1QpWpbFqVrnTF4dSVW5h1)",
+      "origin": "contact",
+      "timestamp": "2025-07-09T14:59:17.155Z"
+    },
+    "path": "users/HSc1epQ1QpWpbFqVrnTF4dSVW5h1/chats/34675142184@c.us/messages_contact"
+  },
+  {
+    "id": "g7B3P25cpQAHu5uR0l7z",
+    "data": {
+      "body": "Si!",
+      "isFromMe": false,
+      "messageId": "3AAFB9F985300C80801A",
+      "from": "34675142184@c.us",
+      "to": "me (HSc1epQ1QpWpbFqVrnTF4dSVW5h1)",
+      "origin": "contact",
+      "timestamp": "2025-07-09T14:59:37.436Z"
+    },
+    "path": "users/HSc1epQ1QpWpbFqVrnTF4dSVW5h1/chats/34675142184@c.us/messages_contact"
+  },
+  {
+    "id": "mipDIFRhvwXmWELF8n7m",
+    "data": {
+      "body": "Hola",
+      "isFromMe": false,
+      "messageId": "3A4EE3DF320988DBD77B",
+      "from": "34675142184@c.us",
+      "to": "me (HSc1epQ1QpWpbFqVrnTF4dSVW5h1)",
+      "origin": "contact",
+      "timestamp": "2025-07-09T14:58:45.256Z"
+    },
+    "path": "users/HSc1epQ1QpWpbFqVrnTF4dSVW5h1/chats/34675142184@c.us/messages_contact"
+  },
+  {
+    "id": "zNGlUXZu49USR8Ibepet",
+    "data": {
+      "body": "Hola",
+      "isFromMe": false,
+      "messageId": "3AAD553BC463AA27D4AF",
+      "from": "34675142184@c.us",
+      "to": "me (HSc1epQ1QpWpbFqVrnTF4dSVW5h1)",
+      "origin": "contact",
+      "timestamp": "2025-07-09T14:58:39.265Z"
+    },
+    "path": "users/HSc1epQ1QpWpbFqVrnTF4dSVW5h1/chats/34675142184@c.us/messages_contact"
+  }
+]

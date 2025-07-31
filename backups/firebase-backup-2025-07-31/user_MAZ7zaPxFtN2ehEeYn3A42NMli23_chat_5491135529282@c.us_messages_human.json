@@ -1,0 +1,58 @@
+[
+  {
+    "id": "7DLzwNowr69KUBttC8fa",
+    "data": {
+      "from": "me (MAZ7zaPxFtN2ehEeYn3A42NMli23)",
+      "to": "5491135529282@c.us",
+      "body": "Hola, me pasarías los precios de los productos ?",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "3AF48CD5DABB2CD85DEC",
+      "timestamp": "2025-07-14T15:50:21.961Z"
+    },
+    "path": "users/MAZ7zaPxFtN2ehEeYn3A42NMli23/chats/5491135529282@c.us/messages_human"
+  },
+  {
+    "id": "AErUe9KIYAjlL7750kjx",
+    "data": {
+      "from": "me (MAZ7zaPxFtN2ehEeYn3A42NMli23)",
+      "to": "5491135529282@c.us",
+      "body": "Quiero más información de los productos",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "3AD19A6B19D5A13B45F9",
+      "timestamp": "2025-07-14T15:50:59.892Z"
+    },
+    "path": "users/MAZ7zaPxFtN2ehEeYn3A42NMli23/chats/5491135529282@c.us/messages_human"
+  },
+  {
+    "id": "PDJ1tUkykPf16YQlNnfv",
+    "data": {
+      "from": "me (MAZ7zaPxFtN2ehEeYn3A42NMli23)",
+      "to": "5491135529282@c.us",
+      "body": "Hola me das precios",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "3A18A06256FD0823E326",
+      "timestamp": "2025-07-15T14:08:02.538Z"
+    },
+    "path": "users/MAZ7zaPxFtN2ehEeYn3A42NMli23/chats/5491135529282@c.us/messages_human"
+  },
+  {
+    "id": "dNGmziRktUOvYH7nmf6a",
+    "data": {
+      "from": "me (MAZ7zaPxFtN2ehEeYn3A42NMli23)",
+      "to": "5491135529282@c.us",
+      "body": "Quiero los precios",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "3A5E1E82EB08D474E249",
+      "timestamp": "2025-07-14T16:46:18.541Z"
+    },
+    "path": "users/MAZ7zaPxFtN2ehEeYn3A42NMli23/chats/5491135529282@c.us/messages_human"
+  }
+]

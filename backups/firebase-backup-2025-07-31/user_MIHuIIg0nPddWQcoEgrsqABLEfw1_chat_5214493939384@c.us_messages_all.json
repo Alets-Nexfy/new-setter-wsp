@@ -1,0 +1,71 @@
+[
+  {
+    "id": "44rwbfInS7rHwn8Vh42i",
+    "data": {
+      "body": "Quiero 1",
+      "isFromMe": false,
+      "messageId": "3A989184B81597EB2A0A",
+      "from": "5214493939384@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-18T14:38:34.988Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214493939384@c.us/messages_all"
+  },
+  {
+    "id": "XJYu8c1DQufYWoBYmmZp",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5214493939384@c.us",
+      "body": "",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "308C19EE86ABFA8C58A0BBCF1C3DFAF0",
+      "timestamp": "2025-07-18T14:29:08.888Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214493939384@c.us/messages_all"
+  },
+  {
+    "id": "aukbZtmbTBQX8hieei8N",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5214493939384@c.us",
+      "body": "$580",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "2F10ED3AC97A5C01D5848600AAC873AE",
+      "timestamp": "2025-07-18T14:29:02.745Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214493939384@c.us/messages_all"
+  },
+  {
+    "id": "l9yVmiZpCE24LG0mY8zD",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5214493939384@c.us",
+      "body": "Muy bien!🙌🏻 Se lo pido!!",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "E3176C68E963645709E6579FFFD50181",
+      "timestamp": "2025-07-18T14:42:34.653Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214493939384@c.us/messages_all"
+  },
+  {
+    "id": "p0dabvzIJBvaDkpnwb9K",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5214493939384@c.us",
+      "body": "Presentación de productos RIMAN_20250714_121929_0000.pdf",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "EBBC6A1FEF5EC5338604EE21B372956B",
+      "timestamp": "2025-07-20T21:02:01.421Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214493939384@c.us/messages_all"
+  }
+]

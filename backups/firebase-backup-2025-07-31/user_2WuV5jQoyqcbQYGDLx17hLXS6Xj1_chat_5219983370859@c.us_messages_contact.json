@@ -1,0 +1,93 @@
+[
+  {
+    "id": "250Rtj2VxqG7lOpW5Wl6",
+    "data": {
+      "body": "Perdona, me quede sin bateria en el transporte",
+      "isFromMe": false,
+      "messageId": "3A868DA1E342C52196B4",
+      "from": "5219983370859@c.us",
+      "to": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "origin": "contact",
+      "timestamp": "2025-06-27T02:07:44.549Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5219983370859@c.us/messages_contact"
+  },
+  {
+    "id": "hoMgrZqNPcuYC5xUG26o",
+    "data": {
+      "body": "Hola!",
+      "isFromMe": false,
+      "messageId": "3A3237F1EBAF1F997879",
+      "from": "5219983370859@c.us",
+      "to": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "origin": "contact",
+      "timestamp": "2025-06-27T01:04:54.730Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5219983370859@c.us/messages_contact"
+  },
+  {
+    "id": "i5HJbkIzOn9qitrYz4as",
+    "data": {
+      "body": "Okey, entonces primero hay que hacer una inversión de 120 usd y luego juntar más gente, no?",
+      "isFromMe": false,
+      "messageId": "3AB9DCB902650C53E923",
+      "from": "5219983370859@c.us",
+      "to": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "origin": "contact",
+      "timestamp": "2025-06-27T03:30:06.406Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5219983370859@c.us/messages_contact"
+  },
+  {
+    "id": "ioXbrXhuLoSFrPrAcjmS",
+    "data": {
+      "body": "Pero si me gustaria info",
+      "isFromMe": false,
+      "messageId": "3A99B283F3117D2CAB2D",
+      "from": "5219983370859@c.us",
+      "to": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "origin": "contact",
+      "timestamp": "2025-06-27T01:05:04.065Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5219983370859@c.us/messages_contact"
+  },
+  {
+    "id": "r2BEs3WZAI8DgXYnS6KS",
+    "data": {
+      "body": "Tendran algun link de información?",
+      "isFromMe": false,
+      "messageId": "3AB4F8563E05252C185B",
+      "from": "5219983370859@c.us",
+      "to": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "origin": "contact",
+      "timestamp": "2025-06-27T02:07:54.615Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5219983370859@c.us/messages_contact"
+  },
+  {
+    "id": "wdH5tFIqnytRWSWPtTUm",
+    "data": {
+      "body": "Apenas sali jajaja",
+      "isFromMe": false,
+      "messageId": "3A030682C5B25E72A7DF",
+      "from": "5219983370859@c.us",
+      "to": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "origin": "contact",
+      "timestamp": "2025-06-27T01:04:59.354Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5219983370859@c.us/messages_contact"
+  },
+  {
+    "id": "wk2tcMnofY2Buz3MfpOj",
+    "data": {
+      "body": "",
+      "isFromMe": false,
+      "messageId": "3EB0E836D7146E89D1DD",
+      "from": "5219983370859@c.us",
+      "to": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "origin": "contact",
+      "timestamp": "2025-06-26T22:23:49.730Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5219983370859@c.us/messages_contact"
+  }
+]

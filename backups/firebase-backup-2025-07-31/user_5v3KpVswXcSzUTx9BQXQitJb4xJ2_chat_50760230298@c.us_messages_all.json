@@ -1,0 +1,43 @@
+[
+  {
+    "id": "1hAytLew6FZasrWE4wMc",
+    "data": {
+      "from": "me (5v3KpVswXcSzUTx9BQXQitJb4xJ2)",
+      "to": "50760230298@c.us",
+      "body": "Que tal mi hermano todo bien gracias a Dios",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "600B765A6C9D2C4C80B07B0C33DED866",
+      "timestamp": "2025-06-21T19:52:18.558Z"
+    },
+    "path": "users/5v3KpVswXcSzUTx9BQXQitJb4xJ2/chats/50760230298@c.us/messages_all"
+  },
+  {
+    "id": "A2QwYjmEfckvSppfVeem",
+    "data": {
+      "body": "",
+      "isFromMe": false,
+      "messageId": "08A9E9A716A8AA38E40A983D92E4C7C7",
+      "from": "50760230298@c.us",
+      "to": "me (5v3KpVswXcSzUTx9BQXQitJb4xJ2)",
+      "origin": "contact",
+      "timestamp": "2025-06-21T18:09:00.202Z"
+    },
+    "path": "users/5v3KpVswXcSzUTx9BQXQitJb4xJ2/chats/50760230298@c.us/messages_all"
+  },
+  {
+    "id": "V4QtDjByFPMnSIM6N30y",
+    "data": {
+      "from": "me (5v3KpVswXcSzUTx9BQXQitJb4xJ2)",
+      "to": "50760230298@c.us",
+      "body": "Claro q si",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "C7C1F69C7B8875A143BE453E9A595BA1",
+      "timestamp": "2025-06-21T19:52:23.977Z"
+    },
+    "path": "users/5v3KpVswXcSzUTx9BQXQitJb4xJ2/chats/50760230298@c.us/messages_all"
+  }
+]

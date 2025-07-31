@@ -1,0 +1,32 @@
+[
+  {
+    "id": "RXntmkS70l3QUV12rKGC",
+    "data": {
+      "text": "Info",
+      "type": "exact",
+      "description": "",
+      "createdAt": "2025-06-23T17:24:25.454Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/initial_triggers"
+  },
+  {
+    "id": "Y4ecSjXa2MJM8bC9VEOE",
+    "data": {
+      "text": "club de viaje",
+      "type": "exact",
+      "description": "",
+      "createdAt": "2025-06-23T17:36:32.450Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/initial_triggers"
+  },
+  {
+    "id": "tRn5CpXeX5an2x7wb3Yd",
+    "data": {
+      "text": "club de viajes",
+      "type": "contains",
+      "description": "",
+      "createdAt": "2025-06-23T17:36:43.581Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/initial_triggers"
+  }
+]

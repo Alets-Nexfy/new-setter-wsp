@@ -1,0 +1,58 @@
+[
+  {
+    "id": "K2PlMg1GDyNBKXAk0QiU",
+    "data": {
+      "from": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "to": "5493426310872@c.us",
+      "body": "Bro",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "3A36C04F157985DC3C7B",
+      "timestamp": "2025-06-24T22:50:02.077Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5493426310872@c.us/messages_human"
+  },
+  {
+    "id": "SOGDZfKTeYkLEX34G7Xc",
+    "data": {
+      "from": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "to": "5493426310872@c.us",
+      "body": "Que haces ?",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "3A12A5360A5157018401",
+      "timestamp": "2025-06-24T22:50:06.590Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5493426310872@c.us/messages_human"
+  },
+  {
+    "id": "Ys8L9ibsVlet6TFeTAkU",
+    "data": {
+      "from": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "to": "5493426310872@c.us",
+      "body": "Vos no no cerraste el agua caliente del depa de al lado no?",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "3A00C92F962FD87992B8",
+      "timestamp": "2025-06-24T22:50:21.511Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5493426310872@c.us/messages_human"
+  },
+  {
+    "id": "h0QTAQCtC5iDL9aRCoMX",
+    "data": {
+      "from": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "to": "5493426310872@c.us",
+      "body": "BEGIN:VCARD\nVERSION:3.0\nN:Ludi;Martin;;;\nFN:Martin Ludi\nX-WA-BIZ-NAME:Tandem Desing\nTEL;type=CELL;type=VOICE;waid=5493425789710:+54 9 3425 78-9710\nEND:VCARD",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "3A69D86FED4AA0853C46",
+      "timestamp": "2025-06-23T20:07:53.588Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5493426310872@c.us/messages_human"
+  }
+]

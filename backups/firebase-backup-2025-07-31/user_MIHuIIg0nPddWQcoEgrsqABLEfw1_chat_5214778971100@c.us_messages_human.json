@@ -1,0 +1,30 @@
+[
+  {
+    "id": "4E1ufXqAI85mYSHWLaTz",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5214778971100@c.us",
+      "body": "",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "33AA5485B28A88511EEFF657E1649E55",
+      "timestamp": "2025-07-18T20:15:19.309Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214778971100@c.us/messages_human"
+  },
+  {
+    "id": "8CuCV8GNvCXCoQLinCaQ",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5214778971100@c.us",
+      "body": "Solucioné la duda que te había enviado, por eso borre el audio 🤭",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "3D8B2DFE0611763CAD5F1480C5D2E23F",
+      "timestamp": "2025-07-18T20:35:35.448Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214778971100@c.us/messages_human"
+  }
+]

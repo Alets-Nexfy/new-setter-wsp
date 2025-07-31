@@ -1,0 +1,110 @@
+[
+  {
+    "id": "0l4TlPSFgoF2HZod0u40",
+    "data": {
+      "body": "",
+      "isFromMe": false,
+      "messageId": "3A775003DBC6379FC1E6",
+      "from": "5214493482510@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-19T21:03:49.694Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214493482510@c.us/messages_all"
+  },
+  {
+    "id": "46ZpgvqbM8zkAwpiqDiR",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5214493482510@c.us",
+      "body": "Ya quedó",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "ED6C893928F4FCD9E66F83F38C8F3342",
+      "timestamp": "2025-07-18T20:36:24.882Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214493482510@c.us/messages_all"
+  },
+  {
+    "id": "GO8574GKAUiSBpwjbngX",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5214493482510@c.us",
+      "body": "",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "20CCCDC62D3EBE4F1A482100B75A4414",
+      "timestamp": "2025-07-20T17:22:26.008Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214493482510@c.us/messages_all"
+  },
+  {
+    "id": "VfYj30VSnOe6UCAS4utC",
+    "data": {
+      "body": "",
+      "isFromMe": false,
+      "messageId": "3A663585753C0FEAB657",
+      "from": "5214493482510@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-20T17:46:09.374Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214493482510@c.us/messages_all"
+  },
+  {
+    "id": "ZvZOU700I4I6rsXFxOg0",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5214493482510@c.us",
+      "body": "El short aún no lo estreno, pero cuenta con que me tome la foto y te etiqueto",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "D9E41D61AE201B93FDFAF338E44E75A1",
+      "timestamp": "2025-07-20T17:30:11.718Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214493482510@c.us/messages_all"
+  },
+  {
+    "id": "nakr0JesblO50StXtoKz",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5214493482510@c.us",
+      "body": "Sí amiga",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "2E20DF5E7D745140BDDA1C3DE02175CB",
+      "timestamp": "2025-07-18T20:39:45.195Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214493482510@c.us/messages_all"
+  },
+  {
+    "id": "sfBqBdnD6kes3yzLQBOy",
+    "data": {
+      "body": "Muchas gracias amiga!! Ya me avisas cuando llegue",
+      "isFromMe": false,
+      "messageId": "3A9324C2F237E504434A",
+      "from": "5214493482510@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-18T20:39:36.444Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214493482510@c.us/messages_all"
+  },
+  {
+    "id": "vt8bNYgJbVcQt9TpxJ91",
+    "data": {
+      "body": "https://www.instagram.com/luna_media1?igsh=MThjbjRsY2o0cGk3dw==",
+      "isFromMe": false,
+      "messageId": "3A10CC8E3412C5DE40CF",
+      "from": "5214493482510@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-19T21:03:28.495Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214493482510@c.us/messages_all"
+  }
+]

@@ -1,0 +1,28 @@
+[
+  {
+    "id": "bA5wy3HUv0VfvhcbRK11",
+    "data": {
+      "body": "Siempre digo … bien 😉. Contame de vos",
+      "isFromMe": false,
+      "messageId": "3AF2C28B531DF7593880",
+      "from": "5493424215351@c.us",
+      "to": "me (9m23eitwvcXhfex9rV7nWDChOWL2)",
+      "origin": "contact",
+      "timestamp": "2025-06-21T17:29:06.948Z"
+    },
+    "path": "users/9m23eitwvcXhfex9rV7nWDChOWL2/chats/5493424215351@c.us/messages_contact"
+  },
+  {
+    "id": "xzj4qfxNNDunCVOY0R7S",
+    "data": {
+      "body": "Buenas buanas .",
+      "isFromMe": false,
+      "messageId": "3A09B031405943AED4FE",
+      "from": "5493424215351@c.us",
+      "to": "me (9m23eitwvcXhfex9rV7nWDChOWL2)",
+      "origin": "contact",
+      "timestamp": "2025-06-21T17:28:06.232Z"
+    },
+    "path": "users/9m23eitwvcXhfex9rV7nWDChOWL2/chats/5493424215351@c.us/messages_contact"
+  }
+]

@@ -1,0 +1,54 @@
+[
+  {
+    "id": "2VI7GlBagQghipw4kOtD",
+    "data": {
+      "body": "",
+      "isFromMe": false,
+      "messageId": "3EB035FEF2CD354A59E6",
+      "from": "5493426303914@c.us",
+      "to": "me (9m23eitwvcXhfex9rV7nWDChOWL2)",
+      "origin": "contact",
+      "timestamp": "2025-06-21T15:37:53.284Z"
+    },
+    "path": "users/9m23eitwvcXhfex9rV7nWDChOWL2/chats/5493426303914@c.us/messages_contact"
+  },
+  {
+    "id": "8J2WFpP7IIvn79avV7NZ",
+    "data": {
+      "body": "en la pagina de viajes, se puede hacer en cuotas?",
+      "isFromMe": false,
+      "messageId": "3EB09E2553D134E213BD08",
+      "from": "5493426303914@c.us",
+      "to": "me (9m23eitwvcXhfex9rV7nWDChOWL2)",
+      "origin": "contact",
+      "timestamp": "2025-06-21T15:38:02.921Z"
+    },
+    "path": "users/9m23eitwvcXhfex9rV7nWDChOWL2/chats/5493426303914@c.us/messages_contact"
+  },
+  {
+    "id": "RhYYH1fmbb0gwQm0O9fp",
+    "data": {
+      "body": "",
+      "isFromMe": false,
+      "messageId": "3EB0F085D6B4A5131E95",
+      "from": "5493426303914@c.us",
+      "to": "me (9m23eitwvcXhfex9rV7nWDChOWL2)",
+      "origin": "contact",
+      "timestamp": "2025-06-21T15:37:53.432Z"
+    },
+    "path": "users/9m23eitwvcXhfex9rV7nWDChOWL2/chats/5493426303914@c.us/messages_contact"
+  },
+  {
+    "id": "Z6fzi8eNfPjEId5cKa8h",
+    "data": {
+      "body": "hola Ro, soy Fatima.. la chica del grupo! cucha, te queiro hacer una consulta porque a lucas no le llegan los wsp jajajaja",
+      "isFromMe": false,
+      "messageId": "3EB08340B35EDC7495DDE1",
+      "from": "5493426303914@c.us",
+      "to": "me (9m23eitwvcXhfex9rV7nWDChOWL2)",
+      "origin": "contact",
+      "timestamp": "2025-06-21T15:37:53.355Z"
+    },
+    "path": "users/9m23eitwvcXhfex9rV7nWDChOWL2/chats/5493426303914@c.us/messages_contact"
+  }
+]

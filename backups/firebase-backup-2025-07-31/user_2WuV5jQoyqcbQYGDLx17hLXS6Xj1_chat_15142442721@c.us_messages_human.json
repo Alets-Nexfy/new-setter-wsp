@@ -1,0 +1,30 @@
+[
+  {
+    "id": "NNe7IGrXSTI95Ma88BtM",
+    "data": {
+      "from": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "to": "15142442721@c.us",
+      "body": "Sonó lucas argentina",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "3AB9D6C55208D2084352",
+      "timestamp": "2025-06-26T16:48:48.130Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/15142442721@c.us/messages_human"
+  },
+  {
+    "id": "UTR71w0uX2nhx6xZBIQ3",
+    "data": {
+      "from": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "to": "15142442721@c.us",
+      "body": "Ciao Mik",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "3AA17A831FB3840799CE",
+      "timestamp": "2025-06-26T16:48:42.017Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/15142442721@c.us/messages_human"
+  }
+]

@@ -1,0 +1,28 @@
+[
+  {
+    "id": "33WzB1NQWfObarlVwMFh",
+    "data": {
+      "body": "Bonita noche 🌑 \nYa va de regreso",
+      "isFromMe": false,
+      "messageId": "3AED6B4AE2F2A25981F2",
+      "from": "5214494387235@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-20T06:32:23.391Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214494387235@c.us/messages_contact"
+  },
+  {
+    "id": "OfFaMwjB3ahBQ1XDt3b9",
+    "data": {
+      "body": "Se me terminaron los datos chica \nUna disculpa",
+      "isFromMe": false,
+      "messageId": "3A6A190E1AB23B724F78",
+      "from": "5214494387235@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-20T06:32:13.732Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214494387235@c.us/messages_contact"
+  }
+]

@@ -1,0 +1,57 @@
+[
+  {
+    "id": "gZVQEq1AXbEXBrbN5Jur",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5215617143752@c.us",
+      "body": "",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "FBED399C4855ACBBF24A5E5A4527BB55",
+      "timestamp": "2025-07-20T03:51:28.132Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5215617143752@c.us/messages_all"
+  },
+  {
+    "id": "lYcy4xsCC0bANt0xxptP",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5215617143752@c.us",
+      "body": "Gracias hermosa, bendiciones!🙌🏻",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "4DB94798A4C12F9EFAE8D1922B193ACC",
+      "timestamp": "2025-07-20T14:00:00.925Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5215617143752@c.us/messages_all"
+  },
+  {
+    "id": "lx9k8PNROzzSIPlamsIs",
+    "data": {
+      "body": "Buen día preciosa todo bien espero que tu también lamento no poder apoyar en estos momentos pero se que terminaran los boletos y que tu tía estará bien mi oración por ella 🙏🏽",
+      "isFromMe": false,
+      "messageId": "0DCBC15C8234BAD71E37038758FB13AA",
+      "from": "5215617143752@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-20T12:51:17.090Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5215617143752@c.us/messages_all"
+  },
+  {
+    "id": "qpfr0NZO3AZyCMnTlNmo",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5215617143752@c.us",
+      "body": "Hola hermosa, buenas noches ✨ espero estés muy bien! Estamos haciendo una rifa para cubrir con parte de los gastos de la clínica en dónde está hospitalizada una de mis tías que sufre de esquizofrenia, sí deseas aportar un granito de arena! Te lo agradezco de corazón 💓 bendiciones 🫂",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "22BBA8B3DC5AF4062717239A1E8A2616",
+      "timestamp": "2025-07-20T03:51:40.518Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5215617143752@c.us/messages_all"
+  }
+]

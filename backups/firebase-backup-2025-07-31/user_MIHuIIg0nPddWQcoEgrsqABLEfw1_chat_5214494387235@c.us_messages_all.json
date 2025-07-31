@@ -1,0 +1,70 @@
+[
+  {
+    "id": "InYejQTP3LgRWWP4QGnf",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5214494387235@c.us",
+      "body": "Mi mamá le está marcando a Francisco pero no contesta",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "E150F5C149CA4FB70D21F59D06B26780",
+      "timestamp": "2025-07-20T05:00:42.012Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214494387235@c.us/messages_all"
+  },
+  {
+    "id": "UyPm1szKjbY9T6qQIsZo",
+    "data": {
+      "body": "Se me terminaron los datos chica \nUna disculpa",
+      "isFromMe": false,
+      "messageId": "3A6A190E1AB23B724F78",
+      "from": "5214494387235@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-20T06:32:13.895Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214494387235@c.us/messages_all"
+  },
+  {
+    "id": "aQfDN3xhuFfj9DA9JSEo",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5214494387235@c.us",
+      "body": "Hello girl!",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "0D09E96F2E7030E961262BCB52EBC55D",
+      "timestamp": "2025-07-20T05:00:27.323Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214494387235@c.us/messages_all"
+  },
+  {
+    "id": "tdqeMhtMaYgjFZv5hlUy",
+    "data": {
+      "body": "Bonita noche 🌑 \nYa va de regreso",
+      "isFromMe": false,
+      "messageId": "3AED6B4AE2F2A25981F2",
+      "from": "5214494387235@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-20T06:32:23.691Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214494387235@c.us/messages_all"
+  },
+  {
+    "id": "zjgF0AfYlYfxPr1ocw21",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5214494387235@c.us",
+      "body": "Descansa ✨🫰🏻",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "69D98A2C9BD5DF365BAA3A8B390F5692",
+      "timestamp": "2025-07-20T06:34:03.230Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214494387235@c.us/messages_all"
+  }
+]

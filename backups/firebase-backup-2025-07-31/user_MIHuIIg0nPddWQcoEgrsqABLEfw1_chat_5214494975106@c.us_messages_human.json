@@ -1,0 +1,100 @@
+[
+  {
+    "id": "8Wj9ZtBLuayO0co8vE5o",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5214494975106@c.us",
+      "body": "",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "75B70247D55940ECA114CBD2E5C9D725",
+      "timestamp": "2025-07-18T21:28:50.607Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214494975106@c.us/messages_human"
+  },
+  {
+    "id": "DW24q7vxBols12ke9mBe",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5214494975106@c.us",
+      "body": "",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "78CE61D953318AE6FD6F42ADA95A820D",
+      "timestamp": "2025-07-18T21:40:55.498Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214494975106@c.us/messages_human"
+  },
+  {
+    "id": "Vrtgr15lvrYQqM9TdXsy",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5214494975106@c.us",
+      "body": "",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "1300E53CE7696C97077BC410EE3E776A",
+      "timestamp": "2025-07-18T21:28:50.808Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214494975106@c.us/messages_human"
+  },
+  {
+    "id": "ZeAyD9PmUXECgUnzxwDI",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5214494975106@c.us",
+      "body": "Okay",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "E247CB799DDF667AC1DEB9EC4FD82C80",
+      "timestamp": "2025-07-18T21:45:33.856Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214494975106@c.us/messages_human"
+  },
+  {
+    "id": "aobyNFDX2zdMBGbW71OP",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5214494975106@c.us",
+      "body": "",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "40797AFC7463A292E86BE68382FE2099",
+      "timestamp": "2025-07-18T21:34:32.681Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214494975106@c.us/messages_human"
+  },
+  {
+    "id": "bCQPCvcTcxXCm1wUPtPU",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5214494975106@c.us",
+      "body": "Ese es el diseño de la etiqueta para las botellas?",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "1C43BB2CA93C3D5AC8EDD59E27B0AEA9",
+      "timestamp": "2025-07-18T21:29:08.646Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214494975106@c.us/messages_human"
+  },
+  {
+    "id": "eZqIwuncFjV67DxydFQP",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5214494975106@c.us",
+      "body": "Quizá no sea mucho",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "B85CA0A2B22C29E10083F93DECBCE482",
+      "timestamp": "2025-07-18T21:41:01.107Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214494975106@c.us/messages_human"
+  }
+]

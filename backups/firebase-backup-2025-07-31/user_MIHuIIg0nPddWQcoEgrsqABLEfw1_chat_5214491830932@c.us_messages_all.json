@@ -1,0 +1,136 @@
+[
+  {
+    "id": "5TRBVcjahUjoFmvKihJO",
+    "data": {
+      "body": "Buenas noches",
+      "isFromMe": false,
+      "messageId": "2BB23E21B1A1E58F1B5D6E6B5C38FC9C",
+      "from": "5214491830932@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-20T04:26:12.190Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214491830932@c.us/messages_all"
+  },
+  {
+    "id": "9F0L8AgEpjO2FMYyccrW",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5214491830932@c.us",
+      "body": "Hola, buenas noches! 😁 soy Nidia (hija de Toño)",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "DAE8E1D6856FE9AEA8D05190A4752F3F",
+      "timestamp": "2025-07-20T03:45:30.821Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214491830932@c.us/messages_all"
+  },
+  {
+    "id": "AvGONVZgzvRKibDu0Uod",
+    "data": {
+      "body": "Si como le hacemos para checar los viajes",
+      "isFromMe": false,
+      "messageId": "32BD2F77618D627764B7359602294EB7",
+      "from": "5214491830932@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-20T04:27:30.392Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214491830932@c.us/messages_all"
+  },
+  {
+    "id": "ExB9T6iLubMg9g7gYfVv",
+    "data": {
+      "body": "",
+      "isFromMe": false,
+      "messageId": "3EB0FC9275B483C7E787",
+      "from": "5214491830932@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-20T03:45:28.027Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214491830932@c.us/messages_all"
+  },
+  {
+    "id": "IIxaV6PomVXiMt4ZKuvL",
+    "data": {
+      "body": "BEGIN:VCARD\nVERSION:3.0\nN:;Isidrahermana;;;\nFN:Isidrahermana\nitem1.TEL;waid=16264866390:+1 (626) 486-6390\nitem1.X-ABLabel:Celular\nitem2.TEL:+52 626 486 6390\nitem2.X-ABLabel:Celular\nEND:VCARD",
+      "isFromMe": false,
+      "messageId": "6736156417B109AFD23F9AE7441E974C",
+      "from": "5214491830932@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-20T04:29:27.436Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214491830932@c.us/messages_all"
+  },
+  {
+    "id": "RsIDuTjxnH1CiamKdWhZ",
+    "data": {
+      "body": "",
+      "isFromMe": false,
+      "messageId": "3EB032FEB06CE5570278",
+      "from": "5214491830932@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-20T04:26:12.080Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214491830932@c.us/messages_all"
+  },
+  {
+    "id": "fdBNzduANyaR9VuwdyN6",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5214491830932@c.us",
+      "body": "Para ver lo de la plataforma de viajes",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "2E7F7BC53E599494C98A9EC64FE1324D",
+      "timestamp": "2025-07-20T03:46:08.222Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214491830932@c.us/messages_all"
+  },
+  {
+    "id": "jWDyrbREskYI2bALeAEy",
+    "data": {
+      "body": "Le voy a proporcionar el número de mi hermana Isidra para que también lo vea con ella",
+      "isFromMe": false,
+      "messageId": "F44947C8A97797F7BE293167135A6443",
+      "from": "5214491830932@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-20T04:28:39.090Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214491830932@c.us/messages_all"
+  },
+  {
+    "id": "sWlUNOjq1YXSbcdk9YYe",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5214491830932@c.us",
+      "body": "",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "A1C9E998DC6CFD99096624C475DE173B",
+      "timestamp": "2025-07-20T04:30:38.320Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214491830932@c.us/messages_all"
+  },
+  {
+    "id": "vYJfCQC8kkK69BYtIZXU",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5214491830932@c.us",
+      "body": "Hace unos días me proporcionó su número, pero no había tenido oportunidad de comunicarme",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "34B300B0C3A87486765D0820938001CD",
+      "timestamp": "2025-07-20T03:45:44.920Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214491830932@c.us/messages_all"
+  }
+]

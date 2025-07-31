@@ -1,0 +1,41 @@
+[
+  {
+    "id": "2RgHx5ndFPpkr9Ws5AAp",
+    "data": {
+      "body": "A que hora??",
+      "isFromMe": false,
+      "messageId": "CD32E3343EB123320212F32A16D912B7",
+      "from": "5219983243203@c.us",
+      "to": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "origin": "contact",
+      "timestamp": "2025-06-24T17:09:22.853Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5219983243203@c.us/messages_contact"
+  },
+  {
+    "id": "FKPXFVxkPDXPI2cJ2PWi",
+    "data": {
+      "body": "Hola",
+      "isFromMe": false,
+      "messageId": "7A1BD1251AC5917A4A9974A3336F9F32",
+      "from": "5219983243203@c.us",
+      "to": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "origin": "contact",
+      "timestamp": "2025-06-24T17:09:16.247Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5219983243203@c.us/messages_contact"
+  },
+  {
+    "id": "e4AfxdyRgwrwuGZHwx9s",
+    "data": {
+      "body": "",
+      "isFromMe": false,
+      "messageId": "3EB07C73DD4F00E4847D",
+      "from": "5219983243203@c.us",
+      "to": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "origin": "contact",
+      "timestamp": "2025-06-24T17:06:55.986Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5219983243203@c.us/messages_contact"
+  }
+]

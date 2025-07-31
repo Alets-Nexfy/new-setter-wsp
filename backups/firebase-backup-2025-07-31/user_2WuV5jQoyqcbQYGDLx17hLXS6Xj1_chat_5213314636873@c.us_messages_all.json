@@ -1,0 +1,43 @@
+[
+  {
+    "id": "8b7YYR22DjwcPwCNCSpK",
+    "data": {
+      "body": "",
+      "isFromMe": false,
+      "messageId": "3EB07B2763364C21E493",
+      "from": "5213314636873@c.us",
+      "to": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "origin": "contact",
+      "timestamp": "2025-06-25T22:58:30.138Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5213314636873@c.us/messages_all"
+  },
+  {
+    "id": "OistwxYiK7ciqo6ToVtW",
+    "data": {
+      "from": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "to": "5213314636873@c.us",
+      "body": "Lucas Olivera",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "3ABBCD1EA6E1AD3EC8E4",
+      "timestamp": "2025-06-25T22:58:30.185Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5213314636873@c.us/messages_all"
+  },
+  {
+    "id": "s7vECeSTFilsJXYfXDK1",
+    "data": {
+      "from": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "to": "5213314636873@c.us",
+      "body": "Argentina 🤣",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "3AB3DCF30FCB99AC4574",
+      "timestamp": "2025-06-25T22:58:33.279Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5213314636873@c.us/messages_all"
+  }
+]

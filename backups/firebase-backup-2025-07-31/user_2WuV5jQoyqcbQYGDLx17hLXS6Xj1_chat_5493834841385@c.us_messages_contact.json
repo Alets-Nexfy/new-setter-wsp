@@ -1,0 +1,80 @@
+[
+  {
+    "id": "0cJw9iFHnWe09cLWs8vg",
+    "data": {
+      "body": "Nos vemos ahi entonces",
+      "isFromMe": false,
+      "messageId": "3A3FE46B546275652151",
+      "from": "5493834841385@c.us",
+      "to": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "origin": "contact",
+      "timestamp": "2025-06-26T22:13:01.698Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5493834841385@c.us/messages_contact"
+  },
+  {
+    "id": "5nSu8OdUO8ScJV33qTHF",
+    "data": {
+      "body": "No pude entrar xq no me deja del celu",
+      "isFromMe": false,
+      "messageId": "3AF82F6C52A6766D6172",
+      "from": "5493834841385@c.us",
+      "to": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "origin": "contact",
+      "timestamp": "2025-06-27T01:52:38.387Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5493834841385@c.us/messages_contact"
+  },
+  {
+    "id": "7ZIwLimGmhKX9fEb2bqv",
+    "data": {
+      "body": "Listo",
+      "isFromMe": false,
+      "messageId": "3A52054B3C9013705D59",
+      "from": "5493834841385@c.us",
+      "to": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "origin": "contact",
+      "timestamp": "2025-06-26T22:12:49.616Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5493834841385@c.us/messages_contact"
+  },
+  {
+    "id": "YRCRL5AN146gq1SPI9xI",
+    "data": {
+      "body": "",
+      "isFromMe": false,
+      "messageId": "3EB0F6A1C602731B6384",
+      "from": "5493834841385@c.us",
+      "to": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "origin": "contact",
+      "timestamp": "2025-06-26T20:17:26.781Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5493834841385@c.us/messages_contact"
+  },
+  {
+    "id": "aM34W7x01EG9gw0rxh1I",
+    "data": {
+      "body": "Lucasss, graciasss",
+      "isFromMe": false,
+      "messageId": "3A0E473B4B53BD990AB3",
+      "from": "5493834841385@c.us",
+      "to": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "origin": "contact",
+      "timestamp": "2025-06-26T22:12:41.136Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5493834841385@c.us/messages_contact"
+  },
+  {
+    "id": "gG8YrF418NEk2LZfGYgB",
+    "data": {
+      "body": "Nose porque",
+      "isFromMe": false,
+      "messageId": "3AF8F892D8C840550581",
+      "from": "5493834841385@c.us",
+      "to": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "origin": "contact",
+      "timestamp": "2025-06-27T01:52:40.528Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5493834841385@c.us/messages_contact"
+  }
+]

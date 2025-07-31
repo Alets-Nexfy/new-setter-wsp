@@ -1,0 +1,86 @@
+[
+  {
+    "id": "9bmHQkANhZ48nJv3Emf3",
+    "data": {
+      "from": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "to": "5493426129888@c.us",
+      "body": "Amoreeee",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "3A88BD83840F6B581EA6",
+      "timestamp": "2025-06-24T00:27:34.336Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5493426129888@c.us/messages_human"
+  },
+  {
+    "id": "CjOrBe755JnvfM1zG9yf",
+    "data": {
+      "from": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "to": "5493426129888@c.us",
+      "body": "Te amo",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "3AD3645021E636B33FA3",
+      "timestamp": "2025-06-24T00:27:40.602Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5493426129888@c.us/messages_human"
+  },
+  {
+    "id": "IVcIwjTzpDpwKdDccO1v",
+    "data": {
+      "from": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "to": "5493426129888@c.us",
+      "body": "Jajajajajajja",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "3A9F9052C0C5F8FE785E",
+      "timestamp": "2025-06-24T00:52:42.420Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5493426129888@c.us/messages_human"
+  },
+  {
+    "id": "Nid2sN10JmUb5lLVnpPj",
+    "data": {
+      "from": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "to": "5493426129888@c.us",
+      "body": "Gracia bebe",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "3A6C3A5359295FE09DB6",
+      "timestamp": "2025-06-24T00:27:39.465Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5493426129888@c.us/messages_human"
+  },
+  {
+    "id": "sfVVOlHfCmHlxkngz29W",
+    "data": {
+      "from": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "to": "5493426129888@c.us",
+      "body": "Dale a meterle vos que la próxima  te venis",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "3A731DC4616AE97EDA15",
+      "timestamp": "2025-06-24T00:52:55.250Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5493426129888@c.us/messages_human"
+  },
+  {
+    "id": "vvtdnp3BQmyfqdA9w8yG",
+    "data": {
+      "from": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "to": "5493426129888@c.us",
+      "body": "Loquita",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "3A1E7625D596D1825A41",
+      "timestamp": "2025-06-24T00:52:43.912Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5493426129888@c.us/messages_human"
+  }
+]

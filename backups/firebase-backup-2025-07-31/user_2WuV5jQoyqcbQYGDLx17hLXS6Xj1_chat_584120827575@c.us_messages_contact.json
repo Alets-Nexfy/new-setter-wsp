@@ -1,0 +1,67 @@
+[
+  {
+    "id": "AMJcGPQdKvxo2dVLGmGM",
+    "data": {
+      "body": "Hola",
+      "isFromMe": false,
+      "messageId": "E9EC3B8B21B54967EBA8E884C225BCA6",
+      "from": "584120827575@c.us",
+      "to": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "origin": "contact",
+      "timestamp": "2025-06-23T19:11:24.222Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/584120827575@c.us/messages_contact"
+  },
+  {
+    "id": "NCjy0u5Udk2WDwZIrz2R",
+    "data": {
+      "body": "",
+      "isFromMe": false,
+      "messageId": "3EB0E43A6E36E6F940CE",
+      "from": "584120827575@c.us",
+      "to": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "origin": "contact",
+      "timestamp": "2025-06-23T19:11:24.201Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/584120827575@c.us/messages_contact"
+  },
+  {
+    "id": "cvCMEp1fLJSH5vfmeqQ5",
+    "data": {
+      "body": "Club de viaje",
+      "isFromMe": false,
+      "messageId": "626762E50FAA9769C96763DB8C68D938",
+      "from": "584120827575@c.us",
+      "to": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "origin": "contact",
+      "timestamp": "2025-06-23T19:11:42.808Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/584120827575@c.us/messages_contact"
+  },
+  {
+    "id": "h9XNxU5IBVl8Mro7whyt",
+    "data": {
+      "body": "Info",
+      "isFromMe": false,
+      "messageId": "C011644610B5A758EFCB24C869C7C650",
+      "from": "584120827575@c.us",
+      "to": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "origin": "contact",
+      "timestamp": "2025-06-23T20:01:11.289Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/584120827575@c.us/messages_contact"
+  },
+  {
+    "id": "tXfUkZCTnWGSOLBHOodc",
+    "data": {
+      "body": "",
+      "isFromMe": false,
+      "messageId": "3EB07A23A27459E7AA38",
+      "from": "584120827575@c.us",
+      "to": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "origin": "contact",
+      "timestamp": "2025-06-23T19:11:24.209Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/584120827575@c.us/messages_contact"
+  }
+]

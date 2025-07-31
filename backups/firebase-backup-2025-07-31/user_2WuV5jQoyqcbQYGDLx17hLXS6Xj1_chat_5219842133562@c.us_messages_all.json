@@ -1,0 +1,509 @@
+[
+  {
+    "id": "1kQYw4D7cLwH6h7byAVM",
+    "data": {
+      "body": "Estoy viendo como llego porque si o si tengo que tomar taxi en Cancún 🥺",
+      "isFromMe": false,
+      "messageId": "3A550C9F294E7FA8A867",
+      "from": "5219842133562@c.us",
+      "to": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "origin": "contact",
+      "timestamp": "2025-06-25T04:31:22.846Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5219842133562@c.us/messages_all"
+  },
+  {
+    "id": "43ZSoAcBbqjigWGuqj6b",
+    "data": {
+      "from": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "to": "5219842133562@c.us",
+      "body": "Cómo estás mañana para venirte al hotel y hablamos del negocio de viajes ?",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "3A66E786AF32F76307E4",
+      "timestamp": "2025-06-25T00:53:20.612Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5219842133562@c.us/messages_all"
+  },
+  {
+    "id": "4eodoWIuEXHuqWKnRUEo",
+    "data": {
+      "from": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "to": "5219842133562@c.us",
+      "body": "Si pero de la termi acá es cerca",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "3AC776409C4FD46A97BD",
+      "timestamp": "2025-06-25T04:43:23.629Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5219842133562@c.us/messages_all"
+  },
+  {
+    "id": "6hElG6g5g6JRh0JpjbHG",
+    "data": {
+      "body": "A qué hora?",
+      "isFromMe": false,
+      "messageId": "3AA72B70C95F4BE6CCD2",
+      "from": "5219842133562@c.us",
+      "to": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "origin": "contact",
+      "timestamp": "2025-06-25T03:03:24.429Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5219842133562@c.us/messages_all"
+  },
+  {
+    "id": "9l0HLKlarUxlQiUl5ZLT",
+    "data": {
+      "from": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "to": "5219842133562@c.us",
+      "body": "Está a 2 km del hotel",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "3A9CF20C408097452EBC",
+      "timestamp": "2025-06-25T04:48:45.216Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5219842133562@c.us/messages_all"
+  },
+  {
+    "id": "CIbQgt1Yrmy3bBBEs038",
+    "data": {
+      "from": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "to": "5219842133562@c.us",
+      "body": "Daleee",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "3ABFC53CFB875B0B2530",
+      "timestamp": "2025-06-25T04:21:52.977Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5219842133562@c.us/messages_all"
+  },
+  {
+    "id": "CnwRv3496e9LM6VBkAv0",
+    "data": {
+      "body": "Nooo, si me dijiste que es por la cancha de golf",
+      "isFromMe": false,
+      "messageId": "3A6C3F488B300D55BBF8",
+      "from": "5219842133562@c.us",
+      "to": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "origin": "contact",
+      "timestamp": "2025-06-25T05:00:01.840Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5219842133562@c.us/messages_all"
+  },
+  {
+    "id": "DpQ6eGO6Vy3gfbCjOFwo",
+    "data": {
+      "from": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "to": "5219842133562@c.us",
+      "body": "Bien y vos ?",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "3A8AD40C51ACE4E95E16",
+      "timestamp": "2025-06-25T03:48:48.789Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5219842133562@c.us/messages_all"
+  },
+  {
+    "id": "E6aZw1iwMln62ym2Rl0v",
+    "data": {
+      "body": "Hola!! Bien trabajando anduve enferma hoy volví al trabajo jaja",
+      "isFromMe": false,
+      "messageId": "3A9E4D6BC16FF190E2B7",
+      "from": "5219842133562@c.us",
+      "to": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "origin": "contact",
+      "timestamp": "2025-06-25T03:03:13.177Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5219842133562@c.us/messages_all"
+  },
+  {
+    "id": "GDQHJOGUWvHgpPjq35D8",
+    "data": {
+      "body": "Ah bueno pregunto para saber cómo llegar allá",
+      "isFromMe": false,
+      "messageId": "3A5EAED3D0EB9C7480CA",
+      "from": "5219842133562@c.us",
+      "to": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "origin": "contact",
+      "timestamp": "2025-06-25T04:02:08.010Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5219842133562@c.us/messages_all"
+  },
+  {
+    "id": "GTkkxIVjCMTQeastL0iB",
+    "data": {
+      "from": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "to": "5219842133562@c.us",
+      "body": "La de ómnibus",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "3AFF3072128CF9B637DF",
+      "timestamp": "2025-06-25T04:48:36.547Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5219842133562@c.us/messages_all"
+  },
+  {
+    "id": "GqR2dz2cA9LYIxs9evy7",
+    "data": {
+      "from": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "to": "5219842133562@c.us",
+      "body": "Pedis Uber",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "3A053184B6C569726211",
+      "timestamp": "2025-06-25T04:43:40.659Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5219842133562@c.us/messages_all"
+  },
+  {
+    "id": "HD9daztItA1LPgLaQNZg",
+    "data": {
+      "from": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "to": "5219842133562@c.us",
+      "body": "No te van a cobrar mucho",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "3A269BB54313546C0575",
+      "timestamp": "2025-06-25T04:43:32.399Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5219842133562@c.us/messages_all"
+  },
+  {
+    "id": "IaBHt6iG94INmSgCQj0S",
+    "data": {
+      "from": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "to": "5219842133562@c.us",
+      "body": "Y le comenté que iban a venir personas como vos así lo conoces",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "3AB4F1DF11A74AACBCC1",
+      "timestamp": "2025-06-25T04:22:25.678Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5219842133562@c.us/messages_all"
+  },
+  {
+    "id": "J4BAI1OrBtc3bG6CbiTg",
+    "data": {
+      "from": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "to": "5219842133562@c.us",
+      "body": "",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "3AD14157A73B25EC3C82",
+      "timestamp": "2025-06-25T03:58:30.333Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5219842133562@c.us/messages_all"
+  },
+  {
+    "id": "J6dh7HBhs1y5Ex4yURHs",
+    "data": {
+      "from": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "to": "5219842133562@c.us",
+      "body": "Cómo andas ?",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "3AE61CF2483BB43CCF03",
+      "timestamp": "2025-06-25T00:51:52.137Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5219842133562@c.us/messages_all"
+  },
+  {
+    "id": "KKhnN2sobaJDEskyNA4D",
+    "data": {
+      "body": "Si un poco mejor",
+      "isFromMe": false,
+      "messageId": "3AE7932187F8AC249E28",
+      "from": "5219842133562@c.us",
+      "to": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "origin": "contact",
+      "timestamp": "2025-06-25T03:51:00.154Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5219842133562@c.us/messages_all"
+  },
+  {
+    "id": "PJOxoCZJuf1FUCddh1s8",
+    "data": {
+      "from": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "to": "5219842133562@c.us",
+      "body": "Holiiii",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "3A73D3C4953814564211",
+      "timestamp": "2025-06-25T03:48:45.287Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5219842133562@c.us/messages_all"
+  },
+  {
+    "id": "PhCSOEArDWLQEJWxR73d",
+    "data": {
+      "from": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "to": "5219842133562@c.us",
+      "body": "",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "3ABEA4B0B14BB0C5951A",
+      "timestamp": "2025-06-25T03:58:42.240Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5219842133562@c.us/messages_all"
+  },
+  {
+    "id": "QeOlksmBW3k17YLy1R1Q",
+    "data": {
+      "from": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "to": "5219842133562@c.us",
+      "body": "Buen diiiia Rooo",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "3ACEA009597D5E627CEF",
+      "timestamp": "2025-06-25T13:10:04.434Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5219842133562@c.us/messages_all"
+  },
+  {
+    "id": "RNrzAd0hNCOJNDIQFqN7",
+    "data": {
+      "from": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "to": "5219842133562@c.us",
+      "body": "Abri la ubi jaja ! La cancha de golf que te digo es la del hotel",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "3A0F9222451D1D46469C",
+      "timestamp": "2025-06-25T05:02:38.140Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5219842133562@c.us/messages_all"
+  },
+  {
+    "id": "VkTauZumd2HlgFNuor4w",
+    "data": {
+      "from": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "to": "5219842133562@c.us",
+      "body": "Acá ya cerca tuyo jaja",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "3AA2DAC3116E35F040FB",
+      "timestamp": "2025-06-25T00:52:55.978Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5219842133562@c.us/messages_all"
+  },
+  {
+    "id": "YDaQIRweBWYCCKk9AK6D",
+    "data": {
+      "from": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "to": "5219842133562@c.us",
+      "body": "https://maps.app.goo.gl/ybnenncMFv5w7p7i9?g_st=iwb",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "5E662DB15DCC003497DD",
+      "timestamp": "2025-06-25T03:53:47.405Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5219842133562@c.us/messages_all"
+  },
+  {
+    "id": "YGnh0PkjE2mhNpamtVpp",
+    "data": {
+      "body": "Me pasas dónde queda porfi",
+      "isFromMe": false,
+      "messageId": "3A88EB20C6672C63E231",
+      "from": "5219842133562@c.us",
+      "to": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "origin": "contact",
+      "timestamp": "2025-06-25T03:50:53.168Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5219842133562@c.us/messages_all"
+  },
+  {
+    "id": "eN3lY0peHwjt6FigS7PM",
+    "data": {
+      "from": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "to": "5219842133562@c.us",
+      "body": "Me alegro 😌",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "3A386FCA786295340BEC",
+      "timestamp": "2025-06-25T03:53:09.774Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5219842133562@c.us/messages_all"
+  },
+  {
+    "id": "eUCwmLFeFGctdRRbGa3U",
+    "data": {
+      "body": "Porque entro a las 5:30",
+      "isFromMe": false,
+      "messageId": "3A55133AC11E1890F0D9",
+      "from": "5219842133562@c.us",
+      "to": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "origin": "contact",
+      "timestamp": "2025-06-25T03:03:33.654Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5219842133562@c.us/messages_all"
+  },
+  {
+    "id": "f8DgMs5ZxeZd4Um4Y3aX",
+    "data": {
+      "from": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "to": "5219842133562@c.us",
+      "body": "Muñequita",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "3AC0936F85B528E8EA7E",
+      "timestamp": "2025-06-25T00:51:48.859Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5219842133562@c.us/messages_all"
+  },
+  {
+    "id": "f8PEPaBoow5mcGvPJVst",
+    "data": {
+      "from": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "to": "5219842133562@c.us",
+      "body": "/9j/4AAQSkZJRgABAQAASABIAAD/4QCMRXhpZgAATU0AKgAAAAgABQESAAMAAAABAAEAAAEaAAUAAAABAAAASgEbAAUAAAABAAAAUgEoAAMAAAABAAIAAIdpAAQAAAABAAAAWgAAAAAAAABIAAAAAQAAAEgAAAABAAOgAQADAAAAAQABAACgAgAEAAAAAQAAAGSgAwAEAAAAAQAAAGQAAAAA/+0AOFBob3Rvc2hvcCAzLjAAOEJJTQQEAAAAAAAAOEJJTQQlAAAAAAAQ1B2M2Y8AsgTpgAmY7PhCfv/AABEIAGQAZAMBIgACEQEDEQH/xAAfAAABBQEBAQEBAQAAAAAAAAAAAQIDBAUGBwgJCgv/xAC1EAACAQMDAgQDBQUEBAAAAX0BAgMABBEFEiExQQYTUWEHInEUMoGRoQgjQrHBFVLR8CQzYnKCCQoWFxgZGiUmJygpKjQ1Njc4OTpDREVGR0hJSlNUVVZXWFlaY2RlZmdoaWpzdHV2d3h5eoOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4eLj5OXm5+jp6vHy8/T19vf4+fr/xAAfAQADAQEBAQEBAQEBAAAAAAAAAQIDBAUGBwgJCgv/xAC1EQACAQIEBAMEBwUEBAABAncAAQIDEQQFITEGEkFRB2FxEyIygQgUQpGhscEJIzNS8BVictEKFiQ04SXxFxgZGiYnKCkqNTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqCg4SFhoeIiYqSk5SVlpeYmZqio6Slpqeoqaqys7S1tre4ubrCw8TFxsfIycrS09TV1tfY2dri4+Tl5ufo6ery8/T19vf4+fr/2wBDAAYGBgYGBgoGBgoOCgoKDhIODg4OEhcSEhISEhccFxcXFxcXHBwcHBwcHBwiIiIiIiInJycnJywsLCwsLCwsLCz/2wBDAQcHBwsKCxMKChMuHxofLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi7/3QAEAAf/2gAMAwEAAhEDEQA/APPLe5mtmzE2AeoPQ1p3SC4iiu4V5fhgo71iVvafcSGzljjxujGV+h5r05b3PDwNS65H0I109lG+5cRr+tO+02ltxapvb++1ZzO0jb3JYnuaT2oO4sS3dxNw7kD0HAqXT3EdyF7OCtNisbmXnbsHq3H6Vait7WJwd7TSKc4Qd/8APqaQGdMnlSvH/dJFR1o6nHtmWXGN4/UVnU0DCmsu5SvqMU6imnYRhkdqbU867ZWHvn86hr2U7pMyEoxRRTA//9DzStHS5Nl2FPRwV/qKzqkifypUk/usD+VerJaHzGEny1F5mz/Z8cbfv5Qozwo5JFXI4zGP9GiEY/vydfy6/nio7y6a3ceSi/OM7+5rIkmlmOZWLfy/KoPaNSWa1H+vkadv7o4X8hx/Ormlsb+5WDKW8O5VLHoNxxkn0HU1zdaWmTMkpQKWV8ZIGcEd6wxSn7KXstzvyr2H1qn9a+C+v6fK+51GsabbW93JYealykRwssfQ5HUH26d64maMwytEedpxXWyFYVV5mCq3Qk9e3Fc7NLYrK0s7+YzHO1en+fxrzcqda8vaXt5/8E+i4pWC5aSw7Tn1cbbedtChRVxtQDIYreNY1IwfWqde0j40z7xcMreox+VUjWndrmLPoazDXqYaV6aMpbiUUUVuI//R80oop6Lk+1esfJQi5SSia/NxpyOOWiO0+uP84pkVhcSDcw2L6t/hVeC7ltSwjxhvUUyW5nnPzsW/l+XSsz6A0Nun2/3iZm9B0qN9RlYbIQI19F61nbSeppwAFAjT1gs2m6cScny5OT/10NcwI3Y11Gpc6dpw/wCmcn/ow1kqoFSkU2RRIVHNWKTgUwv6U5SUdzKU0txXXcjL6isatpTkVkyrtlZfeu/BTvdEt3SaIaKWkruEf//S82VSxwKnAAGBQAFGBS16jZ4+HoKmrvcYw70+iikdIUUUwsB0pOSW4nJLcsTXUk8FvA6BRbqy7s53bmLdMccVXL+lMJJ60lc7q9ImM6zewpJPWkoorIxFBwaqXi4kDeo/lVqo7td0Qb0Nd2AnadjWm9GjNpKdRXtln//T8+oqHJ9afDDLcTR28Cl5JWVEUdSzHAH4k12Ov2R5XtuyHZHrSFgPevT1+FusQWly149pu8tWSUyyBYtp3PkBPmOBgE8AZODxXK2GhWl94Vu9WR2F7BO3lpn5XhjRWkwMdQGLZ9BUOu+ho41OxyxYmkrqtJ0K0u/D+p6xeuyvBExtVU43NFtMjHjlV3qPqaoP4e1RLZrkrHmOITvCJUM6xEA72jzuAwQfUDkis3K+5g6U2uYxKK6GLwtrc3lBY4w9xEs0EbTRiSZGXcPLUtljjqPXjrVex0DU9RijltxEvnsyQpLKkbyspwRGrEFiDx25460ri9lPsY1FbFnoOpXsSSxLGnmu0USzSpE8rpwyorEEkE4PQZ461kEFSVYEEHBB6gjqKCXBrVoSlZd8LL7UlPQ9q2oy5ZplU37xj0U+RdjsvoaZX0id1dGp/9TzerFpcy2V3DewY8yCRJVz0yjBhn8qr0VoeGnZ3R9GyfE7whc2rR3HnkSxHfF5TH7wwY89Mnpnp714xYa5Bp1jbC3Q+ZBqL3BhOSDA8QQoW6HIyp7965milY3liZPU7G61fSYnvbHTGk+wx6bLZ2ZdTueSR1kZmGOCzZ5PYCtBNV8O2Ruzpxjjt7iwlhihS1ImWR4sfvZiMnLZ5ViDnnAFefVMDkZrSnTUtzSnWbep6HdHSLbVtG1O+u5Ims7GxlaERMzSbF3KI2HyjPQ7sY681W0vVNDt57LVMRQSpcNNeqbXz5WLTFwY5CCqqFIHBUjBIBNcMSTjJJwABkk4A6DnsO1aNh8yzx+qf41r7BW1NlKz0R0FhqWmuCmoXMclobuaWS1ubUyjy3fdmB1G5GZeoLLhua4+VYDK5t1KRFmKKTkqhJ2gnuQMZpo6UtWqUURJ82jREy4pBwc1I3Q1FWNSPK9DkqR5XoQzW7SPvU9RUX2OT1FXlYAYNO3iuyOMaSVzVTj1P//V83ooorU8IKKKKACnp1xTKenWrp/Ei6fxIkrR0z/XsPVD/MVnVo6Z/wAfDf7h/mK62diM2loooEMfpUdSP0qOuWr8Ry1fiCiiiszM/9k=",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "3A5462700832C22C3863",
+      "timestamp": "2025-06-25T03:53:23.277Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5219842133562@c.us/messages_all"
+  },
+  {
+    "id": "fTt8aD1MkaERFEwXnroV",
+    "data": {
+      "body": "Que terminal?",
+      "isFromMe": false,
+      "messageId": "3AF9BEC6FD7C2D0B5663",
+      "from": "5219842133562@c.us",
+      "to": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "origin": "contact",
+      "timestamp": "2025-06-25T04:47:19.399Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5219842133562@c.us/messages_all"
+  },
+  {
+    "id": "gIuCRJ3w1ME9tonZ0xu4",
+    "data": {
+      "from": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "to": "5219842133562@c.us",
+      "body": "11 am ?",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "3AD9DB068484B9E2CC34",
+      "timestamp": "2025-06-25T03:49:02.562Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5219842133562@c.us/messages_all"
+  },
+  {
+    "id": "mck4FyXQGRQh1GgV2lAK",
+    "data": {
+      "body": "Es zona hotelera?",
+      "isFromMe": false,
+      "messageId": "3A23FC9D939AB95FCCE5",
+      "from": "5219842133562@c.us",
+      "to": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "origin": "contact",
+      "timestamp": "2025-06-25T03:55:59.130Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5219842133562@c.us/messages_all"
+  },
+  {
+    "id": "pq5o5pmV0nzD9IX2fwPl",
+    "data": {
+      "from": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "to": "5219842133562@c.us",
+      "body": "Puede ser a la mañana si queres gordi",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "3A5C05D2074D0308ECE1",
+      "timestamp": "2025-06-25T03:48:56.172Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5219842133562@c.us/messages_all"
+  },
+  {
+    "id": "quDgc5i7ug1492vuaqlQ",
+    "data": {
+      "from": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "to": "5219842133562@c.us",
+      "body": "Ya estás mejor ?",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "3A2CCB4DFF365960A8D9",
+      "timestamp": "2025-06-25T03:49:12.234Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5219842133562@c.us/messages_all"
+  },
+  {
+    "id": "rvi3UQJUpx5UMFdIzDHv",
+    "data": {
+      "body": "Cómo estás?",
+      "isFromMe": false,
+      "messageId": "3A70F957CC760D053D07",
+      "from": "5219842133562@c.us",
+      "to": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "origin": "contact",
+      "timestamp": "2025-06-25T03:03:16.726Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5219842133562@c.us/messages_all"
+  },
+  {
+    "id": "uPzRwi5Ejy6jYyikINM8",
+    "data": {
+      "from": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "to": "5219842133562@c.us",
+      "body": "Bebé",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "3A6D588E4A8DEF279B5B",
+      "timestamp": "2025-06-25T05:02:10.141Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5219842133562@c.us/messages_all"
+  },
+  {
+    "id": "wjgHADUVRA5IR6mOz6Em",
+    "data": {
+      "from": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "to": "5219842133562@c.us",
+      "body": "Al ladito",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "3AABDD2E81A8D27C9357",
+      "timestamp": "2025-06-25T03:58:01.572Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5219842133562@c.us/messages_all"
+  },
+  {
+    "id": "zyYUrFGGtp25b1FYtnPM",
+    "data": {
+      "from": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "to": "5219842133562@c.us",
+      "body": "Venite ! Justo estoy hablando con el vicepresidente de la empresa",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "3A5D2AA35E8259A3533A",
+      "timestamp": "2025-06-25T04:22:03.849Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5219842133562@c.us/messages_all"
+  }
+]

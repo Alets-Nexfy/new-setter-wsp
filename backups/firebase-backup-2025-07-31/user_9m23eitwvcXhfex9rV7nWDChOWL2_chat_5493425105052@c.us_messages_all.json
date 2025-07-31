@@ -1,0 +1,30 @@
+[
+  {
+    "id": "50PzDCuTDTieoJBsSoAP",
+    "data": {
+      "from": "me (9m23eitwvcXhfex9rV7nWDChOWL2)",
+      "to": "5493425105052@c.us",
+      "body": "😂",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "3ADCE049167E9DCAA14C",
+      "timestamp": "2025-06-20T21:36:09.852Z"
+    },
+    "path": "users/9m23eitwvcXhfex9rV7nWDChOWL2/chats/5493425105052@c.us/messages_all"
+  },
+  {
+    "id": "I5V6m7GeSUQMN7kw3zY3",
+    "data": {
+      "from": "me (9m23eitwvcXhfex9rV7nWDChOWL2)",
+      "to": "5493425105052@c.us",
+      "body": "Jajajajja",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "3AF41D9615973D96F0AA",
+      "timestamp": "2025-06-20T21:35:56.533Z"
+    },
+    "path": "users/9m23eitwvcXhfex9rV7nWDChOWL2/chats/5493425105052@c.us/messages_all"
+  }
+]

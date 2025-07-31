@@ -1,0 +1,43 @@
+[
+  {
+    "id": "HNNe4hPWH5Ie7qU6JrSC",
+    "data": {
+      "body": "",
+      "isFromMe": false,
+      "messageId": "3EB0B027C12433833160",
+      "from": "15142442721@c.us",
+      "to": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "origin": "contact",
+      "timestamp": "2025-06-26T16:48:42.059Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/15142442721@c.us/messages_all"
+  },
+  {
+    "id": "PapOhXFj2bYvTsAgVdGV",
+    "data": {
+      "from": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "to": "15142442721@c.us",
+      "body": "Sonó lucas argentina",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "3AB9D6C55208D2084352",
+      "timestamp": "2025-06-26T16:48:48.160Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/15142442721@c.us/messages_all"
+  },
+  {
+    "id": "wnPKJ6i01SS2oZhddxiW",
+    "data": {
+      "from": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "to": "15142442721@c.us",
+      "body": "Ciao Mik",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "3AA17A831FB3840799CE",
+      "timestamp": "2025-06-26T16:48:42.047Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/15142442721@c.us/messages_all"
+  }
+]

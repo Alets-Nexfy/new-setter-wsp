@@ -1,0 +1,30 @@
+[
+  {
+    "id": "VNqxO9TXke5mNJwI4QhU",
+    "data": {
+      "from": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "to": "5213314636873@c.us",
+      "body": "Argentina 🤣",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "3AB3DCF30FCB99AC4574",
+      "timestamp": "2025-06-25T22:58:33.276Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5213314636873@c.us/messages_human"
+  },
+  {
+    "id": "mhaDhJ6vBXMYPG0OTpot",
+    "data": {
+      "from": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "to": "5213314636873@c.us",
+      "body": "Lucas Olivera",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "3ABBCD1EA6E1AD3EC8E4",
+      "timestamp": "2025-06-25T22:58:30.186Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5213314636873@c.us/messages_human"
+  }
+]

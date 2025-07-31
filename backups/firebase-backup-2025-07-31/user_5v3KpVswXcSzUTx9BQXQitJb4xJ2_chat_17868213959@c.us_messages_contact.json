@@ -1,0 +1,28 @@
+[
+  {
+    "id": "7xvXS3BTlquppSOHrueK",
+    "data": {
+      "body": "Excelente, muchas gracias!",
+      "isFromMe": false,
+      "messageId": "3AE804D630D5459A345A",
+      "from": "17868213959@c.us",
+      "to": "me (5v3KpVswXcSzUTx9BQXQitJb4xJ2)",
+      "origin": "contact",
+      "timestamp": "2025-06-26T15:35:00.511Z"
+    },
+    "path": "users/5v3KpVswXcSzUTx9BQXQitJb4xJ2/chats/17868213959@c.us/messages_contact"
+  },
+  {
+    "id": "JVGMmM3wATajua7lUQxz",
+    "data": {
+      "body": "Buenos dias dionel! quería saber si soluciono tu problema? \n\nY sino \n\nte voy a pedir un favor para darte solución\n\nLista de incidencias con :\n-Descripcion de la incidencia\n-Cuenta del usuario de la incidencia (usuario, correo y password de UBUNTU TRIBE )\n\nejemplo:\nNo se genera el Codigo QR en setter\nEmail ususario: ejemplo@gmail.com\nUsario: 254\nPassword: ejemplo",
+      "isFromMe": false,
+      "messageId": "3A658E3DA55B8E647853",
+      "from": "17868213959@c.us",
+      "to": "me (5v3KpVswXcSzUTx9BQXQitJb4xJ2)",
+      "origin": "contact",
+      "timestamp": "2025-06-26T15:05:56.658Z"
+    },
+    "path": "users/5v3KpVswXcSzUTx9BQXQitJb4xJ2/chats/17868213959@c.us/messages_contact"
+  }
+]

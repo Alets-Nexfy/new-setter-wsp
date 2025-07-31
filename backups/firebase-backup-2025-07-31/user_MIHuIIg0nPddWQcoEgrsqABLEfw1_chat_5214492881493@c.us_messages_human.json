@@ -1,0 +1,72 @@
+[
+  {
+    "id": "I78m7bhH4ckr9I8R2Sz7",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5214492881493@c.us",
+      "body": "Ahí nos vemos 💖🙌🏻",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "962EBEE26F1BACFE3C81BFA908C4971D",
+      "timestamp": "2025-07-19T21:19:43.589Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214492881493@c.us/messages_human"
+  },
+  {
+    "id": "IBYmx3o7khkV8REg4vmr",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5214492881493@c.us",
+      "body": "De camiones casi no sé",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "8149AC3EB3257A4B11AD3FBEB3A0213D",
+      "timestamp": "2025-07-19T21:19:15.742Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214492881493@c.us/messages_human"
+  },
+  {
+    "id": "NqKB2whcGRvPhdBUTQDU",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5214492881493@c.us",
+      "body": "Presentación de productos RIMAN_20250714_121929_0000.pdf",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "09C41FD09EFCF74095D464F7B8952381",
+      "timestamp": "2025-07-19T20:44:06.388Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214492881493@c.us/messages_human"
+  },
+  {
+    "id": "ibv28eaq91Fdo8mSYYqV",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5214492881493@c.us",
+      "body": "",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "F7FDDE1E776A491302E3E28D4A6C9E29",
+      "timestamp": "2025-07-19T22:36:23.887Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214492881493@c.us/messages_human"
+  },
+  {
+    "id": "xjXPzhwTIy6xAEN32JLa",
+    "data": {
+      "from": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "to": "5214492881493@c.us",
+      "body": "Creo que la 10 pasa por independencia, pero no sé cuál te deje más cerca 🙈",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "56BBAC81AF2CC4A1BBBEAD2FDC7DC585",
+      "timestamp": "2025-07-19T21:19:05.331Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214492881493@c.us/messages_human"
+  }
+]

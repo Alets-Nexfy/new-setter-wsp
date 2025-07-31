@@ -1,0 +1,81 @@
+[
+  {
+    "id": "5pOzTlc8YYNlp5HG3GAw",
+    "data": {
+      "body": "Ante todo reciba usted un  cordial saludo y éxitos en sus actividades diarias",
+      "isFromMe": false,
+      "messageId": "8DE00E8E1EC52341BA871330487A38B1",
+      "from": "50763733168@c.us",
+      "to": "me (5v3KpVswXcSzUTx9BQXQitJb4xJ2)",
+      "origin": "contact",
+      "timestamp": "2025-06-26T18:21:51.795Z"
+    },
+    "path": "users/5v3KpVswXcSzUTx9BQXQitJb4xJ2/chats/50763733168@c.us/messages_all"
+  },
+  {
+    "id": "EageXGCJPUsTfIO9IsEV",
+    "data": {
+      "from": "me (5v3KpVswXcSzUTx9BQXQitJb4xJ2)",
+      "to": "50763733168@c.us",
+      "body": "Gracias por comunicarte con Dionel González. ¿Cómo podemos ayudarte?",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "431C5EED518C0ACFCB7270F99DFB7575",
+      "timestamp": "2025-06-26T18:21:52.563Z"
+    },
+    "path": "users/5v3KpVswXcSzUTx9BQXQitJb4xJ2/chats/50763733168@c.us/messages_all"
+  },
+  {
+    "id": "Oz1rAE4qBQAvDvqPbks7",
+    "data": {
+      "body": "Para corroborar si recibió correo..  Estoy su orden para cualquier consulta y asesoría.",
+      "isFromMe": false,
+      "messageId": "404C550E5980C59FD59C6E1AF14D77A0",
+      "from": "50763733168@c.us",
+      "to": "me (5v3KpVswXcSzUTx9BQXQitJb4xJ2)",
+      "origin": "contact",
+      "timestamp": "2025-06-26T18:21:52.101Z"
+    },
+    "path": "users/5v3KpVswXcSzUTx9BQXQitJb4xJ2/chats/50763733168@c.us/messages_all"
+  },
+  {
+    "id": "WmEO2ECMA9qhW1iCHkvK",
+    "data": {
+      "body": "",
+      "isFromMe": false,
+      "messageId": "3EB0E1CE91B385E99CB3",
+      "from": "50763733168@c.us",
+      "to": "me (5v3KpVswXcSzUTx9BQXQitJb4xJ2)",
+      "origin": "contact",
+      "timestamp": "2025-06-26T18:21:51.832Z"
+    },
+    "path": "users/5v3KpVswXcSzUTx9BQXQitJb4xJ2/chats/50763733168@c.us/messages_all"
+  },
+  {
+    "id": "X93p2QPIQ6PEc2UN7PRj",
+    "data": {
+      "body": "",
+      "isFromMe": false,
+      "messageId": "3EB062C81B8CF940D8AF",
+      "from": "50763733168@c.us",
+      "to": "me (5v3KpVswXcSzUTx9BQXQitJb4xJ2)",
+      "origin": "contact",
+      "timestamp": "2025-06-26T18:21:51.846Z"
+    },
+    "path": "users/5v3KpVswXcSzUTx9BQXQitJb4xJ2/chats/50763733168@c.us/messages_all"
+  },
+  {
+    "id": "lg4LpX5rIoc2LjuBcC63",
+    "data": {
+      "body": "Es un gusto saludarle, mi nombre es ILen Alexa Conde Especialista Marca Kia.",
+      "isFromMe": false,
+      "messageId": "FAC7CCAEC901F5DD10791FFDD4C3D69B",
+      "from": "50763733168@c.us",
+      "to": "me (5v3KpVswXcSzUTx9BQXQitJb4xJ2)",
+      "origin": "contact",
+      "timestamp": "2025-06-26T18:21:51.804Z"
+    },
+    "path": "users/5v3KpVswXcSzUTx9BQXQitJb4xJ2/chats/50763733168@c.us/messages_all"
+  }
+]

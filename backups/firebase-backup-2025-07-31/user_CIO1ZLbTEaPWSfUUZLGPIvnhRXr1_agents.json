@@ -1,0 +1,18 @@
+[
+  {
+    "id": "14b80892-649b-4014-85b1-4473b8a650a5",
+    "data": {
+      "id": "14b80892-649b-4014-85b1-4473b8a650a5",
+      "type": "scratch",
+      "persona": {
+        "name": "Nuevo Agente (desde cero)",
+        "instructions": "",
+        "language": "es"
+      },
+      "knowledge": {},
+      "createdAt": "2025-07-29T18:59:04.459Z",
+      "updatedAt": "2025-07-29T18:59:04.459Z"
+    },
+    "path": "users/CIO1ZLbTEaPWSfUUZLGPIvnhRXr1/agents"
+  }
+]

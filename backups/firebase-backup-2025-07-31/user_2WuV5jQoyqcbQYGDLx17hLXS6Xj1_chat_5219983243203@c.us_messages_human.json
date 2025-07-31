@@ -1,0 +1,30 @@
+[
+  {
+    "id": "DPy0WdmP6lZ9C2iqGt0y",
+    "data": {
+      "from": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "to": "5219983243203@c.us",
+      "body": "Hola Yanira",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "3A7445FDADD317C9CEDD",
+      "timestamp": "2025-06-24T17:07:03.077Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5219983243203@c.us/messages_human"
+  },
+  {
+    "id": "SXx9cz6SYyqsRJoxxrEG",
+    "data": {
+      "from": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "to": "5219983243203@c.us",
+      "body": "Estás disponible para buscarnos en aeropuerto ?",
+      "isFromMe": true,
+      "isAutoReply": false,
+      "origin": "human",
+      "messageId": "3AED08158CDE6E09AF90",
+      "timestamp": "2025-06-24T17:07:46.117Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/5219983243203@c.us/messages_human"
+  }
+]

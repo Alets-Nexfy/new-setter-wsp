@@ -1,0 +1,41 @@
+[
+  {
+    "id": "D69W9iEKWWslXA0friQl",
+    "data": {
+      "body": "Aprovecha",
+      "isFromMe": false,
+      "messageId": "E3352B1AE0AB862A0E08F28C4C1FE7AC",
+      "from": "5214491423173@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-20T16:42:22.692Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214491423173@c.us/messages_contact"
+  },
+  {
+    "id": "i9N0BE5VkxN6xq5aUKDB",
+    "data": {
+      "body": "🤣🤣🤣🤣",
+      "isFromMe": false,
+      "messageId": "D570941144378FA9884D8D1EC364214E",
+      "from": "5214491423173@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-20T16:41:51.284Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214491423173@c.us/messages_contact"
+  },
+  {
+    "id": "iBRDwPNGxqfGdp1tTHm7",
+    "data": {
+      "body": "En fatima",
+      "isFromMe": false,
+      "messageId": "F0EEAB21B051DE0B81E9269AB78851F6",
+      "from": "5214491423173@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-20T16:47:35.993Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214491423173@c.us/messages_contact"
+  }
+]

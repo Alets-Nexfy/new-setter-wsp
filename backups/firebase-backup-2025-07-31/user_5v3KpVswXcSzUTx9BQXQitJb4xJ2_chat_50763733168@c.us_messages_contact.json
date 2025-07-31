@@ -1,0 +1,67 @@
+[
+  {
+    "id": "0rTYuerP2jHnUfWdZCoK",
+    "data": {
+      "body": "Es un gusto saludarle, mi nombre es ILen Alexa Conde Especialista Marca Kia.",
+      "isFromMe": false,
+      "messageId": "FAC7CCAEC901F5DD10791FFDD4C3D69B",
+      "from": "50763733168@c.us",
+      "to": "me (5v3KpVswXcSzUTx9BQXQitJb4xJ2)",
+      "origin": "contact",
+      "timestamp": "2025-06-26T18:21:51.724Z"
+    },
+    "path": "users/5v3KpVswXcSzUTx9BQXQitJb4xJ2/chats/50763733168@c.us/messages_contact"
+  },
+  {
+    "id": "46OmOvaCKnvrQhH1mgV0",
+    "data": {
+      "body": "Para corroborar si recibió correo..  Estoy su orden para cualquier consulta y asesoría.",
+      "isFromMe": false,
+      "messageId": "404C550E5980C59FD59C6E1AF14D77A0",
+      "from": "50763733168@c.us",
+      "to": "me (5v3KpVswXcSzUTx9BQXQitJb4xJ2)",
+      "origin": "contact",
+      "timestamp": "2025-06-26T18:21:52.015Z"
+    },
+    "path": "users/5v3KpVswXcSzUTx9BQXQitJb4xJ2/chats/50763733168@c.us/messages_contact"
+  },
+  {
+    "id": "7Q7cYEPLlFAPGdGWdtEO",
+    "data": {
+      "body": "",
+      "isFromMe": false,
+      "messageId": "3EB0E1CE91B385E99CB3",
+      "from": "50763733168@c.us",
+      "to": "me (5v3KpVswXcSzUTx9BQXQitJb4xJ2)",
+      "origin": "contact",
+      "timestamp": "2025-06-26T18:21:51.701Z"
+    },
+    "path": "users/5v3KpVswXcSzUTx9BQXQitJb4xJ2/chats/50763733168@c.us/messages_contact"
+  },
+  {
+    "id": "RcTrlqrEztbXrWfLYOdC",
+    "data": {
+      "body": "Ante todo reciba usted un  cordial saludo y éxitos en sus actividades diarias",
+      "isFromMe": false,
+      "messageId": "8DE00E8E1EC52341BA871330487A38B1",
+      "from": "50763733168@c.us",
+      "to": "me (5v3KpVswXcSzUTx9BQXQitJb4xJ2)",
+      "origin": "contact",
+      "timestamp": "2025-06-26T18:21:51.719Z"
+    },
+    "path": "users/5v3KpVswXcSzUTx9BQXQitJb4xJ2/chats/50763733168@c.us/messages_contact"
+  },
+  {
+    "id": "xO6EKzVNlt1LRXffd987",
+    "data": {
+      "body": "",
+      "isFromMe": false,
+      "messageId": "3EB062C81B8CF940D8AF",
+      "from": "50763733168@c.us",
+      "to": "me (5v3KpVswXcSzUTx9BQXQitJb4xJ2)",
+      "origin": "contact",
+      "timestamp": "2025-06-26T18:21:51.752Z"
+    },
+    "path": "users/5v3KpVswXcSzUTx9BQXQitJb4xJ2/chats/50763733168@c.us/messages_contact"
+  }
+]

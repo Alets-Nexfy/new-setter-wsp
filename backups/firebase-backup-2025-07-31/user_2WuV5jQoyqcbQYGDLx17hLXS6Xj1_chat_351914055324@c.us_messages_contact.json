@@ -1,0 +1,28 @@
+[
+  {
+    "id": "5ux1ycdEa5OvjAj60n6C",
+    "data": {
+      "body": "rooftop?",
+      "isFromMe": false,
+      "messageId": "3A511885F0E74F913A1D",
+      "from": "351914055324@c.us",
+      "to": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "origin": "contact",
+      "timestamp": "2025-06-26T01:32:33.619Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/351914055324@c.us/messages_contact"
+  },
+  {
+    "id": "YxTSkV2yKDCsDP7ZrEb6",
+    "data": {
+      "body": "Ricardo e tal tambien estavan para ir a comer. tienes ai lugar? para cenar?",
+      "isFromMe": false,
+      "messageId": "3A49DD524326A8691EA2",
+      "from": "351914055324@c.us",
+      "to": "me (2WuV5jQoyqcbQYGDLx17hLXS6Xj1)",
+      "origin": "contact",
+      "timestamp": "2025-06-26T01:33:25.494Z"
+    },
+    "path": "users/2WuV5jQoyqcbQYGDLx17hLXS6Xj1/chats/351914055324@c.us/messages_contact"
+  }
+]

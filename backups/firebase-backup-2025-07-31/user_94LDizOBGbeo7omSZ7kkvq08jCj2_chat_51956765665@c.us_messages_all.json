@@ -1,0 +1,28 @@
+[
+  {
+    "id": "24evVWgaRJxhcZOzkqKc",
+    "data": {
+      "from": "me (IA - 94LDizOBGbeo7omSZ7kkvq08jCj2)",
+      "to": "51956765665@c.us",
+      "body": "¡Hola!  Para bajar de peso necesitas dos cosas, clave:  un déficit calórico (gastar más calorías de las que consumes) y una rutina de ejercicios.  La pérdida de peso es gradual,  no esperes milagros de la noche a la mañana.  Un kilo por semana es un buen objetivo.  Para saber más sobre cómo lograrlo de forma segura y efectiva, te invito a nuestro webinar de SiempreFit.  ¡Ahí te daremos más detalles!\n",
+      "isFromMe": true,
+      "isAutoReply": true,
+      "origin": "bot",
+      "timestamp": "2025-05-12T17:20:37.313Z"
+    },
+    "path": "users/94LDizOBGbeo7omSZ7kkvq08jCj2/chats/51956765665@c.us/messages_all"
+  },
+  {
+    "id": "Dfqg5OXNm4elq4U1YW8m",
+    "data": {
+      "body": "Cómo hago para bajar de peso?",
+      "isFromMe": false,
+      "messageId": "3AB1A8D4904E2B9AAAFD",
+      "from": "51956765665@c.us",
+      "to": "me (94LDizOBGbeo7omSZ7kkvq08jCj2)",
+      "origin": "contact",
+      "timestamp": "2025-05-12T17:20:32.364Z"
+    },
+    "path": "users/94LDizOBGbeo7omSZ7kkvq08jCj2/chats/51956765665@c.us/messages_all"
+  }
+]

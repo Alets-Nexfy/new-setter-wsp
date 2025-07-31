@@ -1,0 +1,15 @@
+[
+  {
+    "id": "q7RVJIJBMDt1ziCa8siv",
+    "data": {
+      "body": "Quiero 1",
+      "isFromMe": false,
+      "messageId": "3A989184B81597EB2A0A",
+      "from": "5214493939384@c.us",
+      "to": "me (MIHuIIg0nPddWQcoEgrsqABLEfw1)",
+      "origin": "contact",
+      "timestamp": "2025-07-18T14:38:34.888Z"
+    },
+    "path": "users/MIHuIIg0nPddWQcoEgrsqABLEfw1/chats/5214493939384@c.us/messages_contact"
+  }
+]
