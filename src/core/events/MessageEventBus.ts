@@ -129,6 +129,10 @@ export class MessageEventBus extends EventEmitter {
 
   constructor() {
     super();
+    
+    // Configure EventEmitter for high-throughput message processing
+    this.setMaxListeners(200);
+    
     this.logger = LoggerService.getInstance();
     this.firebase = DatabaseService.getInstance();
     this.cache = CacheService.getInstance();

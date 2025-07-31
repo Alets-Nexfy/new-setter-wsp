@@ -6,6 +6,8 @@ import aiRoutes from './ai';
 import generalRoutes from './general';
 import promptGeneratorRoutes from './promptGenerator';
 import tierManagementRoutes from './tierManagement';
+import multiAgentRoutes from './multiAgent';
+import b2bRoutes from './b2b';
 
 const router = Router();
 
@@ -26,6 +28,8 @@ router.use('/ai', aiRoutes);
 router.use('/general', generalRoutes);
 router.use('/prompt-generator', promptGeneratorRoutes);
 router.use('/tier-management', tierManagementRoutes);
+router.use('/multi-agent', multiAgentRoutes);
+router.use('/b2b', b2bRoutes);
 
 // Legacy V1 compatibility routes
 router.use('/users', agentsRoutes); // For backward compatibility

@@ -21,6 +21,9 @@ import { AIService } from '../../core/services/AIService';
 import { CacheService } from '../../core/services/CacheService';
 import { LoggerService } from '../../core/services/LoggerService';
 import { MessageBrokerService } from '../../core/services/MessageBrokerService';
+import { AgentTriggerService } from '../../core/services/AgentTriggerService';
+import { AgentSwitchingService } from '../../core/services/AgentSwitchingService';
+import { TriggerMatchResult, AgentSwitchResult } from '../../core/types/MultiAgent';
 import environment from '../../../config/environment';
 
 // === INTERFACES MULTIUSUARIO ===
@@ -114,6 +117,8 @@ export class WhatsAppWorker extends EventEmitter {
   private cache: CacheService;
   private logger: LoggerService;
   private messageBroker: MessageBrokerService;
+  private agentTriggerService: AgentTriggerService;
+  private agentSwitchingService: AgentSwitchingService;
   
   // === PATHS ÚNICOS POR USUARIO ===
   private readonly userDataPath: string;
@@ -160,6 +165,9 @@ export class WhatsAppWorker extends EventEmitter {
   ) {
     super();
     
+    // Configure EventEmitter for multiple user connections
+    this.setMaxListeners(50);
+    
     // VALIDACIÓN CRÍTICA
     if (!userId || typeof userId !== 'string' || userId.trim().length === 0) {
       throw new Error('UserId es requerido y debe ser un string válido');
@@ -175,6 +183,10 @@ export class WhatsAppWorker extends EventEmitter {
     this.cache = CacheService.getInstance();
     this.logger = LoggerService.getInstance();
     this.messageBroker = MessageBrokerService.getInstance();
+    
+    // === SERVICIOS MULTI-AGENTE ===
+    this.agentTriggerService = AgentTriggerService.getInstance();
+    this.agentSwitchingService = AgentSwitchingService.getInstance();
     
     // === PATHS ÚNICOS POR USUARIO ===
     const basePath = process.env.USER_DATA_PATH || path.join(process.cwd(), 'data_v2');
@@ -457,6 +469,12 @@ export class WhatsAppWorker extends EventEmitter {
     this.client.on('qr', async (qr: string) => {
       try {
         this.logger.info(`[${this.userId}] QR Code generado`);
+        
+        // MOSTRAR QR EN CONSOLA PARA DEBUGGING
+        const qrTerminal = require('qrcode-terminal');
+        console.log(`\n🎯 QR PARA ${this.userId.toUpperCase()}:`);
+        qrTerminal.generate(qr, { small: true });
+        console.log(`📱 Escanea con WhatsApp en tu teléfono\n`);
         this.connectionStatus = 'qr';
         this.qrCode = qr;
         this.qrExpiresAt = new Date(Date.now() + this.QR_TIMEOUT_MS);
@@ -543,6 +561,10 @@ export class WhatsAppWorker extends EventEmitter {
     
     // === MESSAGE RECEIVED ===
     this.client.on('message', async (message) => {
+      console.log(`\n📩 MENSAJE RECIBIDO EN ${this.userId.toUpperCase()}:`);
+      console.log(`From: ${message.from}`);
+      console.log(`Body: ${message.body}`);
+      this.logger.info(`[${this.userId}] Mensaje recibido de ${message.from}: ${message.body}`);
       await this.handleIncomingMessage(message);
     });
     
@@ -605,14 +627,17 @@ export class WhatsAppWorker extends EventEmitter {
       
       // VERIFICAR PRESENCIA HUMANA
       const userIsActive = await this.isUserActiveInChat(sender);
-      this.logger.debug(`[${this.userId}] Verificación presencia:`, { sender, isActive: userIsActive });
+      console.log(`🔍 PRESENCIA HUMANA: ${userIsActive ? 'ACTIVO' : 'INACTIVO'}`);
+      this.logger.info(`[${this.userId}] Verificación presencia:`, { sender, isActive: userIsActive });
       
       // VERIFICAR ESTADO DE PAUSA
-      this.logger.debug(`[${this.userId}] Estado pausa:`, { isPaused: this.botPauseState });
+      console.log(`⏸️  ESTADO PAUSA: ${this.botPauseState ? 'PAUSADO' : 'ACTIVO'}`);
+      this.logger.info(`[${this.userId}] Estado pausa:`, { isPaused: this.botPauseState });
       
       // VERIFICAR ACTIVACIÓN DE CHAT
       const chatIsActivated = await this.isChatActivated(sender);
-      this.logger.debug(`[${this.userId}] Verificación activación:`, { sender, isActivated: chatIsActivated });
+      console.log(`🎯 CHAT ACTIVADO: ${chatIsActivated ? 'SÍ' : 'NO'}`);
+      this.logger.info(`[${this.userId}] Verificación activación:`, { sender, isActivated: chatIsActivated });
       
       // VERIFICAR TRIGGER INICIAL
       let isInitialTrigger = false;
@@ -626,19 +651,34 @@ export class WhatsAppWorker extends EventEmitter {
         }
       }
       
+      // === MULTI-AGENT LOGIC ===
+      const agentSwitched = await this.handleMultiAgentLogic(message, sender, chatIsActivated, isInitialTrigger);
+      
       // PROCESAR AUTO-RESPUESTA SI SE CUMPLEN CONDICIONES
-      if (!userIsActive && !this.botPauseState && (chatIsActivated || isInitialTrigger)) {
-        this.logger.info(`[${this.userId}] Condiciones para auto-respuesta cumplidas:`, { sender });
+      // Si hubo un agent switch, forzamos la respuesta AI independientemente de la presencia humana
+      if ((!userIsActive && !this.botPauseState && (chatIsActivated || isInitialTrigger)) || agentSwitched) {
+        const reason = agentSwitched ? 'agent switch occurred' : 'normal conditions';
+        this.logger.info(`[${this.userId}] Condiciones para auto-respuesta cumplidas (${reason}):`, { sender });
+        if (agentSwitched) {
+          console.log(`🔄 FORZANDO RESPUESTA AI TRAS AGENT SWITCH`);
+        }
         
         // 1. PROCESAR REGLAS DE AUTOMATIZACIÓN
+        console.log(`🔧 PROCESANDO REGLAS DE AUTOMATIZACIÓN...`);
         const ruleMatched = await this.processAutomationRules(message);
+        console.log(`📋 REGLAS RESULTADO: ${ruleMatched ? 'MATCH' : 'NO MATCH'}`);
         
         // 2. PROCESAR ACTION FLOWS
+        console.log(`🌊 PROCESANDO ACTION FLOWS...`);
         const flowExecuted = await this.processActionFlows(message);
+        console.log(`📊 FLOWS RESULTADO: ${flowExecuted ? 'EJECUTADO' : 'NO EJECUTADO'}`);
         
         // 3. GENERAR RESPUESTA AI SI NO HAY REGLAS/FLOWS
         if (!ruleMatched && !flowExecuted) {
+          console.log(`🤖 GENERANDO RESPUESTA AI CON GEMINI...`);
           await this.generateAIResponse(message);
+        } else {
+          console.log(`⏭️  SALTANDO AI: reglas o flows ya procesados`);
         }
         
       } else {
@@ -668,6 +708,169 @@ export class WhatsAppWorker extends EventEmitter {
         details: error instanceof Error ? error.message : 'Error desconocido'
       });
     }
+  }
+
+  /**
+   * MANEJA LA LÓGICA MULTI-AGENTE - SELECCIÓN Y CAMBIO DE AGENTES
+   */
+  private async handleMultiAgentLogic(
+    message: any, 
+    chatId: string, 
+    chatIsActivated: boolean, 
+    isInitialTrigger: boolean
+  ): Promise<boolean> {
+    try {
+      console.log(`🔥 MULTI-AGENT LOGIC INICIADO:`, { 
+        chatId, 
+        chatIsActivated, 
+        isInitialTrigger, 
+        messageBody: message.body 
+      });
+      
+      const messageText = message.body || '';
+      
+      // Si es un trigger inicial, evaluar qué agente debe manejar este chat
+      if (isInitialTrigger || !chatIsActivated) {
+        console.log(`🎯 EVALUANDO TRIGGER INICIAL MULTI-AGENTE...`);
+        
+        const triggerResult = await this.agentTriggerService.evaluateInitialTriggers(
+          this.userId, 
+          messageText, 
+          chatId
+        );
+        
+        if (triggerResult.matched && triggerResult.agentId) {
+          console.log(`✅ AGENTE INICIAL SELECCIONADO: ${triggerResult.agentId}`);
+          console.log(`📝 RAZÓN: ${triggerResult.reason}`);
+          
+          const switchResult = await this.agentSwitchingService.switchAgent(
+            this.userId,
+            chatId,
+            triggerResult.agentId,
+            'initial_trigger',
+            triggerResult.trigger?.keyword
+          );
+          
+          if (switchResult.success) {
+            this.logger.info(`[${this.userId}] Agente inicial asignado:`, {
+              chatId,
+              agentId: triggerResult.agentId,
+              reason: triggerResult.reason
+            });
+            
+            // Limpiar cache de AI para forzar respuesta con nuevo agente
+            const { AIService } = await import('../../core/services/AIService');
+            const aiService = AIService.getInstance();
+            aiService.clearResponseCache();
+            
+            // Pequeño delay para asegurar que el cache se actualice
+            await new Promise(resolve => setTimeout(resolve, 100));
+            
+            return true; // Agent switched successfully
+          }
+        }
+      } else {
+        // Chat ya activado - verificar si necesitamos cambiar de agente
+        console.log(`🔄 CHAT YA ACTIVADO - VERIFICANDO CAMBIO DE AGENTE...`);
+        const currentAgentId = await this.agentSwitchingService.getCurrentAgent(this.userId, chatId);
+        console.log(`🔍 CURRENT AGENT ID:`, currentAgentId);
+        
+        if (currentAgentId) {
+          console.log(`🔄 EVALUANDO CAMBIO DE AGENTE (actual: ${currentAgentId})...`);
+          
+          const switchTriggerResult = await this.agentTriggerService.evaluateSwitchTriggers(
+            this.userId,
+            messageText,
+            currentAgentId,
+            chatId
+          );
+          
+          if (switchTriggerResult.matched && switchTriggerResult.agentId) {
+            console.log(`🔀 CAMBIO DE AGENTE DETECTADO: ${currentAgentId} → ${switchTriggerResult.agentId}`);
+            console.log(`📝 RAZÓN: ${switchTriggerResult.reason}`);
+            
+            const switchResult = await this.agentSwitchingService.switchAgent(
+              this.userId,
+              chatId,
+              switchTriggerResult.agentId,
+              'switch_trigger',
+              switchTriggerResult.trigger?.keyword
+            );
+            
+            if (switchResult.success && switchResult.switched) {
+              this.logger.info(`[${this.userId}] Agente cambiado exitosamente:`, {
+                chatId,
+                fromAgent: switchResult.fromAgent,
+                toAgent: switchResult.toAgent,
+                reason: switchResult.reason
+              });
+              
+              // Enviar mensaje de transición si está configurado
+              if (switchResult.message) {
+                await this.sendMessage(chatId, switchResult.message, 'agent_switch');
+              }
+              
+              // Limpiar cache de AI para forzar respuesta con nuevo agente
+              const { AIService } = await import('../../core/services/AIService');
+              const aiService = AIService.getInstance();
+              aiService.clearResponseCache();
+              
+              // Pequeño delay para asegurar que el cache se actualice
+              await new Promise(resolve => setTimeout(resolve, 100));
+              
+              return true; // Agent switched successfully
+            }
+          } else {
+            console.log(`➡️  MANTENIENDO AGENTE ACTUAL: ${currentAgentId}`);
+          }
+        } else {
+          console.log(`❌ NO HAY AGENTE ACTUAL - EVALUANDO TRIGGER INICIAL...`);
+          
+          const triggerResult = await this.agentTriggerService.evaluateInitialTriggers(
+            this.userId, 
+            messageText, 
+            chatId
+          );
+          
+          if (triggerResult.matched && triggerResult.agentId) {
+            console.log(`✅ AGENTE SELECCIONADO (sin agente previo): ${triggerResult.agentId}`);
+            console.log(`📝 RAZÓN: ${triggerResult.reason}`);
+            
+            const switchResult = await this.agentSwitchingService.switchAgent(
+              this.userId,
+              chatId,
+              triggerResult.agentId,
+              'initial_trigger',
+              triggerResult.trigger?.keyword
+            );
+            
+            if (switchResult.success) {
+              this.logger.info(`[${this.userId}] Agente asignado (chat activo):`, {
+                chatId,
+                agentId: triggerResult.agentId,
+                reason: triggerResult.reason
+              });
+              
+              // Limpiar cache de AI para forzar respuesta con nuevo agente
+              const { AIService } = await import('../../core/services/AIService');
+              const aiService = AIService.getInstance();
+              aiService.clearResponseCache();
+              
+              // Pequeño delay para asegurar que el cache se actualice
+              await new Promise(resolve => setTimeout(resolve, 100));
+              
+              return true; // Agent switched successfully
+            }
+          }
+        }
+      }
+      
+    } catch (error) {
+      this.logger.error(`[${this.userId}] Error en lógica multi-agente:`, error);
+      console.log(`❌ ERROR MULTI-AGENTE: ${error instanceof Error ? error.message : 'Error desconocido'}`);
+    }
+    
+    return false; // No agent switch occurred
   }
 
   /**
@@ -788,7 +991,9 @@ export class WhatsAppWorker extends EventEmitter {
       const messageText = message.body?.toLowerCase()?.trim() || '';
       
       if (!messageText || this.initialTriggers.length === 0) {
-        return false;
+        // TRIGGER TEMPORAL: activar cualquier mensaje como inicial para debugging
+        console.log(`🚀 TRIGGER TEMPORAL ACTIVADO: cualquier mensaje activa el chat`);
+        return true;
       }
       
       for (const trigger of this.initialTriggers) {
@@ -1302,19 +1507,62 @@ export class WhatsAppWorker extends EventEmitter {
     }
   }
 
+
   /**
    * GENERAR RESPUESTA AI CON CONTEXTO COMPLETO
    */
   private async generateAIResponse(message: any): Promise<void> {
     try {
-      if (!this.currentAgentConfig) {
-        this.logger.debug(`[${this.userId}] No hay configuración de agente para respuesta AI`);
-        return;
+      console.log(`🔧 INICIANDO generateAIResponse...`);
+      
+      // Obtener el agente actual para este chat
+      const chatId = message.from;
+      const currentAgentId = await this.agentSwitchingService.getCurrentAgent(this.userId, chatId);
+      
+      console.log(`🎭 CURRENT AGENT ID: ${currentAgentId || 'NINGUNO'}`);
+      
+      // Si no hay agente asignado, usar el agente por defecto o crear uno
+      let agentConfig = null;
+      if (currentAgentId) {
+        // Obtener configuración del agente actual
+        const { AgentService } = await import('../../core/services/AgentService');
+        const agentService = AgentService.getInstance();
+        agentConfig = await agentService.getAgent(this.userId, currentAgentId);
+      }
+      
+      if (!agentConfig) {
+        console.log(`❌ SIN AGENTE CONFIGURADO - CREANDO AGENTE POR DEFECTO...`);
+        this.logger.info(`[${this.userId}] No hay configuración de agente, creando uno por defecto`);
+        
+        // CREAR AGENTE POR DEFECTO TEMPORAL
+        agentConfig = {
+          id: 'default-agent',
+          userId: this.userId,
+          persona: {
+            name: 'Asistente Virtual',
+            role: 'Asistente',
+            language: 'es',
+            tone: 'Amigable',
+            style: 'Conversacional',
+            instructions: 'Eres un asistente virtual amigable y útil. Responde de manera cordial y profesional.',
+            guidelines: []
+          },
+          knowledge: {
+            files: [],
+            urls: [],
+            qandas: [],
+            writingSampleTxt: ''
+          },
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        };
+        
+        console.log(`✅ AGENTE POR DEFECTO CREADO TEMPORALMENTE`);
       }
       
       this.logger.info(`[${this.userId}] Generando respuesta AI para:`, { 
         sender: message.from,
-        agent: this.currentAgentConfig.persona.name 
+        agent: agentConfig.persona.name 
       });
       
       // CONSTRUIR CONTEXTO DE CONVERSACIÓN
@@ -1324,7 +1572,7 @@ export class WhatsAppWorker extends EventEmitter {
       const aiRequest = {
         message: message.body || '',
         context,
-        agentConfig: this.currentAgentConfig,
+        agentConfig: agentConfig,
         userId: this.userId, // AISLAMIENTO
         chatId: message.from,
         messageId: message.id._serialized,
@@ -1334,11 +1582,19 @@ export class WhatsAppWorker extends EventEmitter {
       };
       
       // GENERAR RESPUESTA CON AI SERVICE
-      const response = await this.ai.generateResponse(aiRequest);
+      console.log(`🧠 LLAMANDO AI SERVICE CON CONTEXTO...`);
+      const response = await this.ai.generateConversationResponse(
+        this.userId,
+        message.from,
+        message.body || '',
+        agentConfig,
+        {}
+      );
+      console.log(`🤖 RESPUESTA AI RECIBIDA:`, { success: response.success, hasText: !!response.content });
       
-      if (response && response.text && response.text.trim()) {
+      if (response && response.content && response.content.trim()) {
         // ENVIAR RESPUESTA
-        await this.sendMessage(message.from, response.text.trim(), 'ai_response');
+        await this.sendMessage(message.from, response.content.trim(), 'ai_response');
         
         // REGISTRAR RESPUESTA AI
         await this.logAIResponse(message.from, message.id._serialized, response);
@@ -1424,7 +1680,7 @@ export class WhatsAppWorker extends EventEmitter {
         .add({
           chatId,
           messageId,
-          response: response.text,
+          response: response.content || response.text || 'No response content',
           agentId: this.currentAgentConfig?.id,
           agentName: this.currentAgentConfig?.persona?.name,
           userId: this.userId,
@@ -1595,7 +1851,7 @@ export class WhatsAppWorker extends EventEmitter {
         lastMessageTimestamp: messageData.timestamp,
         lastMessageType: messageData.type,
         lastMessageOrigin: 'human',
-        userIsActive: true, // MARCA PRESENCIA HUMANA
+        // userIsActive se maneja por separado - no marcar automáticamente
         lastActivityTimestamp: new Date(),
         unreadCount: 1 // TODO: calcular correctamente
       });

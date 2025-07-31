@@ -168,9 +168,13 @@ export class AIService {
           }
         }
 
+        console.log(`🧠 LLAMANDO GEMINI con prompt length: ${finalPrompt.length}`);
         const result = await this.geminiModel.generateContent(finalPrompt);
         const response = result.response;
-        const responseText = await response.text();
+        
+        // Usar el método correcto para obtener el texto
+        const responseText = response.text();
+        console.log(`📝 RESPONSE TEXT:`, responseText, `(type: ${typeof responseText})`);
 
         if (!responseText) {
           throw new Error('Empty response from Gemini');
@@ -738,6 +742,14 @@ Comienza directamente con la definición del agente (Ej: "Eres [Nombre del Agent
         }
       }
     }
+  }
+
+  /**
+   * Clear response cache - useful when agent switches
+   */
+  public clearResponseCache(): void {
+    this.responseCache.clear();
+    this.logger.debug('AI response cache cleared');
   }
 
   /**

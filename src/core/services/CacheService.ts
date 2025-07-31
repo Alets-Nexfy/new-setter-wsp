@@ -11,6 +11,9 @@ export class CacheService {
       url: environment.redis.url,
       password: environment.redis.password,
       socket: {
+        connectTimeout: 10000,
+        lazyConnect: true,
+        keepAlive: 30000,
         reconnectStrategy: (retries) => {
           if (retries > 10) {
             return new Error('Redis connection failed after 10 retries');
@@ -18,6 +21,10 @@ export class CacheService {
           return Math.min(retries * 100, 3000);
         },
       },
+      // Connection pooling optimizations for multiple users
+      database: 0,
+      commandsQueueMaxLength: 1000,
+      maxRetriesPerRequest: 3,
     });
 
     this.setupEventHandlers();

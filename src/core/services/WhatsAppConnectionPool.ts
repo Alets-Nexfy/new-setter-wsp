@@ -34,8 +34,8 @@ interface DedicatedWorker {
 interface UserSession {
   userId: string;
   tier: UserTier;
-  connectionType: 'shared' | 'semi-dedicated' | 'dedicated';
-  connectionId?: string; // Para shared/semi-dedicated
+  connectionType: 'shared' | 'semi-dedicated' | 'dedicated' | 'enterprise_b2b';
+  connectionId?: string; // Para shared/semi-dedicated/enterprise_b2b
   workerId?: string; // Para dedicated
   isAuthenticated: boolean;
   phoneNumber?: string;
@@ -63,6 +63,11 @@ export class WhatsAppConnectionPool extends EventEmitter {
   // Dedicated workers for enterprise users
   private dedicatedWorkers: Map<string, DedicatedWorker> = new Map();
   
+  // Enterprise B2B pool for partner platforms (optimized for 10-100 users)
+  private enterpriseB2BPool: Map<string, ConnectionSlot> = new Map();
+  private readonly ENTERPRISE_B2B_POOL_SIZE = 25; // Can handle up to 125 users (25 * 5)
+  private readonly USERS_PER_B2B_CONNECTION = 5; // Sweet spot for enterprise features with shared resources
+  
   // User session tracking
   private userSessions: Map<string, UserSession> = new Map();
   
@@ -81,6 +86,10 @@ export class WhatsAppConnectionPool extends EventEmitter {
 
   constructor() {
     super();
+    
+    // Configure EventEmitter to handle more listeners for multiple users
+    this.setMaxListeners(100);
+    
     this.logger = LoggerService.getInstance();
     this.firebase = DatabaseService.getInstance();
     this.tierService = new UserTierService();
@@ -99,6 +108,9 @@ export class WhatsAppConnectionPool extends EventEmitter {
       // Initialize semi-dedicated pool
       await this.initializeSemiDedicatedPool();
       
+      // Initialize enterprise B2B pool
+      await this.initializeEnterpriseB2BPool();
+      
       // Setup monitoring
       this.startHealthChecks();
       this.startOptimizationCycle();
@@ -107,6 +119,7 @@ export class WhatsAppConnectionPool extends EventEmitter {
       this.logger.info('WhatsApp Connection Pool initialized successfully', {
         sharedSlots: this.sharedPool.size,
         semiDedicatedSlots: this.semiDedicatedPool.size,
+        enterpriseB2BSlots: this.enterpriseB2BPool.size,
         dedicatedWorkers: this.dedicatedWorkers.size
       });
 
@@ -132,6 +145,9 @@ export class WhatsAppConnectionPool extends EventEmitter {
       if (tierInfo.configuration.resources.dedicatedWorker) {
         // Enterprise: Dedicated worker
         session = await this.connectToDedicatedWorker(userId, tierInfo.tier);
+      } else if (tierInfo.tier === 'enterprise_b2b') {
+        // Enterprise B2B: Shared pool with enterprise features
+        session = await this.connectToEnterpriseB2BPool(userId, tierInfo.tier);
       } else if (tierInfo.tier === 'professional') {
         // Professional: Semi-dedicated pool
         session = await this.connectToSemiDedicatedPool(userId, tierInfo.tier);
@@ -375,6 +391,176 @@ export class WhatsAppConnectionPool extends EventEmitter {
       }
     }
     return null;
+  }
+
+  // ========== ENTERPRISE B2B POOL MANAGEMENT ==========
+  
+  // Connect to Enterprise B2B pool (enterprise features with shared resources)
+  private async connectToEnterpriseB2BPool(userId: string, tier: UserTier): Promise<UserSession> {
+    let availableSlot = this.findAvailableEnterpriseB2BSlot();
+    
+    if (!availableSlot) {
+      if (this.enterpriseB2BPool.size >= this.ENTERPRISE_B2B_POOL_SIZE) {
+        // Scale up if needed
+        await this.scaleUpEnterpriseB2BPool();
+        availableSlot = this.findAvailableEnterpriseB2BSlot();
+      }
+      
+      if (!availableSlot) {
+        availableSlot = await this.createEnterpriseB2BSlot();
+      }
+    }
+
+    availableSlot.users.add(userId);
+    availableSlot.lastActivity = new Date();
+
+    const session: UserSession = {
+      userId,
+      tier,
+      connectionType: 'enterprise_b2b',
+      connectionId: availableSlot.id,
+      isAuthenticated: false,
+      lastActivity: new Date(),
+      messageCount: 0
+    };
+
+    this.setupEnterpriseB2BClientHandlers(availableSlot.client, userId);
+
+    return session;
+  }
+
+  // Enterprise B2B pool initialization
+  private async initializeEnterpriseB2BPool(): Promise<void> {
+    this.logger.info('Initializing Enterprise B2B pool', { 
+      targetSize: this.ENTERPRISE_B2B_POOL_SIZE,
+      usersPerConnection: this.USERS_PER_B2B_CONNECTION
+    });
+    
+    // Pre-create 3 B2B slots for immediate availability
+    for (let i = 0; i < 3; i++) {
+      await this.createEnterpriseB2BSlot();
+    }
+  }
+
+  private async createEnterpriseB2BSlot(): Promise<ConnectionSlot> {
+    const slotId = `b2b_enterprise_${uuidv4()}`;
+    
+    const client = new Client({
+      authStrategy: new LocalAuth({
+        clientId: slotId,
+        dataPath: path.join(process.env.USER_DATA_PATH || './data_v2', 'enterprise-b2b', slotId)
+      }),
+      puppeteer: {
+        headless: process.env.WHATSAPP_PUPPETEER_HEADLESS === 'true',
+        args: [
+          '--no-sandbox',
+          '--disable-setuid-sandbox',
+          '--disable-dev-shm-usage',
+          '--disable-accelerated-2d-canvas',
+          '--no-first-run',
+          '--no-zygote',
+          '--disable-gpu',
+          '--memory-pressure-off', // Optimize for enterprise performance
+          '--max-old-space-size=512' // Higher memory per connection for enterprise features
+        ]
+      }
+    });
+
+    const slot: ConnectionSlot = {
+      id: slotId,
+      client,
+      users: new Set(),
+      maxUsers: this.USERS_PER_B2B_CONNECTION,
+      status: 'initializing',
+      lastActivity: new Date(),
+      resourceUsage: { memoryMB: 0, cpuPercent: 0 },
+      tier: 'enterprise_b2b'
+    };
+
+    this.setupEnterpriseB2BSlotHandlers(slot);
+    this.enterpriseB2BPool.set(slotId, slot);
+
+    await client.initialize();
+
+    this.logger.info('Enterprise B2B slot created', { 
+      slotId, 
+      maxUsers: this.USERS_PER_B2B_CONNECTION,
+      tier: 'enterprise_b2b'
+    });
+    return slot;
+  }
+
+  private findAvailableEnterpriseB2BSlot(): ConnectionSlot | null {
+    for (const slot of this.enterpriseB2BPool.values()) {
+      if (slot.status === 'ready' && slot.users.size < slot.maxUsers) {
+        return slot;
+      }
+    }
+    return null;
+  }
+
+  private async scaleUpEnterpriseB2BPool(): Promise<void> {
+    if (this.enterpriseB2BPool.size >= this.ENTERPRISE_B2B_POOL_SIZE) {
+      return;
+    }
+
+    this.logger.info('Scaling up Enterprise B2B pool');
+    await this.createEnterpriseB2BSlot();
+  }
+
+  private setupEnterpriseB2BSlotHandlers(slot: ConnectionSlot): void {
+    const client = slot.client;
+
+    client.on('qr', (qr: string) => {
+      this.handleEnterpriseB2BQR(slot, qr);
+    });
+
+    client.on('ready', () => {
+      slot.status = 'ready';
+      this.logger.info('Enterprise B2B slot ready', { slotId: slot.id });
+      this.emit('slot:ready', { type: 'enterprise_b2b', slotId: slot.id });
+    });
+
+    client.on('auth_failure', (msg: string) => {
+      slot.status = 'error';
+      this.logger.error('Enterprise B2B slot auth failure', { slotId: slot.id, message: msg });
+      this.emit('slot:auth_failure', { type: 'enterprise_b2b', slotId: slot.id, error: msg });
+    });
+
+    client.on('disconnected', (reason: string) => {
+      slot.status = 'disconnected';
+      this.logger.warn('Enterprise B2B slot disconnected', { slotId: slot.id, reason });
+      this.emit('slot:disconnected', { type: 'enterprise_b2b', slotId: slot.id, reason });
+    });
+  }
+
+  private setupEnterpriseB2BClientHandlers(client: Client, userId: string): void {
+    client.on('message', async (message: any) => {
+      if (message.from.includes(userId) || message.to.includes(userId)) {
+        await this.handleUserMessage(userId, message);
+      }
+    });
+  }
+
+  private async handleEnterpriseB2BQR(slot: ConnectionSlot, qr: string): Promise<void> {
+    // Enterprise B2B QR handling with priority
+    for (const userId of slot.users) {
+      const session = this.userSessions.get(userId);
+      if (session) {
+        session.qrCode = qr;
+        const QRCode = require('qrcode');
+        session.qrImage = await QRCode.toDataURL(qr);
+        
+        // Emit with enterprise priority
+        this.emit('user:qr', { 
+          userId, 
+          qr, 
+          qrImage: session.qrImage,
+          tier: 'enterprise_b2b',
+          priority: 'high'
+        });
+      }
+    }
   }
 
   // Dedicated worker management
@@ -622,6 +808,7 @@ export class WhatsAppConnectionPool extends EventEmitter {
   private async optimizePool(): Promise<void> {
     await this.optimizeSharedPool();
     await this.optimizeSemiDedicatedPool();
+    await this.optimizeEnterpriseB2BPool();
     await this.updatePoolMetrics();
     
     this.logger.info('Pool optimization completed', this.poolMetrics);
@@ -651,16 +838,29 @@ export class WhatsAppConnectionPool extends EventEmitter {
     }
   }
 
+  private async optimizeEnterpriseB2BPool(): Promise<void> {
+    // Optimize Enterprise B2B pool with shorter timeout for better resource management
+    for (const [slotId, slot] of this.enterpriseB2BPool.entries()) {
+      if (slot.users.size === 0 && 
+          Date.now() - slot.lastActivity.getTime() > 10 * 60 * 1000) { // 10 minutes for B2B
+        await slot.client.destroy();
+        this.enterpriseB2BPool.delete(slotId);
+        this.logger.info('Removed unused Enterprise B2B slot', { slotId });
+      }
+    }
+  }
+
   private async updatePoolMetrics(): Promise<void> {
-    const totalConnections = this.sharedPool.size + this.semiDedicatedPool.size + this.dedicatedWorkers.size;
+    const totalConnections = this.sharedPool.size + this.semiDedicatedPool.size + this.enterpriseB2BPool.size + this.dedicatedWorkers.size;
     const activeUsers = this.userSessions.size;
     
     // Calculate cost per user (simplified)
     const sharedCost = this.sharedPool.size * 0.1; // $0.10 per shared slot
     const semiCost = this.semiDedicatedPool.size * 0.3; // $0.30 per semi slot
+    const b2bCost = this.enterpriseB2BPool.size * 0.5; // $0.50 per B2B slot (enterprise features)
     const dedicatedCost = this.dedicatedWorkers.size * 1.0; // $1.00 per dedicated worker
     
-    const totalCost = sharedCost + semiCost + dedicatedCost;
+    const totalCost = sharedCost + semiCost + b2bCost + dedicatedCost;
     const costPerUser = activeUsers > 0 ? totalCost / activeUsers : 0;
 
     this.poolMetrics = {
@@ -685,6 +885,11 @@ export class WhatsAppConnectionPool extends EventEmitter {
     }
 
     for (const slot of this.semiDedicatedPool.values()) {
+      totalUtilization += (slot.users.size / slot.maxUsers) * 100;
+      totalSlots++;
+    }
+
+    for (const slot of this.enterpriseB2BPool.values()) {
       totalUtilization += (slot.users.size / slot.maxUsers) * 100;
       totalSlots++;
     }
@@ -732,6 +937,19 @@ export class WhatsAppConnectionPool extends EventEmitter {
       }
     }
 
+    // Check enterprise B2B pool health
+    for (const [slotId, slot] of this.enterpriseB2BPool.entries()) {
+      if (slot.status === 'error' || slot.status === 'disconnected') {
+        this.logger.warn('Unhealthy Enterprise B2B slot detected', { slotId, status: slot.status });
+        // Attempt recovery with high priority
+        try {
+          await slot.client.initialize();
+        } catch (error) {
+          this.logger.error('Failed to recover Enterprise B2B slot', { slotId, error });
+        }
+      }
+    }
+
     // Check dedicated workers health
     for (const [userId, worker] of this.dedicatedWorkers.entries()) {
       if (worker.process.killed || worker.status.status === 'error') {
@@ -752,6 +970,7 @@ export class WhatsAppConnectionPool extends EventEmitter {
     switch (session.connectionType) {
       case 'shared':
       case 'semi-dedicated':
+      case 'enterprise_b2b':
         return await this.sendMessageThroughPool(session, to, message, options);
       
       case 'dedicated':
@@ -763,7 +982,22 @@ export class WhatsAppConnectionPool extends EventEmitter {
   }
 
   private async sendMessageThroughPool(session: UserSession, to: string, message: string, options: any): Promise<any> {
-    const poolMap = session.connectionType === 'shared' ? this.sharedPool : this.semiDedicatedPool;
+    let poolMap: Map<string, ConnectionSlot>;
+    
+    switch (session.connectionType) {
+      case 'shared':
+        poolMap = this.sharedPool;
+        break;
+      case 'semi-dedicated':
+        poolMap = this.semiDedicatedPool;
+        break;
+      case 'enterprise_b2b':
+        poolMap = this.enterpriseB2BPool;
+        break;
+      default:
+        throw new Error(`Unknown pool connection type: ${session.connectionType}`);
+    }
+    
     const slot = poolMap.get(session.connectionId!);
     
     if (!slot || slot.status !== 'ready') {
@@ -843,6 +1077,10 @@ export class WhatsAppConnectionPool extends EventEmitter {
           await this.disconnectFromSemiDedicatedPool(userId, session);
           break;
           
+        case 'enterprise_b2b':
+          await this.disconnectFromEnterpriseB2BPool(userId, session);
+          break;
+          
         case 'dedicated':
           await this.disconnectDedicatedWorker(userId);
           break;
@@ -875,6 +1113,21 @@ export class WhatsAppConnectionPool extends EventEmitter {
     if (slot) {
       slot.users.delete(userId);
       slot.lastActivity = new Date();
+    }
+  }
+
+  private async disconnectFromEnterpriseB2BPool(userId: string, session: UserSession): Promise<void> {
+    const slot = this.enterpriseB2BPool.get(session.connectionId!);
+    if (slot) {
+      slot.users.delete(userId);
+      slot.lastActivity = new Date();
+      
+      // Log B2B user disconnection for monitoring
+      this.logger.info('Enterprise B2B user disconnected', { 
+        userId, 
+        slotId: slot.id,
+        remainingUsers: slot.users.size 
+      });
     }
   }
 
@@ -913,6 +1166,13 @@ export class WhatsAppConnectionPool extends EventEmitter {
           capacity: this.SEMI_DEDICATED_POOL_SIZE,
           utilization: this.calculateSemiDedicatedPoolUtilization()
         },
+        enterpriseB2B: {
+          size: this.enterpriseB2BPool.size,
+          capacity: this.ENTERPRISE_B2B_POOL_SIZE,
+          utilization: this.calculateEnterpriseB2BPoolUtilization(),
+          usersPerConnection: this.USERS_PER_B2B_CONNECTION,
+          maxUsers: this.ENTERPRISE_B2B_POOL_SIZE * this.USERS_PER_B2B_CONNECTION
+        },
         dedicated: {
           size: this.dedicatedWorkers.size,
           capacity: -1 // unlimited
@@ -943,6 +1203,20 @@ export class WhatsAppConnectionPool extends EventEmitter {
     let maxUsers = 0;
     
     for (const slot of this.semiDedicatedPool.values()) {
+      totalUsers += slot.users.size;
+      maxUsers += slot.maxUsers;
+    }
+    
+    return maxUsers > 0 ? (totalUsers / maxUsers) * 100 : 0;
+  }
+
+  private calculateEnterpriseB2BPoolUtilization(): number {
+    if (this.enterpriseB2BPool.size === 0) return 0;
+    
+    let totalUsers = 0;
+    let maxUsers = 0;
+    
+    for (const slot of this.enterpriseB2BPool.values()) {
       totalUsers += slot.users.size;
       maxUsers += slot.maxUsers;
     }
@@ -1030,6 +1304,15 @@ export class WhatsAppConnectionPool extends EventEmitter {
         await slot.client.destroy();
       } catch (error) {
         this.logger.error('Error destroying semi-dedicated slot', { slotId: slot.id, error });
+      }
+    }
+
+    // Destroy Enterprise B2B pool
+    for (const slot of this.enterpriseB2BPool.values()) {
+      try {
+        await slot.client.destroy();
+      } catch (error) {
+        this.logger.error('Error destroying Enterprise B2B slot', { slotId: slot.id, error });
       }
     }
 

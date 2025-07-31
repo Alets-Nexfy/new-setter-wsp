@@ -1,9 +1,9 @@
-import { LoggerService } from '@/core/services/LoggerService';
-import { DatabaseService } from '@/core/services/DatabaseService';
-import { CacheService } from '@/core/services/CacheService';
+import { LoggerService } from './LoggerService';
+import { DatabaseService } from './DatabaseService';
+import { CacheService } from './CacheService';
 import { EventEmitter } from 'events';
 
-export type UserTier = 'standard' | 'professional' | 'enterprise';
+export type UserTier = 'standard' | 'professional' | 'enterprise' | 'enterprise_b2b';
 
 export interface TierConfiguration {
   tier: UserTier;
@@ -56,22 +56,38 @@ export interface UserTierInfo {
   trialEndsAt?: Date;
   paymentStatus: 'current' | 'overdue' | 'failed';
   configuration: TierConfiguration;
+  // B2B Platform Integration
+  b2bInfo?: {
+    platformId: string; // ID of the partner platform
+    platformUserId: string; // User ID in the partner platform
+    platformName: string; // Name of the partner platform
+    createdVia: 'direct' | 'b2b_platform';
+    platformApiKey?: string; // Optional API key for platform callbacks
+  };
 }
 
 export class UserTierService extends EventEmitter {
+  private static instance: UserTierService;
   private logger: LoggerService;
   private firebase: DatabaseService;
   private cache: CacheService;
   private tierConfigurations: Map<UserTier, TierConfiguration>;
   private userTierCache: Map<string, UserTierInfo> = new Map();
 
-  constructor() {
+  private constructor() {
     super();
     this.logger = LoggerService.getInstance();
     this.firebase = DatabaseService.getInstance();
     this.cache = CacheService.getInstance();
     this.tierConfigurations = new Map();
     this.initializeTierConfigurations();
+  }
+
+  public static getInstance(): UserTierService {
+    if (!UserTierService.instance) {
+      UserTierService.instance = new UserTierService();
+    }
+    return UserTierService.instance;
   }
 
   private initializeTierConfigurations(): void {
@@ -183,6 +199,42 @@ export class UserTierService extends EventEmitter {
       }
     });
 
+    // ENTERPRISE B2B TIER - For partner platforms (shared resources but enterprise features)
+    this.tierConfigurations.set('enterprise_b2b', {
+      tier: 'enterprise_b2b',
+      pricing: {
+        monthlyPrice: 0, // Pricing handled at platform level
+        messagesIncluded: -1, // unlimited
+        extraMessageCost: 0,
+        setupFee: 0
+      },
+      resources: {
+        dedicatedWorker: false, // Shared pools but enterprise-grade
+        maxConnections: -1, // unlimited
+        memoryLimitMB: 150, // Between professional and enterprise
+        cpuCores: 0.3,
+        priority: 'high', // Enterprise priority
+        isolation: 'session-based' // Better than professional, not complete like enterprise
+      },
+      features: {
+        aiResponses: true,
+        customAgents: -1, // unlimited like enterprise
+        promptGenerator: true,
+        webhooks: true,
+        analytics: true,
+        apiAccess: true,
+        prioritySupport: true, // Enterprise level support
+        whiteLabel: false // Managed by platform partner
+      },
+      limits: {
+        messagesPerMinute: -1, // unlimited
+        concurrentChats: -1, // unlimited
+        fileUploadSizeMB: 100, // Between professional and enterprise
+        customIntegrations: -1, // unlimited
+        teamMembers: -1 // unlimited
+      }
+    });
+
     this.logger.info('Tier configurations initialized', {
       tiers: Array.from(this.tierConfigurations.keys())
     });
@@ -199,14 +251,14 @@ export class UserTierService extends EventEmitter {
       }
 
       // Fetch from database
-      const userTierDoc = await this.firebase.getDocument(`user_tiers/${userId}`);
+      const userTierDoc = await this.firebase.collection('user_tiers').doc(userId).get();
       
-      if (!userTierDoc) {
+      if (!userTierDoc.exists) {
         // New user - create default standard tier
         return await this.createDefaultTierForUser(userId);
       }
 
-      const tierInfo = userTierDoc as UserTierInfo;
+      const tierInfo = userTierDoc.data() as UserTierInfo;
       tierInfo.configuration = this.tierConfigurations.get(tierInfo.tier)!;
 
       // Update cache
@@ -247,7 +299,7 @@ export class UserTierService extends EventEmitter {
         status: 'active'
       };
 
-      await this.firebase.setDocument(`user_tiers/${userId}`, updatedTierInfo);
+      await this.firebase.collection('user_tiers').doc(userId).set(updatedTierInfo);
 
       // Clear cache
       this.userTierCache.delete(userId);
@@ -297,7 +349,7 @@ export class UserTierService extends EventEmitter {
         status: 'active'
       };
 
-      await this.firebase.setDocument(`user_tiers/${userId}`, updatedTierInfo);
+      await this.firebase.collection('user_tiers').doc(userId).set(updatedTierInfo);
 
       // Clear cache
       this.userTierCache.delete(userId);
@@ -337,7 +389,7 @@ export class UserTierService extends EventEmitter {
       await this.enforceUsageLimits(userId, tierInfo, updatedUsage);
 
       // Update in database
-      await this.firebase.updateDocument(`user_tiers/${userId}`, {
+      await this.firebase.collection('user_tiers').doc(userId).update({
         usage: updatedUsage
       });
 
@@ -464,7 +516,7 @@ export class UserTierService extends EventEmitter {
       configuration: config
     };
 
-    await this.firebase.setDocument(`user_tiers/${userId}`, tierInfo);
+    await this.firebase.collection('user_tiers').doc(userId).set(tierInfo);
     this.userTierCache.set(userId, tierInfo);
 
     this.emit('tier:created', { userId, tier: defaultTier });
@@ -529,8 +581,8 @@ export class UserTierService extends EventEmitter {
 
   private async getUserAgentCount(userId: string): Promise<number> {
     try {
-      const agents = await this.firebase.getCollectionWhere('agents', 'userId', '==', userId);
-      return Object.keys(agents).length;
+      const agents = await this.firebase.collection('agents').where('userId', '==', userId).get();
+      return agents.size;
     } catch (error) {
       this.logger.error('Error getting user agent count', { userId, error });
       return 0;
@@ -584,10 +636,12 @@ export class UserTierService extends EventEmitter {
 
   public async getUsersApproachingLimits(): Promise<Array<{userId: string, tier: UserTier, warnings: string[]}>> {
     try {
-      const users = await this.firebase.getCollection('user_tiers');
+      const users = await this.firebase.collection('user_tiers').get();
       const warnings: Array<{userId: string, tier: UserTier, warnings: string[]}> = [];
 
-      for (const [userId, tierData] of Object.entries(users)) {
+      users.forEach((doc) => {
+        const userId = doc.id;
+        const tierData = doc.data();
         const tierInfo = tierData as UserTierInfo;
         const userWarnings: string[] = [];
 
@@ -612,13 +666,184 @@ export class UserTierService extends EventEmitter {
             warnings: userWarnings
           });
         }
-      }
+      });
 
       return warnings;
 
     } catch (error) {
       this.logger.error('Error getting users approaching limits', { error });
       return [];
+    }
+  }
+
+  // ========== B2B PLATFORM METHODS ==========
+
+  /**
+   * Create a B2B enterprise user for a partner platform
+   */
+  public async createB2BUser(
+    userId: string, 
+    platformInfo: {
+      platformId: string;
+      platformUserId: string;
+      platformName: string;
+      platformApiKey?: string;
+    }
+  ): Promise<UserTierInfo> {
+    try {
+      const b2bTierInfo: UserTierInfo = {
+        userId,
+        tier: 'enterprise_b2b',
+        billingCycle: 'monthly',
+        subscriptionStart: new Date(),
+        subscriptionEnd: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000), // 1 year
+        usage: {
+          messagesThisMonth: 0,
+          connectionsActive: 0,
+          storageUsedMB: 0,
+          lastActivity: new Date()
+        },
+        status: 'active',
+        paymentStatus: 'current', // Handled by platform
+        configuration: this.tierConfigurations.get('enterprise_b2b')!,
+        b2bInfo: {
+          ...platformInfo,
+          createdVia: 'b2b_platform'
+        }
+      };
+
+      // Save to database
+      await this.firebase.collection('user_tiers').doc(userId).set(b2bTierInfo);
+
+      // Clear cache
+      this.userTierCache.delete(userId);
+
+      this.logger.info('B2B user created', {
+        userId,
+        platformId: platformInfo.platformId,
+        platformName: platformInfo.platformName
+      });
+
+      this.emit('b2b:user_created', {
+        userId,
+        platformInfo,
+        tierInfo: b2bTierInfo
+      });
+
+      return b2bTierInfo;
+
+    } catch (error) {
+      this.logger.error('Error creating B2B user', { userId, platformInfo, error });
+      throw error;
+    }
+  }
+
+  /**
+   * Check if a user is from a B2B platform
+   */
+  public async isB2BUser(userId: string): Promise<boolean> {
+    try {
+      const tierInfo = await this.getUserTier(userId);
+      return tierInfo.tier === 'enterprise_b2b' && !!tierInfo.b2bInfo;
+    } catch (error) {
+      this.logger.error('Error checking B2B user status', { userId, error });
+      return false;
+    }
+  }
+
+  /**
+   * Get all users from a specific B2B platform
+   */
+  public async getB2BPlatformUsers(platformId: string): Promise<UserTierInfo[]> {
+    try {
+      const users = await this.firebase.collection('user_tiers')
+        .where('tier', '==', 'enterprise_b2b')
+        .where('b2bInfo.platformId', '==', platformId)
+        .get();
+
+      return users.docs.map(doc => {
+        const data = doc.data() as UserTierInfo;
+        data.configuration = this.tierConfigurations.get('enterprise_b2b')!;
+        return data;
+      });
+
+    } catch (error) {
+      this.logger.error('Error getting B2B platform users', { platformId, error });
+      return [];
+    }
+  }
+
+  /**
+   * Get B2B platform statistics
+   */
+  public async getB2BPlatformStats(platformId: string): Promise<{
+    totalUsers: number;
+    activeUsers: number;
+    totalMessages: number;
+    averageMessagesPerUser: number;
+  }> {
+    try {
+      const users = await this.getB2BPlatformUsers(platformId);
+      
+      const totalUsers = users.length;
+      const activeUsers = users.filter(u => {
+        const daysSinceActivity = (Date.now() - u.usage.lastActivity.getTime()) / (1000 * 60 * 60 * 24);
+        return daysSinceActivity <= 7; // Active in last 7 days
+      }).length;
+      
+      const totalMessages = users.reduce((sum, u) => sum + u.usage.messagesThisMonth, 0);
+      const averageMessagesPerUser = totalUsers > 0 ? totalMessages / totalUsers : 0;
+
+      return {
+        totalUsers,
+        activeUsers,
+        totalMessages,
+        averageMessagesPerUser
+      };
+
+    } catch (error) {
+      this.logger.error('Error getting B2B platform stats', { platformId, error });
+      return {
+        totalUsers: 0,
+        activeUsers: 0,
+        totalMessages: 0,
+        averageMessagesPerUser: 0
+      };
+    }
+  }
+
+  /**
+   * Update B2B user platform information
+   */
+  public async updateB2BUserInfo(
+    userId: string, 
+    updates: Partial<UserTierInfo['b2bInfo']>
+  ): Promise<boolean> {
+    try {
+      const tierInfo = await this.getUserTier(userId);
+      
+      if (!tierInfo.b2bInfo) {
+        throw new Error('User is not a B2B user');
+      }
+
+      const updatedB2BInfo = {
+        ...tierInfo.b2bInfo,
+        ...updates
+      };
+
+      await this.firebase.collection('user_tiers').doc(userId).update({
+        'b2bInfo': updatedB2BInfo
+      });
+
+      // Clear cache
+      this.userTierCache.delete(userId);
+
+      this.logger.info('B2B user info updated', { userId, updates });
+      return true;
+
+    } catch (error) {
+      this.logger.error('Error updating B2B user info', { userId, updates, error });
+      throw error;
     }
   }
 }

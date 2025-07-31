@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { AgentService } from '@/core/services/AgentService';
+import { AgentService } from '../../core/services/AgentService';
 
 const router = Router();
 const agentService = AgentService.getInstance();
