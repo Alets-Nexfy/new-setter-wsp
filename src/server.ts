@@ -44,6 +44,10 @@ class WhatsAppAPIServer {
     this.server = createServer(this.app);
     this.logger = LoggerService.getInstance();
     
+    // Fix EventEmitter warnings
+    this.server.setMaxListeners(50);
+    process.setMaxListeners(50);
+    
     this.initializeServices();
     this.setupMiddleware();
     this.setupRoutes();

@@ -27,7 +27,12 @@
     "test:whatsapp": "node scripts/test-whatsapp.js",
     "dev:whatsapp": "cross-env ENABLE_WHATSAPP=true ENABLE_INSTAGRAM=false LOG_LEVEL=debug npm run dev",
     "dev:logs": "powershell Get-Content logs/app.log -Wait",
-    "setup:test": "powershell -Command \"New-Item -ItemType Directory -Force -Path logs, config\""
+    "setup:test": "powershell -Command \"New-Item -ItemType Directory -Force -Path logs, config\"",
+    "backup:firebase": "ts-node scripts/firebase-backup.ts",
+    "validate:backup": "ts-node scripts/backup-validator.ts",
+    "migrate:schema": "ts-node scripts/supabase-schema-migrator.ts",
+    "migrate:data": "ts-node scripts/run-data-migration.ts",
+    "test:supabase-connection": "ts-node scripts/test-supabase-connection.ts"
   },
   "keywords": [
     "whatsapp",
@@ -41,6 +46,7 @@
   "license": "MIT",
   "dependencies": {
     "@google/generative-ai": "^0.24.1",
+    "@supabase/supabase-js": "^2.53.0",
     "axios": "^1.10.0",
     "bcryptjs": "^2.4.3",
     "bull": "^4.12.0",
