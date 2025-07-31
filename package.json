@@ -34,7 +34,8 @@
     "migrate:data": "ts-node scripts/run-data-migration.ts",
     "test:supabase-connection": "ts-node scripts/test-supabase-connection.ts",
     "test:supabase-flow": "ts-node scripts/test-supabase-flow.ts",
-    "test:basic-crud": "ts-node scripts/test-basic-crud.ts"
+    "test:basic-crud": "ts-node scripts/test-basic-crud.ts",
+    "test:human-presence": "ts-node scripts/test-human-presence.ts"
   },
   "keywords": [
     "whatsapp",

@@ -21,10 +21,10 @@ async function testBasicCRUD() {
       .insert({
         id: testUserId,
         email: `test_${Date.now()}@example.com`,
-        name: 'Test User for WhatsApp API',
-        tier: 'standard',
-        status: 'active',
-        settings: { language: 'en', notifications: true }
+        full_name: 'Test User for WhatsApp API',
+        username: 'testuser',
+        whatsapp_number: '+5493425123456',
+        is_active: true
       })
       .select()
       .single()
@@ -37,7 +37,8 @@ async function testBasicCRUD() {
     console.log('✅ User created successfully')
     console.log(`   - ID: ${user.id}`)
     console.log(`   - Email: ${user.email}`)
-    console.log(`   - Tier: ${user.tier}`)
+    console.log(`   - Full Name: ${user.full_name}`)
+    console.log(`   - WhatsApp: ${user.whatsapp_number}`)
 
     // 2. READ - Query the user
     console.log('\n2. READ: Querying user...')
@@ -51,7 +52,7 @@ async function testBasicCRUD() {
       console.error('❌ READ failed:', readError)
     } else {
       console.log('✅ User retrieved successfully')
-      console.log(`   - Name: ${readUser.name}`)
+      console.log(`   - Full Name: ${readUser.full_name}`)
       console.log(`   - Created: ${readUser.created_at}`)
     }
 
@@ -60,9 +61,9 @@ async function testBasicCRUD() {
     const { data: updatedUser, error: updateError } = await client
       .from('users')
       .update({
-        name: 'Updated Test User',
-        tier: 'professional',
-        settings: { language: 'es', notifications: false }
+        full_name: 'Updated Test User',
+        username: 'updated_testuser',
+        whatsapp_number: '+5493425654321'
       })
       .eq('id', testUserId)
       .select()
@@ -72,8 +73,9 @@ async function testBasicCRUD() {
       console.error('❌ UPDATE failed:', updateError)
     } else {
       console.log('✅ User updated successfully')
-      console.log(`   - New name: ${updatedUser.name}`)
-      console.log(`   - New tier: ${updatedUser.tier}`)
+      console.log(`   - New name: ${updatedUser.full_name}`)
+      console.log(`   - New username: ${updatedUser.username}`)
+      console.log(`   - New WhatsApp: ${updatedUser.whatsapp_number}`)
     }
 
     // 4. CREATE related data - Session
@@ -158,8 +160,8 @@ async function testBasicCRUD() {
       .select(`
         id,
         email,
-        name,
-        tier,
+        full_name,
+        username,
         sessions (
           id,
           platform,
@@ -183,7 +185,7 @@ async function testBasicCRUD() {
       console.error('❌ Complex query failed:', complexError)
     } else {
       console.log('✅ Complex query successful')
-      console.log(`   - User: ${userWithData.name}`)
+      console.log(`   - User: ${userWithData.full_name}`)
       console.log(`   - Sessions: ${userWithData.sessions?.length || 0}`)
       console.log(`   - Chats: ${userWithData.chats?.length || 0}`)
       console.log(`   - Messages: ${userWithData.chats?.[0]?.messages?.length || 0}`)
