@@ -2,7 +2,7 @@ import { Router } from 'express';
 import { ChatExtensionController } from '../controllers/chatExtensionController';
 import { validateChatExtension } from '../validators/chatExtensionValidator';
 import { authenticateToken } from '../middleware/auth';
-import { rateLimiter } from '../middleware/rateLimiter';
+import { rateLimiter } from '../middleware';
 
 const router = Router();
 const chatExtensionController = new ChatExtensionController();

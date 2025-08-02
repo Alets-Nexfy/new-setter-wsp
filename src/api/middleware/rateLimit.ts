@@ -245,4 +245,7 @@ export class RateLimitMiddleware {
       return null;
     }
   }
-} 
+}
+
+// Export default for backward compatibility
+export default RateLimitMiddleware.default; 

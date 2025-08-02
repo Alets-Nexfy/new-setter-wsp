@@ -1,6 +1,6 @@
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import { LoggerService } from '@/core/services/LoggerService';
-import { DatabaseService } from '@/core/services/DatabaseService';
+import { SupabaseService } from '@/core/services/SupabaseService';
 import { v4 as uuidv4 } from 'uuid';
 
 export interface PromptQuestion {
@@ -64,11 +64,11 @@ export interface GeneratedPrompt {
 export class PromptGeneratorService {
   private gemini: GoogleGenerativeAI;
   private logger: LoggerService;
-  private firebase: DatabaseService;
+  private firebase: SupabaseService;
 
   constructor() {
     this.logger = LoggerService.getInstance();
-    this.firebase = DatabaseService.getInstance();
+    this.firebase = SupabaseService.getInstance();
     
     const apiKey = process.env.GEMINI_API_KEY;
     if (!apiKey) {

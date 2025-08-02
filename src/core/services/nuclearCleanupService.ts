@@ -1,4 +1,4 @@
-import { DatabaseService } from './DatabaseService';
+import { SupabaseService } from './SupabaseService';
 import { LoggerService } from './LoggerService';
 import { CacheService } from './CacheService';
 import { QueueService } from './QueueService';
@@ -42,7 +42,7 @@ export interface SystemStatus {
 }
 
 export class NuclearCleanupService {
-  private db: DatabaseService;
+  private db: SupabaseService;
   private logger: LoggerService;
   private cache: CacheService;
   private queue: QueueService;

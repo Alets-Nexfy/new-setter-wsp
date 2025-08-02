@@ -11,7 +11,7 @@ config();
 
 // Import services
 import { LoggerService } from './core/services/LoggerService';
-import { DatabaseService } from './core/services/DatabaseService';
+import { SupabaseService } from './core/services/SupabaseService';
 import { CacheService } from './core/services/CacheService';
 import { QueueService } from './core/services/QueueService';
 import { WebSocketService } from './core/services/websocketService';
@@ -32,7 +32,7 @@ class WhatsAppAPIServer {
   private app: express.Application;
   private server: any;
   private logger: LoggerService;
-  private db: DatabaseService;
+  private supabase: SupabaseService;
   private cache: CacheService;
   private queue: QueueService;
   private wsService: WebSocketService;
@@ -69,9 +69,9 @@ class WhatsAppAPIServer {
         }
       });
 
-      // Initialize database
-      this.db = DatabaseService.getInstance();
-      await this.db.initialize();
+      // Initialize Supabase
+      this.supabase = SupabaseService.getInstance();
+      await this.supabase.initialize();
 
       // Initialize cache
       this.cache = CacheService.getInstance();
@@ -111,11 +111,22 @@ class WhatsAppAPIServer {
       crossOriginEmbedderPolicy: false
     }));
 
-    // CORS configuration
-    this.app.use(cors({
-      origin: environment.cors.origin?.split(',') || ['http://localhost:3000'],
-      credentials: true
-    }));
+    // CORS configuration - Disabled since nginx handles CORS
+    // this.app.use(cors({
+    //   origin: environment.cors.origin?.split(',') || ['http://localhost:3000', 'http://localhost:5173'],
+    //   credentials: true,
+    //   allowedHeaders: [
+    //     'Origin',
+    //     'X-Requested-With', 
+    //     'Content-Type',
+    //     'Accept',
+    //     'Authorization',
+    //     'X-API-Key',
+    //     'x-api-key'
+    //   ],
+    //   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+    //   exposedHeaders: ['X-RateLimit-Limit', 'X-RateLimit-Remaining', 'X-RateLimit-Reset']
+    // }));
 
     // Compression
     this.app.use(compression());
@@ -123,6 +134,9 @@ class WhatsAppAPIServer {
     // Body parsing
     this.app.use(express.json({ limit: '10mb' }));
     this.app.use(express.urlencoded({ extended: true, limit: '10mb' }));
+
+    // Configure trust proxy for rate limiting
+    this.app.set('trust proxy', 1);
 
     // Request logging
     this.app.use(requestLogger);

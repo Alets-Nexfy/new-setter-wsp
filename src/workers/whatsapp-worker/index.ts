@@ -35,14 +35,14 @@ async function main(): Promise<void> {
     console.log(`[Worker ${userId}] Initializing WhatsApp Worker...`);
     
     // Initialize services first for child process
-    const { DatabaseService } = require('@/core/services/DatabaseService');
+    const { SupabaseService } = require('@/core/services/SupabaseService');
     const { CacheService } = require('@/core/services/CacheService');
     const { LoggerService } = require('@/core/services/LoggerService');
     
     console.log(`[Worker ${userId}] Initializing core services...`);
     
     // Initialize DatabaseService for child process
-    const dbService = DatabaseService.getInstance();
+    const dbService = SupabaseService.getInstance();
     await dbService.initialize();
     
     // Initialize other services

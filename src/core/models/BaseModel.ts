@@ -1,4 +1,3 @@
-import { FieldValue, Timestamp } from 'firebase-admin/firestore';
 
 export interface BaseModel {
   id: string;

@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { AutomationRulesController } from '../controllers/automationRulesController';
 import { authenticateApiKey } from '../middleware/auth';
-import { rateLimiter } from '../middleware/rateLimiter';
+import { rateLimiter } from '../middleware';
 import { sanitizeInput } from '../middleware/sanitization';
 import { validateAutomationRule } from '../validators/automationRuleValidator';
 

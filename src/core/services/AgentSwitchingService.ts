@@ -1,5 +1,5 @@
 import { LoggerService } from './LoggerService';
-import { DatabaseService } from './DatabaseService';
+import { SupabaseService } from './SupabaseService';
 import { CacheService } from './CacheService';
 import { AgentService } from './AgentService';
 import { 
@@ -18,7 +18,7 @@ export class AgentSwitchingService {
 
   private constructor() {
     this.logger = LoggerService.getInstance();
-    this.db = DatabaseService.getInstance();
+    this.db = SupabaseService.getInstance();
     this.cache = CacheService.getInstance();
     this.agentService = AgentService.getInstance();
   }

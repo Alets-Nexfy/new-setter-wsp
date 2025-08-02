@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 import environment from '../../../config/environment';
 import { LoggerService } from '@/core/services/LoggerService';
-import { DatabaseService } from '@/core/services/DatabaseService';
+import { SupabaseService } from '@/core/services/SupabaseService';
 
 export interface AuthenticatedRequest extends Request {
   user?: {
@@ -14,7 +14,7 @@ export interface AuthenticatedRequest extends Request {
 
 export class AuthMiddleware {
   private static logger = LoggerService.getInstance();
-  private static db = DatabaseService.getInstance();
+  private static db = SupabaseService.getInstance();
 
   // JWT Authentication
   public static async authenticateJWT(

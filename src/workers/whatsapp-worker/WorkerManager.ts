@@ -5,7 +5,7 @@ import fs from 'fs/promises';
 import { v4 as uuidv4 } from 'uuid';
 import Queue from 'bull';
 import { createClient } from 'redis';
-import { DatabaseService } from '@/core/services/DatabaseService';
+import { SupabaseService } from '@/core/services/SupabaseService';
 import { LoggerService } from '@/core/services/LoggerService';
 
 interface WorkerConfig {
@@ -80,7 +80,7 @@ export class WhatsAppWorkerManager extends EventEmitter {
   constructor() {
     super();
     this.logger = LoggerService.getInstance();
-    this.firebase = DatabaseService.getInstance();
+    this.firebase = SupabaseService.getInstance();
     this.WORKER_SCRIPT_PATH = path.join(__dirname, 'worker-process.js');
     this.DATA_DIR = process.env.USER_DATA_PATH || './data_v2';
     

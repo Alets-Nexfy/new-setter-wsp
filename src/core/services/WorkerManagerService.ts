@@ -8,7 +8,7 @@
 import { EventEmitter } from 'events';
 import { ChildProcess } from 'child_process';
 import { LoggerService } from './LoggerService';
-import { DatabaseService } from './DatabaseService';
+import { SupabaseService } from './SupabaseService';
 import { WhatsAppWorkerManager } from '../../workers/whatsapp-worker/WhatsAppWorkerManager';
 import environment from '../../../config/environment';
 
@@ -39,7 +39,7 @@ interface WorkerInfo {
 export class WorkerManagerService extends EventEmitter {
   private static instance: WorkerManagerService;
   private logger: LoggerService;
-  private db: DatabaseService;
+  private db: SupabaseService;
   private whatsappManager: WhatsAppWorkerManager;
   private instagramWorkers: Map<string, ChildProcess> = new Map();
   private initialized: boolean = false;
@@ -47,7 +47,7 @@ export class WorkerManagerService extends EventEmitter {
   private constructor() {
     super();
     this.logger = LoggerService.getInstance();
-    this.db = DatabaseService.getInstance();
+    this.db = SupabaseService.getInstance();
     this.whatsappManager = WhatsAppWorkerManager.getInstance();
   }
 
@@ -269,14 +269,15 @@ export class WorkerManagerService extends EventEmitter {
         this.emit('workerError', { workerId, userId, platform: 'instagram', error });
       });
 
-      // Update Firestore
-      const userDocRef = this.db.collection('users').doc(userId);
-      await userDocRef.collection('status').doc('instagram').set({
+      // Update Supabase
+      await this.db.from('user_status').upsert({
+        user_id: userId,
+        platform: 'instagram',
         status: 'connecting',
         worker_pid: worker.pid,
         last_error: null,
-        updatedAt: new Date()
-      }, { merge: true });
+        updated_at: new Date().toISOString()
+      });
 
       this.emit('workerStarted', { workerId, userId, platform: 'instagram' });
       
@@ -315,13 +316,15 @@ export class WorkerManagerService extends EventEmitter {
 
         this.instagramWorkers.delete(workerId);
         
-        // Update Firestore
-        const userDocRef = this.db.collection('users').doc(userId);
-        await userDocRef.collection('status').doc('instagram').update({
-          status: 'disconnected',
-          worker_pid: null,
-          updatedAt: new Date()
-        });
+        // Update Supabase
+        await this.db.from('user_status')
+          .update({
+            status: 'disconnected',
+            worker_pid: null,
+            updated_at: new Date().toISOString()
+          })
+          .eq('user_id', userId)
+          .eq('platform', 'instagram');
 
         this.logger.info('Instagram worker stopped successfully', { userId });
 

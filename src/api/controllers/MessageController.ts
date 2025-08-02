@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { LoggerService } from '@/core/services/LoggerService';
-import { DatabaseService } from '@/core/services/DatabaseService';
+import { SupabaseService } from '@/core/services/SupabaseService';
 import { WorkerManagerService } from '@/core/services/WorkerManagerService';
 import { 
   Message,
@@ -13,11 +13,10 @@ import {
   MessageOrigin,
   MessageType
 } from '@/shared/types/chat';
-import { FieldValue } from 'firebase-admin/firestore';
 
 export class MessageController {
   private logger: LoggerService;
-  private db: DatabaseService;
+  private db: SupabaseService;
   private workerManager: WorkerManagerService;
 
   // Constants for conversation management
@@ -27,7 +26,7 @@ export class MessageController {
 
   constructor() {
     this.logger = LoggerService.getInstance();
-    this.db = DatabaseService.getInstance();
+    this.db = SupabaseService.getInstance();
     this.workerManager = WorkerManagerService.getInstance();
   }
 
@@ -320,7 +319,7 @@ export class MessageController {
         from: `me (HUMAN - ${userId})`,
         to: chatId,
         body: message.trim(),
-        timestamp: FieldValue.serverTimestamp(),
+        timestamp: new Date().toISOString(),
         isFromMe: true,
         isAutoReply: false,
         origin: origin as MessageOrigin,
@@ -728,8 +727,8 @@ export class MessageController {
 
       // Update chat metadata
       await chatDocRef.update({
-        historyClearedAt: FieldValue.serverTimestamp(),
-        updatedAt: FieldValue.serverTimestamp()
+        historyClearedAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString()
       });
 
       this.logger.info('Chat history cleared successfully', {
@@ -880,7 +879,7 @@ export class MessageController {
       .collection('chats')
       .doc(chatId);
 
-    const timestamp = FieldValue.serverTimestamp();
+    const timestamp = new Date().toISOString();
     const fullMessageData = {
       ...messageData,
       createdAt: timestamp,
@@ -936,7 +935,7 @@ export class MessageController {
       .collection('chats')
       .doc(chatId);
 
-    const timestamp = FieldValue.serverTimestamp();
+    const timestamp = new Date().toISOString();
     const updateData: any = {
       lastMessageContent: content,
       lastMessageTimestamp: timestamp,

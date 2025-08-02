@@ -1,6 +1,6 @@
 import { GoogleGenerativeAI, GenerativeModel } from '@google/generative-ai';
 import { LoggerService } from './LoggerService';
-import { DatabaseService } from './DatabaseService';
+import { SupabaseService } from './SupabaseService';
 import { ConversationContext } from '@/shared/types/chat';
 
 export interface AIRequestOptions {
@@ -45,7 +45,7 @@ export interface RateLimitStatus {
 export class AIService {
   private static instance: AIService;
   private logger: LoggerService;
-  private db: DatabaseService;
+  private db: SupabaseService;
   private geminiModel: GenerativeModel | null = null;
   private isInitialized = false;
 
@@ -66,7 +66,7 @@ export class AIService {
 
   private constructor() {
     this.logger = LoggerService.getInstance();
-    this.db = DatabaseService.getInstance();
+    this.db = SupabaseService.getInstance();
     this.initializeGemini();
   }
 
@@ -576,19 +576,15 @@ Comienza directamente con la definición del agente (Ej: "Eres [Nombre del Agent
     maxTokens: number = this.MAX_HISTORY_TOKENS_FOR_PROMPT
   ): Promise<ConversationHistoryItem[]> {
     try {
-      const chatDocRef = this.db
-        .collection('users')
-        .doc(userId)
-        .collection('chats')
-        .doc(chatId);
+      const { data: messagesData, error } = await this.db
+        .from('messages')
+        .select('*')
+        .eq('user_id', userId)
+        .eq('chat_id', chatId)
+        .order('timestamp', { ascending: false })
+        .limit(12);
 
-      const messagesSnapshot = await chatDocRef
-        .collection('messages_all')
-        .orderBy('timestamp', 'desc')
-        .limit(12) // Get recent messages
-        .get();
-
-      if (messagesSnapshot.empty) {
+      if (error || !messagesData || messagesData.length === 0) {
         return [];
       }
 
@@ -596,10 +592,9 @@ Comienza directamente con la definición del agente (Ej: "Eres [Nombre del Agent
       let totalTokens = 0;
 
       // Process messages in reverse order (oldest first)
-      const docs = messagesSnapshot.docs.reverse();
+      const reverseMessages = messagesData.reverse();
       
-      for (const doc of docs) {
-        const msgData = doc.data();
+      for (const msgData of reverseMessages) {
         
         if (msgData.body && msgData.body.trim()) {
           const estimatedTokens = this.estimateTokens(msgData.body);

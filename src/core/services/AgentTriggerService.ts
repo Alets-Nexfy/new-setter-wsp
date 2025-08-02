@@ -1,5 +1,5 @@
 import { LoggerService } from './LoggerService';
-import { DatabaseService } from './DatabaseService';
+import { SupabaseService } from './SupabaseService';
 import { CacheService } from './CacheService';
 import { UserTierService } from './UserTierService';
 import { 
@@ -18,7 +18,7 @@ export class AgentTriggerService {
 
   private constructor() {
     this.logger = LoggerService.getInstance();
-    this.db = DatabaseService.getInstance();
+    this.db = SupabaseService.getInstance();
     this.cache = CacheService.getInstance();
     this.tierService = UserTierService.getInstance();
   }

@@ -1,6 +1,6 @@
 import { EventEmitter } from 'events';
 import { LoggerService } from '@/core/services/LoggerService';
-import { DatabaseService } from '@/core/services/DatabaseService';
+import { SupabaseService } from '@/core/services/SupabaseService';
 import { CacheService } from '@/core/services/CacheService';
 import { UserTierService } from '@/core/services/UserTierService';
 import Queue from 'bull';
@@ -134,7 +134,7 @@ export class MessageEventBus extends EventEmitter {
     this.setMaxListeners(200);
     
     this.logger = LoggerService.getInstance();
-    this.firebase = DatabaseService.getInstance();
+    this.firebase = SupabaseService.getInstance();
     this.cache = CacheService.getInstance();
     this.tierService = new UserTierService();
     

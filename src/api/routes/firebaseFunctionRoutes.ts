@@ -2,7 +2,7 @@ import { Router } from 'express';
 import { FirebaseFunctionController } from '../controllers/firebaseFunctionController';
 import { validateFirebaseFunction } from '../validators/firebaseFunctionValidator';
 import { authenticateToken } from '../middleware/auth';
-import { rateLimiter } from '../middleware/rateLimiter';
+import { rateLimiter } from '../middleware';
 
 const router = Router();
 const firebaseFunctionController = new FirebaseFunctionController();

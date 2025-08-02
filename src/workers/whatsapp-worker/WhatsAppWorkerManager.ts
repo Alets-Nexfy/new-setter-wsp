@@ -3,10 +3,9 @@ import { EventEmitter } from 'events';
 import path from 'path';
 import fs from 'fs';
 import { LoggerService } from '../../core/services/LoggerService';
-import { DatabaseService } from '../../core/services/DatabaseService';
+import { SupabaseService } from '../../core/services/SupabaseService';
 import { WebSocketService } from '../../core/services/websocketService';
 import { WorkerIPCHandler } from './WorkerIPCHandler';
-import { FieldValue } from 'firebase-admin/firestore';
 
 export interface WorkerInstance {
   process: ChildProcess;
@@ -38,14 +37,14 @@ export class WhatsAppWorkerManager extends EventEmitter {
   private workers: Map<string, WorkerInstance> = new Map();
   private connectingUsers: Set<string> = new Set();
   private logger: LoggerService;
-  private db: DatabaseService;
+  private db: SupabaseService;
   private wsService: WebSocketService;
   private ipcHandler: WorkerIPCHandler;
 
   constructor() {
     super();
     this.logger = LoggerService.getInstance();
-    this.db = DatabaseService.getInstance();
+    this.db = SupabaseService.getInstance();
     this.wsService = WebSocketService.getInstance();
     this.ipcHandler = new WorkerIPCHandler(this);
     
@@ -178,15 +177,15 @@ export class WhatsAppWorkerManager extends EventEmitter {
       let resolvedAgentId = activeAgentId;
       if (!resolvedAgentId) {
         try {
-          const userDoc = await this.db.doc('users', userId).get();
-          if (userDoc.exists) {
-            resolvedAgentId = userDoc.data()?.active_agent_id || null;
+          const { data: userData, error } = await this.db.from('users').select('active_agent_id').eq('id', userId).single();
+          if (!error && userData) {
+            resolvedAgentId = userData.active_agent_id || null;
           }
-          this.logger.debug('Agent resolved from Firestore', { userId, resolvedAgentId });
-        } catch (fbError) {
-          this.logger.warn('Failed to resolve agent from Firestore, continuing with null', { 
+          this.logger.debug('Agent resolved from Supabase', { userId, resolvedAgentId });
+        } catch (dbError) {
+          this.logger.warn('Failed to resolve agent from Supabase, continuing with null', { 
             userId, 
-            error: fbError instanceof Error ? fbError.message : 'Unknown error'
+            error: dbError instanceof Error ? dbError.message : 'Unknown error'
           });
         }
       }
@@ -272,31 +271,31 @@ export class WhatsAppWorkerManager extends EventEmitter {
 
       // Update Firestore - main document and status subcollection
       try {
-        this.logger.debug('Step 8: Updating Firestore', { userId });
+        this.logger.debug('Step 8: Updating Supabase', { userId });
         
-        const timestamp = FieldValue.serverTimestamp();
-        const userDocRef = this.db.collection('users').doc(userId);
-        const statusDocRef = userDocRef.collection('status').doc('whatsapp');
+        const timestamp = new Date().toISOString();
 
         await Promise.all([
-          userDocRef.update({
+          this.db.from('users').update({
             worker_pid: workerProcess.pid,
             last_error: null,
-            updatedAt: timestamp
-          }),
-          statusDocRef.set({
+            updated_at: timestamp
+          }).eq('id', userId),
+          this.db.from('user_status').upsert({
+            user_id: userId,
+            platform: 'whatsapp',
             status: 'connecting',
             last_error: null,
             last_qr_code: null,
-            updatedAt: timestamp
-          }, { merge: true })
+            updated_at: timestamp
+          })
         ]);
         
-        this.logger.debug('Step 8: Firestore updated successfully', { userId });
-      } catch (fbUpdateError) {
-        this.logger.warn('Failed to update Firestore, continuing anyway', {
+        this.logger.debug('Step 8: Supabase updated successfully', { userId });
+      } catch (dbUpdateError) {
+        this.logger.warn('Failed to update Supabase, continuing anyway', {
           userId,
-          error: fbUpdateError instanceof Error ? fbUpdateError.message : 'Unknown error'
+          error: dbUpdateError instanceof Error ? dbUpdateError.message : 'Unknown error'
         });
       }
 
@@ -345,21 +344,17 @@ export class WhatsAppWorkerManager extends EventEmitter {
         stringifiedError: JSON.stringify(error, null, 2)
       });
 
-      // Update Firestore with error status
+      // Update Supabase with error status
       try {
-        const statusDocRef = this.db
-          .collection('users')
-          .doc(userId)
-          .collection('status')
-          .doc('whatsapp');
-        
-        await statusDocRef.set({
+        await this.db.from('user_status').upsert({
+          user_id: userId,
+          platform: 'whatsapp',
           status: 'error',
           last_error: errorMessage,
-          updatedAt: FieldValue.serverTimestamp()
-        }, { merge: true });
+          updated_at: new Date().toISOString()
+        });
       } catch (dbError) {
-        this.logger.error('Failed to update error status in Firestore', {
+        this.logger.error('Failed to update error status in Supabase', {
           userId,
           dbError: dbError instanceof Error ? dbError.message : 'Unknown error'
         });
@@ -379,25 +374,24 @@ export class WhatsAppWorkerManager extends EventEmitter {
     this.logger.info('Stopping worker', { userId });
 
     const workerInstance = this.workers.get(userId);
-    const timestamp = FieldValue.serverTimestamp();
+    const timestamp = new Date().toISOString();
     
     if (workerInstance && workerInstance.process.connected) {
       try {
-        // Update Firestore first
-        const userDocRef = this.db.collection('users').doc(userId);
-        const statusDocRef = userDocRef.collection('status').doc('whatsapp');
-
+        // Update Supabase first
         await Promise.all([
-          userDocRef.update({ 
+          this.db.from('users').update({ 
             worker_pid: null, 
-            updatedAt: timestamp 
-          }),
-          statusDocRef.set({
+            updated_at: timestamp 
+          }).eq('id', userId),
+          this.db.from('user_status').upsert({
+            user_id: userId,
+            platform: 'whatsapp',
             status: 'disconnected',
             last_qr_code: null,
             last_error: null,
-            updatedAt: timestamp
-          }, { merge: true })
+            updated_at: timestamp
+          })
         ]);
 
         // Send shutdown command to worker
@@ -448,25 +442,24 @@ export class WhatsAppWorkerManager extends EventEmitter {
       this.logger.debug('Worker not found or not connected, ensuring Firestore consistency', { userId });
       
       try {
-        const userDocRef = this.db.collection('users').doc(userId);
-        const statusDocRef = userDocRef.collection('status').doc('whatsapp');
-
         await Promise.all([
-          userDocRef.update({ 
+          this.db.from('users').update({ 
             worker_pid: null, 
-            updatedAt: timestamp 
-          }),
-          statusDocRef.set({
+            updated_at: timestamp 
+          }).eq('id', userId),
+          this.db.from('user_status').upsert({
+            user_id: userId,
+            platform: 'whatsapp',
             status: 'disconnected',
             last_error: null,
             last_qr_code: null,
-            updatedAt: timestamp
-          }, { merge: true })
+            updated_at: timestamp
+          })
         ]);
 
-        this.logger.debug('Firestore status updated to disconnected', { userId });
+        this.logger.debug('Supabase status updated to disconnected', { userId });
       } catch (error) {
-        this.logger.error('Error updating Firestore status on worker stop', {
+        this.logger.error('Error updating Supabase status on worker stop', {
           userId,
           error: error instanceof Error ? error.message : 'Unknown error'
         });
@@ -558,6 +551,13 @@ export class WhatsAppWorkerManager extends EventEmitter {
   }
 
   /**
+   * Send message to worker
+   */
+  public sendMessageToWorker(userId: string, message: any): boolean {
+    return this.notifyWorker(userId, message);
+  }
+
+  /**
    * MIGRADO DE: whatsapp-api/src/server.js líneas 660-748
    * FUNCIÓN: fetchInitialConfigsAndNotifyWorker(userId, activeAgentId)
    * MEJORAS: Async/await, error handling, structured data
@@ -569,30 +569,33 @@ export class WhatsAppWorkerManager extends EventEmitter {
     });
 
     try {
-      const userDocRef = this.db.collection('users').doc(userId);
-
       // Get agent configuration
       let agentConfigData = null;
       if (activeAgentId) {
-        const agentDoc = await userDocRef.collection('agents').doc(activeAgentId).get();
-        if (agentDoc.exists) {
-          agentConfigData = agentDoc.data();
+        const { data: agentData, error } = await this.db.from('agents')
+          .select('*')
+          .eq('user_id', userId)
+          .eq('id', activeAgentId)
+          .single();
+        
+        if (!error && agentData) {
+          agentConfigData = agentData;
           this.logger.debug('Agent configuration loaded', { userId, activeAgentId });
         } else {
-          this.logger.warn('Active agent not found in Firestore', { userId, activeAgentId });
+          this.logger.warn('Active agent not found in Supabase', { userId, activeAgentId });
         }
       }
 
       // Get rules, starters, and flows in parallel
-      const [rulesSnapshot, startersSnapshot, flowsSnapshot] = await Promise.all([
-        userDocRef.collection('rules').get(),
-        userDocRef.collection('gemini_starters').get(),
-        userDocRef.collection('action_flows').get()
+      const [rulesResult, startersResult, flowsResult] = await Promise.all([
+        this.db.from('rules').select('*').eq('user_id', userId),
+        this.db.from('gemini_starters').select('*').eq('user_id', userId),
+        this.db.from('action_flows').select('*').eq('user_id', userId)
       ]);
 
-      const rulesData = rulesSnapshot.docs.map(doc => doc.data());
-      const startersData = startersSnapshot.docs.map(doc => doc.data());
-      const flowsData = flowsSnapshot.docs.map(doc => doc.data());
+      const rulesData = rulesResult.data || [];
+      const startersData = startersResult.data || [];
+      const flowsData = flowsResult.data || [];
 
       this.logger.debug('Configuration data loaded', {
         userId,
@@ -646,35 +649,38 @@ export class WhatsAppWorkerManager extends EventEmitter {
       await this.cleanupWorker(userId);
 
       try {
-        const timestamp = FieldValue.serverTimestamp();
-        const userDocRef = this.db.collection('users').doc(userId);
-        const statusDocRef = userDocRef.collection('status').doc('whatsapp');
+        const timestamp = new Date().toISOString();
 
-        // Update Firestore status
-        await userDocRef.update({ 
+        // Update Supabase status
+        await this.db.from('users').update({ 
           worker_pid: null, 
-          updatedAt: timestamp 
-        });
+          updated_at: timestamp 
+        }).eq('id', userId);
 
         // Only update status to 'error' if worker existed and current status is not 'disconnected'
-        const statusDoc = await statusDocRef.get();
-        if (workerExisted && 
-            (!statusDoc.exists || statusDoc.data()?.status !== 'disconnected')) {
-          
+        const { data: statusData } = await this.db.from('user_status')
+          .select('status')
+          .eq('user_id', userId)
+          .eq('platform', 'whatsapp')
+          .single();
+        
+        if (workerExisted && (!statusData || statusData.status !== 'disconnected')) {
           const exitErrorMsg = `Worker exited with code ${code}${signal ? ` (signal ${signal})` : ''} unexpectedly`;
           
-          await statusDocRef.set({
+          await this.db.from('user_status').upsert({
+            user_id: userId,
+            platform: 'whatsapp',
             status: 'error',
             last_error: exitErrorMsg,
-            updatedAt: timestamp
-          }, { merge: true });
+            updated_at: timestamp
+          });
         }
 
         this.connectingUsers.delete(userId);
         this.emit('workerExited', { userId, code, signal });
 
       } catch (error) {
-        this.logger.error('Error updating Firestore on worker exit', {
+        this.logger.error('Error updating Supabase on worker exit', {
           userId,
           error: error instanceof Error ? error.message : 'Unknown error'
         });
@@ -693,26 +699,26 @@ export class WhatsAppWorkerManager extends EventEmitter {
       this.connectingUsers.delete(userId);
 
       try {
-        const timestamp = FieldValue.serverTimestamp();
-        const userDocRef = this.db.collection('users').doc(userId);
-        const statusDocRef = userDocRef.collection('status').doc('whatsapp');
+        const timestamp = new Date().toISOString();
 
         await Promise.all([
-          userDocRef.update({ 
+          this.db.from('users').update({ 
             worker_pid: null, 
-            updatedAt: timestamp 
-          }),
-          statusDocRef.set({
+            updated_at: timestamp 
+          }).eq('id', userId),
+          this.db.from('user_status').upsert({
+            user_id: userId,
+            platform: 'whatsapp',
             status: 'error',
             last_error: error.message || 'Unknown worker error',
-            updatedAt: timestamp
-          }, { merge: true })
+            updated_at: timestamp
+          })
         ]);
 
         this.emit('workerError', { userId, error });
 
       } catch (dbError) {
-        this.logger.error('Error updating Firestore on worker error', {
+        this.logger.error('Error updating Supabase on worker error', {
           userId,
           dbError: dbError instanceof Error ? dbError.message : 'Unknown error'
         });
@@ -769,5 +775,21 @@ export class WhatsAppWorkerManager extends EventEmitter {
       await Promise.allSettled(shutdownPromises);
       this.logger.info('All workers shutdown completed');
     });
+  }
+
+  /**
+   * Shutdown all workers
+   */
+  public async shutdown(): Promise<void> {
+    this.logger.info('Shutting down WhatsApp Worker Manager');
+    
+    const shutdownPromises = Array.from(this.workers.keys()).map(userId => 
+      this.stopWorker(userId)
+    );
+    
+    await Promise.allSettled(shutdownPromises);
+    this.workers.clear();
+    
+    this.logger.info('WhatsApp Worker Manager shutdown completed');
   }
 } 

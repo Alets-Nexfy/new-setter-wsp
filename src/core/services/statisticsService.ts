@@ -1,4 +1,4 @@
-import { DatabaseService } from './DatabaseService';
+import { SupabaseService } from './SupabaseService';
 import { LoggerService } from './LoggerService';
 import { CacheService } from './CacheService';
 import { WebSocketService } from './websocketService';
@@ -113,7 +113,7 @@ export interface AgentAnalytics {
 }
 
 export class StatisticsService {
-  private db: DatabaseService;
+  private db: SupabaseService;
   private logger: LoggerService;
   private cache: CacheService;
   private wsService: WebSocketService;

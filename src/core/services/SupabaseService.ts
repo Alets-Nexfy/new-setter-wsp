@@ -87,10 +87,25 @@ export class SupabaseService {
 
   // Helper methods for common operations
   public from(table: string) {
+    if (!this.initialized) {
+      console.warn(`[SupabaseService] from('${table}') called before initialization - returning mock`)
+      return {
+        select: () => ({ eq: () => ({ single: () => Promise.resolve({ data: null, error: new Error('SupabaseService not initialized') }) }) }),
+        insert: () => Promise.resolve({ data: null, error: new Error('SupabaseService not initialized') }),
+        update: () => ({ eq: () => Promise.resolve({ data: null, error: new Error('SupabaseService not initialized') }) }),
+        upsert: () => Promise.resolve({ data: null, error: new Error('SupabaseService not initialized') }),
+        delete: () => ({ eq: () => Promise.resolve({ data: null, error: new Error('SupabaseService not initialized') }) }),
+        order: () => ({ select: () => Promise.resolve({ data: [], error: null }) })
+      }
+    }
     return this.getClient().from(table)
   }
 
   public adminFrom(table: string) {
+    if (!this.initialized) {
+      console.warn(`[SupabaseService] adminFrom('${table}') called before initialization - returning mock`)
+      return this.from(table) // Use same mock
+    }
     return this.getAdminClient().from(table)
   }
 
@@ -103,5 +118,96 @@ export class SupabaseService {
   // Batch operations helper
   public async batch(operations: Array<() => Promise<any>>): Promise<any[]> {
     return await Promise.all(operations.map(op => op()))
+  }
+
+  // Compatibility methods for DatabaseService
+  public collection(name: string) {
+    console.warn(`[SupabaseService] collection('${name}') called - using Supabase table instead`)
+    return {
+      doc: (id: string) => ({
+        get: async () => {
+          const { data, error } = await this.from(name).select('*').eq('id', id).single()
+          return {
+            exists: !error && !!data,
+            data: () => data,
+            id: id
+          }
+        },
+        set: async (data: any) => {
+          const { error } = await this.from(name).upsert({ ...data, id })
+          if (error) throw error
+          return data
+        },
+        update: async (data: any) => {
+          const { error } = await this.from(name).update(data).eq('id', id)
+          if (error) throw error
+          return data
+        },
+        collection: (subName: string) => this.collection(subName)
+      }),
+      get: async () => {
+        const { data, error } = await this.from(name).select('*')
+        return {
+          docs: (data || []).map(item => ({
+            id: item.id,
+            data: () => item,
+            exists: true
+          })),
+          forEach: (callback: (doc: any) => void) => {
+            (data || []).forEach(item => callback({
+              id: item.id,
+              data: () => item,
+              exists: true
+            }))
+          }
+        }
+      },
+      orderBy: (field: string, direction: 'asc' | 'desc' = 'asc') => ({
+        get: async () => {
+          const { data, error } = await this.from(name).select('*').order(field, { ascending: direction === 'asc' })
+          return {
+            docs: (data || []).map(item => ({
+              id: item.id,
+              data: () => item,
+              exists: true
+            })),
+            forEach: (callback: (doc: any) => void) => {
+              (data || []).forEach(item => callback({
+                id: item.id,
+                data: () => item,
+                exists: true
+              }))
+            }
+          }
+        }
+      })
+    }
+  }
+
+  public doc(table: string, id: string) {
+    console.warn(`[SupabaseService] doc('${table}', '${id}') called - using Supabase table instead`)
+    return this.collection(table).doc(id)
+  }
+
+  public get firestore() {
+    console.warn('[SupabaseService] firestore property accessed - using Supabase client instead')
+    return {
+      collection: (name: string) => this.collection(name),
+      doc: () => ({ 
+        collection: (name: string) => this.collection(name) 
+      })
+    }
+  }
+
+  public get storage() {
+    return this.getClient().storage
+  }
+
+  public async getFirestoreTimestamp() {
+    return new Date().toISOString()
+  }
+
+  public getProjectId(): string {
+    return process.env.SUPABASE_PROJECT_ID || 'bqitfhvaejxcyvjszfom'
   }
 }

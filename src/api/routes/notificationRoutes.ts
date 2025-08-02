@@ -2,7 +2,7 @@ import { Router } from 'express';
 import { NotificationController } from '../controllers/notificationController';
 import { validateNotification } from '../validators/notificationValidator';
 import { authenticateToken } from '../middleware/auth';
-import { rateLimiter } from '../middleware/rateLimiter';
+import { rateLimiter } from '../middleware';
 
 const router = Router();
 const notificationController = new NotificationController();

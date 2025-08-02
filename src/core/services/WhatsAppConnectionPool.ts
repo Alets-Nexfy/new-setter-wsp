@@ -3,7 +3,7 @@ import { Client, LocalAuth, MessageMedia } from 'whatsapp-web.js';
 import { spawn, ChildProcess } from 'child_process';
 import path from 'path';
 import { LoggerService } from '@/core/services/LoggerService';
-import { DatabaseService } from '@/core/services/DatabaseService';
+import { SupabaseService } from '@/core/services/SupabaseService';
 import { UserTierService, UserTier, TierConfiguration } from './UserTierService';
 import { MessageData, WorkerStatus } from '@/workers/whatsapp-worker/types';
 import { v4 as uuidv4 } from 'uuid';
@@ -91,7 +91,7 @@ export class WhatsAppConnectionPool extends EventEmitter {
     this.setMaxListeners(100);
     
     this.logger = LoggerService.getInstance();
-    this.firebase = DatabaseService.getInstance();
+    this.firebase = SupabaseService.getInstance();
     this.tierService = new UserTierService();
     
     this.setupEventHandlers();

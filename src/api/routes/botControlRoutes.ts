@@ -2,7 +2,7 @@ import { Router } from 'express';
 import { BotControlController } from '../controllers/botControlController';
 import { validateBotControl } from '../validators/botControlValidator';
 import { authenticateToken } from '../middleware/auth';
-import { rateLimiter } from '../middleware/rateLimiter';
+import { rateLimiter } from '../middleware';
 
 const router = Router();
 const botControlController = new BotControlController();

@@ -2,7 +2,7 @@ import { Router } from 'express';
 import { NuclearCleanupController } from '../controllers/nuclearCleanupController';
 import { NuclearCleanupService } from '../../core/services/nuclearCleanupService';
 import { authenticateApiKey } from '../middleware/auth';
-import { rateLimiter } from '../middleware/rateLimiter';
+import { rateLimiter } from '../middleware';
 import { sanitizeInput } from '../middleware/sanitization';
 import { validateCleanupRequest } from '../validators/nuclearCleanupValidator';
 

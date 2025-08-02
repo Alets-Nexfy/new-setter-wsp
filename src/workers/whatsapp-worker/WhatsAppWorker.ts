@@ -16,7 +16,7 @@ import * as path from 'path';
 import QRCode from 'qrcode';
 import { EventEmitter } from 'events';
 import { spawn, ChildProcess } from 'child_process';
-import { DatabaseService } from '../../core/services/DatabaseService';
+import { SupabaseService } from '../../core/services/SupabaseService';
 import { AIService } from '../../core/services/AIService';
 import { CacheService } from '../../core/services/CacheService';
 import { LoggerService } from '../../core/services/LoggerService';
@@ -112,7 +112,7 @@ export class WhatsAppWorker extends EventEmitter {
   private geminiStarters: any[] = [];
   
   // === SERVICIOS SINGLETON ===
-  private db: DatabaseService;
+  private db: SupabaseService;
   private ai: AIService;
   private cache: CacheService;
   private logger: LoggerService;
@@ -178,7 +178,7 @@ export class WhatsAppWorker extends EventEmitter {
     this.ipcEnabled = options.enableIPC ?? false;
     
     // === SERVICIOS SINGLETON ===
-    this.db = DatabaseService.getInstance();
+    this.db = SupabaseService.getInstance();
     this.ai = AIService.getInstance();
     this.cache = CacheService.getInstance();
     this.logger = LoggerService.getInstance();

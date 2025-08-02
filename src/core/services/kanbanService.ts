@@ -24,7 +24,7 @@ import {
 } from '../../shared/types/kanban';
 
 export class KanbanService {
-  private db: DatabaseService;
+  private db: SupabaseService;
   private cache: CacheService;
   private queue: QueueService;
   private logger: LoggerService;

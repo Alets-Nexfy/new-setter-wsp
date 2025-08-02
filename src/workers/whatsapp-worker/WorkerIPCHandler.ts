@@ -1,7 +1,6 @@
 import { LoggerService } from '@/core/services/LoggerService';
-import { DatabaseService } from '@/core/services/DatabaseService';
+import { SupabaseService } from '@/core/services/SupabaseService';
 import { WebSocketService } from '@/core/services/websocketService';
-import { FieldValue } from 'firebase-admin/firestore';
 import { WhatsAppWorkerManager, WorkerMessage } from './WhatsAppWorkerManager';
 
 export interface IPCMessagePayload {
@@ -18,13 +17,13 @@ export interface StatusUpdateData {
 
 export class WorkerIPCHandler {
   private logger: LoggerService;
-  private db: DatabaseService;
+  private db: SupabaseService;
   private wsService: WebSocketService;
   private workerManager: WhatsAppWorkerManager;
 
   constructor(workerManager: WhatsAppWorkerManager) {
     this.logger = LoggerService.getInstance();
-    this.db = DatabaseService.getInstance();
+    this.db = SupabaseService.getInstance();
     this.wsService = WebSocketService.getInstance();
     this.workerManager = workerManager;
   }
@@ -85,7 +84,7 @@ export class WorkerIPCHandler {
   private async handleStatusUpdate(userId: string, message: WorkerMessage): Promise<void> {
     let statusUpdateData: StatusUpdateData;
     let logMessage = '';
-    const timestamp = FieldValue.serverTimestamp();
+    const timestamp = new Date().toISOString();
 
     // Prepare status update data based on message type
     switch (message.type) {

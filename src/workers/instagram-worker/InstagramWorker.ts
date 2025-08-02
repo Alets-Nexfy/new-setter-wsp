@@ -14,7 +14,7 @@ import puppeteer, { Browser, Page } from 'puppeteer';
 import * as fs from 'fs';
 import * as path from 'path';
 import { EventEmitter } from 'events';
-import { DatabaseService } from '../../core/services/DatabaseService';
+import { SupabaseService } from '../../core/services/SupabaseService';
 import { AIService } from '../../core/services/AIService';
 import { CacheService } from '../../core/services/CacheService';
 import { LoggerService } from '../../core/services/LoggerService';
@@ -55,7 +55,7 @@ export class InstagramWorker extends EventEmitter {
   private initialTriggers: any[] = [];
   
   // Services
-  private db: DatabaseService;
+  private db: SupabaseService;
   private ai: AIService;
   private cache: CacheService;
   private logger: LoggerService;
@@ -77,7 +77,7 @@ export class InstagramWorker extends EventEmitter {
     this.activeAgentId = activeAgentId;
     
     // Initialize services
-    this.db = DatabaseService.getInstance();
+    this.db = SupabaseService.getInstance();
     this.ai = AIService.getInstance();
     this.cache = CacheService.getInstance();
     this.logger = new LoggerService();

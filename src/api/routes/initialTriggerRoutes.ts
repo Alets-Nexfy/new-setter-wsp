@@ -2,7 +2,7 @@ import { Router } from 'express';
 import { InitialTriggerController } from '../controllers/initialTriggerController';
 import { validateInitialTrigger } from '../validators/initialTriggerValidator';
 import { authenticateToken } from '../middleware/auth';
-import { rateLimiter } from '../middleware/rateLimiter';
+import { rateLimiter } from '../middleware';
 
 const router = Router();
 const initialTriggerController = new InitialTriggerController();

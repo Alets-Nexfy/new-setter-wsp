@@ -5,7 +5,7 @@ import { WhatsAppMessageHandler } from '@/platforms/whatsapp/services/WhatsAppMe
 import { WhatsAppService } from '@/platforms/whatsapp/services/WhatsAppService';
 import { QueueService } from '@/core/services/QueueService';
 import { WorkerManagerService } from '@/core/services/WorkerManagerService';
-import { DatabaseService } from '@/core/services/DatabaseService';
+import { SupabaseService } from '@/core/services/SupabaseService';
 import { JOB_TYPES } from '@/shared/constants';
 
 export class WhatsAppController {
@@ -14,7 +14,7 @@ export class WhatsAppController {
   private messageHandler: WhatsAppMessageHandler;
   private queue: QueueService;
   private workerManager: WorkerManagerService;
-  private db: DatabaseService;
+  private db: SupabaseService;
 
   constructor() {
     this.logger = LoggerService.getInstance();
@@ -22,7 +22,7 @@ export class WhatsAppController {
     this.messageHandler = WhatsAppMessageHandler.getInstance();
     this.queue = QueueService.getInstance();
     this.workerManager = WorkerManagerService.getInstance();
-    this.db = DatabaseService.getInstance();
+    this.db = SupabaseService.getInstance();
   }
 
   // GET /api/v2/whatsapp/status
@@ -536,17 +536,28 @@ export class WhatsAppController {
       });
 
       // Check if user exists in database, create if not exists (for testing)
-      const userDoc = await this.db.doc('users', userId).get();
-      if (!userDoc.exists) {
+      const { data: existingUser, error: userError } = await this.db
+        .from('users')
+        .select('id')
+        .eq('id', userId)
+        .single();
+
+      if (!existingUser) {
         // Create user automatically for testing
-        await this.db.doc('users', userId).set({
-          userId,
-          email: `${userId}@test.com`,
-          name: `Test User ${userId}`,
-          tier: 'standard',
-          createdAt: new Date(),
-          isActive: true
-        });
+        const { error: createError } = await this.db
+          .from('users')
+          .insert({
+            id: userId,
+            email: `${userId}@test.com`,
+            full_name: `Test User ${userId}`,
+            created_at: new Date().toISOString(),
+            is_active: true
+          });
+        
+        if (createError) {
+          throw createError;
+        }
+        
         this.logger.info('Test user created automatically', { userId });
       }
 
@@ -596,7 +607,10 @@ export class WhatsAppController {
     } catch (error) {
       this.logger.error('Error handling connect request', {
         userId: req.params.userId,
-        error: error instanceof Error ? error.message : 'Unknown error'
+        error: error instanceof Error ? error.message : 'Unknown error',
+        errorType: typeof error,
+        errorStack: error instanceof Error ? error.stack : undefined,
+        fullError: error
       });
 
       res.status(500).json({

@@ -1,6 +1,6 @@
 import { EventEmitter } from 'events';
 import { LoggerService } from './LoggerService';
-import { DatabaseService } from './DatabaseService';
+import { SupabaseService } from './SupabaseService';
 import { WebSocketService } from './websocketService';
 import { QueueService } from './QueueService';
 import { WorkerManagerService } from './WorkerManagerService';
@@ -13,7 +13,6 @@ import {
   MessageType,
   ConversationContext
 } from '@/shared/types/chat';
-import { FieldValue } from 'firebase-admin/firestore';
 
 export interface MessageJob {
   id: string;
@@ -84,7 +83,7 @@ export interface AutoReplyContext {
 export class MessageBrokerService extends EventEmitter {
   private static instance: MessageBrokerService;
   private logger: LoggerService;
-  private db: DatabaseService;
+  private db: SupabaseService;
   private wsService: WebSocketService;
   private queueService: QueueService;
   private workerManager: WorkerManagerService;
@@ -117,7 +116,7 @@ export class MessageBrokerService extends EventEmitter {
   private constructor() {
     super();
     this.logger = LoggerService.getInstance();
-    this.db = DatabaseService.getInstance();
+    this.db = SupabaseService.getInstance();
     this.wsService = WebSocketService.getInstance();
     this.queueService = QueueService.getInstance();
     this.workerManager = WorkerManagerService.getInstance();
@@ -1247,7 +1246,7 @@ export class MessageBrokerService extends EventEmitter {
       .collection('chats')
       .doc(chatId);
 
-    const timestamp = FieldValue.serverTimestamp();
+    const timestamp = new Date().toISOString();
     const messagePayload = {
       body: messageData.body || '',
       timestamp,
@@ -1287,7 +1286,7 @@ export class MessageBrokerService extends EventEmitter {
       .collection('chats')
       .doc(chatId);
 
-    const timestamp = FieldValue.serverTimestamp();
+    const timestamp = new Date().toISOString();
     const messagePayload = {
       body: messageData.content,
       timestamp,
@@ -1352,7 +1351,7 @@ export class MessageBrokerService extends EventEmitter {
       .collection('chats')
       .doc(chatId);
 
-    const timestamp = FieldValue.serverTimestamp();
+    const timestamp = new Date().toISOString();
     const messagePayload = {
       body: mediaData.caption || '',
       timestamp,
@@ -1391,7 +1390,7 @@ export class MessageBrokerService extends EventEmitter {
       .collection('chats')
       .doc(chatId);
 
-    const timestamp = FieldValue.serverTimestamp();
+    const timestamp = new Date().toISOString();
     await chatDocRef.set({
       lastContactMessageTimestamp: timestamp,
       lastMessageTimestamp: timestamp,
@@ -1417,7 +1416,7 @@ export class MessageBrokerService extends EventEmitter {
       .collection('chats')
       .doc(chatId);
 
-    const timestamp = FieldValue.serverTimestamp();
+    const timestamp = new Date().toISOString();
     const updateData: any = {
       lastMessageContent: content,
       lastMessageTimestamp: timestamp,

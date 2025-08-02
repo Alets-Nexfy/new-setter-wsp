@@ -1,10 +1,10 @@
-import { DatabaseService } from './DatabaseService';
+import { SupabaseService } from './SupabaseService';
 import { LoggerService } from './LoggerService';
 import { CacheService } from './CacheService';
 import { AutomationRule, CreateAutomationRuleRequest, UpdateAutomationRuleRequest } from '../models/AutomationRule';
 
 export class AutomationRulesService {
-  private db: DatabaseService;
+  private db: SupabaseService;
   private logger: LoggerService;
   private cache: CacheService;
 

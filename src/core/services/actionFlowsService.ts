@@ -1,11 +1,11 @@
-import { DatabaseService } from './DatabaseService';
+import { SupabaseService } from './SupabaseService';
 import { LoggerService } from './LoggerService';
 import { CacheService } from './CacheService';
 import { QueueService } from './QueueService';
 import { ActionFlow, CreateActionFlowRequest, UpdateActionFlowRequest, ActionFlowStep } from '../models/ActionFlow';
 
 export class ActionFlowsService {
-  private db: DatabaseService;
+  private db: SupabaseService;
   private logger: LoggerService;
   private cache: CacheService;
   private queue: QueueService;

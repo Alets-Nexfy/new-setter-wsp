@@ -2,7 +2,7 @@ import { Router } from 'express';
 import { StatisticsController } from '../controllers/statisticsController';
 import { StatisticsService } from '../../core/services/statisticsService';
 import { authenticateApiKey } from '../middleware/auth';
-import { rateLimiter } from '../middleware/rateLimiter';
+import { rateLimiter } from '../middleware';
 import { sanitizeInput } from '../middleware/sanitization';
 import { validateStatisticsRequest } from '../validators/statisticsValidator';
 

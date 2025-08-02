@@ -1,6 +1,6 @@
 import { EventEmitter } from 'events';
 import { LoggerService } from '@/core/services/LoggerService';
-import { DatabaseService } from '@/core/services/DatabaseService';
+import { SupabaseService } from '@/core/services/SupabaseService';
 import { CacheService } from '@/core/services/CacheService';
 import { QueueService } from '@/core/services/QueueService';
 import { WhatsAppWorkerManager } from '@/workers/whatsapp-worker/WorkerManager';
@@ -36,7 +36,7 @@ export class WhatsAppService extends EventEmitter {
   private static instance: WhatsAppService | null = null;
   private workerManager: WhatsAppWorkerManager;
   private logger: LoggerService;
-  private db: DatabaseService;
+  private db: SupabaseService;
   private cache: CacheService;
   private queue: QueueService;
   private isInitialized: boolean = false;
@@ -44,7 +44,7 @@ export class WhatsAppService extends EventEmitter {
   private constructor() {
     super();
     this.logger = LoggerService.getInstance();
-    this.db = DatabaseService.getInstance();
+    this.db = SupabaseService.getInstance();
     this.cache = CacheService.getInstance();
     this.queue = QueueService.getInstance();
     this.workerManager = new WhatsAppWorkerManager();

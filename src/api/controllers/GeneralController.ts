@@ -1,20 +1,20 @@
 import { Request, Response } from 'express';
 import { LoggerService } from '@/core/services/LoggerService';
-import { DatabaseService } from '@/core/services/DatabaseService';
+import { SupabaseService } from '@/core/services/SupabaseService';
 import { CacheService } from '@/core/services/CacheService';
 import { QueueService } from '@/core/services/QueueService';
 import { AIService } from '@/core/services/AIService';
 
 export class GeneralController {
   private logger: LoggerService;
-  private db: DatabaseService;
+  private db: SupabaseService;
   private cache: CacheService;
   private queue: QueueService;
   private aiService: AIService;
 
   constructor() {
     this.logger = LoggerService.getInstance();
-    this.db = DatabaseService.getInstance();
+    this.db = SupabaseService.getInstance();
     this.cache = CacheService.getInstance();
     this.queue = QueueService.getInstance();
     this.aiService = AIService.getInstance();

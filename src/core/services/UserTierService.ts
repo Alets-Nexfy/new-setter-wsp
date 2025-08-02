@@ -1,5 +1,5 @@
 import { LoggerService } from './LoggerService';
-import { DatabaseService } from './DatabaseService';
+import { SupabaseService } from './SupabaseService';
 import { CacheService } from './CacheService';
 import { EventEmitter } from 'events';
 
@@ -69,7 +69,7 @@ export interface UserTierInfo {
 export class UserTierService extends EventEmitter {
   private static instance: UserTierService;
   private logger: LoggerService;
-  private firebase: DatabaseService;
+  private firebase: SupabaseService;
   private cache: CacheService;
   private tierConfigurations: Map<UserTier, TierConfiguration>;
   private userTierCache: Map<string, UserTierInfo> = new Map();
@@ -77,7 +77,7 @@ export class UserTierService extends EventEmitter {
   private constructor() {
     super();
     this.logger = LoggerService.getInstance();
-    this.firebase = DatabaseService.getInstance();
+    this.firebase = SupabaseService.getInstance();
     this.cache = CacheService.getInstance();
     this.tierConfigurations = new Map();
     this.initializeTierConfigurations();
@@ -251,14 +251,14 @@ export class UserTierService extends EventEmitter {
       }
 
       // Fetch from database
-      const userTierDoc = await this.firebase.collection('user_tiers').doc(userId).get();
+      const { data: tierData, error } = await this.firebase.from('user_tiers').select('*').eq('user_id', userId).single();
       
-      if (!userTierDoc.exists) {
+      if (error || !tierData) {
         // New user - create default standard tier
         return await this.createDefaultTierForUser(userId);
       }
 
-      const tierInfo = userTierDoc.data() as UserTierInfo;
+      const tierInfo = tierData as UserTierInfo;
       tierInfo.configuration = this.tierConfigurations.get(tierInfo.tier)!;
 
       // Update cache
@@ -299,7 +299,7 @@ export class UserTierService extends EventEmitter {
         status: 'active'
       };
 
-      await this.firebase.collection('user_tiers').doc(userId).set(updatedTierInfo);
+      await this.firebase.from('user_tiers').upsert(updatedTierInfo);
 
       // Clear cache
       this.userTierCache.delete(userId);
@@ -349,7 +349,7 @@ export class UserTierService extends EventEmitter {
         status: 'active'
       };
 
-      await this.firebase.collection('user_tiers').doc(userId).set(updatedTierInfo);
+      await this.firebase.from('user_tiers').upsert(updatedTierInfo);
 
       // Clear cache
       this.userTierCache.delete(userId);
@@ -389,9 +389,9 @@ export class UserTierService extends EventEmitter {
       await this.enforceUsageLimits(userId, tierInfo, updatedUsage);
 
       // Update in database
-      await this.firebase.collection('user_tiers').doc(userId).update({
+      await this.firebase.from('user_tiers').update({
         usage: updatedUsage
-      });
+      }).eq('user_id', userId);
 
       // Update cache
       if (this.userTierCache.has(userId)) {
@@ -516,7 +516,7 @@ export class UserTierService extends EventEmitter {
       configuration: config
     };
 
-    await this.firebase.collection('user_tiers').doc(userId).set(tierInfo);
+    await this.firebase.from('user_tiers').insert(tierInfo);
     this.userTierCache.set(userId, tierInfo);
 
     this.emit('tier:created', { userId, tier: defaultTier });
@@ -581,8 +581,8 @@ export class UserTierService extends EventEmitter {
 
   private async getUserAgentCount(userId: string): Promise<number> {
     try {
-      const agents = await this.firebase.collection('agents').where('userId', '==', userId).get();
-      return agents.size;
+      const { data: agents, error } = await this.firebase.from('agents').select('id').eq('user_id', userId);
+      return agents?.length || 0;
     } catch (error) {
       this.logger.error('Error getting user agent count', { userId, error });
       return 0;
@@ -636,13 +636,13 @@ export class UserTierService extends EventEmitter {
 
   public async getUsersApproachingLimits(): Promise<Array<{userId: string, tier: UserTier, warnings: string[]}>> {
     try {
-      const users = await this.firebase.collection('user_tiers').get();
+      const { data: users, error } = await this.firebase.from('user_tiers').select('*');
+      if (error) throw error;
+      
       const warnings: Array<{userId: string, tier: UserTier, warnings: string[]}> = [];
 
-      users.forEach((doc) => {
-        const userId = doc.id;
-        const tierData = doc.data();
-        const tierInfo = tierData as UserTierInfo;
+      (users || []).forEach((tierInfo) => {
+        const userId = tierInfo.user_id;
         const userWarnings: string[] = [];
 
         // Check message usage
@@ -713,7 +713,7 @@ export class UserTierService extends EventEmitter {
       };
 
       // Save to database
-      await this.firebase.collection('user_tiers').doc(userId).set(b2bTierInfo);
+      await this.firebase.from('user_tiers').insert(b2bTierInfo);
 
       // Clear cache
       this.userTierCache.delete(userId);
@@ -756,15 +756,17 @@ export class UserTierService extends EventEmitter {
    */
   public async getB2BPlatformUsers(platformId: string): Promise<UserTierInfo[]> {
     try {
-      const users = await this.firebase.collection('user_tiers')
-        .where('tier', '==', 'enterprise_b2b')
-        .where('b2bInfo.platformId', '==', platformId)
-        .get();
+      const { data: users, error } = await this.firebase.from('user_tiers')
+        .select('*')
+        .eq('tier', 'enterprise_b2b')
+        .eq('b2b_info->platformId', platformId);
 
-      return users.docs.map(doc => {
-        const data = doc.data() as UserTierInfo;
-        data.configuration = this.tierConfigurations.get('enterprise_b2b')!;
-        return data;
+      if (error) throw error;
+
+      return (users || []).map(data => {
+        const tierInfo = data as UserTierInfo;
+        tierInfo.configuration = this.tierConfigurations.get('enterprise_b2b')!;
+        return tierInfo;
       });
 
     } catch (error) {
@@ -831,9 +833,9 @@ export class UserTierService extends EventEmitter {
         ...updates
       };
 
-      await this.firebase.collection('user_tiers').doc(userId).update({
-        'b2bInfo': updatedB2BInfo
-      });
+      await this.firebase.from('user_tiers').update({
+        'b2b_info': updatedB2BInfo
+      }).eq('user_id', userId);
 
       // Clear cache
       this.userTierCache.delete(userId);

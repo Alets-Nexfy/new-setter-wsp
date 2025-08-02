@@ -1,9 +1,8 @@
 import { Request, Response } from 'express';
 import { LoggerService } from '@/core/services/LoggerService';
-import { DatabaseService } from '@/core/services/DatabaseService';
+import { SupabaseService } from '@/core/services/SupabaseService';
 import { WorkerManagerService } from '@/core/services/WorkerManagerService';
 import { AIService } from '@/core/services/AIService';
-import { FieldValue } from 'firebase-admin/firestore';
 import { v4 as uuidv4 } from 'uuid';
 
 export interface ActionFlowStep {
@@ -55,7 +54,7 @@ export interface FlowExecutionResult {
 
 export class ActionFlowsController {
   private logger: LoggerService;
-  private db: DatabaseService;
+  private db: SupabaseService;
   private workerManager: WorkerManagerService;
   private aiService: AIService;
 
@@ -64,7 +63,7 @@ export class ActionFlowsController {
 
   constructor() {
     this.logger = LoggerService.getInstance();
-    this.db = DatabaseService.getInstance();
+    this.db = SupabaseService.getInstance();
     this.workerManager = WorkerManagerService.getInstance();
     this.aiService = AIService.getInstance();
   }
@@ -249,7 +248,7 @@ export class ActionFlowsController {
       }
 
       const flowId = uuidv4();
-      const timestamp = FieldValue.serverTimestamp();
+      const timestamp = new Date().toISOString();
 
       const newFlow: Omit<ActionFlow, 'createdAt' | 'updatedAt'> = {
         id: flowId,
@@ -425,7 +424,7 @@ export class ActionFlowsController {
 
       // Prepare update data
       const fieldsToUpdate: any = {
-        updatedAt: FieldValue.serverTimestamp()
+        updatedAt: new Date().toISOString()
       };
 
       if (updateData.name !== undefined) fieldsToUpdate.name = updateData.name.trim();

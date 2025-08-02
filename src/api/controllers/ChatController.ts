@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { LoggerService } from '@/core/services/LoggerService';
-import { DatabaseService } from '@/core/services/DatabaseService';
+import { SupabaseService } from '@/core/services/SupabaseService';
 import { 
   Chat,
   ChatListItem,
@@ -12,15 +12,14 @@ import {
   ChatFilters,
   ChatSortOptions
 } from '@/shared/types/chat';
-import { FieldValue } from 'firebase-admin/firestore';
 
 export class ChatController {
   private logger: LoggerService;
-  private db: DatabaseService;
+  private db: SupabaseService;
 
   constructor() {
     this.logger = LoggerService.getInstance();
-    this.db = DatabaseService.getInstance();
+    this.db = SupabaseService.getInstance();
   }
 
   /**
@@ -296,7 +295,7 @@ export class ChatController {
       // Update contact display name
       await chatDocRef.update({
         contactDisplayName: name.trim(),
-        updatedAt: FieldValue.serverTimestamp()
+        updatedAt: new Date().toISOString()
       });
 
       this.logger.info('Contact display name updated', {
@@ -367,11 +366,11 @@ export class ChatController {
           contactName: chatId, // Default to chatId
           type: 'individual',
           isActivated: true,
-          activatedAt: FieldValue.serverTimestamp(),
+          activatedAt: new Date().toISOString(),
           activationMethod: method,
           userIsActive: false,
-          createdAt: FieldValue.serverTimestamp(),
-          updatedAt: FieldValue.serverTimestamp(),
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString(),
           ...metadata
         });
 
@@ -381,9 +380,9 @@ export class ChatController {
         // Update existing chat
         await chatDocRef.update({
           isActivated: true,
-          activatedAt: FieldValue.serverTimestamp(),
+          activatedAt: new Date().toISOString(),
           activationMethod: method,
-          updatedAt: FieldValue.serverTimestamp(),
+          updatedAt: new Date().toISOString(),
           ...metadata
         });
       }
@@ -468,9 +467,9 @@ export class ChatController {
       // Update chat
       await chatDocRef.update({
         isActivated: false,
-        deactivatedAt: FieldValue.serverTimestamp(),
+        deactivatedAt: new Date().toISOString(),
         deactivationReason: reason,
-        updatedAt: FieldValue.serverTimestamp()
+        updatedAt: new Date().toISOString()
       });
 
       // Log chat activity
@@ -569,9 +568,9 @@ export class ChatController {
         
         currentBatch.update(chatRef, { 
           isActivated: false,
-          deactivatedAt: FieldValue.serverTimestamp(),
+          deactivatedAt: new Date().toISOString(),
           deactivationReason: 'bulk_reset',
-          updatedAt: FieldValue.serverTimestamp()
+          updatedAt: new Date().toISOString()
         });
         
         operationCount++;
@@ -679,9 +678,9 @@ export class ChatController {
             case 'activate':
               await chatDocRef.update({
                 isActivated: true,
-                activatedAt: FieldValue.serverTimestamp(),
+                activatedAt: new Date().toISOString(),
                 activationMethod: 'bulk',
-                updatedAt: FieldValue.serverTimestamp(),
+                updatedAt: new Date().toISOString(),
                 ...parameters
               });
               break;
@@ -689,9 +688,9 @@ export class ChatController {
             case 'deactivate':
               await chatDocRef.update({
                 isActivated: false,
-                deactivatedAt: FieldValue.serverTimestamp(),
+                deactivatedAt: new Date().toISOString(),
                 deactivationReason: 'bulk_operation',
-                updatedAt: FieldValue.serverTimestamp(),
+                updatedAt: new Date().toISOString(),
                 ...parameters
               });
               break;
@@ -703,7 +702,7 @@ export class ChatController {
               await chatDocRef.update({
                 kanbanBoardId: parameters.kanbanBoardId,
                 kanbanColumnId: parameters.kanbanColumnId || null,
-                updatedAt: FieldValue.serverTimestamp()
+                updatedAt: new Date().toISOString()
               });
               break;
 
@@ -711,8 +710,8 @@ export class ChatController {
               // Clear message collections
               await this.clearChatHistory(userId, chatId);
               await chatDocRef.update({
-                historyClearedAt: FieldValue.serverTimestamp(),
-                updatedAt: FieldValue.serverTimestamp()
+                historyClearedAt: new Date().toISOString(),
+                updatedAt: new Date().toISOString()
               });
               break;
 
@@ -910,7 +909,7 @@ export class ChatController {
 
       // Create empty documents in each collection to ensure they exist
       const collections = ['messages_all', 'messages_human', 'messages_bot', 'messages_contact'];
-      const timestamp = FieldValue.serverTimestamp();
+      const timestamp = new Date().toISOString();
 
       const initPromises = collections.map(async (collectionName) => {
         const initDocRef = chatDocRef.collection(collectionName).doc('_init');
@@ -1024,7 +1023,7 @@ export class ChatController {
           action,
           details,
           metadata: metadata || {},
-          timestamp: FieldValue.serverTimestamp()
+          timestamp: new Date().toISOString()
         });
     } catch (error) {
       this.logger.error('Error logging chat activity', {

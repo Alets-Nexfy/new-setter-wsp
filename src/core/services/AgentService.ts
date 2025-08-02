@@ -1,8 +1,7 @@
 import { EventEmitter } from 'events';
 import { LoggerService } from './LoggerService';
-import { DatabaseService } from './DatabaseService';
+import { SupabaseService as DatabaseService } from './SupabaseService';
 import { WorkerManagerService } from './WorkerManagerService';
-import { FieldValue } from 'firebase-admin/firestore';
 import { v4 as uuidv4 } from 'uuid';
 
 export interface AgentPersona {
@@ -66,7 +65,7 @@ export interface InitialConfiguration {
 export class AgentService extends EventEmitter {
   private static instance: AgentService;
   private logger: LoggerService;
-  private db: DatabaseService;
+  private db: SupabaseService;
   private workerManager: WorkerManagerService;
 
   // Agent state tracking
@@ -107,40 +106,38 @@ export class AgentService extends EventEmitter {
   }
 
   /**
-   * MIGRADO DE: whatsapp-api/src/server.js líneas 2009-2050
-   * Get all agents for a user
+   * MIGRATED TO SUPABASE: Get all agents for a user
    */
   public async getUserAgents(userId: string): Promise<Agent[]> {
     try {
       this.logger.debug('Getting user agents', { userId });
 
-      const agentsSnapshot = await this.db
-        .collection('users')
-        .doc(userId)
-        .collection('agents')
-        .orderBy('createdAt', 'desc')
-        .get();
+      const { data: agents, error } = await this.db.supabase
+        .from('agents')
+        .select('*')
+        .eq('user_id', userId)
+        .order('created_at', { ascending: false });
 
-      const agents: Agent[] = [];
-      agentsSnapshot.forEach(doc => {
-        const data = doc.data();
-        agents.push({
-          id: doc.id,
-          userId,
-          persona: data.persona || {},
-          knowledge: data.knowledge || {},
-          isActive: this.activeAgents.get(userId) === doc.id,
-          createdAt: data.createdAt?.toDate?.() ? data.createdAt.toDate().toISOString() : new Date().toISOString(),
-          updatedAt: data.updatedAt?.toDate?.() ? data.updatedAt.toDate().toISOString() : new Date().toISOString()
-        });
-      });
+      if (error) {
+        throw error;
+      }
+
+      const result = (agents || []).map(agent => ({
+        id: agent.id,
+        userId,
+        persona: agent.persona || {},
+        knowledge: agent.knowledge || {},
+        isActive: this.activeAgents.get(userId) === agent.id,
+        createdAt: agent.created_at,
+        updatedAt: agent.updated_at
+      }));
 
       this.logger.debug('User agents retrieved', { 
         userId, 
-        agentCount: agents.length 
+        agentCount: result.length 
       });
 
-      return agents;
+      return result;
 
     } catch (error) {
       this.logger.error('Error getting user agents', {
@@ -148,18 +145,12 @@ export class AgentService extends EventEmitter {
         error: error instanceof Error ? error.message : 'Unknown error'
       });
 
-      // Return empty array if user not found or no agents
-      if (error instanceof Error && (error.message.includes('NOT_FOUND') || error.message.includes('5'))) {
-        return [];
-      }
-
-      throw error;
+      return [];
     }
   }
 
   /**
-   * MIGRADO DE: whatsapp-api/src/server.js líneas 2051-2124
-   * Create new agent for user
+   * MIGRATED TO SUPABASE: Create new agent for user
    */
   public async createAgent(request: CreateAgentRequest): Promise<Agent> {
     try {
@@ -176,18 +167,23 @@ export class AgentService extends EventEmitter {
       }
 
       // Verify user exists
-      const userDoc = await this.db.collection('users').doc(userId).get();
-      if (!userDoc.exists) {
+      const { data: user, error: userError } = await this.db.supabase
+        .from('users')
+        .select('id')
+        .eq('id', userId)
+        .single();
+
+      if (userError || !user) {
         throw new Error('User not found');
       }
 
       const agentId = uuidv4();
-      const timestamp = FieldValue.serverTimestamp();
+      const now = new Date().toISOString();
 
       // Build complete agent configuration
-      const agentData: Omit<Agent, 'createdAt' | 'updatedAt'> = {
+      const agentData = {
         id: agentId,
-        userId,
+        user_id: userId,
         persona: {
           name: persona.name.trim(),
           role: persona.role || 'Asistente',
@@ -202,28 +198,32 @@ export class AgentService extends EventEmitter {
           urls: knowledge.urls || [],
           qandas: knowledge.qandas || [],
           writingSampleTxt: knowledge.writingSampleTxt || ''
-        }
+        },
+        created_at: now,
+        updated_at: now
       };
 
-      // Save to Firestore
-      await this.db
-        .collection('users')
-        .doc(userId)
-        .collection('agents')
-        .doc(agentId)
-        .set({
-          ...agentData,
-          createdAt: timestamp,
-          updatedAt: timestamp
-        });
+      // Save to Supabase
+      const { data: createdAgentData, error } = await this.db.supabase
+        .from('agents')
+        .insert(agentData)
+        .select()
+        .single();
+
+      if (error) {
+        throw error;
+      }
 
       // Notify worker if active
       this.notifyWorkerAgentChange(userId, 'RELOAD_AGENT_CONFIG');
 
       const createdAgent: Agent = {
-        ...agentData,
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString()
+        id: createdAgentData.id,
+        userId,
+        persona: createdAgentData.persona,
+        knowledge: createdAgentData.knowledge,
+        createdAt: createdAgentData.created_at,
+        updatedAt: createdAgentData.updated_at
       };
 
       this.emit('agentCreated', { userId, agent: createdAgent });
@@ -269,7 +269,7 @@ export class AgentService extends EventEmitter {
 
       const currentData = agentDoc.data()!;
       const updateData: any = {
-        updatedAt: FieldValue.serverTimestamp()
+        updatedAt: new Date().toISOString()
       };
 
       // Update persona if provided
@@ -371,7 +371,7 @@ export class AgentService extends EventEmitter {
         // Remove as active agent
         await userDocRef.update({
           active_agent_id: null,
-          updatedAt: FieldValue.serverTimestamp()
+          updatedAt: new Date().toISOString()
         });
         
         this.activeAgents.set(userId, null);
@@ -406,33 +406,31 @@ export class AgentService extends EventEmitter {
   }
 
   /**
-   * Get specific agent by ID
+   * MIGRATED TO SUPABASE: Get specific agent by ID
    */
   public async getAgent(userId: string, agentId: string): Promise<Agent> {
     try {
       this.logger.debug('Getting specific agent', { userId, agentId });
 
-      const agentDoc = await this.db
-        .collection('users')
-        .doc(userId)
-        .collection('agents')
-        .doc(agentId)
-        .get();
+      const { data: agent, error } = await this.db.supabase
+        .from('agents')
+        .select('*')
+        .eq('id', agentId)
+        .eq('user_id', userId)
+        .single();
 
-      if (!agentDoc.exists) {
+      if (error || !agent) {
         throw new Error('Agent not found');
       }
-
-      const data = agentDoc.data()!;
       
       return {
-        id: agentDoc.id,
+        id: agent.id,
         userId,
-        persona: data.persona || {},
-        knowledge: data.knowledge || {},
-        isActive: this.activeAgents.get(userId) === agentDoc.id,
-        createdAt: data.createdAt?.toDate?.() ? data.createdAt.toDate().toISOString() : new Date().toISOString(),
-        updatedAt: data.updatedAt?.toDate?.() ? data.updatedAt.toDate().toISOString() : new Date().toISOString()
+        persona: agent.persona || {},
+        knowledge: agent.knowledge || {},
+        isActive: this.activeAgents.get(userId) === agent.id,
+        createdAt: agent.created_at,
+        updatedAt: agent.updated_at
       };
 
     } catch (error) {
@@ -446,21 +444,23 @@ export class AgentService extends EventEmitter {
   }
 
   /**
-   * MIGRADO DE: whatsapp-api/src/server.js líneas 1208-1255
-   * Get active agent for user
+   * MIGRATED TO SUPABASE: Get active agent for user
    */
   public async getActiveAgent(userId: string): Promise<{ activeAgentId: string | null; agent?: Agent }> {
     try {
       this.logger.debug('Getting active agent', { userId });
 
-      const userDoc = await this.db.collection('users').doc(userId).get();
+      const { data: user, error: userError } = await this.db.supabase
+        .from('users')
+        .select('active_agent_id')
+        .eq('id', userId)
+        .single();
       
-      if (!userDoc.exists) {
+      if (userError || !user) {
         throw new Error('User not found');
       }
 
-      const userData = userDoc.data()!;
-      const activeAgentId = userData.active_agent_id || null;
+      const activeAgentId = user.active_agent_id || null;
       
       // Update local cache
       this.activeAgents.set(userId, activeAgentId);
@@ -487,8 +487,7 @@ export class AgentService extends EventEmitter {
   }
 
   /**
-   * MIGRADO DE: whatsapp-api/src/server.js líneas 2313-2392
-   * Set active agent for user
+   * MIGRATED TO SUPABASE: Set active agent for user
    */
   public async setActiveAgent(request: AgentSwitchRequest): Promise<{ activeAgentId: string | null; agent?: Agent }> {
     try {
@@ -496,11 +495,14 @@ export class AgentService extends EventEmitter {
 
       this.logger.info('Setting active agent', { userId, agentId });
 
-      const userDocRef = this.db.collection('users').doc(userId);
-
       // Verify user exists
-      const userDoc = await userDocRef.get();
-      if (!userDoc.exists) {
+      const { data: user, error: userError } = await this.db.supabase
+        .from('users')
+        .select('id')
+        .eq('id', userId)
+        .single();
+
+      if (userError || !user) {
         throw new Error('User not found');
       }
 
@@ -509,34 +511,41 @@ export class AgentService extends EventEmitter {
 
       // If agentId is provided, verify agent exists and get config
       if (agentId) {
-        const agentDocRef = this.db
-          .collection('users')
-          .doc(userId)
-          .collection('agents')
-          .doc(agentId);
+        const { data: agentData, error: agentError } = await this.db.supabase
+          .from('agents')
+          .select('*')
+          .eq('id', agentId)
+          .eq('user_id', userId)
+          .single();
         
-        const agentDoc = await agentDocRef.get();
-        if (!agentDoc.exists) {
+        if (agentError || !agentData) {
           throw new Error(`Agent with ID ${agentId} not found for this user`);
         }
 
-        agentConfig = agentDoc.data()!;
+        agentConfig = agentData;
         agent = {
-          id: agentDoc.id,
+          id: agentData.id,
           userId,
-          persona: agentConfig.persona || {},
-          knowledge: agentConfig.knowledge || {},
+          persona: agentData.persona || {},
+          knowledge: agentData.knowledge || {},
           isActive: true,
-          createdAt: agentConfig.createdAt?.toDate?.() ? agentConfig.createdAt.toDate().toISOString() : new Date().toISOString(),
-          updatedAt: agentConfig.updatedAt?.toDate?.() ? agentConfig.updatedAt.toDate().toISOString() : new Date().toISOString()
+          createdAt: agentData.created_at,
+          updatedAt: agentData.updated_at
         };
       }
 
       // Update user's active agent
-      await userDocRef.update({
-        active_agent_id: agentId,
-        updatedAt: FieldValue.serverTimestamp()
-      });
+      const { error: updateError } = await this.db.supabase
+        .from('users')
+        .update({ 
+          active_agent_id: agentId,
+          updated_at: new Date().toISOString()
+        })
+        .eq('id', userId);
+
+      if (updateError) {
+        throw updateError;
+      }
 
       // Update local cache
       this.activeAgents.set(userId, agentId);
@@ -574,8 +583,7 @@ export class AgentService extends EventEmitter {
   }
 
   /**
-   * MIGRADO DE: whatsapp-api/src/server.js líneas 660-750
-   * Get initial configuration for worker startup
+   * MIGRATED TO SUPABASE: Get initial configuration for worker startup
    */
   public async getInitialConfiguration(userId: string, activeAgentId?: string | null): Promise<InitialConfiguration> {
     try {
@@ -584,17 +592,19 @@ export class AgentService extends EventEmitter {
         activeAgentId: activeAgentId || 'default' 
       });
 
-      const userDocRef = this.db.collection('users').doc(userId);
       let agentConfig: AgentConfig | null = null;
 
       // 1. Get agent configuration
       if (activeAgentId) {
         try {
-          const agentDocRef = userDocRef.collection('agents').doc(activeAgentId);
-          const agentDoc = await agentDocRef.get();
+          const { data: agentData, error } = await this.db.supabase
+            .from('agents')
+            .select('*')
+            .eq('id', activeAgentId)
+            .eq('user_id', userId)
+            .single();
           
-          if (agentDoc.exists) {
-            const agentData = agentDoc.data()!;
+          if (!error && agentData) {
             agentConfig = {
               id: activeAgentId,
               persona: agentData.persona || this.DEFAULT_AGENT_CONFIG.persona,
@@ -617,16 +627,16 @@ export class AgentService extends EventEmitter {
         agentConfig = this.DEFAULT_AGENT_CONFIG;
       }
 
-      // 2. Get rules
-      const [rulesSnapshot, startersSnapshot, flowsSnapshot] = await Promise.all([
-        userDocRef.collection('rules').get(),
-        userDocRef.collection('gemini_starters').get(),
-        userDocRef.collection('action_flows').get()
+      // 2. Get rules, starters, and flows
+      const [
+        { data: rules = [] },
+        { data: starters = [] },
+        { data: flows = [] }
+      ] = await Promise.all([
+        this.db.supabase.from('automation_rules').select('*').eq('user_id', userId),
+        this.db.supabase.from('gemini_starters').select('*').eq('user_id', userId),
+        this.db.supabase.from('action_flows').select('*').eq('user_id', userId)
       ]);
-
-      const rules = rulesSnapshot.docs.map(doc => doc.data());
-      const starters = startersSnapshot.docs.map(doc => doc.data());
-      const flows = flowsSnapshot.docs.map(doc => doc.data());
 
       this.logger.info('Initial configuration loaded', {
         userId,

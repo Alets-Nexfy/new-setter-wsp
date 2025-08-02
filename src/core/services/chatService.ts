@@ -38,11 +38,10 @@ import { DatabaseService } from './database';
 import { CacheService } from './cache';
 import { QueueService } from './queue';
 import { LoggerService } from './logger';
-import { FieldValue } from 'firebase-admin/firestore';
 
 export class ChatService {
   private static instance: ChatService;
-  private db: DatabaseService;
+  private db: SupabaseService;
   private cache: CacheService;
   private queue: QueueService;
   private logger: LoggerService;
@@ -57,7 +56,7 @@ export class ChatService {
   private readonly INACTIVITY_TIMEOUT_MS = 36 * 60 * 60 * 1000; // 36 hours
 
   private constructor() {
-    this.db = DatabaseService.getInstance();
+    this.db = SupabaseService.getInstance();
     this.cache = CacheService.getInstance();
     this.queue = QueueService.getInstance();
     this.logger = LoggerService.getInstance();
@@ -90,8 +89,8 @@ export class ChatService {
       const chatDocRef = this.db.collection('users').doc(userId).collection('chats').doc(chatId);
       await chatDocRef.set({
         ...chat,
-        createdAt: FieldValue.serverTimestamp(),
-        updatedAt: FieldValue.serverTimestamp()
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString()
       });
 
       // Initialize message collections
@@ -231,7 +230,7 @@ export class ChatService {
 
       const updatedData = {
         ...updates,
-        updatedAt: FieldValue.serverTimestamp()
+        updatedAt: new Date().toISOString()
       };
 
       const chatDocRef = this.db.collection('users').doc(userId).collection('chats').doc(chatId);
@@ -322,9 +321,9 @@ export class ChatService {
       const chatDocRef = this.db.collection('users').doc(userId).collection('chats').doc(chatId);
       const messageRef = await chatDocRef.collection('messages_all').add({
         ...messageData,
-        timestamp: FieldValue.serverTimestamp(),
-        createdAt: FieldValue.serverTimestamp(),
-        updatedAt: FieldValue.serverTimestamp()
+        timestamp: new Date().toISOString(),
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString()
       });
 
       // Save to origin-specific collection
@@ -332,19 +331,19 @@ export class ChatService {
                               origin === 'bot' ? 'messages_bot' : 'messages_contact';
       await chatDocRef.collection(originCollection).add({
         ...messageData,
-        timestamp: FieldValue.serverTimestamp(),
-        createdAt: FieldValue.serverTimestamp(),
-        updatedAt: FieldValue.serverTimestamp()
+        timestamp: new Date().toISOString(),
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString()
       });
 
       // Update chat metadata
       await this.updateChatMetadata(userId, chatId, {
         lastMessageContent: message,
-        lastMessageTimestamp: FieldValue.serverTimestamp(),
+        lastMessageTimestamp: new Date().toISOString(),
         lastMessageType: type,
         lastMessageOrigin: origin,
         userIsActive: origin === 'human',
-        lastActivityTimestamp: FieldValue.serverTimestamp()
+        lastActivityTimestamp: new Date().toISOString()
       });
 
       // Track tokens for conversation
@@ -445,7 +444,7 @@ export class ChatService {
       const chatDocRef = this.db.collection('users').doc(userId).collection('chats').doc(chatId);
       await chatDocRef.update({
         contactDisplayName: name.trim(),
-        updatedAt: FieldValue.serverTimestamp()
+        updatedAt: new Date().toISOString()
       });
 
       // Clear cache
@@ -468,7 +467,7 @@ export class ChatService {
       const { chatId, method = 'manual', metadata } = request;
 
       const chatDocRef = this.db.collection('users').doc(userId).collection('chats').doc(chatId);
-      const serverTimestamp = FieldValue.serverTimestamp();
+      const serverTimestamp = new Date().toISOString();
 
       await chatDocRef.set({
         isActivated: true,
@@ -498,7 +497,7 @@ export class ChatService {
       const { chatId, reason, sendFarewellMessage = false } = request;
 
       const chatDocRef = this.db.collection('users').doc(userId).collection('chats').doc(chatId);
-      const serverTimestamp = FieldValue.serverTimestamp();
+      const serverTimestamp = new Date().toISOString();
 
       await chatDocRef.update({
         isActivated: false,
@@ -827,8 +826,8 @@ export class ChatService {
         lastBotMessageTimestamp: null,
         lastContactMessageTimestamp: null,
         userIsActive: false,
-        historyClearedAt: FieldValue.serverTimestamp(),
-        updatedAt: FieldValue.serverTimestamp()
+        historyClearedAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString()
       });
 
       // Clear cache
@@ -865,7 +864,7 @@ export class ChatService {
         const chatRef = this.db.collection('users').doc(userId).collection('chats').doc(doc.id);
         currentBatch.update(chatRef, { 
           isActivated: false,
-          updatedAt: FieldValue.serverTimestamp()
+          updatedAt: new Date().toISOString()
         });
         operationCount++;
 
@@ -961,7 +960,7 @@ export class ChatService {
       const chatDocRef = this.db.collection('users').doc(userId).collection('chats').doc(chatId);
       await chatDocRef.update({
         ...updates,
-        updatedAt: FieldValue.serverTimestamp()
+        updatedAt: new Date().toISOString()
       });
 
       // Clear cache

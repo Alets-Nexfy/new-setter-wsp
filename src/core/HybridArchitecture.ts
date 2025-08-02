@@ -1,6 +1,6 @@
 import { EventEmitter } from 'events';
 import { LoggerService } from '@/core/services/LoggerService';
-import { DatabaseService } from '@/core/services/DatabaseService';
+import { SupabaseService } from '@/core/services/SupabaseService';
 import { UserTierService, UserTier, TierConfiguration } from '@/core/services/UserTierService';
 import { WhatsAppConnectionPool } from '@/core/services/WhatsAppConnectionPool';
 import { MessageEventBus } from '@/core/events/MessageEventBus';
@@ -118,7 +118,7 @@ export class HybridArchitecture extends EventEmitter {
   constructor() {
     super();
     this.logger = LoggerService.getInstance();
-    this.firebase = DatabaseService.getInstance();
+    this.firebase = SupabaseService.getInstance();
     this.tierService = new UserTierService();
     this.connectionPool = new WhatsAppConnectionPool();
     this.messageBus = new MessageEventBus();

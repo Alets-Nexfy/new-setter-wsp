@@ -1,6 +1,6 @@
 import { EventEmitter } from 'events';
 import { LoggerService } from '@/core/services/LoggerService';
-import { DatabaseService } from '@/core/services/DatabaseService';
+import { SupabaseService } from '@/core/services/SupabaseService';
 import { CacheService } from '@/core/services/CacheService';
 import { UserTierService } from '@/core/services/UserTierService';
 import { CostOptimizer } from '@/core/optimization/CostOptimizer';
@@ -162,7 +162,7 @@ export class MetricsCollector extends EventEmitter {
   constructor() {
     super();
     this.logger = LoggerService.getInstance();
-    this.firebase = DatabaseService.getInstance();
+    this.firebase = SupabaseService.getInstance();
     this.cache = CacheService.getInstance();
     this.tierService = new UserTierService();
     this.costOptimizer = new CostOptimizer();

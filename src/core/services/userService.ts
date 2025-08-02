@@ -38,11 +38,10 @@ import { ChildProcess, fork } from 'child_process';
 import { WebSocket } from 'ws';
 import * as path from 'path';
 import * as fs from 'fs';
-import { FieldValue } from 'firebase-admin/firestore';
 
 export class UserService {
   private static instance: UserService;
-  private db: DatabaseService;
+  private db: SupabaseService;
   private cache: CacheService;
   private queue: QueueService;
   private logger: LoggerService;
@@ -54,7 +53,7 @@ export class UserService {
   private userSessions: Map<string, UserSession> = new Map();
   
   private constructor() {
-    this.db = DatabaseService.getInstance();
+    this.db = SupabaseService.getInstance();
     this.cache = CacheService.getInstance();
     this.queue = QueueService.getInstance();
     this.logger = LoggerService.getInstance();
@@ -93,8 +92,8 @@ export class UserService {
       // Create user document
       await this.db.collection('users').doc(userId).set({
         ...user,
-        createdAt: FieldValue.serverTimestamp(),
-        updatedAt: FieldValue.serverTimestamp(),
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
         metadata: metadata || {}
       });
 
@@ -255,7 +254,7 @@ export class UserService {
 
       const updatedData = {
         ...updates,
-        updatedAt: FieldValue.serverTimestamp()
+        updatedAt: new Date().toISOString()
       };
 
       await this.db.collection('users').doc(userId).update(updatedData);
@@ -705,7 +704,7 @@ export class UserService {
         // Initialize in database
         await this.db.collection('users').doc(userId).collection('status').doc(platform).set({
           ...defaultStatus,
-          updatedAt: FieldValue.serverTimestamp()
+          updatedAt: new Date().toISOString()
         });
         
         return defaultStatus;
@@ -729,7 +728,7 @@ export class UserService {
     try {
       await this.db.collection('users').doc(userId).collection('status').doc(platform).set({
         ...status,
-        updatedAt: FieldValue.serverTimestamp()
+        updatedAt: new Date().toISOString()
       }, { merge: true });
 
       // Clear cache
@@ -746,7 +745,7 @@ export class UserService {
       status: 'disconnected' as UserStatus,
       lastError: null,
       lastQrCode: null,
-      updatedAt: FieldValue.serverTimestamp()
+      updatedAt: new Date().toISOString()
     };
 
     for (const platform of platforms) {

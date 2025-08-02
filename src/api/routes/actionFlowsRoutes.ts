@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { ActionFlowsController } from '../controllers/actionFlowsController';
 import { authenticateApiKey } from '../middleware/auth';
-import { rateLimiter } from '../middleware/rateLimiter';
+import { rateLimiter } from '../middleware';
 import { sanitizeInput } from '../middleware/sanitization';
 import { validateActionFlow } from '../validators/actionFlowValidator';
 
