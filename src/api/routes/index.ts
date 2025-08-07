@@ -8,6 +8,7 @@ import generalRoutes from './general';
 import promptGeneratorRoutes from './promptGenerator';
 import tierManagementRoutes from './tierManagement';
 import multiAgentRoutes from './multiAgent';
+import agentNetworkRoutes from './agentNetworkRoutes';
 import b2bRoutes from './b2b';
 import monitoringRoutes from './monitoring';
 const router = Router();
@@ -31,6 +32,7 @@ router.use('/general', generalRoutes);
 router.use('/prompt-generator', promptGeneratorRoutes);
 router.use('/tier-management', tierManagementRoutes);
 router.use('/multi-agent', multiAgentRoutes);
+router.use('/agent-network', agentNetworkRoutes);
 router.use('/b2b', b2bRoutes);
 router.use('/monitoring', monitoringRoutes);
 
