@@ -122,7 +122,7 @@ export interface AlertRule {
 
 export class MetricsCollector extends EventEmitter {
   private logger: LoggerService;
-  private firebase: FirebaseService;
+  private firebase: SupabaseService;
   private cache: CacheService;
   private tierService: UserTierService;
   private costOptimizer: CostOptimizer;
@@ -164,7 +164,7 @@ export class MetricsCollector extends EventEmitter {
     this.logger = LoggerService.getInstance();
     this.firebase = SupabaseService.getInstance();
     this.cache = CacheService.getInstance();
-    this.tierService = new UserTierService();
+    this.tierService = UserTierService.getInstance();
     this.costOptimizer = new CostOptimizer();
 
     this.initializeSystemMetrics();
@@ -539,7 +539,7 @@ export class MetricsCollector extends EventEmitter {
   private async collectUserResources(userId: string): Promise<UserMetrics['resources']> {
     try {
       // Get resource allocation info
-      const allocation = await this.firebase.getDocument(`resource_allocations/${userId}`);
+      const allocation = await this.firebase.getDocument('resource_allocations', userId);
       
       if (!allocation) {
         return {
@@ -841,8 +841,7 @@ export class MetricsCollector extends EventEmitter {
   // LIFECYCLE MANAGEMENT
   private async initializeRedis(): Promise<void> {
     this.redis = createClient({
-      url: process.env.REDIS_URL || 'redis://localhost:6379',
-      db: parseInt(process.env.METRICS_REDIS_DB || '2')
+      url: process.env.REDIS_URL || 'redis://localhost:6379'
     });
   }
 
@@ -937,7 +936,7 @@ export class MetricsCollector extends EventEmitter {
   private async persistUserMetrics(metrics: UserMetrics): Promise<void> {
     try {
       const docId = `${metrics.userId}_${metrics.timestamp.getTime()}`;
-      await this.firebase.setDocument(`user_metrics/${docId}`, metrics);
+      await this.firebase.setDocument('user_metrics', docId, metrics);
     } catch (error) {
       this.logger.error('Error persisting user metrics', { userId: metrics.userId, error });
     }
@@ -946,7 +945,7 @@ export class MetricsCollector extends EventEmitter {
   private async persistSystemMetrics(metrics: SystemMetrics): Promise<void> {
     try {
       const docId = `system_${metrics.timestamp.getTime()}`;
-      await this.firebase.setDocument(`system_metrics/${docId}`, metrics);
+      await this.firebase.setDocument('system_metrics', docId, metrics);
     } catch (error) {
       this.logger.error('Error persisting system metrics', { error });
     }
@@ -989,11 +988,14 @@ export class MetricsCollector extends EventEmitter {
 
   private async loadAlertRules(): Promise<void> {
     try {
-      const rules = await this.firebase.getCollection('alert_rules');
+      const rulesQuery = await this.firebase.getCollection('alert_rules').get();
       
-      for (const [ruleId, ruleData] of Object.entries(rules)) {
-        this.alertRules.set(ruleId, ruleData as AlertRule);
-      }
+      rulesQuery.docs.forEach((doc: any) => {
+        const ruleData = doc.data();
+        if (ruleData && doc.id) {
+          this.alertRules.set(doc.id, ruleData as AlertRule);
+        }
+      });
 
       this.logger.info('Loaded alert rules', { count: this.alertRules.size });
     } catch (error) {
@@ -1081,13 +1083,13 @@ export class MetricsCollector extends EventEmitter {
 
   public async addAlertRule(rule: AlertRule): Promise<void> {
     this.alertRules.set(rule.id, rule);
-    await this.firebase.setDocument(`alert_rules/${rule.id}`, rule);
+    await this.firebase.setDocument('alert_rules', rule.id, rule);
     this.logger.info('Alert rule added', { ruleId: rule.id });
   }
 
   public async removeAlertRule(ruleId: string): Promise<void> {
     this.alertRules.delete(ruleId);
-    await this.firebase.deleteDocument(`alert_rules/${ruleId}`);
+    await this.firebase.deleteDocument('alert_rules', ruleId);
     this.logger.info('Alert rule removed', { ruleId });
   }
 

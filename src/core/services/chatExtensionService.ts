@@ -1,40 +1,55 @@
-import { db } from '../config/firebase';
+import { SupabaseService } from './SupabaseService';
+import { LoggerService } from './LoggerService';
 import { ChatExtension, ExtensionType, CreateChatExtensionDto, UpdateChatExtensionDto } from '../types/chatExtension';
-import { logger } from '../utils/logger';
 
 export class ChatExtensionService {
-  private readonly chatExtensionsCollection = 'chatExtensions';
+  private static instance: ChatExtensionService;
+  private db: SupabaseService;
+  private logger: LoggerService;
+  private readonly tableName = 'chat_extensions';
+
+  private constructor() {
+    this.db = SupabaseService.getInstance();
+    this.logger = LoggerService.getInstance();
+  }
+
+  static getInstance(): ChatExtensionService {
+    if (!ChatExtensionService.instance) {
+      ChatExtensionService.instance = new ChatExtensionService();
+    }
+    return ChatExtensionService.instance;
+  }
 
   /**
    * Create a new chat extension
    */
   async createChatExtension(data: CreateChatExtensionDto): Promise<ChatExtension> {
     try {
-      const chatExtension: ChatExtension = {
-        id: '',
-        userId: data.userId,
-        name: data.name,
-        type: data.type,
-        content: data.content,
-        description: data.description || '',
-        isActive: data.isActive ?? true,
-        tags: data.tags || [],
-        metadata: data.metadata || {},
-        usageCount: 0,
-        lastUsed: null,
-        createdAt: new Date(),
-        updatedAt: new Date()
-      };
+      const { data: result, error } = await this.db
+        .from(this.tableName)
+        .insert({
+          user_id: data.userId,
+          name: data.name,
+          type: data.type,
+          content: data.content,
+          description: data.description || '',
+          is_active: data.isActive ?? true,
+          tags: data.tags || [],
+          metadata: data.metadata || {},
+          usage_count: 0,
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString()
+        })
+        .select()
+        .single();
 
-      const docRef = await db.collection(this.chatExtensionsCollection).add(chatExtension);
-      chatExtension.id = docRef.id;
+      if (error) throw error;
 
-      await docRef.update({ id: docRef.id });
-
-      logger.info(`Chat extension created: ${docRef.id} for user: ${data.userId}`);
+      const chatExtension = this.mapFromDatabase(result);
+      this.logger.info(`Chat extension created: ${chatExtension.id} for user: ${data.userId}`);
       return chatExtension;
     } catch (error) {
-      logger.error('Error creating chat extension:', error);
+      this.logger.error('Error creating chat extension:', error);
       throw new Error('Failed to create chat extension');
     }
   }
@@ -44,304 +59,235 @@ export class ChatExtensionService {
    */
   async getChatExtension(extensionId: string): Promise<ChatExtension | null> {
     try {
-      const doc = await db.collection(this.chatExtensionsCollection).doc(extensionId).get();
-      
-      if (!doc.exists) {
-        return null;
+      const { data, error } = await this.db
+        .from(this.tableName)
+        .select('*')
+        .eq('id', extensionId)
+        .single();
+
+      if (error) {
+        if (error.code === 'PGRST116') return null; // Not found
+        throw error;
       }
 
-      return doc.data() as ChatExtension;
+      return this.mapFromDatabase(data);
     } catch (error) {
-      logger.error('Error getting chat extension:', error);
+      this.logger.error('Error getting chat extension:', error);
       throw new Error('Failed to get chat extension');
     }
   }
 
   /**
-   * Get user's chat extensions
+   * Get all chat extensions for a user
    */
-  async getUserChatExtensions(userId: string, options: {
-    type?: ExtensionType;
-    isActive?: boolean;
-    tags?: string[];
-    limit?: number;
-    offset?: number;
-  } = {}): Promise<{ extensions: ChatExtension[]; total: number }> {
+  async getUserChatExtensions(userId: string): Promise<ChatExtension[]> {
     try {
-      let query = db.collection(this.chatExtensionsCollection)
-        .where('userId', '==', userId)
-        .orderBy('createdAt', 'desc');
+      const { data, error } = await this.db
+        .from(this.tableName)
+        .select('*')
+        .eq('user_id', userId);
 
-      if (options.isActive !== undefined) {
-        query = query.where('isActive', '==', options.isActive);
-      }
+      if (error) throw error;
 
-      if (options.type) {
-        query = query.where('type', '==', options.type);
-      }
-
-      const snapshot = await query.get();
-      let extensions: ChatExtension[] = [];
-
-      snapshot.forEach(doc => {
-        const data = doc.data() as ChatExtension;
-        
-        // Filter by tags if specified
-        if (options.tags && options.tags.length > 0) {
-          const hasMatchingTag = options.tags.some(tag => data.tags.includes(tag));
-          if (!hasMatchingTag) return;
-        }
-        
-        extensions.push(data);
-      });
-
-      // Apply pagination
-      const total = extensions.length;
-      const start = options.offset || 0;
-      const end = start + (options.limit || 50);
-      const paginatedExtensions = extensions.slice(start, end);
-
-      return {
-        extensions: paginatedExtensions,
-        total
-      };
+      return data.map(item => this.mapFromDatabase(item));
     } catch (error) {
-      logger.error('Error getting user chat extensions:', error);
+      this.logger.error('Error getting user chat extensions:', error);
       throw new Error('Failed to get user chat extensions');
     }
   }
 
   /**
-   * Update chat extension
+   * Update a chat extension
    */
-  async updateChatExtension(extensionId: string, data: UpdateChatExtensionDto): Promise<ChatExtension> {
+  async updateChatExtension(extensionId: string, updateData: UpdateChatExtensionDto): Promise<ChatExtension | null> {
     try {
-      const updateData: Partial<ChatExtension> = {
-        ...data,
-        updatedAt: new Date()
-      };
+      const dbData = this.mapToDatabase(updateData);
+      const { error } = await this.db
+        .from(this.tableName)
+        .update({
+          ...dbData,
+          updated_at: new Date().toISOString()
+        })
+        .eq('id', extensionId);
 
-      await db.collection(this.chatExtensionsCollection).doc(extensionId).update(updateData);
+      if (error) throw error;
 
-      const updated = await db.collection(this.chatExtensionsCollection).doc(extensionId).get();
-      return updated.data() as ChatExtension;
+      return await this.getChatExtension(extensionId);
     } catch (error) {
-      logger.error('Error updating chat extension:', error);
+      this.logger.error('Error updating chat extension:', error);
       throw new Error('Failed to update chat extension');
     }
   }
 
   /**
-   * Delete chat extension
+   * Delete a chat extension
    */
   async deleteChatExtension(extensionId: string): Promise<void> {
     try {
-      await db.collection(this.chatExtensionsCollection).doc(extensionId).delete();
-      logger.info(`Chat extension deleted: ${extensionId}`);
+      const { error } = await this.db
+        .from(this.tableName)
+        .delete()
+        .eq('id', extensionId);
+
+      if (error) throw error;
+      this.logger.info(`Chat extension deleted: ${extensionId}`);
     } catch (error) {
-      logger.error('Error deleting chat extension:', error);
+      this.logger.error('Error deleting chat extension:', error);
       throw new Error('Failed to delete chat extension');
     }
   }
 
   /**
-   * Toggle chat extension active status
-   */
-  async toggleChatExtension(extensionId: string): Promise<ChatExtension> {
-    try {
-      const extension = await this.getChatExtension(extensionId);
-      
-      if (!extension) {
-        throw new Error('Chat extension not found');
-      }
-
-      return await this.updateChatExtension(extensionId, {
-        isActive: !extension.isActive
-      });
-    } catch (error) {
-      logger.error('Error toggling chat extension:', error);
-      throw new Error('Failed to toggle chat extension');
-    }
-  }
-
-  /**
-   * Increment usage count for chat extension
+   * Increment usage count for a chat extension
    */
   async incrementUsage(extensionId: string): Promise<void> {
     try {
-      await db.collection(this.chatExtensionsCollection).doc(extensionId).update({
-        usageCount: db.FieldValue.increment(1),
-        lastUsed: new Date(),
-        updatedAt: new Date()
-      });
+      // Get current usage count and increment it
+      const current = await this.getChatExtension(extensionId);
+      if (current) {
+        const { error } = await this.db
+          .from(this.tableName)
+          .update({
+            usage_count: (current.usageCount || 0) + 1,
+            last_used: new Date().toISOString(),
+            updated_at: new Date().toISOString()
+          })
+          .eq('id', extensionId);
+
+        if (error) throw error;
+      }
     } catch (error) {
-      logger.error('Error incrementing usage:', error);
+      this.logger.error('Error incrementing usage:', error);
       // Don't throw error for usage tracking
     }
   }
 
-  /**
-   * Get popular chat extensions for user
-   */
+  private mapFromDatabase(data: any): ChatExtension {
+    return {
+      id: data.id,
+      userId: data.user_id,
+      name: data.name,
+      type: data.type,
+      content: data.content,
+      description: data.description,
+      isActive: data.is_active,
+      tags: data.tags || [],
+      metadata: data.metadata || {},
+      usageCount: data.usage_count,
+      lastUsed: data.last_used,
+      createdAt: data.created_at,
+      updatedAt: data.updated_at
+    };
+  }
+
+  async toggleChatExtension(extensionId: string): Promise<ChatExtension | null> {
+    try {
+      const extension = await this.getChatExtension(extensionId);
+      if (!extension) return null;
+
+      const { error } = await this.db
+        .from(this.tableName)
+        .update({ 
+          is_active: !extension.isActive,
+          updated_at: new Date().toISOString()
+        })
+        .eq('id', extensionId);
+
+      if (error) throw error;
+      return await this.getChatExtension(extensionId);
+    } catch (error) {
+      this.logger.error('Error toggling extension:', error);
+      throw new Error('Failed to toggle extension');
+    }
+  }
+
   async getPopularExtensions(userId: string, limit: number = 10): Promise<ChatExtension[]> {
     try {
-      const snapshot = await db.collection(this.chatExtensionsCollection)
-        .where('userId', '==', userId)
-        .where('isActive', '==', true)
-        .orderBy('usageCount', 'desc')
-        .limit(limit)
-        .get();
+      const { data, error } = await this.db
+        .from(this.tableName)
+        .select('*')
+        .eq('user_id', userId)
+        .eq('is_active', true)
+        .order('usage_count', { ascending: false })
+        .limit(limit);
 
-      const extensions: ChatExtension[] = [];
-      snapshot.forEach(doc => {
-        extensions.push(doc.data() as ChatExtension);
-      });
-
-      return extensions;
+      if (error) throw error;
+      return data?.map(item => this.mapFromDatabase(item)) || [];
     } catch (error) {
-      logger.error('Error getting popular extensions:', error);
+      this.logger.error('Error getting popular extensions:', error);
       throw new Error('Failed to get popular extensions');
     }
   }
 
-  /**
-   * Search chat extensions
-   */
-  async searchExtensions(userId: string, query: string, options: {
-    type?: ExtensionType;
-    tags?: string[];
-    limit?: number;
-  } = {}): Promise<ChatExtension[]> {
+  async searchExtensions(userId: string, query: string, options: any): Promise<ChatExtension[]> {
     try {
-      let dbQuery = db.collection(this.chatExtensionsCollection)
-        .where('userId', '==', userId)
-        .where('isActive', '==', true);
+      const { data, error } = await this.db
+        .from(this.tableName)
+        .select('*')
+        .eq('user_id', userId)
+        .ilike('name', `%${query}%`);
 
-      if (options.type) {
-        dbQuery = dbQuery.where('type', '==', options.type);
-      }
-
-      const snapshot = await dbQuery.get();
-      const extensions: ChatExtension[] = [];
-
-      snapshot.forEach(doc => {
-        const data = doc.data() as ChatExtension;
-        
-        // Search in name, description, content, and tags
-        const searchText = query.toLowerCase();
-        const matchesName = data.name.toLowerCase().includes(searchText);
-        const matchesDescription = data.description.toLowerCase().includes(searchText);
-        const matchesContent = data.content.toLowerCase().includes(searchText);
-        const matchesTags = data.tags.some(tag => tag.toLowerCase().includes(searchText));
-
-        if (matchesName || matchesDescription || matchesContent || matchesTags) {
-          // Filter by tags if specified
-          if (options.tags && options.tags.length > 0) {
-            const hasMatchingTag = options.tags.some(tag => data.tags.includes(tag));
-            if (!hasMatchingTag) return;
-          }
-          
-          extensions.push(data);
-        }
-      });
-
-      // Sort by relevance (name matches first, then description, etc.)
-      extensions.sort((a, b) => {
-        const aName = a.name.toLowerCase().includes(query.toLowerCase()) ? 1 : 0;
-        const bName = b.name.toLowerCase().includes(query.toLowerCase()) ? 1 : 0;
-        return bName - aName;
-      });
-
-      return extensions.slice(0, options.limit || 50);
+      if (error) throw error;
+      return data?.map(item => this.mapFromDatabase(item)) || [];
     } catch (error) {
-      logger.error('Error searching extensions:', error);
+      this.logger.error('Error searching extensions:', error);
       throw new Error('Failed to search extensions');
     }
   }
 
-  /**
-   * Get chat extension statistics
-   */
-  async getExtensionStats(userId: string): Promise<{
-    total: number;
-    active: number;
-    byType: Record<string, number>;
-    byTag: Record<string, number>;
-    totalUsage: number;
-    mostUsed: ChatExtension[];
-  }> {
+  async getExtensionStats(userId: string): Promise<any> {
     try {
-      const snapshot = await db.collection(this.chatExtensionsCollection)
-        .where('userId', '==', userId)
-        .get();
+      const { data, error } = await this.db
+        .from(this.tableName)
+        .select('*')
+        .eq('user_id', userId);
 
-      const stats = {
-        total: 0,
-        active: 0,
-        byType: {} as Record<string, number>,
-        byTag: {} as Record<string, number>,
-        totalUsage: 0,
-        mostUsed: [] as ChatExtension[]
+      if (error) throw error;
+      
+      const extensions = data?.map(item => this.mapFromDatabase(item)) || [];
+      return {
+        total: extensions.length,
+        active: extensions.filter(e => e.isActive).length,
+        totalUsage: extensions.reduce((sum, e) => sum + (e.usageCount || 0), 0)
       };
-
-      const extensions: ChatExtension[] = [];
-
-      snapshot.forEach(doc => {
-        const data = doc.data() as ChatExtension;
-        extensions.push(data);
-        
-        stats.total++;
-        stats.totalUsage += data.usageCount;
-
-        if (data.isActive) {
-          stats.active++;
-        }
-
-        stats.byType[data.type] = (stats.byType[data.type] || 0) + 1;
-
-        data.tags.forEach(tag => {
-          stats.byTag[tag] = (stats.byTag[tag] || 0) + 1;
-        });
-      });
-
-      // Get most used extensions
-      stats.mostUsed = extensions
-        .sort((a, b) => b.usageCount - a.usageCount)
-        .slice(0, 5);
-
-      return stats;
     } catch (error) {
-      logger.error('Error getting extension stats:', error);
+      this.logger.error('Error getting extension stats:', error);
       throw new Error('Failed to get extension stats');
     }
   }
 
-  /**
-   * Duplicate chat extension
-   */
   async duplicateExtension(extensionId: string, newName: string): Promise<ChatExtension> {
     try {
       const original = await this.getChatExtension(extensionId);
-      
-      if (!original) {
-        throw new Error('Chat extension not found');
-      }
+      if (!original) throw new Error('Extension not found');
 
-      const duplicated: CreateChatExtensionDto = {
+      const duplicateData = {
         userId: original.userId,
         name: newName,
         type: original.type,
         content: original.content,
         description: original.description,
-        isActive: false, // Start as inactive
-        tags: [...original.tags],
+        isActive: false,
+        tags: original.tags,
         metadata: { ...original.metadata, duplicatedFrom: extensionId }
       };
 
-      return await this.createChatExtension(duplicated);
+      return await this.createChatExtension(duplicateData);
     } catch (error) {
-      logger.error('Error duplicating extension:', error);
+      this.logger.error('Error duplicating extension:', error);
       throw new Error('Failed to duplicate extension');
     }
   }
-} 
+
+  private mapToDatabase(data: Partial<ChatExtension>): any {
+    const dbData: any = {};
+    if (data.name !== undefined) dbData.name = data.name;
+    if (data.type !== undefined) dbData.type = data.type;
+    if (data.content !== undefined) dbData.content = data.content;
+    if (data.description !== undefined) dbData.description = data.description;
+    if (data.isActive !== undefined) dbData.is_active = data.isActive;
+    if (data.tags !== undefined) dbData.tags = data.tags;
+    if (data.metadata !== undefined) dbData.metadata = data.metadata;
+    return dbData;
+  }
+}

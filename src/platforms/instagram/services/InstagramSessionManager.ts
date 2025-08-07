@@ -1,4 +1,4 @@
-import { Logger } from '../../../core/services/LoggerService';
+import { LoggerService } from '../../../core/services/LoggerService';
 import { CacheService } from '../../../core/services/CacheService';
 import { DatabaseService } from '../../../core/services/DatabaseService';
 import { QueueService } from '../../../core/services/QueueService';
@@ -14,7 +14,7 @@ export class InstagramSessionManager {
   private cleanupInterval: NodeJS.Timeout | null = null;
 
   constructor(
-    private readonly logger: Logger,
+    private readonly logger: LoggerService,
     private readonly cache: CacheService,
     private readonly database: DatabaseService,
     private readonly queue: QueueService
@@ -65,7 +65,7 @@ export class InstagramSessionManager {
       // Cache session
       await this.cache.set(
         `${INSTAGRAM_CONSTANTS.CACHE_KEYS.SESSION_PREFIX}${sessionId}`,
-        session,
+        JSON.stringify(session),
         INSTAGRAM_CONSTANTS.SESSION_TIMEOUT
       );
 
@@ -85,7 +85,7 @@ export class InstagramSessionManager {
       // Try cache first
       const cachedSession = await this.cache.get(`${INSTAGRAM_CONSTANTS.CACHE_KEYS.SESSION_PREFIX}${sessionId}`);
       if (cachedSession) {
-        return cachedSession as InstagramSession;
+        return JSON.parse(cachedSession) as InstagramSession;
       }
 
       // Try database
@@ -96,7 +96,7 @@ export class InstagramSessionManager {
         // Cache the session
         await this.cache.set(
           `${INSTAGRAM_CONSTANTS.CACHE_KEYS.SESSION_PREFIX}${sessionId}`,
-          session,
+          JSON.stringify(session),
           INSTAGRAM_CONSTANTS.SESSION_TIMEOUT
         );
         
@@ -150,12 +150,12 @@ export class InstagramSessionManager {
       };
 
       // Update database
-      await this.database.collection('instagram_sessions').doc(sessionId).update(updatedSession);
+      await this.database.collection('instagram_sessions').doc(sessionId).update(updatedSession as any);
       
       // Update cache
       await this.cache.set(
         `${INSTAGRAM_CONSTANTS.CACHE_KEYS.SESSION_PREFIX}${sessionId}`,
-        updatedSession,
+        JSON.stringify(updatedSession),
         INSTAGRAM_CONSTANTS.SESSION_TIMEOUT
       );
 
@@ -194,7 +194,7 @@ export class InstagramSessionManager {
         
         await this.cache.set(
           `${INSTAGRAM_CONSTANTS.CACHE_KEYS.SESSION_PREFIX}${sessionId}`,
-          session,
+          JSON.stringify(session),
           INSTAGRAM_CONSTANTS.SESSION_TIMEOUT
         );
       }

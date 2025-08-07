@@ -6,7 +6,7 @@ export class NotificationController {
   private notificationService: NotificationService;
 
   constructor() {
-    this.notificationService = new NotificationService();
+    this.notificationService = NotificationService.getInstance();
   }
 
   /**
@@ -259,4 +259,6 @@ export class NotificationController {
       });
     }
   };
-} 
+}
+
+export default NotificationController; 

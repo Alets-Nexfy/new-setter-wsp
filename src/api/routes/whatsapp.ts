@@ -14,6 +14,9 @@ const messageController = new MessageController();
 
 // Connection management
 router.post('/:userId/connect', whatsappController.connect.bind(whatsappController));
+router.post('/:userId/start-connection', whatsappController.startConnection.bind(whatsappController));
+router.get('/:userId/poll-qr', whatsappController.pollQR.bind(whatsappController));
+router.post('/:userId/connect-with-qr', whatsappController.connectWithQR.bind(whatsappController)); // Legacy
 router.post('/:userId/disconnect', whatsappController.disconnect.bind(whatsappController));
 router.get('/:userId/status', whatsappController.getWorkerStatus.bind(whatsappController));
 router.get('/:userId/qr', whatsappController.getQRCode.bind(whatsappController));

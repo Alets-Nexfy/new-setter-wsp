@@ -1,4 +1,4 @@
-import { Timestamp } from 'firebase/firestore';
+// Firebase import removed - using Date/string instead
 
 // User status types
 export type UserStatus = 'disconnected' | 'connecting' | 'connected' | 'generating_qr' | 'error' | 'session_destroyed';
@@ -14,8 +14,8 @@ export interface User {
   lastQrCode: string | null;
   workerPid: number | null;
   lastError: string | null;
-  createdAt: Timestamp | string;
-  updatedAt: Timestamp | string;
+  createdAt: Date | string;
+  updatedAt: Date | string;
 }
 
 // Platform-specific status
@@ -23,7 +23,7 @@ export interface PlatformStatus {
   status: UserStatus;
   lastError: string | null;
   lastQrCode: string | null;
-  updatedAt: Timestamp | string;
+  updatedAt: Date | string;
 }
 
 // User with platform statuses

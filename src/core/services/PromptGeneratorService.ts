@@ -108,7 +108,7 @@ export class PromptGeneratorService {
         }
       };
 
-      await this.firebase.setDocument(`prompt_sessions/${session.id}`, session);
+      await this.firebase.setDocument('prompt_sessions', session.id, session);
       
       this.logger.info('Sesión de generación creada', { 
         sessionId: session.id, 
@@ -129,7 +129,7 @@ export class PromptGeneratorService {
 
   public async getPromptSession(sessionId: string): Promise<PromptSession | null> {
     try {
-      const doc = await this.firebase.getDocument(`prompt_sessions/${sessionId}`);
+      const doc = await this.firebase.getDocument('prompt_sessions', sessionId);
       return doc as PromptSession || null;
     } catch (error) {
       this.logger.error('Error obteniendo sesión', { sessionId, error });
@@ -199,7 +199,7 @@ export class PromptGeneratorService {
       }
 
       // Actualizar sesión en base de datos
-      await this.firebase.setDocument(`prompt_sessions/${sessionId}`, session);
+      await this.firebase.setDocument('prompt_sessions', sessionId, session);
 
       const nextQuestion = isCompleted ? null : session.questions[session.currentQuestionIndex];
 
@@ -268,11 +268,11 @@ export class PromptGeneratorService {
       };
 
       // Guardar prompt generado
-      await this.firebase.setDocument(`generated_prompts/${generatedPrompt.id}`, generatedPrompt);
+      await this.firebase.setDocument('generated_prompts', generatedPrompt.id, generatedPrompt);
 
       // Actualizar sesión con referencia al prompt
       session.generatedPrompt = generatedPrompt.id;
-      await this.firebase.setDocument(`prompt_sessions/${sessionId}`, session);
+      await this.firebase.setDocument('prompt_sessions', sessionId, session);
 
       this.logger.info('Prompt generado exitosamente', { 
         sessionId, 
@@ -688,7 +688,7 @@ IMPORTANTE:
 
       return Object.values(sessions).sort((a: any, b: any) => 
         new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-      );
+      ) as PromptSession[];
 
     } catch (error) {
       this.logger.error('Error obteniendo sesiones del usuario', { userId, error });
@@ -698,7 +698,7 @@ IMPORTANTE:
 
   public async getGeneratedPrompt(promptId: string): Promise<GeneratedPrompt | null> {
     try {
-      const prompt = await this.firebase.getDocument(`generated_prompts/${promptId}`);
+      const prompt = await this.firebase.getDocument('generated_prompts', promptId);
       return prompt as GeneratedPrompt || null;
     } catch (error) {
       this.logger.error('Error obteniendo prompt generado', { promptId, error });
@@ -717,7 +717,7 @@ IMPORTANTE:
 
       return Object.values(prompts).sort((a: any, b: any) => 
         new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-      );
+      ) as GeneratedPrompt[];
 
     } catch (error) {
       this.logger.error('Error obteniendo prompts del usuario', { userId, error });
@@ -732,11 +732,11 @@ IMPORTANTE:
         return false;
       }
 
-      await this.firebase.deleteDocument(`prompt_sessions/${sessionId}`);
+      await this.firebase.deleteDocument('prompt_sessions', sessionId);
       
       // Si hay un prompt generado, también eliminarlo
       if (session.generatedPrompt) {
-        await this.firebase.deleteDocument(`generated_prompts/${session.generatedPrompt}`);
+        await this.firebase.deleteDocument('generated_prompts', session.generatedPrompt);
       }
 
       this.logger.info('Sesión eliminada', { sessionId, userId });

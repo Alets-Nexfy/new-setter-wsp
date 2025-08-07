@@ -211,3 +211,7 @@ export const validateInitialTrigger = {
     validateRequest
   ]
 }; 
+
+// Default export
+const initialTriggerValidator = {};
+export default initialTriggerValidator;

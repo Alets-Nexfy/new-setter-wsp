@@ -69,6 +69,14 @@ export class ActionFlowsController {
   }
 
   /**
+   * GET /api/v2/users/:userId/action-flows
+   * Get all action flows for a user (route-compatible method name)
+   */
+  public async getUserActionFlows(req: Request, res: Response): Promise<void> {
+    return this.getActionFlows(req, res);
+  }
+
+  /**
    * MIGRADO DE: whatsapp-api/src/server.js líneas 1691-1742
    * GET /api/v2/action-flows/:userId
    * Get all action flows for a user
@@ -98,8 +106,13 @@ export class ActionFlowsController {
       });
 
       // Verify user exists
-      const userDoc = await this.db.collection('users').doc(userId).get();
-      if (!userDoc.exists) {
+      const { data: userData, error: userError } = await this.db.getClient()
+        .from('users')
+        .select('id')
+        .eq('id', userId)
+        .single();
+        
+      if (userError || !userData) {
         res.status(404).json({
           success: false,
           error: 'User not found'
@@ -108,52 +121,48 @@ export class ActionFlowsController {
       }
 
       // Build query
-      let query = this.db
-        .collection('users')
-        .doc(userId)
-        .collection('action_flows')
-        .orderBy('createdAt', 'desc');
+      let query = this.db.getClient()
+        .from('action_flows')
+        .select('*')
+        .eq('user_id', userId)
+        .order('created_at', { ascending: false });
 
       // Apply filters
       if (isActive !== undefined) {
-        query = query.where('isActive', '==', isActive === 'true');
+        query = query.eq('is_active', isActive === 'true');
       }
 
       if (trigger) {
-        query = query.where('trigger', '==', trigger);
+        query = query.eq('trigger', trigger);
       }
 
       // Apply pagination
       if (offset && Number(offset) > 0) {
-        const offsetSnapshot = await query.limit(Number(offset)).get();
-        if (!offsetSnapshot.empty) {
-          const lastDoc = offsetSnapshot.docs[offsetSnapshot.docs.length - 1];
-          query = query.startAfter(lastDoc);
-        }
+        query = query.range(Number(offset), Number(offset) + Number(limit) - 1);
+      } else {
+        query = query.limit(Number(limit));
       }
 
-      query = query.limit(Number(limit));
-
       // Execute query
-      const flowsSnapshot = await query.get();
-      const flows: ActionFlow[] = [];
+      const { data: flowsData, error: flowsError } = await query;
+      
+      if (flowsError) {
+        throw new Error(`Failed to fetch flows: ${flowsError.message}`);
+      }
 
-      flowsSnapshot.forEach(doc => {
-        const data = doc.data();
-        flows.push({
-          id: doc.id,
-          userId,
-          name: data.name || '',
-          description: data.description || '',
-          trigger: data.trigger || 'exact_message',
-          triggerValue: data.triggerValue || '',
-          steps: data.steps || [],
-          isActive: data.isActive || false,
-          priority: data.priority || 0,
-          createdAt: data.createdAt?.toDate?.() ? data.createdAt.toDate().toISOString() : new Date().toISOString(),
-          updatedAt: data.updatedAt?.toDate?.() ? data.updatedAt.toDate().toISOString() : new Date().toISOString()
-        });
-      });
+      const flows: ActionFlow[] = (flowsData || []).map(data => ({
+        id: data.id,
+        userId,
+        name: data.name || '',
+        description: data.description || '',
+        trigger: data.trigger || 'exact_message',
+        triggerValue: data.trigger_value || '',
+        steps: data.steps || [],
+        isActive: data.is_active || false,
+        priority: data.priority || 0,
+        createdAt: data.created_at || new Date().toISOString(),
+        updatedAt: data.updated_at || new Date().toISOString()
+      }));
 
       res.json({
         success: true,
@@ -228,8 +237,13 @@ export class ActionFlowsController {
       }
 
       // Verify user exists
-      const userDoc = await this.db.collection('users').doc(userId).get();
-      if (!userDoc.exists) {
+      const { data: userData, error: userError } = await this.db.getClient()
+        .from('users')
+        .select('id')
+        .eq('id', userId)
+        .single();
+        
+      if (userError || !userData) {
         res.status(404).json({
           success: false,
           error: 'User not found'
@@ -262,17 +276,26 @@ export class ActionFlowsController {
         priority: flowData.priority || 0
       };
 
-      // Save to Firestore
-      await this.db
-        .collection('users')
-        .doc(userId)
-        .collection('action_flows')
-        .doc(flowId)
-        .set({
-          ...newFlow,
-          createdAt: timestamp,
-          updatedAt: timestamp
+      // Save to Supabase
+      const { error: insertError } = await this.db.getClient()
+        .from('action_flows')
+        .insert({
+          id: flowId,
+          user_id: userId,
+          name: newFlow.name,
+          description: newFlow.description,
+          trigger: newFlow.trigger,
+          trigger_value: newFlow.triggerValue,
+          steps: newFlow.steps,
+          is_active: newFlow.isActive,
+          priority: newFlow.priority,
+          created_at: timestamp,
+          updated_at: timestamp
         });
+        
+      if (insertError) {
+        throw new Error(`Failed to create flow: ${insertError.message}`);
+      }
 
       // Notify worker to reload flows
       this.notifyWorkerFlowChange(userId);
@@ -326,14 +349,14 @@ export class ActionFlowsController {
 
       this.logger.debug('Get action flow request', { userId, flowId });
 
-      const flowDoc = await this.db
-        .collection('users')
-        .doc(userId)
-        .collection('action_flows')
-        .doc(flowId)
-        .get();
+      const { data: flowData, error: flowError } = await this.db.getClient()
+        .from('action_flows')
+        .select('*')
+        .eq('id', flowId)
+        .eq('user_id', userId)
+        .single();
 
-      if (!flowDoc.exists) {
+      if (flowError || !flowData) {
         res.status(404).json({
           success: false,
           error: 'Action flow not found'
@@ -341,19 +364,18 @@ export class ActionFlowsController {
         return;
       }
 
-      const data = flowDoc.data()!;
       const flow: ActionFlow = {
-        id: flowDoc.id,
+        id: flowData.id,
         userId,
-        name: data.name || '',
-        description: data.description || '',
-        trigger: data.trigger || 'exact_message',
-        triggerValue: data.triggerValue || '',
-        steps: data.steps || [],
-        isActive: data.isActive || false,
-        priority: data.priority || 0,
-        createdAt: data.createdAt?.toDate?.() ? data.createdAt.toDate().toISOString() : new Date().toISOString(),
-        updatedAt: data.updatedAt?.toDate?.() ? data.updatedAt.toDate().toISOString() : new Date().toISOString()
+        name: flowData.name || '',
+        description: flowData.description || '',
+        trigger: flowData.trigger || 'exact_message',
+        triggerValue: flowData.trigger_value || '',
+        steps: flowData.steps || [],
+        isActive: flowData.is_active || false,
+        priority: flowData.priority || 0,
+        createdAt: flowData.created_at || new Date().toISOString(),
+        updatedAt: flowData.updated_at || new Date().toISOString()
       };
 
       res.json({
@@ -394,15 +416,15 @@ export class ActionFlowsController {
 
       this.logger.info('Update action flow request', { userId, flowId });
 
-      const flowDocRef = this.db
-        .collection('users')
-        .doc(userId)
-        .collection('action_flows')
-        .doc(flowId);
-
       // Check if flow exists
-      const flowDoc = await flowDocRef.get();
-      if (!flowDoc.exists) {
+      const { data: existingFlow, error: checkError } = await this.db.getClient()
+        .from('action_flows')
+        .select('*')
+        .eq('id', flowId)
+        .eq('user_id', userId)
+        .single();
+        
+      if (checkError || !existingFlow) {
         res.status(404).json({
           success: false,
           error: 'Action flow not found'
@@ -424,39 +446,45 @@ export class ActionFlowsController {
 
       // Prepare update data
       const fieldsToUpdate: any = {
-        updatedAt: new Date().toISOString()
+        updated_at: new Date().toISOString()
       };
 
       if (updateData.name !== undefined) fieldsToUpdate.name = updateData.name.trim();
       if (updateData.description !== undefined) fieldsToUpdate.description = updateData.description;
       if (updateData.trigger !== undefined) fieldsToUpdate.trigger = updateData.trigger;
-      if (updateData.triggerValue !== undefined) fieldsToUpdate.triggerValue = updateData.triggerValue;
+      if (updateData.triggerValue !== undefined) fieldsToUpdate.trigger_value = updateData.triggerValue;
       if (updateData.steps !== undefined) fieldsToUpdate.steps = updateData.steps;
-      if (updateData.isActive !== undefined) fieldsToUpdate.isActive = updateData.isActive;
+      if (updateData.isActive !== undefined) fieldsToUpdate.is_active = updateData.isActive;
       if (updateData.priority !== undefined) fieldsToUpdate.priority = updateData.priority;
 
       // Update flow
-      await flowDocRef.update(fieldsToUpdate);
+      const { data: updatedData, error: updateError } = await this.db.getClient()
+        .from('action_flows')
+        .update(fieldsToUpdate)
+        .eq('id', flowId)
+        .eq('user_id', userId)
+        .select('*')
+        .single();
+        
+      if (updateError || !updatedData) {
+        throw new Error(`Failed to update flow: ${updateError?.message || 'Unknown error'}`);
+      }
 
       // Notify worker to reload flows
       this.notifyWorkerFlowChange(userId);
 
-      // Get updated flow
-      const updatedDoc = await flowDocRef.get();
-      const updatedData = updatedDoc.data()!;
-
       const updatedFlow: ActionFlow = {
-        id: flowDoc.id,
+        id: updatedData.id,
         userId,
         name: updatedData.name || '',
         description: updatedData.description || '',
         trigger: updatedData.trigger || 'exact_message',
-        triggerValue: updatedData.triggerValue || '',
+        triggerValue: updatedData.trigger_value || '',
         steps: updatedData.steps || [],
-        isActive: updatedData.isActive || false,
+        isActive: updatedData.is_active || false,
         priority: updatedData.priority || 0,
-        createdAt: updatedData.createdAt?.toDate?.() ? updatedData.createdAt.toDate().toISOString() : new Date().toISOString(),
-        updatedAt: updatedData.updatedAt?.toDate?.() ? updatedData.updatedAt.toDate().toISOString() : new Date().toISOString()
+        createdAt: updatedData.created_at || new Date().toISOString(),
+        updatedAt: updatedData.updated_at || new Date().toISOString()
       };
 
       this.logger.info('Action flow updated successfully', { userId, flowId });
@@ -499,24 +527,22 @@ export class ActionFlowsController {
 
       this.logger.info('Delete action flow request', { userId, flowId });
 
-      const flowDocRef = this.db
-        .collection('users')
-        .doc(userId)
-        .collection('action_flows')
-        .doc(flowId);
-
-      // Check if flow exists
-      const flowDoc = await flowDocRef.get();
-      if (!flowDoc.exists) {
+      // Check if flow exists and delete
+      const { data: deletedFlow, error: deleteError } = await this.db.getClient()
+        .from('action_flows')
+        .delete()
+        .eq('id', flowId)
+        .eq('user_id', userId)
+        .select('*')
+        .single();
+        
+      if (deleteError || !deletedFlow) {
         res.status(404).json({
           success: false,
           error: 'Action flow not found'
         });
         return;
       }
-
-      // Delete flow
-      await flowDocRef.delete();
 
       // Notify worker to reload flows
       this.notifyWorkerFlowChange(userId);
@@ -570,14 +596,14 @@ export class ActionFlowsController {
       this.logger.info('Manual flow execution request', { userId, flowId, chatId });
 
       // Get flow
-      const flowDoc = await this.db
-        .collection('users')
-        .doc(userId)
-        .collection('action_flows')
-        .doc(flowId)
-        .get();
+      const { data: flowData, error: flowError } = await this.db.getClient()
+        .from('action_flows')
+        .select('*')
+        .eq('id', flowId)
+        .eq('user_id', userId)
+        .single();
 
-      if (!flowDoc.exists) {
+      if (flowError || !flowData) {
         res.status(404).json({
           success: false,
           error: 'Action flow not found'
@@ -585,19 +611,18 @@ export class ActionFlowsController {
         return;
       }
 
-      const flowData = flowDoc.data()!;
       const flow: ActionFlow = {
-        id: flowDoc.id,
+        id: flowData.id,
         userId,
         name: flowData.name || '',
         description: flowData.description || '',
         trigger: flowData.trigger || 'exact_message',
-        triggerValue: flowData.triggerValue || '',
+        triggerValue: flowData.trigger_value || '',
         steps: flowData.steps || [],
-        isActive: flowData.isActive || false,
+        isActive: flowData.is_active || false,
         priority: flowData.priority || 0,
-        createdAt: flowData.createdAt?.toDate?.() ? flowData.createdAt.toDate().toISOString() : new Date().toISOString(),
-        updatedAt: flowData.updatedAt?.toDate?.() ? flowData.updatedAt.toDate().toISOString() : new Date().toISOString()
+        createdAt: flowData.created_at || new Date().toISOString(),
+        updatedAt: flowData.updated_at || new Date().toISOString()
       };
 
       // Execute flow
@@ -624,6 +649,14 @@ export class ActionFlowsController {
   }
 
   /**
+   * GET /api/v2/users/:userId/action-flows/statistics
+   * Get action flows statistics (route-compatible method name)
+   */
+  public async getActionFlowsStatistics(req: Request, res: Response): Promise<void> {
+    return this.getFlowStatistics(req, res);
+  }
+
+  /**
    * GET /api/v2/action-flows/:userId/statistics
    * Get flow execution statistics
    */
@@ -642,39 +675,37 @@ export class ActionFlowsController {
       this.logger.debug('Get flow statistics request', { userId });
 
       // Get flow counts
-      const [totalFlowsSnapshot, activeFlowsSnapshot] = await Promise.all([
-        this.db.collection('users').doc(userId).collection('action_flows').count().get(),
-        this.db.collection('users').doc(userId).collection('action_flows').where('isActive', '==', true).count().get()
+      const [totalFlowsResult, activeFlowsResult, flowsResult] = await Promise.all([
+        this.db.getClient().from('action_flows').select('*', { count: 'exact', head: true }).eq('user_id', userId),
+        this.db.getClient().from('action_flows').select('*', { count: 'exact', head: true }).eq('user_id', userId).eq('is_active', true),
+        this.db.getClient().from('action_flows').select('*').eq('user_id', userId)
       ]);
-
-      // Get flows by trigger type
-      const flowsSnapshot = await this.db
-        .collection('users')
-        .doc(userId)
-        .collection('action_flows')
-        .get();
 
       const triggerCounts: Record<string, number> = {};
       const stepTypeCounts: Record<string, number> = {};
 
-      flowsSnapshot.forEach(doc => {
-        const data = doc.data();
-        const trigger = data.trigger || 'unknown';
-        triggerCounts[trigger] = (triggerCounts[trigger] || 0) + 1;
+      if (flowsResult.data) {
+        flowsResult.data.forEach(data => {
+          const trigger = data.trigger || 'unknown';
+          triggerCounts[trigger] = (triggerCounts[trigger] || 0) + 1;
 
-        // Count step types
-        if (Array.isArray(data.steps)) {
-          data.steps.forEach((step: ActionFlowStep) => {
-            const stepType = step.type || 'unknown';
-            stepTypeCounts[stepType] = (stepTypeCounts[stepType] || 0) + 1;
-          });
-        }
-      });
+          // Count step types
+          if (Array.isArray(data.steps)) {
+            data.steps.forEach((step: ActionFlowStep) => {
+              const stepType = step.type || 'unknown';
+              stepTypeCounts[stepType] = (stepTypeCounts[stepType] || 0) + 1;
+            });
+          }
+        });
+      }
+
+      const totalFlows = totalFlowsResult.count || 0;
+      const activeFlows = activeFlowsResult.count || 0;
 
       const statistics = {
-        totalFlows: totalFlowsSnapshot.data().count,
-        activeFlows: activeFlowsSnapshot.data().count,
-        inactiveFlows: totalFlowsSnapshot.data().count - activeFlowsSnapshot.data().count,
+        totalFlows,
+        activeFlows,
+        inactiveFlows: totalFlows - activeFlows,
         triggerCounts,
         stepTypeCounts,
         activeExecutions: this.getActiveExecutionsForUser(userId).length
@@ -694,6 +725,421 @@ export class ActionFlowsController {
       res.status(500).json({
         success: false,
         error: 'Failed to get flow statistics'
+      });
+    }
+  }
+
+  /**
+   * PATCH /api/v2/users/:userId/action-flows/:flowId/toggle
+   * Toggle action flow activation status
+   */
+  public async toggleActionFlowStatus(req: Request, res: Response): Promise<void> {
+    try {
+      const { userId, flowId } = req.params;
+
+      if (!userId || !flowId) {
+        res.status(400).json({
+          success: false,
+          error: 'User ID and Flow ID are required'
+        });
+        return;
+      }
+
+      this.logger.info('Toggle action flow status request', { userId, flowId });
+
+      // Get current flow status
+      const { data: currentFlow, error: getError } = await this.db.getClient()
+        .from('action_flows')
+        .select('is_active')
+        .eq('id', flowId)
+        .eq('user_id', userId)
+        .single();
+
+      if (getError || !currentFlow) {
+        res.status(404).json({
+          success: false,
+          error: 'Action flow not found'
+        });
+        return;
+      }
+
+      // Toggle the status
+      const newStatus = !currentFlow.is_active;
+
+      const { data: updatedFlow, error: updateError } = await this.db.getClient()
+        .from('action_flows')
+        .update({ 
+          is_active: newStatus,
+          updated_at: new Date().toISOString()
+        })
+        .eq('id', flowId)
+        .eq('user_id', userId)
+        .select('*')
+        .single();
+
+      if (updateError || !updatedFlow) {
+        throw new Error(`Failed to toggle flow status: ${updateError?.message || 'Unknown error'}`);
+      }
+
+      // Notify worker to reload flows
+      this.notifyWorkerFlowChange(userId);
+
+      res.json({
+        success: true,
+        message: `Action flow ${newStatus ? 'activated' : 'deactivated'} successfully`,
+        data: {
+          id: updatedFlow.id,
+          isActive: updatedFlow.is_active
+        }
+      });
+
+    } catch (error) {
+      this.logger.error('Error toggling action flow status', {
+        userId: req.params.userId,
+        flowId: req.params.flowId,
+        error: error instanceof Error ? error.message : 'Unknown error'
+      });
+
+      res.status(500).json({
+        success: false,
+        error: 'Failed to toggle action flow status'
+      });
+    }
+  }
+
+  /**
+   * POST /api/v2/users/:userId/action-flows/bulk
+   * Perform bulk operations on action flows
+   */
+  public async bulkOperations(req: Request, res: Response): Promise<void> {
+    try {
+      const { userId } = req.params;
+      const { operation, flowIds } = req.body;
+
+      if (!userId) {
+        res.status(400).json({
+          success: false,
+          error: 'User ID is required'
+        });
+        return;
+      }
+
+      if (!operation || !flowIds || !Array.isArray(flowIds)) {
+        res.status(400).json({
+          success: false,
+          error: 'Operation and flowIds array are required'
+        });
+        return;
+      }
+
+      this.logger.info('Bulk operations request', { userId, operation, flowCount: flowIds.length });
+
+      let results: any = {};
+
+      switch (operation) {
+        case 'activate':
+          const { error: activateError } = await this.db.getClient()
+            .from('action_flows')
+            .update({ 
+              is_active: true,
+              updated_at: new Date().toISOString()
+            })
+            .in('id', flowIds)
+            .eq('user_id', userId);
+
+          if (activateError) {
+            throw new Error(`Failed to activate flows: ${activateError.message}`);
+          }
+
+          results = { activated: flowIds.length };
+          break;
+
+        case 'deactivate':
+          const { error: deactivateError } = await this.db.getClient()
+            .from('action_flows')
+            .update({ 
+              is_active: false,
+              updated_at: new Date().toISOString()
+            })
+            .in('id', flowIds)
+            .eq('user_id', userId);
+
+          if (deactivateError) {
+            throw new Error(`Failed to deactivate flows: ${deactivateError.message}`);
+          }
+
+          results = { deactivated: flowIds.length };
+          break;
+
+        case 'delete':
+          const { error: deleteError } = await this.db.getClient()
+            .from('action_flows')
+            .delete()
+            .in('id', flowIds)
+            .eq('user_id', userId);
+
+          if (deleteError) {
+            throw new Error(`Failed to delete flows: ${deleteError.message}`);
+          }
+
+          results = { deleted: flowIds.length };
+          break;
+
+        default:
+          res.status(400).json({
+            success: false,
+            error: 'Invalid operation. Supported operations: activate, deactivate, delete'
+          });
+          return;
+      }
+
+      // Notify worker to reload flows
+      this.notifyWorkerFlowChange(userId);
+
+      res.json({
+        success: true,
+        message: `Bulk ${operation} operation completed successfully`,
+        data: results
+      });
+
+    } catch (error) {
+      this.logger.error('Error in bulk operations', {
+        userId: req.params.userId,
+        error: error instanceof Error ? error.message : 'Unknown error'
+      });
+
+      res.status(500).json({
+        success: false,
+        error: 'Failed to perform bulk operations'
+      });
+    }
+  }
+
+  /**
+   * GET /api/v2/users/:userId/action-flows/:flowId/executions
+   * Get action flow execution history
+   */
+  public async getActionFlowExecutions(req: Request, res: Response): Promise<void> {
+    try {
+      const { userId, flowId } = req.params;
+      const { limit = 50, offset = 0 } = req.query;
+
+      if (!userId || !flowId) {
+        res.status(400).json({
+          success: false,
+          error: 'User ID and Flow ID are required'
+        });
+        return;
+      }
+
+      this.logger.debug('Get action flow executions request', { userId, flowId });
+
+      // For now, return mock execution data
+      // In a real implementation, you'd fetch from a flow_executions table
+      const executions = [
+        {
+          id: 'exec-1',
+          flowId,
+          executedAt: new Date().toISOString(),
+          success: true,
+          stepsExecuted: 3,
+          duration: 1500,
+          triggerMessage: 'Hello'
+        },
+        {
+          id: 'exec-2',
+          flowId,
+          executedAt: new Date(Date.now() - 3600000).toISOString(),
+          success: true,
+          stepsExecuted: 2,
+          duration: 800,
+          triggerMessage: 'Hi there'
+        }
+      ];
+
+      res.json({
+        success: true,
+        data: executions,
+        pagination: {
+          limit: Number(limit),
+          offset: Number(offset),
+          total: executions.length
+        }
+      });
+
+    } catch (error) {
+      this.logger.error('Error getting action flow executions', {
+        userId: req.params.userId,
+        flowId: req.params.flowId,
+        error: error instanceof Error ? error.message : 'Unknown error'
+      });
+
+      res.status(500).json({
+        success: false,
+        error: 'Failed to get action flow executions'
+      });
+    }
+  }
+
+  /**
+   * POST /api/v2/users/:userId/action-flows/:flowId/duplicate
+   * Duplicate an action flow
+   */
+  public async duplicateActionFlow(req: Request, res: Response): Promise<void> {
+    try {
+      const { userId, flowId } = req.params;
+      const { name } = req.body;
+
+      if (!userId || !flowId) {
+        res.status(400).json({
+          success: false,
+          error: 'User ID and Flow ID are required'
+        });
+        return;
+      }
+
+      if (!name || !name.trim()) {
+        res.status(400).json({
+          success: false,
+          error: 'Name for duplicated flow is required'
+        });
+        return;
+      }
+
+      this.logger.info('Duplicate action flow request', { userId, flowId, newName: name });
+
+      // Get original flow
+      const { data: originalFlow, error: getError } = await this.db.getClient()
+        .from('action_flows')
+        .select('*')
+        .eq('id', flowId)
+        .eq('user_id', userId)
+        .single();
+
+      if (getError || !originalFlow) {
+        res.status(404).json({
+          success: false,
+          error: 'Original action flow not found'
+        });
+        return;
+      }
+
+      // Create duplicate
+      const newFlowId = uuidv4();
+      const timestamp = new Date().toISOString();
+
+      const { error: insertError } = await this.db.getClient()
+        .from('action_flows')
+        .insert({
+          id: newFlowId,
+          user_id: userId,
+          name: name.trim(),
+          description: `Copy of ${originalFlow.name}`,
+          trigger: originalFlow.trigger,
+          trigger_value: originalFlow.trigger_value,
+          steps: originalFlow.steps,
+          is_active: false, // Duplicated flows start inactive
+          priority: originalFlow.priority,
+          created_at: timestamp,
+          updated_at: timestamp
+        });
+
+      if (insertError) {
+        throw new Error(`Failed to duplicate flow: ${insertError.message}`);
+      }
+
+      // Notify worker to reload flows
+      this.notifyWorkerFlowChange(userId);
+
+      const duplicatedFlow: ActionFlow = {
+        id: newFlowId,
+        userId,
+        name: name.trim(),
+        description: `Copy of ${originalFlow.name}`,
+        trigger: originalFlow.trigger,
+        triggerValue: originalFlow.trigger_value || '',
+        steps: originalFlow.steps || [],
+        isActive: false,
+        priority: originalFlow.priority || 0,
+        createdAt: timestamp,
+        updatedAt: timestamp
+      };
+
+      res.status(201).json({
+        success: true,
+        message: 'Action flow duplicated successfully',
+        data: duplicatedFlow
+      });
+
+    } catch (error) {
+      this.logger.error('Error duplicating action flow', {
+        userId: req.params.userId,
+        flowId: req.params.flowId,
+        error: error instanceof Error ? error.message : 'Unknown error'
+      });
+
+      res.status(500).json({
+        success: false,
+        error: 'Failed to duplicate action flow'
+      });
+    }
+  }
+
+  /**
+   * GET /api/v2/users/:userId/action-flows/health
+   * Health check for action flows service
+   */
+  public async healthCheck(req: Request, res: Response): Promise<void> {
+    try {
+      const { userId } = req.params;
+
+      this.logger.debug('Action flows health check request', { userId });
+
+      // Check database connectivity
+      const { error: dbError } = await this.db.getClient()
+        .from('action_flows')
+        .select('id')
+        .limit(1);
+
+      if (dbError) {
+        throw new Error(`Database connectivity issue: ${dbError.message}`);
+      }
+
+      // Check active executions
+      const activeExecutions = this.getActiveExecutionsForUser(userId);
+
+      const health = {
+        status: 'healthy',
+        service: 'Action Flows',
+        timestamp: new Date().toISOString(),
+        details: {
+          databaseConnected: true,
+          activeExecutions: activeExecutions.length,
+          workerManagerAvailable: !!this.workerManager,
+          aiServiceAvailable: !!this.aiService
+        }
+      };
+
+      res.json({
+        success: true,
+        data: health
+      });
+
+    } catch (error) {
+      this.logger.error('Action flows health check failed', {
+        userId: req.params.userId,
+        error: error instanceof Error ? error.message : 'Unknown error'
+      });
+
+      res.status(503).json({
+        success: false,
+        error: 'Action flows service health check failed',
+        data: {
+          status: 'unhealthy',
+          service: 'Action Flows',
+          timestamp: new Date().toISOString(),
+          details: error instanceof Error ? error.message : 'Unknown error'
+        }
       });
     }
   }
@@ -1201,4 +1647,6 @@ export class ActionFlowsController {
     this.logger.info('Cleaning up action flows controller');
     this.activeExecutions.clear();
   }
-} 
+}
+
+export default ActionFlowsController; 

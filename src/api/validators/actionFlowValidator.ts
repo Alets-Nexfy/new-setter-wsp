@@ -387,4 +387,14 @@ export const validateExecutionContext = (req: Request, res: Response, next: Next
       error: error.message
     });
   }
-}; 
+};
+
+// Default export
+const actionFlowValidator = {
+  validateActionFlow,
+  validateBulkOperations,
+  validateFlowId,
+  validateExecutionContext
+};
+
+export default actionFlowValidator; 

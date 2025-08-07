@@ -2,7 +2,7 @@ import { Router } from 'express';
 import { NuclearCleanupController } from '../controllers/nuclearCleanupController';
 import { NuclearCleanupService } from '../../core/services/nuclearCleanupService';
 import { authenticateApiKey } from '../middleware/auth';
-import { rateLimiter } from '../middleware';
+import { RateLimitMiddleware } from '../middleware/rateLimit';
 import { sanitizeInput } from '../middleware/sanitization';
 import { validateCleanupRequest } from '../validators/nuclearCleanupValidator';
 
@@ -26,7 +26,7 @@ const nuclearCleanupController = new NuclearCleanupController(nuclearCleanupServ
 router.get(
   '/cleanup/status',
   authenticateApiKey,
-  rateLimiter,
+  RateLimitMiddleware.default,
   sanitizeInput,
   nuclearCleanupController.getSystemStatus.bind(nuclearCleanupController)
 );
@@ -39,7 +39,7 @@ router.get(
 router.get(
   '/cleanup/statistics',
   authenticateApiKey,
-  rateLimiter,
+  RateLimitMiddleware.default,
   sanitizeInput,
   nuclearCleanupController.getCleanupStatistics.bind(nuclearCleanupController)
 );
@@ -52,7 +52,7 @@ router.get(
 router.get(
   '/cleanup/health',
   authenticateApiKey,
-  rateLimiter,
+  RateLimitMiddleware.default,
   sanitizeInput,
   nuclearCleanupController.healthCheck.bind(nuclearCleanupController)
 );
@@ -65,7 +65,7 @@ router.get(
 router.post(
   '/nuke-all-users',
   authenticateApiKey,
-  rateLimiter,
+  RateLimitMiddleware.default,
   sanitizeInput,
   validateCleanupRequest,
   nuclearCleanupController.nukeAllUsers.bind(nuclearCleanupController)
@@ -79,7 +79,7 @@ router.post(
 router.post(
   '/users/:userId/nuke',
   authenticateApiKey,
-  rateLimiter,
+  RateLimitMiddleware.default,
   sanitizeInput,
   validateCleanupRequest,
   nuclearCleanupController.nukeUser.bind(nuclearCleanupController)
@@ -93,7 +93,7 @@ router.post(
 router.get(
   '/users/:userId/cleanup/verify',
   authenticateApiKey,
-  rateLimiter,
+  RateLimitMiddleware.default,
   sanitizeInput,
   nuclearCleanupController.verifyUserCleanup.bind(nuclearCleanupController)
 );

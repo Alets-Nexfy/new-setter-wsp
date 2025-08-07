@@ -1,40 +1,52 @@
-import { db } from '../config/firebase';
+import { SupabaseService } from './SupabaseService';
 import { BotStatus, BotControl, CreateBotControlDto, UpdateBotControlDto } from '../types/botControl';
-import { logger } from '../utils/logger';
+import { LoggerService } from './LoggerService';
+import { WorkerManagerService } from './WorkerManagerService';
 
 export class BotControlService {
-  private readonly botControlsCollection = 'botControls';
-  private readonly usersCollection = 'users';
+  private db: SupabaseService;
+  private logger: LoggerService;
+  private workerManager: WorkerManagerService;
+  private readonly tableName = 'bot_controls';
+
+  constructor() {
+    this.db = SupabaseService.getInstance();
+    this.logger = LoggerService.getInstance();
+    this.workerManager = WorkerManagerService.getInstance();
+  }
 
   /**
    * Create bot control for a user
    */
   async createBotControl(data: CreateBotControlDto): Promise<BotControl> {
     try {
-      const botControl: BotControl = {
-        id: '',
-        userId: data.userId,
+      const botControlData = {
+        user_id: data.userId,
         platform: data.platform,
         status: BotStatus.ACTIVE,
-        isPaused: false,
-        pauseReason: null,
-        pauseStartTime: null,
-        pauseEndTime: null,
-        lastActivity: new Date(),
+        is_paused: false,
+        pause_reason: null,
+        pause_start_time: null,
+        pause_end_time: null,
+        last_activity: new Date().toISOString(),
         settings: data.settings || {},
-        createdAt: new Date(),
-        updatedAt: new Date()
       };
 
-      const docRef = await db.collection(this.botControlsCollection).add(botControl);
-      botControl.id = docRef.id;
+      const { data: result, error } = await this.db
+        .from(this.tableName)
+        .insert(botControlData)
+        .select()
+        .single();
 
-      await docRef.update({ id: docRef.id });
+      if (error) {
+        throw error;
+      }
 
-      logger.info(`Bot control created: ${docRef.id} for user: ${data.userId}`);
+      const botControl = this.mapFromDatabase(result);
+      this.logger.info(`Bot control created: ${botControl.id} for user: ${data.userId}`);
       return botControl;
     } catch (error) {
-      logger.error('Error creating bot control:', error);
+      this.logger.error('Error creating bot control:', error);
       throw new Error('Failed to create bot control');
     }
   }
@@ -44,19 +56,24 @@ export class BotControlService {
    */
   async getBotControl(userId: string, platform: string): Promise<BotControl | null> {
     try {
-      const snapshot = await db.collection(this.botControlsCollection)
-        .where('userId', '==', userId)
-        .where('platform', '==', platform)
-        .limit(1)
-        .get();
+      const { data, error } = await this.db
+        .from(this.tableName)
+        .select('*')
+        .eq('user_id', userId)
+        .eq('platform', platform)
+        .single();
 
-      if (snapshot.empty) {
-        return null;
+      if (error) {
+        if (error.code === 'PGRST116') {
+          // No rows found
+          return null;
+        }
+        throw error;
       }
 
-      return snapshot.docs[0].data() as BotControl;
+      return this.mapFromDatabase(data);
     } catch (error) {
-      logger.error('Error getting bot control:', error);
+      this.logger.error('Error getting bot control:', error);
       throw new Error('Failed to get bot control');
     }
   }
@@ -66,18 +83,18 @@ export class BotControlService {
    */
   async getUserBotControls(userId: string): Promise<BotControl[]> {
     try {
-      const snapshot = await db.collection(this.botControlsCollection)
-        .where('userId', '==', userId)
-        .get();
+      const { data, error } = await this.db
+        .from(this.tableName)
+        .select('*')
+        .eq('user_id', userId);
 
-      const botControls: BotControl[] = [];
-      snapshot.forEach(doc => {
-        botControls.push(doc.data() as BotControl);
-      });
+      if (error) {
+        throw error;
+      }
 
-      return botControls;
+      return data.map(item => this.mapFromDatabase(item));
     } catch (error) {
-      logger.error('Error getting user bot controls:', error);
+      this.logger.error('Error getting user bot controls:', error);
       throw new Error('Failed to get user bot controls');
     }
   }
@@ -87,100 +104,141 @@ export class BotControlService {
    */
   async updateBotControl(botControlId: string, data: UpdateBotControlDto): Promise<BotControl> {
     try {
-      const updateData: Partial<BotControl> = {
-        ...data,
-        updatedAt: new Date()
+      const updateData: any = {
+        updated_at: new Date().toISOString()
       };
 
+      if (data.status !== undefined) {
+        updateData.status = data.status;
+      }
+
       if (data.isPaused !== undefined) {
+        updateData.is_paused = data.isPaused;
         if (data.isPaused) {
-          updateData.pauseStartTime = new Date();
-          updateData.pauseEndTime = null;
+          updateData.pause_start_time = new Date().toISOString();
+          updateData.pause_end_time = null;
         } else {
-          updateData.pauseEndTime = new Date();
-          updateData.pauseStartTime = null;
-          updateData.pauseReason = null;
+          updateData.pause_end_time = new Date().toISOString();
+          updateData.pause_start_time = null;
+          updateData.pause_reason = null;
         }
       }
 
-      await db.collection(this.botControlsCollection).doc(botControlId).update(updateData);
+      if (data.pauseReason !== undefined) {
+        updateData.pause_reason = data.pauseReason;
+      }
 
-      const updated = await db.collection(this.botControlsCollection).doc(botControlId).get();
-      return updated.data() as BotControl;
+      if (data.settings !== undefined) {
+        updateData.settings = data.settings;
+      }
+
+      const { data: result, error } = await this.db
+        .from(this.tableName)
+        .update(updateData)
+        .eq('id', botControlId)
+        .select()
+        .single();
+
+      if (error) {
+        throw error;
+      }
+
+      return this.mapFromDatabase(result);
     } catch (error) {
-      logger.error('Error updating bot control:', error);
+      this.logger.error('Error updating bot control:', error);
       throw new Error('Failed to update bot control');
     }
   }
 
   /**
-   * Pause bot
+   * Pause bot - Now integrates with WhatsApp Connection Pool
    */
-  async pauseBot(userId: string, platform: string, reason?: string): Promise<void> {
+  async pauseBot(userId: string, platform: 'whatsapp' | 'instagram' | 'telegram' | 'facebook', reason?: string): Promise<void> {
     try {
-      const botControl = await this.getBotControl(userId, platform);
+      let botControl = await this.getBotControl(userId, platform);
       
+      // Create bot control if it doesn't exist
       if (!botControl) {
-        throw new Error('Bot control not found');
+        botControl = await this.createBotControl({ userId, platform });
       }
 
+      // Update bot control status
       await this.updateBotControl(botControl.id, {
         isPaused: true,
         pauseReason: reason || 'Manual pause',
         status: BotStatus.PAUSED
       });
 
-      logger.info(`Bot paused for user: ${userId}, platform: ${platform}`);
+      // Actually pause the bot in the connection pool
+      if (platform === 'whatsapp') {
+        await this.workerManager.pauseUserBot(userId);
+      }
+
+      this.logger.info(`Bot paused for user: ${userId}, platform: ${platform}`);
     } catch (error) {
-      logger.error('Error pausing bot:', error);
+      this.logger.error('Error pausing bot:', error);
       throw new Error('Failed to pause bot');
     }
   }
 
   /**
-   * Resume bot
+   * Resume bot - Now integrates with WhatsApp Connection Pool
    */
-  async resumeBot(userId: string, platform: string): Promise<void> {
+  async resumeBot(userId: string, platform: 'whatsapp' | 'instagram' | 'telegram' | 'facebook'): Promise<void> {
     try {
-      const botControl = await this.getBotControl(userId, platform);
+      let botControl = await this.getBotControl(userId, platform);
       
+      // Create bot control if it doesn't exist
       if (!botControl) {
-        throw new Error('Bot control not found');
+        botControl = await this.createBotControl({ userId, platform });
       }
 
+      // Update bot control status
       await this.updateBotControl(botControl.id, {
         isPaused: false,
         pauseReason: null,
         status: BotStatus.ACTIVE
       });
 
-      logger.info(`Bot resumed for user: ${userId}, platform: ${platform}`);
+      // Actually resume the bot in the connection pool
+      if (platform === 'whatsapp') {
+        await this.workerManager.resumeUserBot(userId);
+      }
+
+      this.logger.info(`Bot resumed for user: ${userId}, platform: ${platform}`);
     } catch (error) {
-      logger.error('Error resuming bot:', error);
+      this.logger.error('Error resuming bot:', error);
       throw new Error('Failed to resume bot');
     }
   }
 
   /**
-   * Stop bot
+   * Stop bot - Now integrates with WhatsApp Connection Pool
    */
-  async stopBot(userId: string, platform: string): Promise<void> {
+  async stopBot(userId: string, platform: 'whatsapp' | 'instagram' | 'telegram' | 'facebook'): Promise<void> {
     try {
-      const botControl = await this.getBotControl(userId, platform);
+      let botControl = await this.getBotControl(userId, platform);
       
+      // Create bot control if it doesn't exist
       if (!botControl) {
-        throw new Error('Bot control not found');
+        botControl = await this.createBotControl({ userId, platform });
       }
 
+      // Update bot control status
       await this.updateBotControl(botControl.id, {
         isPaused: true,
         pauseReason: 'Bot stopped',
         status: BotStatus.STOPPED
       });
 
-      logger.info(`Bot stopped for user: ${userId}, platform: ${platform}`);
+      // Actually stop the bot in the connection pool
+      if (platform === 'whatsapp') {
+        await this.workerManager.stopWorker(userId, 'whatsapp');
+      }
+
+      this.logger.info(`Bot stopped for user: ${userId}, platform: ${platform}`);
     } catch (error) {
-      logger.error('Error stopping bot:', error);
+      this.logger.error('Error stopping bot:', error);
       throw new Error('Failed to stop bot');
     }
   }
@@ -190,17 +248,18 @@ export class BotControlService {
    */
   async updateBotActivity(userId: string, platform: string): Promise<void> {
     try {
-      const botControl = await this.getBotControl(userId, platform);
-      
-      if (!botControl) {
-        return;
-      }
+      const { error } = await this.db
+        .from(this.tableName)
+        .update({ last_activity: new Date().toISOString() })
+        .eq('user_id', userId)
+        .eq('platform', platform);
 
-      await this.updateBotControl(botControl.id, {
-        lastActivity: new Date()
-      });
+      if (error && error.code !== 'PGRST116') {
+        // PGRST116 means no rows found, which is okay for activity updates
+        throw error;
+      }
     } catch (error) {
-      logger.error('Error updating bot activity:', error);
+      this.logger.error('Error updating bot activity:', error);
       // Don't throw error for activity updates
     }
   }
@@ -216,8 +275,14 @@ export class BotControlService {
     byPlatform: Record<string, number>;
   }> {
     try {
-      const snapshot = await db.collection(this.botControlsCollection).get();
-      
+      const { data, error } = await this.db
+        .from(this.tableName)
+        .select('status, platform');
+
+      if (error) {
+        throw error;
+      }
+
       const stats = {
         active: 0,
         paused: 0,
@@ -226,11 +291,10 @@ export class BotControlService {
         byPlatform: {} as Record<string, number>
       };
 
-      snapshot.forEach(doc => {
-        const data = doc.data() as BotControl;
+      data.forEach(row => {
         stats.total++;
 
-        switch (data.status) {
+        switch (row.status) {
           case BotStatus.ACTIVE:
             stats.active++;
             break;
@@ -242,12 +306,12 @@ export class BotControlService {
             break;
         }
 
-        stats.byPlatform[data.platform] = (stats.byPlatform[data.platform] || 0) + 1;
+        stats.byPlatform[row.platform] = (stats.byPlatform[row.platform] || 0) + 1;
       });
 
       return stats;
     } catch (error) {
-      logger.error('Error getting all bot statuses:', error);
+      this.logger.error('Error getting all bot statuses:', error);
       throw new Error('Failed to get bot statuses');
     }
   }
@@ -260,19 +324,19 @@ export class BotControlService {
       const cutoffTime = new Date();
       cutoffTime.setHours(cutoffTime.getHours() - hours);
 
-      const snapshot = await db.collection(this.botControlsCollection)
-        .where('lastActivity', '<', cutoffTime)
-        .where('status', '==', BotStatus.ACTIVE)
-        .get();
+      const { data, error } = await this.db
+        .from(this.tableName)
+        .select('*')
+        .lt('last_activity', cutoffTime.toISOString())
+        .eq('status', BotStatus.ACTIVE);
 
-      const inactiveBots: BotControl[] = [];
-      snapshot.forEach(doc => {
-        inactiveBots.push(doc.data() as BotControl);
-      });
+      if (error) {
+        throw error;
+      }
 
-      return inactiveBots;
+      return data.map(item => this.mapFromDatabase(item));
     } catch (error) {
-      logger.error('Error getting inactive bots:', error);
+      this.logger.error('Error getting inactive bots:', error);
       throw new Error('Failed to get inactive bots');
     }
   }
@@ -282,10 +346,18 @@ export class BotControlService {
    */
   async deleteBotControl(botControlId: string): Promise<void> {
     try {
-      await db.collection(this.botControlsCollection).doc(botControlId).delete();
-      logger.info(`Bot control deleted: ${botControlId}`);
+      const { error } = await this.db
+        .from(this.tableName)
+        .delete()
+        .eq('id', botControlId);
+
+      if (error) {
+        throw error;
+      }
+
+      this.logger.info(`Bot control deleted: ${botControlId}`);
     } catch (error) {
-      logger.error('Error deleting bot control:', error);
+      this.logger.error('Error deleting bot control:', error);
       throw new Error('Failed to delete bot control');
     }
   }
@@ -298,22 +370,56 @@ export class BotControlService {
       const cutoffTime = new Date();
       cutoffTime.setDate(cutoffTime.getDate() - days);
 
-      const snapshot = await db.collection(this.botControlsCollection)
-        .where('updatedAt', '<', cutoffTime)
-        .where('status', '==', BotStatus.STOPPED)
-        .get();
+      const { data, error } = await this.db
+        .from(this.tableName)
+        .delete()
+        .lt('updated_at', cutoffTime.toISOString())
+        .eq('status', BotStatus.STOPPED)
+        .select('id');
 
-      const batch = db.batch();
-      snapshot.forEach(doc => {
-        batch.delete(doc.ref);
-      });
+      if (error) {
+        throw error;
+      }
 
-      await batch.commit();
-      logger.info(`Cleaned up ${snapshot.size} old bot controls`);
-      return snapshot.size;
+      const count = data?.length || 0;
+      this.logger.info(`Cleaned up ${count} old bot controls`);
+      return count;
     } catch (error) {
-      logger.error('Error cleaning up old bot controls:', error);
+      this.logger.error('Error cleaning up old bot controls:', error);
       throw new Error('Failed to cleanup old bot controls');
     }
+  }
+
+  /**
+   * Check if bot is paused for a user
+   */
+  async isBotPaused(userId: string, platform: string = 'whatsapp'): Promise<boolean> {
+    try {
+      const botControl = await this.getBotControl(userId, platform);
+      return botControl?.isPaused || false;
+    } catch (error) {
+      this.logger.error('Error checking bot pause status:', error);
+      return false;
+    }
+  }
+
+  /**
+   * Map database row to BotControl interface
+   */
+  private mapFromDatabase(data: any): BotControl {
+    return {
+      id: data.id,
+      userId: data.user_id,
+      platform: data.platform,
+      status: data.status,
+      isPaused: data.is_paused,
+      pauseReason: data.pause_reason,
+      pauseStartTime: data.pause_start_time ? new Date(data.pause_start_time) : null,
+      pauseEndTime: data.pause_end_time ? new Date(data.pause_end_time) : null,
+      lastActivity: new Date(data.last_activity),
+      settings: data.settings || {},
+      createdAt: new Date(data.created_at),
+      updatedAt: new Date(data.updated_at)
+    };
   }
 } 

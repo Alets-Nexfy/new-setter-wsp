@@ -1,6 +1,6 @@
 import { LoggerService } from '@/core/services/LoggerService';
 import { SupabaseService } from '@/core/services/SupabaseService';
-import { WebSocketService } from '@/core/services/websocketService';
+import { WebSocketService, WebSocketMessage } from '@/core/services/websocketService';
 import { WhatsAppWorkerManager, WorkerMessage } from './WhatsAppWorkerManager';
 
 export interface IPCMessagePayload {
@@ -48,26 +48,30 @@ export class WorkerIPCHandler {
 
     // Handle NEW_MESSAGE_RECEIVED for WebSocket broadcast
     if (message.type === 'NEW_MESSAGE_RECEIVED') {
-      await this.handleNewMessageNotification(userId, message.payload);
+      this.handleNewMessageNotification(userId, message.payload);
       return;
     }
 
-    // Handle other message types that update Firestore status
+    // Handle other message types that update database status
     await this.handleStatusUpdate(userId, message);
   }
 
   /**
    * Handle new message notifications for WebSocket broadcast
    */
-  private async handleNewMessageNotification(userId: string, payload: any): Promise<void> {
+  private handleNewMessageNotification(userId: string, payload: any): void {
     this.logger.debug('Processing new message notification', { userId });
 
     try {
       // Broadcast to WebSocket clients
-      await this.wsService.sendToUser(userId, {
+      const message: WebSocketMessage = {
         type: 'newMessage',
-        data: payload
-      });
+        payload: payload,
+        timestamp: new Date(),
+        userId
+      };
+      
+      this.wsService.sendToUser(userId, message);
 
       this.logger.debug('New message notification sent via WebSocket', { userId });
     } catch (error) {
@@ -79,7 +83,7 @@ export class WorkerIPCHandler {
   }
 
   /**
-   * Handle status updates and Firestore synchronization
+   * Handle status updates and database synchronization
    */
   private async handleStatusUpdate(userId: string, message: WorkerMessage): Promise<void> {
     let statusUpdateData: StatusUpdateData;
@@ -131,17 +135,15 @@ export class WorkerIPCHandler {
         return;
     }
 
-    // Update Firestore status subcollection
+    // Update Supabase status table
     try {
-      const statusDocRef = this.db
-        .collection('users')
-        .doc(userId)
-        .collection('status')
-        .doc('whatsapp');
+      await this.db.getClient().from('user_status').upsert({
+        user_id: userId,
+        platform: 'whatsapp',
+        ...statusUpdateData
+      });
 
-      await statusDocRef.set(statusUpdateData, { merge: true });
-
-      this.logger.info('Worker status updated in Firestore', {
+      this.logger.info('Worker status updated in database', {
         userId,
         update: logMessage,
         messageType: message.type
@@ -150,7 +152,7 @@ export class WorkerIPCHandler {
       // Update worker instance status in memory
       const workerInstance = this.workerManager.getWorker(userId);
       if (workerInstance) {
-        workerInstance.status = this.mapFirestoreStatusToWorkerStatus(statusUpdateData.status);
+        workerInstance.status = this.mapDatabaseStatusToWorkerStatus(statusUpdateData.status);
         workerInstance.lastActivity = new Date();
       }
 
@@ -163,7 +165,7 @@ export class WorkerIPCHandler {
       });
 
     } catch (error) {
-      this.logger.error('Error updating Firestore status for worker message', {
+      this.logger.error('Error updating database status for worker message', {
         userId,
         messageType: message.type,
         error: error instanceof Error ? error.message : 'Unknown error'
@@ -221,17 +223,16 @@ export class WorkerIPCHandler {
    */
   public async sendReloadFlowsCommand(userId: string): Promise<boolean> {
     try {
-      // Get user flows from Firestore
-      const flowsSnapshot = await this.db
-        .collection('users')
-        .doc(userId)
-        .collection('action_flows')
-        .get();
+      // Get user flows from Supabase
+      const { data: flowsData, error } = await this.db
+        .from('action_flows')
+        .select('*')
+        .eq('user_id', userId);
 
-      const flowsData = flowsSnapshot.docs.map(doc => doc.data());
+      if (error) throw error;
 
       return await this.sendCommandToWorker(userId, 'RELOAD_USER_FLOWS', {
-        flows: flowsData
+        flows: flowsData || []
       });
     } catch (error) {
       this.logger.error('Error reloading flows for worker', {
@@ -247,17 +248,16 @@ export class WorkerIPCHandler {
    */
   public async sendReloadRulesCommand(userId: string): Promise<boolean> {
     try {
-      // Get user rules from Firestore
-      const rulesSnapshot = await this.db
-        .collection('users')
-        .doc(userId)
-        .collection('rules')
-        .get();
+      // Get user rules from Supabase
+      const { data: rulesData, error } = await this.db
+        .from('rules')
+        .select('*')
+        .eq('user_id', userId);
 
-      const rulesData = rulesSnapshot.docs.map(doc => doc.data());
+      if (error) throw error;
 
       return await this.sendCommandToWorker(userId, 'RELOAD_RULES', {
-        rules: rulesData
+        rules: rulesData || []
       });
     } catch (error) {
       this.logger.error('Error reloading rules for worker', {
@@ -313,24 +313,24 @@ export class WorkerIPCHandler {
   }
 
   /**
-   * Get worker status from Firestore
+   * Get worker status from database
    */
-  public async getWorkerStatusFromFirestore(userId: string): Promise<any> {
+  public async getWorkerStatusFromDatabase(userId: string): Promise<any> {
     try {
-      const statusDoc = await this.db
-        .collection('users')
-        .doc(userId)
-        .collection('status')
-        .doc('whatsapp')
-        .get();
+      const { data: statusData, error } = await this.db
+        .from('user_status')
+        .select('*')
+        .eq('user_id', userId)
+        .eq('platform', 'whatsapp')
+        .single();
 
-      if (statusDoc.exists) {
-        return statusDoc.data();
+      if (error && (error as any).code !== 'PGRST116') { // PGRST116 = no rows returned
+        throw error;
       }
 
-      return null;
+      return statusData || null;
     } catch (error) {
-      this.logger.error('Error getting worker status from Firestore', {
+      this.logger.error('Error getting worker status from database', {
         userId,
         error: error instanceof Error ? error.message : 'Unknown error'
       });
@@ -339,29 +339,29 @@ export class WorkerIPCHandler {
   }
 
   /**
-   * Verify worker status consistency between memory and Firestore
+   * Verify worker status consistency between memory and database
    */
   public async verifyWorkerStatusConsistency(userId: string): Promise<boolean> {
     const workerInstance = this.workerManager.getWorker(userId);
-    const firestoreStatus = await this.getWorkerStatusFromFirestore(userId);
+    const databaseStatus = await this.getWorkerStatusFromDatabase(userId);
 
-    if (!workerInstance && !firestoreStatus) {
+    if (!workerInstance && !databaseStatus) {
       return true; // Both don't exist, consistent
     }
 
-    if (workerInstance && !firestoreStatus) {
-      this.logger.warn('Worker exists in memory but not in Firestore', { userId });
+    if (workerInstance && !databaseStatus) {
+      this.logger.warn('Worker exists in memory but not in database', { userId });
       return false;
     }
 
-    if (!workerInstance && firestoreStatus) {
-      this.logger.warn('Worker exists in Firestore but not in memory', { userId });
+    if (!workerInstance && databaseStatus) {
+      this.logger.warn('Worker exists in database but not in memory', { userId });
       return false;
     }
 
     // Both exist, check status consistency
     const memoryStatus = workerInstance!.status;
-    const dbStatus = firestoreStatus.status;
+    const dbStatus = databaseStatus.status;
 
     const isConsistent = this.isStatusConsistent(memoryStatus, dbStatus);
 
@@ -369,7 +369,7 @@ export class WorkerIPCHandler {
       this.logger.warn('Worker status inconsistency detected', {
         userId,
         memoryStatus,
-        firestoreStatus: dbStatus
+        databaseStatus: dbStatus
       });
     }
 
@@ -377,10 +377,10 @@ export class WorkerIPCHandler {
   }
 
   /**
-   * Map Firestore status to worker instance status
+   * Map database status to worker instance status
    */
-  private mapFirestoreStatusToWorkerStatus(firestoreStatus: string): 'starting' | 'connected' | 'disconnected' | 'error' {
-    switch (firestoreStatus) {
+  private mapDatabaseStatusToWorkerStatus(databaseStatus: string): 'starting' | 'connected' | 'disconnected' | 'error' {
+    switch (databaseStatus) {
       case 'connecting':
       case 'generating_qr':
         return 'starting';
@@ -395,11 +395,11 @@ export class WorkerIPCHandler {
   }
 
   /**
-   * Check if memory and Firestore statuses are consistent
+   * Check if memory and database statuses are consistent
    */
-  private isStatusConsistent(memoryStatus: string, firestoreStatus: string): boolean {
-    const mappedFirestoreStatus = this.mapFirestoreStatusToWorkerStatus(firestoreStatus);
-    return memoryStatus === mappedFirestoreStatus;
+  private isStatusConsistent(memoryStatus: string, databaseStatus: string): boolean {
+    const mappedDatabaseStatus = this.mapDatabaseStatusToWorkerStatus(databaseStatus);
+    return memoryStatus === mappedDatabaseStatus;
   }
 
   /**

@@ -264,7 +264,7 @@ export class WebSocketService {
     
     // Store subscription in cache
     const subscriptionKey = `ws_subscription:${clientId}`;
-    this.cache.set(subscriptionKey, { channels }, 3600); // 1 hour
+    this.cache.set(subscriptionKey, JSON.stringify({ channels }), 3600); // 1 hour
 
     this.sendToClient(clientId, {
       type: 'subscribed',

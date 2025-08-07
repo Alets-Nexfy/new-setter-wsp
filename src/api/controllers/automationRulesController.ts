@@ -9,7 +9,7 @@ export class AutomationRulesController {
 
   constructor() {
     this.automationRulesService = new AutomationRulesService();
-    this.logger = new LoggerService();
+    this.logger = LoggerService.getInstance();
   }
 
   /**
@@ -358,4 +358,6 @@ export class AutomationRulesController {
       });
     }
   }
-} 
+}
+
+export default AutomationRulesController; 

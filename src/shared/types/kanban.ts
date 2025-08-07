@@ -223,4 +223,32 @@ export interface KanbanQueryOptions {
   limit?: number;
   offset?: number;
   includeArchived?: boolean;
+}
+
+// Additional types for controller compatibility
+export interface CreateCommentRequest {
+  cardId: string;
+  content: string;
+  mentions?: string[];
+}
+
+export interface KanbanFilters {
+  status?: string[];
+  priority?: string[];
+  assignee?: string[];
+  tags?: string[];
+  dueDate?: {
+    from?: Date;
+    to?: Date;
+  };
+  createdDate?: {
+    from?: Date;
+    to?: Date;
+  };
+  search?: string;
+}
+
+export interface KanbanSortOptions {
+  field: 'title' | 'priority' | 'dueDate' | 'createdAt' | 'updatedAt' | 'assignee';
+  direction: 'asc' | 'desc';
 } 

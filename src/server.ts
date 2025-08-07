@@ -17,6 +17,7 @@ import { QueueService } from './core/services/QueueService';
 import { WebSocketService } from './core/services/websocketService';
 import { WorkerManagerService } from './core/services/WorkerManagerService';
 import { MessageBrokerService } from './core/services/MessageBrokerService';
+import { ChromeCleanupService } from './core/services/ChromeCleanupService';
 
 // Import routes
 import apiRoutes from './api/routes';
@@ -38,6 +39,7 @@ class WhatsAppAPIServer {
   private wsService: WebSocketService;
   private workerManager: WorkerManagerService;
   private messageBroker: MessageBrokerService;
+  private chromeCleanup: ChromeCleanupService;
 
   constructor() {
     this.app = express();
@@ -92,6 +94,16 @@ class WhatsAppAPIServer {
       // Initialize Message Broker Service
       this.messageBroker = MessageBrokerService.getInstance();
 
+      // Initialize Chrome cleanup service
+      this.chromeCleanup = ChromeCleanupService.getInstance();
+      this.logger.info('[Server] Chrome cleanup service initialized');
+      
+      // Run initial cleanup
+      const cleanedCount = await this.chromeCleanup.cleanupZombieProcesses();
+      if (cleanedCount > 0) {
+        this.logger.info(`[Server] Initial cleanup: removed ${cleanedCount} zombie Chrome processes`);
+      }
+
       this.logger.info('[Server] Core services initialized successfully');
     } catch (error) {
       this.logger.error('[Server] Failed to initialize core services:', error);
@@ -111,22 +123,25 @@ class WhatsAppAPIServer {
       crossOriginEmbedderPolicy: false
     }));
 
-    // CORS configuration - Disabled since nginx handles CORS
-    // this.app.use(cors({
-    //   origin: environment.cors.origin?.split(',') || ['http://localhost:3000', 'http://localhost:5173'],
-    //   credentials: true,
-    //   allowedHeaders: [
-    //     'Origin',
-    //     'X-Requested-With', 
-    //     'Content-Type',
-    //     'Accept',
-    //     'Authorization',
-    //     'X-API-Key',
-    //     'x-api-key'
-    //   ],
-    //   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
-    //   exposedHeaders: ['X-RateLimit-Limit', 'X-RateLimit-Remaining', 'X-RateLimit-Reset']
-    // }));
+    // CORS configuration - DISABLED because nginx handles CORS
+    // Nginx already adds CORS headers, having both causes conflicts
+    /*
+    this.app.use(cors({
+      origin: environment.cors.origin?.split(',') || ['http://localhost:3000', 'http://localhost:5173', 'http://127.0.0.1:5173', 'http://localhost:5174', 'http://127.0.0.1:5174'],
+      credentials: true,
+      allowedHeaders: [
+        'Origin',
+        'X-Requested-With', 
+        'Content-Type',
+        'Accept',
+        'Authorization',
+        'X-API-Key',
+        'x-api-key'
+      ],
+      methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+      exposedHeaders: ['X-RateLimit-Limit', 'X-RateLimit-Remaining', 'X-RateLimit-Reset']
+    }));
+    */
 
     // Compression
     this.app.use(compression());
@@ -280,7 +295,7 @@ class WhatsAppAPIServer {
 
     // Handle unhandled promise rejections
     process.on('unhandledRejection', (reason, promise) => {
-      this.logger.error('[Server] Unhandled Rejection at:', promise, 'reason:', reason);
+      this.logger.error('[Server] Unhandled Rejection', { promise, reason });
       // TEMPORARY: Don't shutdown on unhandled rejections for testing
       // this.gracefulShutdown('unhandledRejection');
       this.logger.warn('[Server] Continuing despite unhandled rejection for testing purposes');
@@ -369,7 +384,7 @@ class WhatsAppAPIServer {
       }
 
       // Close database connections
-      if (this.db) {
+      if (this.supabase) {
         // Add database cleanup if needed
       }
 

@@ -250,4 +250,15 @@ export class AuthMiddleware {
       });
     }
   }
-} 
+}
+
+export default AuthMiddleware;
+
+// Individual method exports for convenience
+export const authenticate = AuthMiddleware.authenticateJWT;
+export const authenticateApiKey = AuthMiddleware.authenticateAPIKey;
+export const authenticateToken = AuthMiddleware.authenticateJWT;
+export const requireRole = AuthMiddleware.requireRole;
+export const requireAdmin = AuthMiddleware.requireAdmin;
+export const optionalAuth = AuthMiddleware.optionalAuth;
+export const requireSessionOwnership = AuthMiddleware.requireSessionOwnership; 

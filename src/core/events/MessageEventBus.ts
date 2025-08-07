@@ -3,7 +3,8 @@ import { LoggerService } from '@/core/services/LoggerService';
 import { SupabaseService } from '@/core/services/SupabaseService';
 import { CacheService } from '@/core/services/CacheService';
 import { UserTierService } from '@/core/services/UserTierService';
-import Queue from 'bull';
+import Bull from 'bull';
+type Job = Bull.Job;
 import { createClient } from 'redis';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -98,18 +99,18 @@ export interface MessageEvent {
 
 export class MessageEventBus extends EventEmitter {
   private logger: LoggerService;
-  private firebase: FirebaseService;
+  private firebase: SupabaseService;
   private cache: CacheService;
   private tierService: UserTierService;
   private redis: any;
   
   // Bull queues for different priorities and types
-  private highPriorityQueue: Queue;
-  private mediumPriorityQueue: Queue;
-  private lowPriorityQueue: Queue;
-  private aiProcessingQueue: Queue;
-  private webhookQueue: Queue;
-  private scheduledMessageQueue: Queue;
+  private highPriorityQueue: any;
+  private mediumPriorityQueue: any;
+  private lowPriorityQueue: any;
+  private aiProcessingQueue: any;
+  private webhookQueue: any;
+  private scheduledMessageQueue: any;
   
   // Event processors
   private eventProcessors: Map<string, Function> = new Map();
@@ -136,7 +137,7 @@ export class MessageEventBus extends EventEmitter {
     this.logger = LoggerService.getInstance();
     this.firebase = SupabaseService.getInstance();
     this.cache = CacheService.getInstance();
-    this.tierService = new UserTierService();
+    this.tierService = UserTierService.getInstance();
     
     this.initializeRedis();
     this.initializeQueues();
@@ -146,8 +147,7 @@ export class MessageEventBus extends EventEmitter {
 
   private async initializeRedis(): Promise<void> {
     this.redis = createClient({
-      url: process.env.REDIS_URL || 'redis://localhost:6379',
-      db: parseInt(process.env.BULL_REDIS_DB || '1')
+      url: process.env.REDIS_URL || 'redis://localhost:6379'
     });
 
     await this.redis.connect();
@@ -164,14 +164,14 @@ export class MessageEventBus extends EventEmitter {
     };
 
     // Priority-based message queues
-    this.highPriorityQueue = new Queue('high-priority-messages', redisConfig);
-    this.mediumPriorityQueue = new Queue('medium-priority-messages', redisConfig);
-    this.lowPriorityQueue = new Queue('low-priority-messages', redisConfig);
+    this.highPriorityQueue = new Bull('high-priority-messages', redisConfig);
+    this.mediumPriorityQueue = new Bull('medium-priority-messages', redisConfig);
+    this.lowPriorityQueue = new Bull('low-priority-messages', redisConfig);
     
     // Specialized queues
-    this.aiProcessingQueue = new Queue('ai-processing', redisConfig);
-    this.webhookQueue = new Queue('webhook-delivery', redisConfig);
-    this.scheduledMessageQueue = new Queue('scheduled-messages', redisConfig);
+    this.aiProcessingQueue = new Bull('ai-processing', redisConfig);
+    this.webhookQueue = new Bull('webhook-delivery', redisConfig);
+    this.scheduledMessageQueue = new Bull('scheduled-messages', redisConfig);
 
     this.setupQueueProcessors();
     this.logger.info('Event queues initialized');
@@ -405,7 +405,7 @@ export class MessageEventBus extends EventEmitter {
   }
 
   private async routeEventToQueue(event: MessageEvent, priority: 'low' | 'medium' | 'high'): Promise<void> {
-    let queue: Queue;
+    let queue: any;
 
     // Route AI requests to specialized queue
     if (event.type.startsWith('ai:')) {
@@ -636,7 +636,7 @@ export class MessageEventBus extends EventEmitter {
     
     // Cache presence information
     const cacheKey = `presence:${presence.userId}:${presence.chatId}`;
-    await this.cache.set(cacheKey, presence, 300); // 5 minutes cache
+    await this.cache.set(cacheKey, JSON.stringify(presence), 300); // 5 minutes cache
 
     // Store in database for analytics
     await this.firebase.collection('user_presence').add({
@@ -741,7 +741,7 @@ export class MessageEventBus extends EventEmitter {
 
   private async getUserProfile(userId: string): Promise<any> {
     try {
-      const profile = await this.firebase.getDocument(`user_profiles/${userId}`);
+      const profile = await this.firebase.getDocument('user_profiles', userId);
       return profile || {};
     } catch (error) {
       this.logger.error('Error getting user profile', { userId, error });

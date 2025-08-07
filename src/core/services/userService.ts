@@ -30,10 +30,11 @@ import {
   WebSocketConnection, 
   UserHealthCheck
 } from '../../shared/types/user';
-import { DatabaseService } from './database';
-import { CacheService } from './cache';
-import { QueueService } from './queue';
-import { LoggerService } from './logger';
+import { DatabaseService } from './DatabaseService';
+import { SupabaseService } from './SupabaseService';
+import { CacheService } from './CacheService';
+import { QueueService } from './QueueService';
+import { LoggerService } from './LoggerService';
 import { ChildProcess, fork } from 'child_process';
 import { WebSocket } from 'ws';
 import * as path from 'path';
@@ -89,7 +90,33 @@ export class UserService {
         updatedAt: now.toISOString()
       };
 
-      // Create user document
+      // Extract UUID from prefixed userId if needed for Supabase
+      const userUuid = userId.startsWith('tribe-ia-nexus_') 
+        ? userId.replace('tribe-ia-nexus_', '') 
+        : userId;
+
+      // Create user in Supabase users table
+      const { error: insertError } = await this.db.from('users').insert({
+        id: userUuid,
+        email: `user-${userUuid}@generated.com`, // Generated email
+        username: userId.substring(0, 25), // Truncate username if too long
+        full_name: `User ${userUuid.substring(0, 8)}`, // Short name
+        tier: 'enterprise_b2b',
+        is_active: true,
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString(),
+        last_activity: new Date().toISOString(),
+        b2b_info: userId.startsWith('tribe-ia-nexus_') ? {
+          platform_id: 'tribe-ia-nexus',
+          organization: 'Tribe IA Nexus'
+        } : null
+      });
+
+      if (insertError) {
+        throw insertError;
+      }
+
+      // Also create in Firebase collection for backward compatibility
       await this.db.collection('users').doc(userId).set({
         ...user,
         createdAt: new Date().toISOString(),
@@ -101,7 +128,7 @@ export class UserService {
       await this.initializePlatformStatuses(userId);
 
       // Cache user data
-      await this.cache.set(`user:${userId}`, user, 3600);
+      await this.cache.setJSON(`user:${userId}`, user, 3600);
 
       // Log activity
       await this.logUserActivity(userId, 'whatsapp', 'user_created', 'User created successfully');
@@ -117,9 +144,9 @@ export class UserService {
   async getUser(userId: string): Promise<User | null> {
     try {
       // Try cache first
-      const cached = await this.cache.get(`user:${userId}`);
+      const cached = await this.cache.getJSON<User>(`user:${userId}`);
       if (cached) {
-        return cached as User;
+        return cached;
       }
 
       // Get from database
@@ -136,7 +163,7 @@ export class UserService {
       };
 
       // Cache result
-      await this.cache.set(`user:${userId}`, user, 3600);
+      await this.cache.setJSON(`user:${userId}`, user, 3600);
       return user;
     } catch (error) {
       this.logger.error(`Error getting user ${userId}:`, error);
@@ -197,10 +224,8 @@ export class UserService {
         query = query.orderBy('createdAt', 'desc');
       }
 
-      // Apply pagination
-      query = query.limit(limit).offset(offset);
-
-      const snapshot = await query.get();
+      // Apply pagination and get results
+      const snapshot = await query.limit(limit).get();
       const users: UserSummary[] = [];
 
       for (const doc of snapshot.docs) {
@@ -729,7 +754,7 @@ export class UserService {
       await this.db.collection('users').doc(userId).collection('status').doc(platform).set({
         ...status,
         updatedAt: new Date().toISOString()
-      }, { merge: true });
+      });
 
       // Clear cache
       const cacheKey = `user:${userId}:${platform}:status`;

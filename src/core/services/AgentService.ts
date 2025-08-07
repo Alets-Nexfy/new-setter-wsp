@@ -2,6 +2,7 @@ import { EventEmitter } from 'events';
 import { LoggerService } from './LoggerService';
 import { SupabaseService as DatabaseService } from './SupabaseService';
 import { WorkerManagerService } from './WorkerManagerService';
+import { AgentTriggerService } from './AgentTriggerService';
 import { v4 as uuidv4 } from 'uuid';
 
 export interface AgentPersona {
@@ -12,6 +13,16 @@ export interface AgentPersona {
   style: string;
   instructions: string;
   guidelines: string[];
+  systemMessage?: string;
+  guardrails?: string;
+  defaultResponse?: string;
+}
+
+export interface AgentTrigger {
+  id: string;
+  type: 'message' | 'keyword' | 'lead' | 'manual';
+  enabled: boolean;
+  conditions?: string[];
 }
 
 export interface AgentKnowledge {
@@ -19,6 +30,22 @@ export interface AgentKnowledge {
   urls: string[];
   qandas: any[];
   writingSampleTxt: string;
+  externalUrls?: { url: string; description: string }[];
+  knowledgeNotes?: string[];
+}
+
+export interface AgentAutomation {
+  triggers: AgentTrigger[];
+  customLogic?: string;
+  useCustomLogic: boolean;
+  actionTriggers?: { text: string; type: string }[];
+}
+
+export interface AgentMetrics {
+  totalConversations: number;
+  avgResponseTime: number;
+  lastActive?: string;
+  successRate?: number;
 }
 
 export interface Agent {
@@ -26,7 +53,11 @@ export interface Agent {
   userId: string;
   persona: AgentPersona;
   knowledge: AgentKnowledge;
+  automation?: AgentAutomation;
+  metrics?: AgentMetrics;
+  whatsappNumber?: string;
   isActive?: boolean;
+  isPrimary?: boolean;
   createdAt: string;
   updatedAt: string;
 }
@@ -41,6 +72,8 @@ export interface CreateAgentRequest {
   userId: string;
   persona: Partial<AgentPersona> & { name: string };
   knowledge?: Partial<AgentKnowledge>;
+  automation?: Partial<AgentAutomation>;
+  whatsappNumber?: string;
 }
 
 export interface UpdateAgentRequest {
@@ -48,6 +81,9 @@ export interface UpdateAgentRequest {
   agentId: string;
   persona?: Partial<AgentPersona>;
   knowledge?: Partial<AgentKnowledge>;
+  automation?: Partial<AgentAutomation>;
+  whatsappNumber?: string;
+  isActive?: boolean;
 }
 
 export interface AgentSwitchRequest {
@@ -65,8 +101,9 @@ export interface InitialConfiguration {
 export class AgentService extends EventEmitter {
   private static instance: AgentService;
   private logger: LoggerService;
-  private db: SupabaseService;
+  private db: DatabaseService;
   private workerManager: WorkerManagerService;
+  private triggerService: AgentTriggerService;
 
   // Agent state tracking
   private activeAgents: Map<string, string | null> = new Map(); // userId -> agentId
@@ -96,6 +133,7 @@ export class AgentService extends EventEmitter {
     this.logger = LoggerService.getInstance();
     this.db = DatabaseService.getInstance();
     this.workerManager = WorkerManagerService.getInstance();
+    this.triggerService = AgentTriggerService.getInstance();
   }
 
   public static getInstance(): AgentService {
@@ -106,16 +144,48 @@ export class AgentService extends EventEmitter {
   }
 
   /**
-   * MIGRATED TO SUPABASE: Get all agents for a user
+   * MIGRATED TO SUPABASE: Get all agents for a user with network status
    */
   public async getUserAgents(userId: string): Promise<Agent[]> {
     try {
-      this.logger.debug('Getting user agents', { userId });
+      this.logger.debug('Getting user agents with network status', { userId });
 
-      const { data: agents, error } = await this.db.supabase
+      // Extract UUID from prefixed userId if needed
+      const userUuid = userId.startsWith('tribe-ia-nexus_') 
+        ? userId.replace('tribe-ia-nexus_', '') 
+        : userId;
+
+      // Get user's active agent ID
+      const { data: userData, error: userError } = await this.db
+        .from('users')
+        .select('active_agent_id')
+        .eq('id', userUuid)
+        .single();
+
+      const activeAgentId = userData?.active_agent_id || null;
+
+      // Get active network to check which agents are part of it
+      const activeNetwork = await this.triggerService.getActiveNetwork(userId);
+      const activeNetworkAgentIds = new Set<string>();
+      
+      if (activeNetwork) {
+        // Add primary agent
+        activeNetworkAgentIds.add(activeNetwork.primaryAgentId);
+        
+        // Add all network nodes
+        if (activeNetwork.nodes) {
+          activeNetwork.nodes.forEach((node: any) => {
+            if (node.agentId) {
+              activeNetworkAgentIds.add(node.agentId);
+            }
+          });
+        }
+      }
+
+      const { data: agents, error } = await this.db
         .from('agents')
         .select('*')
-        .eq('user_id', userId)
+        .eq('user_id', userUuid)
         .order('created_at', { ascending: false });
 
       if (error) {
@@ -125,16 +195,22 @@ export class AgentService extends EventEmitter {
       const result = (agents || []).map(agent => ({
         id: agent.id,
         userId,
-        persona: agent.persona || {},
-        knowledge: agent.knowledge || {},
-        isActive: this.activeAgents.get(userId) === agent.id,
+        persona: agent.config?.persona || {},
+        knowledge: agent.config?.knowledge || {},
+        automation: agent.config?.automation || null,
+        metrics: agent.performance || null,
+        whatsappNumber: agent.config?.whatsappNumber || null,
+        isActive: activeNetworkAgentIds.has(agent.id), // Check if part of active network
+        isPrimary: agent.id === activeAgentId, // Mark if it's the primary active agent
         createdAt: agent.created_at,
         updatedAt: agent.updated_at
       }));
 
-      this.logger.debug('User agents retrieved', { 
+      this.logger.debug('User agents retrieved with network status', { 
         userId, 
-        agentCount: result.length 
+        agentCount: result.length,
+        activeAgentId,
+        activeNetworkSize: activeNetworkAgentIds.size
       });
 
       return result;
@@ -154,7 +230,7 @@ export class AgentService extends EventEmitter {
    */
   public async createAgent(request: CreateAgentRequest): Promise<Agent> {
     try {
-      const { userId, persona, knowledge = {} } = request;
+      const { userId, persona, knowledge = {}, automation, whatsappNumber } = request;
 
       this.logger.info('Creating new agent', { 
         userId, 
@@ -166,45 +242,93 @@ export class AgentService extends EventEmitter {
         throw new Error('Agent name is required');
       }
 
-      // Verify user exists
-      const { data: user, error: userError } = await this.db.supabase
+      // Verify user exists - extract UUID from prefixed userId if needed
+      const userUuid = userId.startsWith('tribe-ia-nexus_') 
+        ? userId.replace('tribe-ia-nexus_', '') 
+        : userId;
+
+      let { data: user, error: userError } = await this.db
         .from('users')
         .select('id')
-        .eq('id', userId)
+        .eq('id', userUuid)
         .single();
 
+      // If user doesn't exist, create the user record
       if (userError || !user) {
-        throw new Error('User not found');
+        this.logger.info('User not found during agent creation, creating user record', { userId, userUuid });
+        
+        const { data: newUser, error: createError } = await this.db
+          .from('users')
+          .insert({
+            id: userUuid,
+            active_agent_id: null,
+            created_at: new Date().toISOString(),
+            updated_at: new Date().toISOString()
+          })
+          .select('id')
+          .single();
+          
+        if (createError) {
+          this.logger.error('Failed to create user record during agent creation', { userId, userUuid, error: createError.message });
+          throw new Error('Failed to create user record');
+        }
+        
+        user = newUser;
+        this.logger.info('User record created successfully during agent creation', { userId, userUuid });
       }
 
       const agentId = uuidv4();
       const now = new Date().toISOString();
 
-      // Build complete agent configuration
+      // Build agent configuration compatible with existing table structure
       const agentData = {
         id: agentId,
-        user_id: userId,
-        persona: {
-          name: persona.name.trim(),
-          role: persona.role || 'Asistente',
-          language: persona.language || 'es',
-          tone: persona.tone || 'Amigable',
-          style: persona.style || 'Conversacional',
-          instructions: persona.instructions || 'Eres un asistente conversacional útil y amigable.',
-          guidelines: persona.guidelines || []
+        user_id: userUuid, // Use the extracted UUID
+        name: persona.name.trim(),
+        agent_type: persona.role || 'Asistente',
+        config: {
+          persona: {
+            name: persona.name.trim(),
+            role: persona.role || 'Asistente',
+            language: persona.language || 'es',
+            tone: persona.tone || 'Amigable',
+            style: persona.style || 'Conversacional',
+            instructions: persona.instructions || 'Eres un asistente conversacional útil y amigable.',
+            guidelines: persona.guidelines || [],
+            systemMessage: persona.systemMessage,
+            guardrails: persona.guardrails,
+            defaultResponse: persona.defaultResponse
+          },
+          knowledge: {
+            files: knowledge.files || [],
+            urls: knowledge.urls || [],
+            qandas: knowledge.qandas || [],
+            writingSampleTxt: knowledge.writingSampleTxt || '',
+            externalUrls: knowledge.externalUrls || [],
+            knowledgeNotes: knowledge.knowledgeNotes || []
+          },
+          automation: automation ? {
+            triggers: automation.triggers || [],
+            customLogic: automation.customLogic || '',
+            useCustomLogic: automation.useCustomLogic || false,
+            actionTriggers: automation.actionTriggers || []
+          } : null,
+          whatsappNumber: whatsappNumber || null
         },
-        knowledge: {
-          files: knowledge.files || [],
-          urls: knowledge.urls || [],
-          qandas: knowledge.qandas || [],
-          writingSampleTxt: knowledge.writingSampleTxt || ''
+        is_active: true,
+        is_default: false,
+        performance: {
+          totalConversations: 0,
+          avgResponseTime: 0,
+          lastActive: null,
+          successRate: 0
         },
         created_at: now,
         updated_at: now
       };
 
       // Save to Supabase
-      const { data: createdAgentData, error } = await this.db.supabase
+      const { data: createdAgentData, error } = await this.db
         .from('agents')
         .insert(agentData)
         .select()
@@ -220,8 +344,12 @@ export class AgentService extends EventEmitter {
       const createdAgent: Agent = {
         id: createdAgentData.id,
         userId,
-        persona: createdAgentData.persona,
-        knowledge: createdAgentData.knowledge,
+        persona: createdAgentData.config?.persona || {},
+        knowledge: createdAgentData.config?.knowledge || {},
+        automation: createdAgentData.config?.automation || null,
+        metrics: createdAgentData.performance || null,
+        whatsappNumber: createdAgentData.config?.whatsappNumber || null,
+        isActive: createdAgentData.is_active,
         createdAt: createdAgentData.created_at,
         updatedAt: createdAgentData.updated_at
       };
@@ -239,44 +367,52 @@ export class AgentService extends EventEmitter {
     } catch (error) {
       this.logger.error('Error creating agent', {
         userId: request.userId,
-        error: error instanceof Error ? error.message : 'Unknown error'
+        error: error instanceof Error ? error.message : 'Unknown error',
+        errorStack: error instanceof Error ? error.stack : 'No stack trace',
+        errorDetails: error
       });
       throw error;
     }
   }
 
   /**
-   * MIGRADO DE: whatsapp-api/src/server.js líneas 2152-2242
-   * Update existing agent
+   * MIGRATED TO SUPABASE: Update existing agent
    */
   public async updateAgent(request: UpdateAgentRequest): Promise<Agent> {
     try {
-      const { userId, agentId, persona, knowledge } = request;
+      const { userId, agentId, persona, knowledge, automation, whatsappNumber, isActive } = request;
 
       this.logger.info('Updating agent', { userId, agentId });
 
-      const agentDocRef = this.db
-        .collection('users')
-        .doc(userId)
-        .collection('agents')
-        .doc(agentId);
+      // Extract UUID from prefixed userId if needed
+      const userUuid = userId.startsWith('tribe-ia-nexus_') 
+        ? userId.replace('tribe-ia-nexus_', '') 
+        : userId;
 
       // Check if agent exists
-      const agentDoc = await agentDocRef.get();
-      if (!agentDoc.exists) {
+      const { data: existingAgent, error: fetchError } = await this.db
+        .from('agents')
+        .select('*')
+        .eq('id', agentId)
+        .eq('user_id', userUuid)
+        .single();
+
+      if (fetchError || !existingAgent) {
         throw new Error('Agent not found');
       }
 
-      const currentData = agentDoc.data()!;
       const updateData: any = {
-        updatedAt: new Date().toISOString()
+        updated_at: new Date().toISOString()
       };
 
       // Update persona if provided
       if (persona) {
-        updateData.persona = {
-          ...currentData.persona,
-          ...persona
+        updateData.config = {
+          ...existingAgent.config,
+          persona: {
+            ...existingAgent.config?.persona,
+            ...persona
+          }
         };
 
         // Validate required persona fields
@@ -287,41 +423,73 @@ export class AgentService extends EventEmitter {
 
       // Update knowledge if provided
       if (knowledge) {
-        updateData.knowledge = {
-          ...currentData.knowledge,
-          ...knowledge
+        updateData.config = {
+          ...updateData.config || existingAgent.config,
+          knowledge: {
+            ...existingAgent.config?.knowledge,
+            ...knowledge
+          }
         };
       }
 
+      // Update automation if provided
+      if (automation) {
+        updateData.config = {
+          ...updateData.config || existingAgent.config,
+          automation: {
+            ...existingAgent.config?.automation,
+            ...automation
+          }
+        };
+      }
+
+      // Update WhatsApp number if provided
+      if (whatsappNumber !== undefined) {
+        updateData.config = {
+          ...updateData.config || existingAgent.config,
+          whatsappNumber: whatsappNumber
+        };
+      }
+
+      // Update active status if provided
+      if (isActive !== undefined) {
+        updateData.is_active = isActive;
+      }
+
       // Perform update
-      await agentDocRef.update(updateData);
+      const { data: updatedAgentData, error: updateError } = await this.db
+        .from('agents')
+        .update(updateData)
+        .eq('id', agentId)
+        .eq('user_id', userUuid)
+        .select()
+        .single();
+
+      if (updateError) {
+        throw updateError;
+      }
 
       // Check if this was the active agent and notify worker
       const activeAgentId = this.activeAgents.get(userId);
       if (activeAgentId === agentId) {
-        // Fetch updated configuration and notify worker
-        const updatedAgentDoc = await agentDocRef.get();
-        const updatedConfig = updatedAgentDoc.data()!;
-        
         this.logger.info('Notifying worker of active agent update', { userId, agentId });
         
         this.notifyWorkerAgentChange(userId, 'RELOAD_AGENT_CONFIG', {
-          agentConfig: updatedConfig
+          agentConfig: updatedAgentData
         });
       }
-
-      // Get updated agent data
-      const updatedDoc = await agentDocRef.get();
-      const updatedData = updatedDoc.data()!;
 
       const updatedAgent: Agent = {
         id: agentId,
         userId,
-        persona: updatedData.persona,
-        knowledge: updatedData.knowledge,
-        isActive: this.activeAgents.get(userId) === agentId,
-        createdAt: updatedData.createdAt?.toDate?.() ? updatedData.createdAt.toDate().toISOString() : new Date().toISOString(),
-        updatedAt: updatedData.updatedAt?.toDate?.() ? updatedData.updatedAt.toDate().toISOString() : new Date().toISOString()
+        persona: updatedAgentData.config?.persona || {},
+        knowledge: updatedAgentData.config?.knowledge || {},
+        automation: updatedAgentData.config?.automation || null,
+        metrics: updatedAgentData.performance || null,
+        whatsappNumber: updatedAgentData.config?.whatsappNumber || null,
+        isActive: updatedAgentData.is_active,
+        createdAt: updatedAgentData.created_at,
+        updatedAt: updatedAgentData.updated_at
       };
 
       this.emit('agentUpdated', { userId, agent: updatedAgent });
@@ -340,46 +508,68 @@ export class AgentService extends EventEmitter {
   }
 
   /**
-   * MIGRADO DE: whatsapp-api/src/server.js líneas 2245-2311
-   * Delete agent
+   * MIGRATED TO SUPABASE: Delete agent
    */
   public async deleteAgent(userId: string, agentId: string): Promise<void> {
     try {
       this.logger.info('Deleting agent', { userId, agentId });
 
-      const agentDocRef = this.db
-        .collection('users')
-        .doc(userId)
-        .collection('agents')
-        .doc(agentId);
-
-      const userDocRef = this.db.collection('users').doc(userId);
+      // Extract UUID from prefixed userId if needed
+      const userUuid = userId.startsWith('tribe-ia-nexus_') 
+        ? userId.replace('tribe-ia-nexus_', '') 
+        : userId;
 
       // Check if agent exists
-      const agentDoc = await agentDocRef.get();
-      if (!agentDoc.exists) {
+      const { data: agent, error: fetchError } = await this.db
+        .from('agents')
+        .select('id')
+        .eq('id', agentId)
+        .eq('user_id', userUuid)
+        .single();
+
+      if (fetchError || !agent) {
         throw new Error('Agent not found');
       }
 
       // Check if this is the active agent
-      const userDoc = await userDocRef.get();
+      const { data: user, error: userError } = await this.db
+        .from('users')
+        .select('active_agent_id')
+        .eq('id', userUuid)
+        .single();
+
       let wasActiveAgent = false;
       
-      if (userDoc.exists && userDoc.data()?.active_agent_id === agentId) {
+      if (!userError && user && user.active_agent_id === agentId) {
         this.logger.info('Deactivating agent before deletion', { userId, agentId });
         
         // Remove as active agent
-        await userDocRef.update({
-          active_agent_id: null,
-          updatedAt: new Date().toISOString()
-        });
+        const { error: updateError } = await this.db
+          .from('users')
+          .update({ 
+            active_agent_id: null,
+            updated_at: new Date().toISOString()
+          })
+          .eq('id', userUuid);
+
+        if (updateError) {
+          this.logger.warn('Failed to clear active agent before deletion', { userId, agentId, error: updateError.message });
+        }
         
         this.activeAgents.set(userId, null);
         wasActiveAgent = true;
       }
 
       // Delete the agent
-      await agentDocRef.delete();
+      const { error: deleteError } = await this.db
+        .from('agents')
+        .delete()
+        .eq('id', agentId)
+        .eq('user_id', userUuid);
+
+      if (deleteError) {
+        throw deleteError;
+      }
 
       // Notify worker if this was the active agent
       if (wasActiveAgent) {
@@ -412,11 +602,16 @@ export class AgentService extends EventEmitter {
     try {
       this.logger.debug('Getting specific agent', { userId, agentId });
 
-      const { data: agent, error } = await this.db.supabase
+      // Extract UUID from prefixed userId if needed
+      const userUuid = userId.startsWith('tribe-ia-nexus_') 
+        ? userId.replace('tribe-ia-nexus_', '') 
+        : userId;
+
+      const { data: agent, error } = await this.db
         .from('agents')
         .select('*')
         .eq('id', agentId)
-        .eq('user_id', userId)
+        .eq('user_id', userUuid)
         .single();
 
       if (error || !agent) {
@@ -426,8 +621,11 @@ export class AgentService extends EventEmitter {
       return {
         id: agent.id,
         userId,
-        persona: agent.persona || {},
-        knowledge: agent.knowledge || {},
+        persona: agent.config?.persona || {},
+        knowledge: agent.config?.knowledge || {},
+        automation: agent.config?.automation || null,
+        metrics: agent.performance || null,
+        whatsappNumber: agent.config?.whatsappNumber || null,
         isActive: this.activeAgents.get(userId) === agent.id,
         createdAt: agent.created_at,
         updatedAt: agent.updated_at
@@ -450,14 +648,39 @@ export class AgentService extends EventEmitter {
     try {
       this.logger.debug('Getting active agent', { userId });
 
-      const { data: user, error: userError } = await this.db.supabase
+      // Extract UUID from prefixed userId (tribe-ia-nexus_uuid -> uuid)
+      const userUuid = userId.startsWith('tribe-ia-nexus_') 
+        ? userId.replace('tribe-ia-nexus_', '') 
+        : userId;
+
+      let { data: user, error: userError } = await this.db
         .from('users')
         .select('active_agent_id')
-        .eq('id', userId)
+        .eq('id', userUuid)
         .single();
       
+      // If user doesn't exist, create the user record
       if (userError || !user) {
-        throw new Error('User not found');
+        this.logger.info('User not found, creating user record', { userId, userUuid });
+        
+        const { data: newUser, error: createError } = await this.db
+          .from('users')
+          .insert({
+            id: userUuid,
+            active_agent_id: null,
+            created_at: new Date().toISOString(),
+            updated_at: new Date().toISOString()
+          })
+          .select('active_agent_id')
+          .single();
+          
+        if (createError) {
+          this.logger.error('Failed to create user record', { userId, userUuid, error: createError.message });
+          throw new Error('Failed to create user record');
+        }
+        
+        user = newUser;
+        this.logger.info('User record created successfully', { userId, userUuid });
       }
 
       const activeAgentId = user.active_agent_id || null;
@@ -487,35 +710,60 @@ export class AgentService extends EventEmitter {
   }
 
   /**
-   * MIGRATED TO SUPABASE: Set active agent for user
+   * MIGRATED TO SUPABASE: Set active agent for user with network support
    */
-  public async setActiveAgent(request: AgentSwitchRequest): Promise<{ activeAgentId: string | null; agent?: Agent }> {
+  public async setActiveAgent(request: AgentSwitchRequest): Promise<{ activeAgentId: string | null; agent?: Agent; network?: any }> {
     try {
       const { userId, agentId } = request;
 
-      this.logger.info('Setting active agent', { userId, agentId });
+      this.logger.info('Setting active agent with network support', { userId, agentId });
 
-      // Verify user exists
-      const { data: user, error: userError } = await this.db.supabase
+      // Verify user exists - extract UUID from prefixed userId if needed
+      const userUuid = userId.startsWith('tribe-ia-nexus_') 
+        ? userId.replace('tribe-ia-nexus_', '') 
+        : userId;
+
+      let { data: user, error: userError } = await this.db
         .from('users')
         .select('id')
-        .eq('id', userId)
+        .eq('id', userUuid)
         .single();
 
+      // If user doesn't exist, create the user record
       if (userError || !user) {
-        throw new Error('User not found');
+        this.logger.info('User not found during setActiveAgent, creating user record', { userId, userUuid });
+        
+        const { data: newUser, error: createError } = await this.db
+          .from('users')
+          .insert({
+            id: userUuid,
+            active_agent_id: null,
+            created_at: new Date().toISOString(),
+            updated_at: new Date().toISOString()
+          })
+          .select('id')
+          .single();
+          
+        if (createError) {
+          this.logger.error('Failed to create user record during setActiveAgent', { userId, userUuid, error: createError.message });
+          throw new Error('Failed to create user record');
+        }
+        
+        user = newUser;
+        this.logger.info('User record created successfully during setActiveAgent', { userId, userUuid });
       }
 
       let agentConfig: any = null;
       let agent: Agent | undefined;
+      let networkResult: any = null;
 
-      // If agentId is provided, verify agent exists and get config
+      // If agentId is provided, verify agent exists and activate its network
       if (agentId) {
-        const { data: agentData, error: agentError } = await this.db.supabase
+        const { data: agentData, error: agentError } = await this.db
           .from('agents')
           .select('*')
           .eq('id', agentId)
-          .eq('user_id', userId)
+          .eq('user_id', userUuid)
           .single();
         
         if (agentError || !agentData) {
@@ -526,25 +774,61 @@ export class AgentService extends EventEmitter {
         agent = {
           id: agentData.id,
           userId,
-          persona: agentData.persona || {},
-          knowledge: agentData.knowledge || {},
+          persona: agentData.config?.persona || agentData.persona || {},
+          knowledge: agentData.config?.knowledge || agentData.knowledge || {},
+          automation: agentData.config?.automation || null,
           isActive: true,
           createdAt: agentData.created_at,
           updatedAt: agentData.updated_at
         };
-      }
 
-      // Update user's active agent
-      const { error: updateError } = await this.db.supabase
-        .from('users')
-        .update({ 
-          active_agent_id: agentId,
-          updated_at: new Date().toISOString()
-        })
-        .eq('id', userId);
+        // Activate the agent's network (this includes updating user's active_agent_id)
+        try {
+          networkResult = await this.triggerService.activateAgentNetwork(userId, agentId);
+          this.logger.info('Agent network activated', { 
+            userId, 
+            agentId,
+            activatedAgents: networkResult.activatedAgents 
+          });
+        } catch (networkError) {
+          // If network activation fails, still set the agent as active
+          this.logger.warn('Failed to activate agent network, continuing with single agent', {
+            userId,
+            agentId,
+            error: networkError instanceof Error ? networkError.message : 'Unknown error'
+          });
 
-      if (updateError) {
-        throw updateError;
+          // Fallback: just update the active agent without network
+          await this.db
+            .from('users')
+            .update({ 
+              active_agent_id: agentId,
+              updated_at: new Date().toISOString()
+            })
+            .eq('id', userUuid);
+        }
+      } else {
+        // Deactivate any existing network when setting to null
+        try {
+          const currentActive = this.activeAgents.get(userId);
+          if (currentActive) {
+            await this.triggerService.deactivateAgentNetwork(userId, currentActive);
+          }
+        } catch (deactivateError) {
+          this.logger.warn('Failed to deactivate previous network', {
+            userId,
+            error: deactivateError instanceof Error ? deactivateError.message : 'Unknown error'
+          });
+        }
+
+        // Clear active agent
+        await this.db
+          .from('users')
+          .update({ 
+            active_agent_id: null,
+            updated_at: new Date().toISOString()
+          })
+          .eq('id', userUuid);
       }
 
       // Update local cache
@@ -553,24 +837,35 @@ export class AgentService extends EventEmitter {
       // Notify worker about agent switch
       this.logger.info('Notifying worker about agent switch', { 
         userId, 
-        newAgentId: agentId || 'default'
+        newAgentId: agentId || 'default',
+        hasNetwork: !!networkResult
       });
 
       this.notifyWorkerAgentChange(userId, 'SWITCH_AGENT', {
         agentId,
-        agentConfig
+        agentConfig,
+        network: networkResult
       });
 
       this.emit('activeAgentChanged', { 
         userId, 
         previousAgentId: this.activeAgents.get(userId),
         newAgentId: agentId,
-        agent 
+        agent,
+        network: networkResult
       });
 
-      this.logger.info('Active agent set successfully', { userId, agentId });
+      this.logger.info('Active agent set successfully with network', { 
+        userId, 
+        agentId,
+        networkSize: networkResult?.activatedAgents?.length || 0
+      });
 
-      return { activeAgentId: agentId, agent };
+      return { 
+        activeAgentId: agentId, 
+        agent,
+        network: networkResult
+      };
 
     } catch (error) {
       this.logger.error('Error setting active agent', {
@@ -592,16 +887,21 @@ export class AgentService extends EventEmitter {
         activeAgentId: activeAgentId || 'default' 
       });
 
+      // Extract UUID from prefixed userId if needed
+      const userUuid = userId.startsWith('tribe-ia-nexus_') 
+        ? userId.replace('tribe-ia-nexus_', '') 
+        : userId;
+
       let agentConfig: AgentConfig | null = null;
 
       // 1. Get agent configuration
       if (activeAgentId) {
         try {
-          const { data: agentData, error } = await this.db.supabase
+          const { data: agentData, error } = await this.db
             .from('agents')
             .select('*')
             .eq('id', activeAgentId)
-            .eq('user_id', userId)
+            .eq('user_id', userUuid)
             .single();
           
           if (!error && agentData) {
@@ -633,9 +933,9 @@ export class AgentService extends EventEmitter {
         { data: starters = [] },
         { data: flows = [] }
       ] = await Promise.all([
-        this.db.supabase.from('automation_rules').select('*').eq('user_id', userId),
-        this.db.supabase.from('gemini_starters').select('*').eq('user_id', userId),
-        this.db.supabase.from('action_flows').select('*').eq('user_id', userId)
+        this.db.from('automation_rules').select('*').eq('user_id', userUuid),
+        this.db.from('gemini_starters').select('*').eq('user_id', userUuid),
+        this.db.from('action_flows').select('*').eq('user_id', userUuid)
       ]);
 
       this.logger.info('Initial configuration loaded', {
@@ -728,20 +1028,47 @@ export class AgentService extends EventEmitter {
   }
 
   /**
+   * Check if an agent is active (either primary or part of active network)
+   */
+  public async isAgentActive(userId: string, agentId: string): Promise<boolean> {
+    try {
+      // Check if it's the primary active agent
+      const { activeAgentId } = await this.getActiveAgent(userId);
+      if (activeAgentId === agentId) {
+        return true;
+      }
+
+      // Check if it's part of the active network
+      return await this.triggerService.isAgentInActiveNetwork(userId, agentId);
+
+    } catch (error) {
+      this.logger.error('Error checking if agent is active', {
+        userId,
+        agentId,
+        error: error instanceof Error ? error.message : 'Unknown error'
+      });
+      return false;
+    }
+  }
+
+  /**
    * Get agent statistics
    */
   public async getAgentStatistics(userId: string): Promise<{
     totalAgents: number;
     activeAgent: string | null;
+    activeNetwork: any;
     defaultConfigUsage: boolean;
   }> {
     try {
       const agents = await this.getUserAgents(userId);
       const activeAgent = await this.getActiveAgent(userId);
+      const activeNetwork = await this.triggerService.getActiveNetwork(userId);
       
       return {
         totalAgents: agents.length,
         activeAgent: activeAgent.activeAgentId,
+        activeNetwork,
         defaultConfigUsage: !activeAgent.activeAgentId
       };
 
@@ -754,6 +1081,7 @@ export class AgentService extends EventEmitter {
       return {
         totalAgents: 0,
         activeAgent: null,
+        activeNetwork: null,
         defaultConfigUsage: true
       };
     }
@@ -801,7 +1129,7 @@ export class AgentService extends EventEmitter {
   private notifyWorkerAgentChange(userId: string, command: string, payload?: any): void {
     try {
       if (this.workerManager.isWorkerActive(userId)) {
-        this.workerManager.sendCommand(userId, command, payload);
+        this.workerManager.sendCommand(userId, command);
         this.logger.debug('Worker notified of agent change', { userId, command });
       } else {
         this.logger.debug('No active worker to notify', { userId, command });

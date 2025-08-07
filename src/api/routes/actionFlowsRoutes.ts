@@ -1,12 +1,21 @@
 import { Router } from 'express';
 import { ActionFlowsController } from '../controllers/actionFlowsController';
 import { authenticateApiKey } from '../middleware/auth';
-import { rateLimiter } from '../middleware';
+import { RateLimitMiddleware } from '../middleware/rateLimit';
 import { sanitizeInput } from '../middleware/sanitization';
 import { validateActionFlow } from '../validators/actionFlowValidator';
 
 const router = Router();
 const actionFlowsController = new ActionFlowsController();
+
+// Bind controller methods
+const getUserActionFlows = actionFlowsController.getUserActionFlows.bind(actionFlowsController);
+const createActionFlow = actionFlowsController.createActionFlow.bind(actionFlowsController);
+const getActionFlow = actionFlowsController.getActionFlow.bind(actionFlowsController);
+const updateActionFlow = actionFlowsController.updateActionFlow.bind(actionFlowsController);
+const deleteActionFlow = actionFlowsController.deleteActionFlow.bind(actionFlowsController);
+const executeFlow = actionFlowsController.executeFlow.bind(actionFlowsController);
+const toggleActionFlowStatus = actionFlowsController.toggleActionFlowStatus.bind(actionFlowsController);
 
 /**
  * @route GET /users/:userId/action-flows
@@ -16,9 +25,9 @@ const actionFlowsController = new ActionFlowsController();
 router.get(
   '/users/:userId/action-flows',
   authenticateApiKey,
-  rateLimiter,
+  RateLimitMiddleware.default,
   sanitizeInput,
-  actionFlowsController.getUserActionFlows.bind(actionFlowsController)
+  getUserActionFlows
 );
 
 /**
@@ -29,10 +38,10 @@ router.get(
 router.post(
   '/users/:userId/action-flows',
   authenticateApiKey,
-  rateLimiter,
+  RateLimitMiddleware.default,
   sanitizeInput,
   validateActionFlow,
-  actionFlowsController.createActionFlow.bind(actionFlowsController)
+  createActionFlow
 );
 
 /**
@@ -43,9 +52,9 @@ router.post(
 router.get(
   '/users/:userId/action-flows/:flowId',
   authenticateApiKey,
-  rateLimiter,
+  RateLimitMiddleware.default,
   sanitizeInput,
-  actionFlowsController.getActionFlow.bind(actionFlowsController)
+  getActionFlow
 );
 
 /**
@@ -56,10 +65,10 @@ router.get(
 router.put(
   '/users/:userId/action-flows/:flowId',
   authenticateApiKey,
-  rateLimiter,
+  RateLimitMiddleware.default,
   sanitizeInput,
   validateActionFlow,
-  actionFlowsController.updateActionFlow.bind(actionFlowsController)
+  updateActionFlow
 );
 
 /**
@@ -70,9 +79,9 @@ router.put(
 router.delete(
   '/users/:userId/action-flows/:flowId',
   authenticateApiKey,
-  rateLimiter,
+  RateLimitMiddleware.default,
   sanitizeInput,
-  actionFlowsController.deleteActionFlow.bind(actionFlowsController)
+  deleteActionFlow
 );
 
 /**
@@ -83,9 +92,9 @@ router.delete(
 router.post(
   '/users/:userId/action-flows/:flowId/execute',
   authenticateApiKey,
-  rateLimiter,
+  RateLimitMiddleware.default,
   sanitizeInput,
-  actionFlowsController.executeActionFlow.bind(actionFlowsController)
+  executeFlow
 );
 
 /**
@@ -96,9 +105,9 @@ router.post(
 router.patch(
   '/users/:userId/action-flows/:flowId/toggle',
   authenticateApiKey,
-  rateLimiter,
+  RateLimitMiddleware.default,
   sanitizeInput,
-  actionFlowsController.toggleActionFlowStatus.bind(actionFlowsController)
+  toggleActionFlowStatus
 );
 
 /**
@@ -109,7 +118,7 @@ router.patch(
 router.get(
   '/users/:userId/action-flows/statistics',
   authenticateApiKey,
-  rateLimiter,
+  RateLimitMiddleware.default,
   sanitizeInput,
   actionFlowsController.getActionFlowsStatistics.bind(actionFlowsController)
 );
@@ -122,7 +131,7 @@ router.get(
 router.post(
   '/users/:userId/action-flows/bulk',
   authenticateApiKey,
-  rateLimiter,
+  RateLimitMiddleware.default,
   sanitizeInput,
   actionFlowsController.bulkOperations.bind(actionFlowsController)
 );
@@ -135,7 +144,7 @@ router.post(
 router.get(
   '/users/:userId/action-flows/:flowId/executions',
   authenticateApiKey,
-  rateLimiter,
+  RateLimitMiddleware.default,
   sanitizeInput,
   actionFlowsController.getActionFlowExecutions.bind(actionFlowsController)
 );
@@ -148,7 +157,7 @@ router.get(
 router.post(
   '/users/:userId/action-flows/:flowId/duplicate',
   authenticateApiKey,
-  rateLimiter,
+  RateLimitMiddleware.default,
   sanitizeInput,
   actionFlowsController.duplicateActionFlow.bind(actionFlowsController)
 );
@@ -161,7 +170,7 @@ router.post(
 router.get(
   '/users/:userId/action-flows/health',
   authenticateApiKey,
-  rateLimiter,
+  RateLimitMiddleware.default,
   sanitizeInput,
   actionFlowsController.healthCheck.bind(actionFlowsController)
 );

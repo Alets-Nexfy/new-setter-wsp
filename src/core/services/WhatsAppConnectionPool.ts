@@ -7,6 +7,7 @@ import { SupabaseService } from '@/core/services/SupabaseService';
 import { UserTierService, UserTier, TierConfiguration } from './UserTierService';
 import { MessageData, WorkerStatus } from '@/workers/whatsapp-worker/types';
 import { v4 as uuidv4 } from 'uuid';
+import { ChromeCleanupService } from './ChromeCleanupService';
 
 interface ConnectionSlot {
   id: string;
@@ -20,6 +21,7 @@ interface ConnectionSlot {
     cpuPercent: number;
   };
   tier: UserTier;
+  assignedUserId?: string;
 }
 
 interface DedicatedWorker {
@@ -38,6 +40,7 @@ interface UserSession {
   connectionId?: string; // Para shared/semi-dedicated/enterprise_b2b
   workerId?: string; // Para dedicated
   isAuthenticated: boolean;
+  isPaused: boolean; // For bot control
   phoneNumber?: string;
   qrCode?: string;
   qrImage?: string;
@@ -46,9 +49,12 @@ interface UserSession {
 }
 
 export class WhatsAppConnectionPool extends EventEmitter {
+  private static instance: WhatsAppConnectionPool | null = null;
   private logger: LoggerService;
-  private firebase: FirebaseService;
+  private db: SupabaseService;
   private tierService: UserTierService;
+  private chromeCleanup: ChromeCleanupService;
+  private isInitialized: boolean = false;
   
   // Shared pool for standard users (cost-optimized)
   private sharedPool: Map<string, ConnectionSlot> = new Map();
@@ -91,36 +97,46 @@ export class WhatsAppConnectionPool extends EventEmitter {
     this.setMaxListeners(100);
     
     this.logger = LoggerService.getInstance();
-    this.firebase = SupabaseService.getInstance();
-    this.tierService = new UserTierService();
-    
-    this.setupEventHandlers();
-    this.initialize();
+    this.db = SupabaseService.getInstance();
+    this.tierService = UserTierService.getInstance();
+    this.chromeCleanup = ChromeCleanupService.getInstance();
+  }
+  
+  public static getInstance(): WhatsAppConnectionPool {
+    if (!WhatsAppConnectionPool.instance) {
+      WhatsAppConnectionPool.instance = new WhatsAppConnectionPool();
+    }
+    return WhatsAppConnectionPool.instance;
   }
 
   public async initialize(): Promise<void> {
+    if (this.isInitialized) {
+      this.logger.warn('WhatsApp Connection Pool already initialized, skipping');
+      return;
+    }
+    
     try {
-      this.logger.info('Initializing WhatsApp Connection Pool (Hybrid Architecture)');
+      this.logger.info('Initializing WhatsApp Connection Pool (ON-DEMAND Mode)');
 
-      // Initialize shared pool
-      await this.initializeSharedPool();
+      // Setup event handlers only once
+      this.setupEventHandlers();
       
-      // Initialize semi-dedicated pool
-      await this.initializeSemiDedicatedPool();
-      
-      // Initialize enterprise B2B pool
-      await this.initializeEnterpriseB2BPool();
+      // DO NOT pre-create any slots - they will be created on-demand
+      // Just initialize the monitoring systems
       
       // Setup monitoring
       this.startHealthChecks();
       this.startOptimizationCycle();
       
+      this.isInitialized = true;
       this.emit('pool:ready');
-      this.logger.info('WhatsApp Connection Pool initialized successfully', {
-        sharedSlots: this.sharedPool.size,
-        semiDedicatedSlots: this.semiDedicatedPool.size,
-        enterpriseB2BSlots: this.enterpriseB2BPool.size,
-        dedicatedWorkers: this.dedicatedWorkers.size
+      this.logger.info('WhatsApp Connection Pool initialized (ON-DEMAND mode)', {
+        mode: 'on-demand',
+        sharedSlots: 0,
+        semiDedicatedSlots: 0,
+        enterpriseB2BSlots: 0,
+        dedicatedWorkers: 0,
+        note: 'Slots will be created when users connect'
       });
 
     } catch (error) {
@@ -132,6 +148,19 @@ export class WhatsAppConnectionPool extends EventEmitter {
   // PRIMARY METHOD: Connect user based on tier
   public async connectUser(userId: string): Promise<UserSession> {
     try {
+      // Check if user already has an active session
+      const existingSession = this.userSessions.get(userId);
+      if (existingSession) {
+        this.logger.info('User already has an active session, disconnecting first', { 
+          userId, 
+          connectionType: existingSession.connectionType,
+          connectionId: existingSession.connectionId 
+        });
+        await this.disconnectUser(userId);
+        // Wait a bit for cleanup to complete
+        await new Promise(resolve => setTimeout(resolve, 1000));
+      }
+      
       const tierInfo = await this.tierService.getUserTier(userId);
       
       this.logger.info('Connecting user to WhatsApp', { 
@@ -190,6 +219,7 @@ export class WhatsAppConnectionPool extends EventEmitter {
       connectionType: 'shared',
       connectionId: availableSlot.id,
       isAuthenticated: false,
+      isPaused: false,
       lastActivity: new Date(),
       messageCount: 0
     };
@@ -219,12 +249,34 @@ export class WhatsAppConnectionPool extends EventEmitter {
     availableSlot.users.add(userId);
     availableSlot.lastActivity = new Date();
 
+    // Register user PID for protection from cleanup
+    try {
+      // @ts-ignore - accessing private property
+      const client = availableSlot.client;
+      const page = client.pupPage;
+      if (page && page.browser) {
+        const browser = await page.browser();
+        const process = browser.process();
+        if (process && process.pid) {
+          this.chromeCleanup.registerActiveSession(userId, process.pid);
+          this.logger.info('Registered Semi-dedicated user PID with cleanup service', { 
+            userId,
+            slotId: availableSlot.id,
+            pid: process.pid 
+          });
+        }
+      }
+    } catch (error) {
+      this.logger.warn('Could not register user PID for semi-dedicated', { userId, error });
+    }
+
     const session: UserSession = {
       userId,
       tier,
       connectionType: 'semi-dedicated',
       connectionId: availableSlot.id,
       isAuthenticated: false,
+      isPaused: false,
       lastActivity: new Date(),
       messageCount: 0
     };
@@ -248,7 +300,8 @@ export class WhatsAppConnectionPool extends EventEmitter {
           isAuthenticated: existingWorker.status.isAuthenticated,
           phoneNumber: existingWorker.status.phoneNumber,
           lastActivity: new Date(),
-          messageCount: 0
+          messageCount: 0,
+          isPaused: false
         };
       }
     }
@@ -262,6 +315,7 @@ export class WhatsAppConnectionPool extends EventEmitter {
       connectionType: 'dedicated',
       workerId: userId,
       isAuthenticated: false,
+      isPaused: false,
       lastActivity: new Date(),
       messageCount: 0
     };
@@ -271,12 +325,11 @@ export class WhatsAppConnectionPool extends EventEmitter {
 
   // Shared pool management
   private async initializeSharedPool(): Promise<void> {
-    this.logger.info('Initializing shared pool', { targetSize: this.SHARED_POOL_SIZE });
-    
-    // Pre-create 5 shared slots for immediate availability
-    for (let i = 0; i < 5; i++) {
-      await this.createSharedSlot();
-    }
+    this.logger.info('Shared pool ready for on-demand creation', { 
+      maxSize: this.SHARED_POOL_SIZE,
+      currentSize: this.sharedPool.size 
+    });
+    // DO NOT pre-create any slots - they will be created on-demand
   }
 
   private async createSharedSlot(): Promise<ConnectionSlot> {
@@ -334,12 +387,11 @@ export class WhatsAppConnectionPool extends EventEmitter {
 
   // Semi-dedicated pool management
   private async initializeSemiDedicatedPool(): Promise<void> {
-    this.logger.info('Initializing semi-dedicated pool', { targetSize: this.SEMI_DEDICATED_POOL_SIZE });
-    
-    // Pre-create 3 semi-dedicated slots
-    for (let i = 0; i < 3; i++) {
-      await this.createSemiDedicatedSlot();
-    }
+    this.logger.info('Semi-dedicated pool ready for on-demand creation', { 
+      maxSize: this.SEMI_DEDICATED_POOL_SIZE,
+      currentSize: this.semiDedicatedPool.size 
+    });
+    // DO NOT pre-create any slots - they will be created on-demand
   }
 
   private async createSemiDedicatedSlot(): Promise<ConnectionSlot> {
@@ -420,6 +472,7 @@ export class WhatsAppConnectionPool extends EventEmitter {
       connectionType: 'enterprise_b2b',
       connectionId: availableSlot.id,
       isAuthenticated: false,
+      isPaused: false,
       lastActivity: new Date(),
       messageCount: 0
     };
@@ -431,15 +484,12 @@ export class WhatsAppConnectionPool extends EventEmitter {
 
   // Enterprise B2B pool initialization
   private async initializeEnterpriseB2BPool(): Promise<void> {
-    this.logger.info('Initializing Enterprise B2B pool', { 
-      targetSize: this.ENTERPRISE_B2B_POOL_SIZE,
-      usersPerConnection: this.USERS_PER_B2B_CONNECTION
+    this.logger.info('Enterprise B2B pool ready for on-demand creation', { 
+      maxSize: this.ENTERPRISE_B2B_POOL_SIZE,
+      usersPerConnection: this.USERS_PER_B2B_CONNECTION,
+      currentSize: this.enterpriseB2BPool.size
     });
-    
-    // Pre-create 3 B2B slots for immediate availability
-    for (let i = 0; i < 3; i++) {
-      await this.createEnterpriseB2BSlot();
-    }
+    // DO NOT pre-create any slots - they will be created on-demand
   }
 
   private async createEnterpriseB2BSlot(): Promise<ConnectionSlot> {
@@ -515,9 +565,47 @@ export class WhatsAppConnectionPool extends EventEmitter {
       this.handleEnterpriseB2BQR(slot, qr);
     });
 
-    client.on('ready', () => {
+    client.on('ready', async () => {
       slot.status = 'ready';
       this.logger.info('Enterprise B2B slot ready', { slotId: slot.id });
+      
+      // Register browser PID with Chrome cleanup service
+      try {
+        // @ts-ignore - accessing private property
+        const page = client.pupPage;
+        if (page && page.browser) {
+          const browser = await page.browser();
+          const process = browser.process();
+          if (process && process.pid) {
+            // Register slot ID for maximum protection
+            this.chromeCleanup.registerActiveSession(slot.id, process.pid);
+            if (slot.assignedUserId) {
+              this.chromeCleanup.registerActiveSession(slot.assignedUserId, process.pid);
+            }
+            this.logger.info('Registered Enterprise B2B browser PID with cleanup service', { 
+              slotId: slot.id,
+              userId: slot.assignedUserId,
+              pid: process.pid 
+            });
+          }
+        }
+      } catch (error) {
+        this.logger.warn('Could not register browser PID', { slotId: slot.id, error });
+      }
+      
+      // Update all user sessions associated with this slot as authenticated
+      for (const userId of slot.users) {
+        const session = this.userSessions.get(userId);
+        if (session) {
+          session.isAuthenticated = true;
+          session.lastActivity = new Date();
+          this.logger.info('User session marked as authenticated', { 
+            userId, 
+            slotId: slot.id 
+          });
+        }
+      }
+      
       this.emit('slot:ready', { type: 'enterprise_b2b', slotId: slot.id });
     });
 
@@ -530,6 +618,10 @@ export class WhatsAppConnectionPool extends EventEmitter {
     client.on('disconnected', (reason: string) => {
       slot.status = 'disconnected';
       this.logger.warn('Enterprise B2B slot disconnected', { slotId: slot.id, reason });
+      
+      // Unregister from Chrome cleanup service
+      this.chromeCleanup.unregisterSession(slot.id);
+      
       this.emit('slot:disconnected', { type: 'enterprise_b2b', slotId: slot.id, reason });
     });
   }
@@ -550,6 +642,9 @@ export class WhatsAppConnectionPool extends EventEmitter {
         session.qrCode = qr;
         const QRCode = require('qrcode');
         session.qrImage = await QRCode.toDataURL(qr);
+        
+        // Save QR to database for API access
+        await this.saveQRToDatabase(userId, qr, session.qrImage);
         
         // Emit with enterprise priority
         this.emit('user:qr', { 
@@ -632,9 +727,47 @@ export class WhatsAppConnectionPool extends EventEmitter {
       this.handleSharedQR(slot, qr);
     });
 
-    client.on('ready', () => {
+    client.on('ready', async () => {
       slot.status = 'ready';
       this.logger.info('Shared slot ready', { slotId: slot.id });
+      
+      // Register browser PID with Chrome cleanup service
+      try {
+        // @ts-ignore - accessing private property
+        const page = client.pupPage;
+        if (page && page.browser) {
+          const browser = await page.browser();
+          const process = browser.process();
+          if (process && process.pid) {
+            // Register slot ID for maximum protection
+            this.chromeCleanup.registerActiveSession(slot.id, process.pid);
+            if (slot.assignedUserId) {
+              this.chromeCleanup.registerActiveSession(slot.assignedUserId, process.pid);
+            }
+            this.logger.info('Registered Shared browser PID with cleanup service', { 
+              slotId: slot.id,
+              userId: slot.assignedUserId, 
+              pid: process.pid 
+            });
+          }
+        }
+      } catch (error) {
+        this.logger.warn('Could not register browser PID', { slotId: slot.id, error });
+      }
+      
+      // Update all user sessions associated with this slot as authenticated
+      for (const userId of slot.users) {
+        const session = this.userSessions.get(userId);
+        if (session) {
+          session.isAuthenticated = true;
+          session.lastActivity = new Date();
+          this.logger.info('User session marked as authenticated', { 
+            userId, 
+            slotId: slot.id 
+          });
+        }
+      }
+      
       this.emit('slot:ready', { type: 'shared', slotId: slot.id });
     });
 
@@ -667,9 +800,42 @@ export class WhatsAppConnectionPool extends EventEmitter {
       this.handleSemiDedicatedQR(slot, qr);
     });
 
-    client.on('ready', () => {
+    client.on('ready', async () => {
       slot.status = 'ready';
       this.logger.info('Semi-dedicated slot ready', { slotId: slot.id });
+      
+      // Register browser PID with Chrome cleanup service
+      try {
+        // @ts-ignore - accessing private property
+        const page = client.pupPage;
+        if (page && page.browser) {
+          const browser = await page.browser();
+          const process = browser.process();
+          if (process && process.pid) {
+            this.chromeCleanup.registerActiveSession(slot.id, process.pid);
+            this.logger.info('Registered Semi-dedicated browser PID with cleanup service', { 
+              slotId: slot.id, 
+              pid: process.pid 
+            });
+          }
+        }
+      } catch (error) {
+        this.logger.warn('Could not register browser PID', { slotId: slot.id, error });
+      }
+      
+      // Update all user sessions associated with this slot as authenticated
+      for (const userId of slot.users) {
+        const session = this.userSessions.get(userId);
+        if (session) {
+          session.isAuthenticated = true;
+          session.lastActivity = new Date();
+          this.logger.info('User session marked as authenticated', { 
+            userId, 
+            slotId: slot.id 
+          });
+        }
+      }
+      
       this.emit('slot:ready', { type: 'semi-dedicated', slotId: slot.id });
     });
 
@@ -713,6 +879,9 @@ export class WhatsAppConnectionPool extends EventEmitter {
         const QRCode = require('qrcode');
         session.qrImage = await QRCode.toDataURL(qr);
         
+        // Save QR to database for API access
+        await this.saveQRToDatabase(userId, qr, session.qrImage);
+        
         this.emit('user:qr', { userId, qr, qrImage: session.qrImage });
       }
     }
@@ -726,6 +895,9 @@ export class WhatsAppConnectionPool extends EventEmitter {
         session.qrCode = qr;
         const QRCode = require('qrcode');
         session.qrImage = await QRCode.toDataURL(qr);
+        
+        // Save QR to database for API access
+        await this.saveQRToDatabase(userId, qr, session.qrImage);
         
         this.emit('user:qr', { userId, qr, qrImage: session.qrImage });
       }
@@ -793,6 +965,33 @@ export class WhatsAppConnectionPool extends EventEmitter {
     }
 
     this.dedicatedWorkers.delete(userId);
+  }
+
+  /**
+   * Save QR code to database for API access
+   */
+  private async saveQRToDatabase(userId: string, qr: string, qrImage: string): Promise<void> {
+    try {
+      // Extract UUID from prefixed userId (tribe-ia-nexus_uuid -> uuid)
+      const userUuid = userId.startsWith('tribe-ia-nexus_') 
+        ? userId.replace('tribe-ia-nexus_', '') 
+        : userId;
+
+      const { error } = await this.db.from('qr_codes').insert({
+        userId: userUuid,
+        qrCode: qr,
+        qr_image: qrImage  // Using snake_case as shown in schema
+        // createdAt and expiresAt will use their DEFAULT values from the schema
+      });
+
+      if (error) {
+        this.logger.error('Failed to save QR to database', { userId, error });
+      } else {
+        this.logger.info('QR code saved to database', { userId: userUuid });
+      }
+    } catch (error) {
+      this.logger.error('Error saving QR to database', { userId, error });
+    }
   }
 
   // Auto-scaling and optimization
@@ -1068,6 +1267,10 @@ export class WhatsAppConnectionPool extends EventEmitter {
     }
 
     try {
+      // Step 1: Clear QR codes from database first
+      await this.clearUserQRCodes(userId);
+      
+      // Step 2: Disconnect based on connection type
       switch (session.connectionType) {
         case 'shared':
           await this.disconnectFromSharedPool(userId, session);
@@ -1086,10 +1289,11 @@ export class WhatsAppConnectionPool extends EventEmitter {
           break;
       }
 
+      // Step 3: Clear user session
       this.userSessions.delete(userId);
       this.emit('user:disconnected', { userId });
       
-      this.logger.info('User disconnected', { 
+      this.logger.info('User completely disconnected and cleaned up', { 
         userId, 
         connectionType: session.connectionType 
       });
@@ -1105,6 +1309,20 @@ export class WhatsAppConnectionPool extends EventEmitter {
     if (slot) {
       slot.users.delete(userId);
       slot.lastActivity = new Date();
+      
+      // Unregister user from Chrome cleanup protection
+      this.chromeCleanup.unregisterSession(userId);
+      
+      // If no more users in slot, logout the WhatsApp client
+      if (slot.users.size === 0 && slot.status === 'ready') {
+        try {
+          await slot.client.logout();
+          slot.status = 'disconnected';
+          this.logger.info('Shared slot logged out - no more users', { slotId: slot.id });
+        } catch (error) {
+          this.logger.error('Error logging out shared slot', { slotId: slot.id, error });
+        }
+      }
     }
   }
 
@@ -1113,6 +1331,20 @@ export class WhatsAppConnectionPool extends EventEmitter {
     if (slot) {
       slot.users.delete(userId);
       slot.lastActivity = new Date();
+      
+      // Unregister user from Chrome cleanup protection
+      this.chromeCleanup.unregisterSession(userId);
+      
+      // If no more users in slot, logout the WhatsApp client
+      if (slot.users.size === 0 && slot.status === 'ready') {
+        try {
+          await slot.client.logout();
+          slot.status = 'disconnected';
+          this.logger.info('Semi-dedicated slot logged out - no more users', { slotId: slot.id });
+        } catch (error) {
+          this.logger.error('Error logging out semi-dedicated slot', { slotId: slot.id, error });
+        }
+      }
     }
   }
 
@@ -1122,12 +1354,43 @@ export class WhatsAppConnectionPool extends EventEmitter {
       slot.users.delete(userId);
       slot.lastActivity = new Date();
       
+      // Unregister user from Chrome cleanup protection
+      this.chromeCleanup.unregisterSession(userId);
+      
       // Log B2B user disconnection for monitoring
       this.logger.info('Enterprise B2B user disconnected', { 
         userId, 
         slotId: slot.id,
         remainingUsers: slot.users.size 
       });
+      
+      // Only destroy the slot if no more users are using it
+      if (slot.users.size === 0 && slot.status === 'ready') {
+        try {
+          // Logout and destroy the Chrome instance completely
+          await slot.client.logout();
+          await slot.client.destroy();
+          slot.status = 'disconnected';
+          
+          // Remove the slot from the pool completely
+          this.enterpriseB2BPool.delete(session.connectionId!);
+          
+          this.logger.info('Enterprise B2B slot destroyed - no more users', { 
+            slotId: slot.id,
+            disconnectedUser: userId
+          });
+        } catch (error) {
+          this.logger.error('Error destroying Enterprise B2B slot', { slotId: slot.id, error });
+          // Even if error, remove from pool to prevent zombie slots
+          this.enterpriseB2BPool.delete(session.connectionId!);
+        }
+      } else {
+        this.logger.info('User removed from Enterprise B2B slot, slot still active', { 
+          slotId: slot.id,
+          disconnectedUser: userId,
+          remainingUsers: slot.users.size
+        });
+      }
     }
   }
 
@@ -1235,8 +1498,12 @@ export class WhatsAppConnectionPool extends EventEmitter {
     return dedicatedCostForAll > 0 ? (savings / dedicatedCostForAll) * 100 : 0;
   }
 
-  // Event handler setup
+  // Event handler setup - only call once!
   private setupEventHandlers(): void {
+    // Remove all existing listeners first to avoid duplicates
+    this.tierService.removeAllListeners('tier:upgraded');
+    this.tierService.removeAllListeners('tier:downgraded');
+    
     this.tierService.on('tier:upgraded', async (data) => {
       await this.handleTierChange(data.userId, data.oldTier, data.newTier);
     });
@@ -1245,8 +1512,13 @@ export class WhatsAppConnectionPool extends EventEmitter {
       await this.handleTierChange(data.userId, data.oldTier, data.newTier);
     });
 
-    process.on('SIGTERM', () => this.shutdown());
-    process.on('SIGINT', () => this.shutdown());
+    // Only register process handlers once
+    if (process.listenerCount('SIGTERM') === 0) {
+      process.on('SIGTERM', () => this.shutdown());
+    }
+    if (process.listenerCount('SIGINT') === 0) {
+      process.on('SIGINT', () => this.shutdown());
+    }
   }
 
   private async handleTierChange(userId: string, oldTier: UserTier, newTier: UserTier): Promise<void> {
@@ -1318,5 +1590,85 @@ export class WhatsAppConnectionPool extends EventEmitter {
 
     this.logger.info('Connection pool shutdown completed');
     this.emit('pool:shutdown');
+  }
+
+  /**
+   * Get user connections map for checking if a user is connected
+   */
+  public getUserConnections(): Map<string, UserSession> {
+    return this.userSessions;
+  }
+
+  /**
+   * Check if a user is connected through the pool
+   */
+  public isUserConnected(userId: string): boolean {
+    return this.userSessions.has(userId);
+  }
+
+  /**
+   * Get user session information
+   */
+  public getUserSession(userId: string): UserSession | undefined {
+    return this.userSessions.get(userId);
+  }
+
+  /**
+   * Pause user bot - stops responding to messages but keeps connection
+   */
+  public pauseUser(userId: string): boolean {
+    const session = this.userSessions.get(userId);
+    if (session) {
+      session.isPaused = true;
+      this.logger.info('User bot paused in connection pool', { userId });
+      return true;
+    }
+    return false;
+  }
+
+  /**
+   * Resume user bot - start responding to messages again
+   */
+  public resumeUser(userId: string): boolean {
+    const session = this.userSessions.get(userId);
+    if (session) {
+      session.isPaused = false;
+      this.logger.info('User bot resumed in connection pool', { userId });
+      return true;
+    }
+    return false;
+  }
+
+  /**
+   * Check if user bot is paused
+   */
+  public isUserPaused(userId: string): boolean {
+    const session = this.userSessions.get(userId);
+    return session?.isPaused || false;
+  }
+  
+  /**
+   * Clear all QR codes for a user from the database
+   */
+  private async clearUserQRCodes(userId: string): Promise<void> {
+    try {
+      // Extract UUID from prefixed userId
+      const userUuid = userId.startsWith('tribe-ia-nexus_') 
+        ? userId.replace('tribe-ia-nexus_', '') 
+        : userId;
+
+      const { error } = await this.db
+        .from('qr_codes')
+        .delete()
+        .eq('userId', userUuid);
+
+      if (error) {
+        this.logger.error('Failed to clear QR codes from database', { userId, error });
+      } else {
+        this.logger.info('QR codes cleared from database', { userId: userUuid });
+      }
+    } catch (error) {
+      this.logger.error('Error clearing QR codes from database', { userId, error });
+    }
   }
 }

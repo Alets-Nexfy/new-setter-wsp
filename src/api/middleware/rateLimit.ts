@@ -12,6 +12,10 @@ export interface RateLimitOptions {
   message?: string;
 }
 
+// Individual exports for compatibility
+export const rateLimiter = (options: RateLimitOptions = {}) => RateLimitMiddleware.createRateLimiter(options);
+export const rateLimit = (options: RateLimitOptions = {}) => RateLimitMiddleware.createRateLimiter(options);
+
 export class RateLimitMiddleware {
   private static cache = CacheService.getInstance();
   private static logger = LoggerService.getInstance();

@@ -604,4 +604,6 @@ export class InstagramController {
       });
     }
   }
-} 
+}
+
+export default InstagramController; 

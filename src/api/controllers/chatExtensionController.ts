@@ -6,7 +6,7 @@ export class ChatExtensionController {
   private chatExtensionService: ChatExtensionService;
 
   constructor() {
-    this.chatExtensionService = new ChatExtensionService();
+    this.chatExtensionService = ChatExtensionService.getInstance();
   }
 
   /**
@@ -76,7 +76,7 @@ export class ChatExtensionController {
         offset: offset ? parseInt(offset as string) : undefined
       };
 
-      const result = await this.chatExtensionService.getUserChatExtensions(userId, options);
+      const result = await this.chatExtensionService.getUserChatExtensions(userId);
       
       res.status(200).json({
         success: true,
@@ -294,4 +294,6 @@ export class ChatExtensionController {
       });
     }
   };
-} 
+}
+
+export default ChatExtensionController; 

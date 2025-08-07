@@ -237,11 +237,12 @@ export class MessageBrokerService extends EventEmitter {
       // Broadcast to WebSocket clients
       await this.wsService.sendToUser(userId, {
         type: 'newMessage',
-        data: {
+        payload: {
           chatId,
           message: this.transformMessageForClient(messageData, messageId),
           timestamp: new Date().toISOString()
-        }
+        },
+        timestamp: new Date()
       });
 
       // Check if auto-reply should be triggered
@@ -1171,66 +1172,6 @@ export class MessageBrokerService extends EventEmitter {
 
   /**
    * MIGRADO DE: whatsapp-api/src/worker.js líneas 955-1050
-   * Check if auto-reply should be triggered
-   */
-  private async shouldTriggerAutoReply(
-    userId: string,
-    chatId: string,
-    messageData: any
-  ): Promise<boolean> {
-    try {
-      // Check if chat is activated
-      const chatDoc = await this.db
-        .collection('users')
-        .doc(userId)
-        .collection('chats')
-        .doc(chatId)
-        .get();
-
-      if (!chatDoc.exists || !chatDoc.data()?.isActivated) {
-        return false;
-      }
-
-      // Check user activity status
-      const chatData = chatDoc.data()!;
-      const userIsActive = chatData.userIsActive || false;
-      const lastActivityTime = chatData.lastActivityTimestamp?.toDate?.()?.getTime() || 0;
-      const inactivityDuration = Date.now() - lastActivityTime;
-
-      // Don't auto-reply if user is active and was active recently
-      if (userIsActive && inactivityDuration < this.INACTIVITY_THRESHOLD) {
-        this.logger.debug('User is active, skipping auto-reply', {
-          userId,
-          chatId,
-          inactivityDuration: Math.round(inactivityDuration / 1000 / 60) // minutes
-        });
-        return false;
-      }
-
-      // Check bot pause state
-      const statusDoc = await this.db
-        .collection('users')
-        .doc(userId)
-        .collection('status')
-        .doc('whatsapp')
-        .get();
-
-      if (statusDoc.exists && statusDoc.data()?.botIsPaused === true) {
-        this.logger.debug('Bot is paused, skipping auto-reply', { userId, chatId });
-        return false;
-      }
-
-      return true;
-
-    } catch (error) {
-      this.logger.error('Error checking auto-reply conditions', {
-        userId,
-        chatId,
-        error: error instanceof Error ? error.message : 'Unknown error'
-      });
-      return false;
-    }
-  }
 
   /**
    * Save incoming message to Firestore
@@ -1398,7 +1339,7 @@ export class MessageBrokerService extends EventEmitter {
       lastMessageOrigin: 'contact',
       lastActivityTimestamp: timestamp,
       updatedAt: timestamp
-    }, { merge: true });
+    });
   }
 
   /**
@@ -1432,7 +1373,7 @@ export class MessageBrokerService extends EventEmitter {
       updateData.lastBotMessageTimestamp = timestamp;
     }
 
-    await chatDocRef.set(updateData, { merge: true });
+    await chatDocRef.set(updateData);
   }
 
   /**
@@ -1657,7 +1598,7 @@ export class MessageBrokerService extends EventEmitter {
       timestamp: new Date().toISOString(),
       type: messageData.type || 'text',
       origin: 'contact',
-      status: 'received',
+      status: 'delivered',
       fromMe: false,
       isAutoReply: false,
       hasMedia: messageData.hasMedia || false,

@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { LoggerService } from '@/core/services/LoggerService';
-import { SupabaseService } from '@/core/services/SupabaseService';
+import { ChatService } from '@/core/services/chatService';
 import { WorkerManagerService } from '@/core/services/WorkerManagerService';
 import { 
   Message,
@@ -16,24 +16,18 @@ import {
 
 export class MessageController {
   private logger: LoggerService;
-  private db: SupabaseService;
+  private chatService: ChatService;
   private workerManager: WorkerManagerService;
-
-  // Constants for conversation management
-  private readonly MAX_CONVERSATION_TOKENS = 15000;
-  private readonly MAX_HISTORY_TOKENS_FOR_PROMPT = 2000;
-  private readonly TOKEN_ESTIMATE_RATIO = 4;
 
   constructor() {
     this.logger = LoggerService.getInstance();
-    this.db = SupabaseService.getInstance();
+    this.chatService = ChatService.getInstance();
     this.workerManager = WorkerManagerService.getInstance();
   }
 
   /**
-   * MIGRADO DE: whatsapp-api/src/server.js líneas 2455-2592
    * GET /api/v2/messages/:userId/:chatId
-   * MEJORAS: TypeScript, pagination, filtros avanzados, performance optimizations
+   * Get messages for a chat
    */
   public async getMessages(req: Request, res: Response): Promise<void> {
     try {
@@ -69,150 +63,34 @@ export class MessageController {
         type
       });
 
-      // Verify chat exists
-      const chatDoc = await this.db
-        .collection('users')
-        .doc(userId)
-        .collection('chats')
-        .doc(chatId)
-        .get();
+      // Use ChatService to get messages with SQL queries
+      const getMessagesRequest: GetMessagesRequest = {
+        chatId,
+        limit: Number(limit),
+        offset: Number(offset),
+        before: before as string,
+        after: after as string,
+        origin: origin as MessageOrigin,
+        type: type as MessageType
+      };
 
-      if (!chatDoc.exists) {
-        res.status(404).json({
-          success: false,
-          error: 'Chat not found',
-        });
-        return;
-      }
-
-      // Build query
-      const messagesRef = this.db
-        .collection('users')
-        .doc(userId)
-        .collection('chats')
-        .doc(chatId)
-        .collection('messages_all');
-
-      let query = messagesRef.orderBy('timestamp', sortOrder as 'asc' | 'desc');
-
-      // Apply filters
-      if (origin) {
-        query = query.where('origin', '==', origin);
-      }
-
-      if (type) {
-        query = query.where('type', '==', type);
-      }
-
-      // Apply temporal filters
-      if (before) {
-        try {
-          const beforeTimestamp = this.db.timestamp(new Date(before as string));
-          query = query.where('timestamp', '<', beforeTimestamp);
-        } catch (error) {
-          res.status(400).json({
-            success: false,
-            error: 'Invalid before timestamp format (use ISO 8601)',
-          });
-          return;
-        }
-      }
-
-      if (after) {
-        try {
-          const afterTimestamp = this.db.timestamp(new Date(after as string));
-          query = query.where('timestamp', '>', afterTimestamp);
-        } catch (error) {
-          res.status(400).json({
-            success: false,
-            error: 'Invalid after timestamp format (use ISO 8601)',
-          });
-          return;
-        }
-      }
-
-      // Apply pagination
-      if (offset && Number(offset) > 0) {
-        const offsetSnapshot = await query.limit(Number(offset)).get();
-        if (!offsetSnapshot.empty) {
-          const lastDoc = offsetSnapshot.docs[offsetSnapshot.docs.length - 1];
-          query = query.startAfter(lastDoc);
-        }
-      }
-
-      query = query.limit(Number(limit));
-
-      // Execute query
-      const messagesSnapshot = await query.get();
-
-      const messages: Message[] = [];
-      for (const doc of messagesSnapshot.docs) {
-        const data = doc.data();
-
-        // Apply text search filter (post-query)
-        if (search) {
-          const searchLower = search.toString().toLowerCase();
-          const body = (data.body || '').toLowerCase();
-          
-          if (!body.includes(searchLower)) {
-            continue;
-          }
-        }
-
-        messages.push({
-          id: doc.id,
-          chatId,
-          ack: data.ack || 0,
-          body: data.body || '',
-          from: data.from || '',
-          to: data.to || '',
-          fromMe: data.isFromMe || false,
-          hasMedia: data.hasMedia || false,
-          hasReacted: data.hasReacted || false,
-          hasSticker: data.hasSticker || false,
-          inviteV4: data.inviteV4,
-          isEphemeral: data.isEphemeral || false,
-          isForwarded: data.isForwarded || false,
-          isGif: data.isGif || false,
-          isStarred: data.isStarred || false,
-          isStatus: data.isStatus || false,
-          mediaKey: data.mediaKey,
-          mediaUrl: data.mediaUrl,
-          mediaType: data.mediaType,
-          mediaSize: data.mediaSize,
-          mentionedIds: data.mentionedIds || [],
-          origin: data.origin || 'contact',
-          reaction: data.reaction,
-          status: data.status || 'sent',
-          timestamp: data.timestamp?.toDate ? data.timestamp.toDate().toISOString() : data.timestamp,
-          type: data.type || 'text',
-          vCards: data.vCards || [],
-          messageId: data.messageId,
-          isAutoReply: data.isAutoReply || false,
-          createdAt: data.createdAt?.toDate ? data.createdAt.toDate().toISOString() : new Date().toISOString(),
-          updatedAt: data.updatedAt?.toDate ? data.updatedAt.toDate().toISOString() : new Date().toISOString()
-        });
-      }
-
-      // Get total count for pagination
-      const totalSnapshot = await messagesRef.count().get();
-      const total = totalSnapshot.data().count;
+      const result = await this.chatService.getMessages(userId, getMessagesRequest);
 
       this.logger.info('Messages retrieved successfully', {
         userId,
         chatId,
-        count: messages.length,
-        total
+        count: result.data.length,
+        total: result.pagination.total
       });
 
       res.json({
         success: true,
-        data: messages,
+        data: result.data,
         pagination: {
-          limit: Number(limit),
-          offset: Number(offset),
-          total,
-          hasMore: messages.length === Number(limit)
+          limit: result.pagination.limit,
+          offset: result.pagination.offset,
+          total: result.pagination.total,
+          hasMore: result.pagination.hasMore
         }
       });
 
@@ -223,16 +101,6 @@ export class MessageController {
         error: error instanceof Error ? error.message : 'Unknown error',
       });
 
-      // Handle specific Firestore errors
-      if (error instanceof Error && error.message.includes('requires an index')) {
-        res.status(500).json({
-          success: false,
-          error: 'Database index required for this query. Contact administrator.',
-          code: 'INDEX_REQUIRED'
-        });
-        return;
-      }
-
       res.status(500).json({
         success: false,
         error: 'Failed to get messages',
@@ -241,9 +109,8 @@ export class MessageController {
   }
 
   /**
-   * MIGRADO DE: whatsapp-api/src/server.js líneas 2592-2676
    * POST /api/v2/messages/:userId/:chatId
-   * MEJORAS: TypeScript, WorkerManagerService integration, validation completa
+   * Send a message
    */
   public async sendMessage(req: Request, res: Response): Promise<void> {
     try {
@@ -282,28 +149,15 @@ export class MessageController {
         return;
       }
 
-      // Verify worker status from Firestore
-      const statusDoc = await this.db
-        .collection('users')
-        .doc(userId)
-        .collection('status')
-        .doc('whatsapp')
-        .get();
-
-      if (!statusDoc.exists || statusDoc.data()?.status !== 'connected') {
-        const currentStatus = statusDoc.exists ? statusDoc.data()?.status : 'not_found';
-        res.status(400).json({
-          success: false,
-          error: `WhatsApp not connected (status: ${currentStatus}). Please connect first.`,
-        });
-        return;
-      }
-
       // Send message via worker
-      const success = await this.workerManager.sendMessage(
+      const success = await this.workerManager.sendMessageToWorker(
         userId,
-        chatId,
-        message.trim()
+        'whatsapp',
+        {
+          chatId,
+          content: message.trim(),
+          type: 'text'
+        }
       );
 
       if (!success) {
@@ -314,31 +168,25 @@ export class MessageController {
         return;
       }
 
-      // Save message to Firestore (human origin)
-      await this.saveMessage(userId, chatId, {
-        from: `me (HUMAN - ${userId})`,
-        to: chatId,
-        body: message.trim(),
-        timestamp: new Date().toISOString(),
-        isFromMe: true,
-        isAutoReply: false,
-        origin: origin as MessageOrigin,
-        type: 'text',
-        hasMedia: false,
-        hasReacted: false,
-        hasSticker: false,
-        isEphemeral: false,
-        isForwarded: false,
-        isGif: false,
-        isStarred: false,
-        isStatus: false,
-        mentionedIds: [],
-        vCards: [],
-        status: 'sent'
-      });
+      // Save message using ChatService (SQL-based)
+      const messageRequest: SendMessageRequest & { userId: string; content: string } = {
+        userId,
+        chatId,
+        message: message.trim(),
+        content: message.trim(),
+        origin: origin as MessageOrigin || 'human',
+        type: 'text'
+      };
 
-      // Update chat metadata
-      await this.updateChatAfterMessage(userId, chatId, message.trim(), 'human');
+      const saveResult = await this.chatService.sendMessage(messageRequest);
+
+      if (!saveResult.success) {
+        this.logger.error('Failed to save message to database', {
+          userId,
+          chatId,
+          error: saveResult.message
+        });
+      }
 
       this.logger.info('Message sent successfully', {
         userId,
@@ -389,61 +237,19 @@ export class MessageController {
 
       this.logger.debug('Get message request', { userId, chatId, messageId });
 
-      const messageDoc = await this.db
-        .collection('users')
-        .doc(userId)
-        .collection('chats')
-        .doc(chatId)
-        .collection('messages_all')
-        .doc(messageId)
-        .get();
+      const result = await this.chatService.getMessage(userId, chatId, messageId);
 
-      if (!messageDoc.exists) {
+      if (!result.success) {
         res.status(404).json({
           success: false,
-          error: 'Message not found',
+          error: result.error || 'Message not found',
         });
         return;
       }
 
-      const data = messageDoc.data()!;
-      const message: Message = {
-        id: messageDoc.id,
-        chatId,
-        ack: data.ack || 0,
-        body: data.body || '',
-        from: data.from || '',
-        to: data.to || '',
-        fromMe: data.isFromMe || false,
-        hasMedia: data.hasMedia || false,
-        hasReacted: data.hasReacted || false,
-        hasSticker: data.hasSticker || false,
-        inviteV4: data.inviteV4,
-        isEphemeral: data.isEphemeral || false,
-        isForwarded: data.isForwarded || false,
-        isGif: data.isGif || false,
-        isStarred: data.isStarred || false,
-        isStatus: data.isStatus || false,
-        mediaKey: data.mediaKey,
-        mediaUrl: data.mediaUrl,
-        mediaType: data.mediaType,
-        mediaSize: data.mediaSize,
-        mentionedIds: data.mentionedIds || [],
-        origin: data.origin || 'contact',
-        reaction: data.reaction,
-        status: data.status || 'sent',
-        timestamp: data.timestamp?.toDate ? data.timestamp.toDate().toISOString() : data.timestamp,
-        type: data.type || 'text',
-        vCards: data.vCards || [],
-        messageId: data.messageId,
-        isAutoReply: data.isAutoReply || false,
-        createdAt: data.createdAt?.toDate ? data.createdAt.toDate().toISOString() : new Date().toISOString(),
-        updatedAt: data.updatedAt?.toDate ? data.updatedAt.toDate().toISOString() : new Date().toISOString()
-      };
-
       res.json({
         success: true,
-        data: message
+        data: result.message
       });
 
     } catch (error) {
@@ -462,9 +268,8 @@ export class MessageController {
   }
 
   /**
-   * MIGRADO DE: whatsapp-api/src/worker.js líneas 1884-1980
    * GET /api/v2/messages/:userId/:chatId/conversation-history
-   * MEJORAS: TypeScript, token management, configureable limits
+   * Get conversation history for AI context
    */
   public async getConversationHistory(req: Request, res: Response): Promise<void> {
     try {
@@ -486,16 +291,24 @@ export class MessageController {
         maxTokens: Number(maxTokens)
       });
 
-      const conversationContext = await this.buildConversationContext(
+      const result = await this.chatService.getConversationHistory(
         userId,
         chatId,
         Number(maxMessages),
         Number(maxTokens)
       );
 
+      if (!result.success) {
+        res.status(500).json({
+          success: false,
+          error: result.error || 'Failed to get conversation history',
+        });
+        return;
+      }
+
       res.json({
         success: true,
-        data: conversationContext
+        data: result.context
       });
 
     } catch (error) {
@@ -530,84 +343,19 @@ export class MessageController {
 
       this.logger.debug('Get message statistics request', { userId, chatId });
 
-      // Get counts for each message collection
-      const [
-        allMsgsSnapshot,
-        humanMsgsSnapshot,
-        botMsgsSnapshot,
-        contactMsgsSnapshot
-      ] = await Promise.all([
-        this.db.collection('users').doc(userId).collection('chats').doc(chatId).collection('messages_all').count().get(),
-        this.db.collection('users').doc(userId).collection('chats').doc(chatId).collection('messages_human').count().get(),
-        this.db.collection('users').doc(userId).collection('chats').doc(chatId).collection('messages_bot').count().get(),
-        this.db.collection('users').doc(userId).collection('chats').doc(chatId).collection('messages_contact').count().get()
-      ]);
+      const result = await this.chatService.getMessageStatistics(userId, chatId);
 
-      // Get sample messages for type analysis
-      const messagesSnapshot = await this.db
-        .collection('users')
-        .doc(userId)
-        .collection('chats')
-        .doc(chatId)
-        .collection('messages_all')
-        .orderBy('timestamp', 'desc')
-        .limit(100)
-        .get();
-
-      // Analyze message types
-      const messagesByType = {
-        text: 0,
-        image: 0,
-        video: 0,
-        audio: 0,
-        document: 0,
-        sticker: 0,
-        location: 0,
-        contact: 0,
-        other: 0
-      };
-
-      let totalCharacters = 0;
-      let messageCount = 0;
-
-      messagesSnapshot.forEach(doc => {
-        const data = doc.data();
-        const type = data.type || 'text';
-        
-        if (messagesByType.hasOwnProperty(type)) {
-          messagesByType[type as keyof typeof messagesByType]++;
-        } else {
-          messagesByType.other++;
-        }
-
-        if (data.body) {
-          totalCharacters += data.body.length;
-          messageCount++;
-        }
-      });
-
-      const statistics: MessageStatistics = {
-        totalMessages: allMsgsSnapshot.data().count,
-        messagesByOrigin: {
-          human: humanMsgsSnapshot.data().count,
-          bot: botMsgsSnapshot.data().count,
-          contact: contactMsgsSnapshot.data().count,
-          system: 0
-        },
-        messagesByType,
-        messagesPerDay: [], // Would need more complex aggregation
-        averageMessageLength: messageCount > 0 ? Math.round(totalCharacters / messageCount) : 0,
-        responseTimeStats: {
-          average: 0, // Would need timestamp analysis
-          median: 0,
-          min: 0,
-          max: 0
-        }
-      };
+      if (!result.success) {
+        res.status(500).json({
+          success: false,
+          error: result.error || 'Failed to get statistics',
+        });
+        return;
+      }
 
       res.json({
         success: true,
-        data: statistics
+        data: result.statistics
       });
 
     } catch (error) {
@@ -647,103 +395,26 @@ export class MessageController {
         keepLastMessages: Number(keepLastMessages) 
       });
 
-      const chatDocRef = this.db
-        .collection('users')
-        .doc(userId)
-        .collection('chats')
-        .doc(chatId);
+      const result = await this.chatService.clearChatHistory(
+        userId, 
+        chatId, 
+        Number(keepLastMessages)
+      );
 
-      // Verify chat exists
-      const chatDoc = await chatDocRef.get();
-      if (!chatDoc.exists) {
-        res.status(404).json({
+      if (!result.success) {
+        res.status(500).json({
           success: false,
-          error: 'Chat not found',
+          error: result.error || 'Failed to clear chat history',
         });
         return;
       }
-
-      const collections = ['messages_all', 'messages_human', 'messages_bot', 'messages_contact'];
-      let totalDeleted = 0;
-
-      for (const collectionName of collections) {
-        const collectionRef = chatDocRef.collection(collectionName);
-        
-        // If keeping some messages, get the ones to keep first
-        let messagesToKeep: any[] = [];
-        if (Number(keepLastMessages) > 0) {
-          const keepSnapshot = await collectionRef
-            .orderBy('timestamp', 'desc')
-            .limit(Number(keepLastMessages))
-            .get();
-          
-          messagesToKeep = keepSnapshot.docs.map(doc => ({ id: doc.id, data: doc.data() }));
-        }
-
-        // Delete all messages
-        let batch = this.db.batch();
-        let operationCount = 0;
-        
-        const snapshot = await collectionRef.get();
-        totalDeleted += snapshot.docs.length - messagesToKeep.length;
-        
-        snapshot.forEach(doc => {
-          batch.delete(doc.ref);
-          operationCount++;
-          
-          if (operationCount >= 499) {
-            batch.commit();
-            batch = this.db.batch();
-            operationCount = 0;
-          }
-        });
-
-        if (operationCount > 0) {
-          await batch.commit();
-        }
-
-        // Re-add messages to keep
-        if (messagesToKeep.length > 0) {
-          let restoreBatch = this.db.batch();
-          let restoreCount = 0;
-          
-          messagesToKeep.forEach(msg => {
-            const newDocRef = collectionRef.doc();
-            restoreBatch.set(newDocRef, msg.data);
-            restoreCount++;
-            
-            if (restoreCount >= 499) {
-              restoreBatch.commit();
-              restoreBatch = this.db.batch();
-              restoreCount = 0;
-            }
-          });
-
-          if (restoreCount > 0) {
-            await restoreBatch.commit();
-          }
-        }
-      }
-
-      // Update chat metadata
-      await chatDocRef.update({
-        historyClearedAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString()
-      });
-
-      this.logger.info('Chat history cleared successfully', {
-        userId,
-        chatId,
-        totalDeleted,
-        messagesKept: Number(keepLastMessages)
-      });
 
       res.json({
         success: true,
         message: 'Chat history cleared successfully',
         data: {
           chatId,
-          messagesDeleted: totalDeleted,
+          messagesDeleted: result.deletedCount || 0,
           messagesKept: Number(keepLastMessages),
           clearedAt: new Date().toISOString()
         }
@@ -762,208 +433,4 @@ export class MessageController {
       });
     }
   }
-
-  /**
-   * MIGRADO DE: whatsapp-api/src/worker.js líneas 1884-1980
-   * Build conversation context for AI with token management
-   */
-  private async buildConversationContext(
-    userId: string,
-    chatId: string,
-    maxMessages: number = 6,
-    maxTokens: number = 2000
-  ): Promise<ConversationContext> {
-    try {
-      this.logger.debug('Building conversation context', {
-        userId,
-        chatId,
-        maxMessages,
-        maxTokens
-      });
-
-      const chatDocRef = this.db
-        .collection('users')
-        .doc(userId)
-        .collection('chats')
-        .doc(chatId);
-
-      // Get recent messages ordered by timestamp
-      const messagesSnapshot = await chatDocRef
-        .collection('messages_all')
-        .orderBy('timestamp', 'desc')
-        .limit(maxMessages * 2) // Get more to have selection margin
-        .get();
-
-      if (messagesSnapshot.empty) {
-        return {
-          chatId,
-          messages: [],
-          totalTokens: 0,
-          lastUpdated: new Date().toISOString()
-        };
-      }
-
-      // Convert to context messages and sort chronologically
-      const messages: ConversationContext['messages'] = [];
-      messagesSnapshot.forEach(doc => {
-        const msgData = doc.data();
-        
-        // Only include messages with body (text)
-        if (msgData.body) {
-          const estimatedTokens = Math.ceil((msgData.body.length || 0) / this.TOKEN_ESTIMATE_RATIO);
-          
-          messages.push({
-            role: (msgData.origin === 'bot' || (msgData.isFromMe === true && msgData.isAutoReply === true)) ? 'assistant' : 'user',
-            content: msgData.body,
-            timestamp: msgData.timestamp?.toDate?.() ? msgData.timestamp.toDate().toISOString() : msgData.timestamp,
-            estimatedTokens
-          });
-        }
-      });
-
-      // Sort chronologically (oldest first)
-      messages.sort((a, b) => new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime());
-
-      // Apply token limit
-      let totalTokens = 0;
-      const selectedMessages: ConversationContext['messages'] = [];
-
-      for (let i = messages.length - 1; i >= 0; i--) {
-        const message = messages[i];
-        if (totalTokens + message.estimatedTokens <= maxTokens) {
-          selectedMessages.unshift(message); // Add to beginning to maintain order
-          totalTokens += message.estimatedTokens;
-        } else {
-          break;
-        }
-      }
-
-      this.logger.debug('Conversation context built', {
-        userId,
-        chatId,
-        totalMessages: messages.length,
-        selectedMessages: selectedMessages.length,
-        totalTokens
-      });
-
-      return {
-        chatId,
-        messages: selectedMessages,
-        totalTokens,
-        lastUpdated: new Date().toISOString()
-      };
-
-    } catch (error) {
-      this.logger.error('Error building conversation context', {
-        userId,
-        chatId,
-        error: error instanceof Error ? error.message : 'Unknown error'
-      });
-
-      return {
-        chatId,
-        messages: [],
-        totalTokens: 0,
-        lastUpdated: new Date().toISOString()
-      };
-    }
-  }
-
-  /**
-   * Save message to appropriate collections
-   */
-  private async saveMessage(userId: string, chatId: string, messageData: any): Promise<void> {
-    const chatDocRef = this.db
-      .collection('users')
-      .doc(userId)
-      .collection('chats')
-      .doc(chatId);
-
-    const timestamp = new Date().toISOString();
-    const fullMessageData = {
-      ...messageData,
-      createdAt: timestamp,
-      updatedAt: timestamp
-    };
-
-    const savePromises = [
-      // Always save to messages_all
-      chatDocRef.collection('messages_all').add(fullMessageData)
-    ];
-
-    // Save to appropriate origin-specific collection
-    switch (messageData.origin) {
-      case 'human':
-        savePromises.push(
-          chatDocRef.collection('messages_human').add(fullMessageData)
-        );
-        break;
-      case 'bot':
-        savePromises.push(
-          chatDocRef.collection('messages_bot').add(fullMessageData)
-        );
-        break;
-      case 'contact':
-        savePromises.push(
-          chatDocRef.collection('messages_contact').add(fullMessageData)
-        );
-        break;
-    }
-
-    await Promise.all(savePromises);
-    
-    this.logger.debug('Message saved to collections', {
-      userId,
-      chatId,
-      origin: messageData.origin,
-      collections: savePromises.length
-    });
-  }
-
-  /**
-   * Update chat metadata after message
-   */
-  private async updateChatAfterMessage(
-    userId: string,
-    chatId: string,
-    content: string,
-    origin: MessageOrigin
-  ): Promise<void> {
-    const chatDocRef = this.db
-      .collection('users')
-      .doc(userId)
-      .collection('chats')
-      .doc(chatId);
-
-    const timestamp = new Date().toISOString();
-    const updateData: any = {
-      lastMessageContent: content,
-      lastMessageTimestamp: timestamp,
-      lastMessageOrigin: origin,
-      lastActivityTimestamp: timestamp,
-      updatedAt: timestamp
-    };
-
-    // Set specific timestamp based on origin
-    switch (origin) {
-      case 'human':
-        updateData.lastHumanMessageTimestamp = timestamp;
-        updateData.userIsActive = true;
-        break;
-      case 'bot':
-        updateData.lastBotMessageTimestamp = timestamp;
-        break;
-      case 'contact':
-        updateData.lastContactMessageTimestamp = timestamp;
-        break;
-    }
-
-    await chatDocRef.set(updateData, { merge: true });
-    
-    this.logger.debug('Chat metadata updated', {
-      userId,
-      chatId,
-      origin
-    });
-  }
-} 
+}

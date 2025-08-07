@@ -261,8 +261,8 @@ export class InstagramWorker {
       const limits = INSTAGRAM_CONSTANTS.RATE_LIMITS[actionType as keyof typeof INSTAGRAM_CONSTANTS.RATE_LIMITS];
       if (!limits) return true;
 
-      const hourCount = (await this.cache.get(hourKey)) as number || 0;
-      const dayCount = (await this.cache.get(dayKey)) as number || 0;
+      const hourCount = Number(await this.cache.get(hourKey)) || 0;
+      const dayCount = Number(await this.cache.get(dayKey)) || 0;
 
       if (hourCount >= limits.maxPerHour || dayCount >= limits.maxPerDay) {
         return false;
@@ -291,7 +291,7 @@ export class InstagramWorker {
     errorMessage?: string
   ): Promise<void> {
     try {
-      const action: InstagramAction = {
+      const action: Omit<InstagramAction, 'id' | 'createdAt' | 'updatedAt'> = {
         sessionId,
         actionType: actionType as any,
         targetId,
@@ -299,8 +299,7 @@ export class InstagramWorker {
         status,
         errorMessage,
         timestamp: new Date(),
-        createdAt: new Date(),
-        updatedAt: new Date(),
+        metadata: {}
       };
 
       await this.database.collection('instagram_actions').doc().set(action);

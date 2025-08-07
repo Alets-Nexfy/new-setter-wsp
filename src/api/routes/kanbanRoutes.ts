@@ -14,7 +14,7 @@ router.use(authenticate);
 // Apply rate limiting
 const kanbanRateLimit = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100, // 100 requests per window
+  maxRequests: 100, // 100 requests per window
   message: 'Too many kanban requests, please try again later.'
 });
 
@@ -250,11 +250,11 @@ router.get('/boards/:boardId/columns/:columnId/stats', validateRequest(columnPar
 
 // Activity routes
 router.get('/boards/:boardId/cards/:cardId/activity', 
-  validateRequest({ ...cardParamSchema, ...activityQuerySchema }), 
+  validateRequest(cardParamSchema.merge(activityQuerySchema)), 
   kanbanController.getCardActivity
 );
 router.get('/boards/:boardId/activity', 
-  validateRequest({ ...boardParamSchema, ...activityQuerySchema }), 
+  validateRequest(boardParamSchema.merge(activityQuerySchema)), 
   kanbanController.getBoardActivity
 );
 

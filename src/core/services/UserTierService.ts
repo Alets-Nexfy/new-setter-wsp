@@ -258,8 +258,26 @@ export class UserTierService extends EventEmitter {
         return await this.createDefaultTierForUser(userId);
       }
 
+      // Ensure usage object has all required properties
       const tierInfo = tierData as UserTierInfo;
       tierInfo.configuration = this.tierConfigurations.get(tierInfo.tier)!;
+      
+      // Ensure usage object is properly initialized
+      if (!tierInfo.usage) {
+        tierInfo.usage = {
+          messagesThisMonth: 0,
+          connectionsActive: 0,
+          storageUsedMB: 0,
+          lastActivity: new Date()
+        };
+      } else {
+        // Ensure lastActivity is a Date object
+        if (!tierInfo.usage.lastActivity) {
+          tierInfo.usage.lastActivity = new Date();
+        } else if (typeof tierInfo.usage.lastActivity === 'string') {
+          tierInfo.usage.lastActivity = new Date(tierInfo.usage.lastActivity);
+        }
+      }
 
       // Update cache
       this.userTierCache.set(userId, tierInfo);
@@ -495,7 +513,14 @@ export class UserTierService extends EventEmitter {
 
   // Private helper methods
   private async createDefaultTierForUser(userId: string): Promise<UserTierInfo> {
-    const defaultTier: UserTier = 'standard';
+    // Detect tier based on userId prefix
+    let defaultTier: UserTier = 'standard';
+    
+    if (userId.startsWith('tribe-ia-nexus_')) {
+      defaultTier = 'enterprise_b2b';
+      this.logger.info('Auto-detected enterprise_b2b tier for tribe-ia-nexus user', { userId });
+    }
+    
     const config = this.tierConfigurations.get(defaultTier)!;
     
     const tierInfo: UserTierInfo = {
@@ -525,7 +550,13 @@ export class UserTierService extends EventEmitter {
   }
 
   private isCacheValid(cached: UserTierInfo): boolean {
-    const cacheAge = Date.now() - cached.usage.lastActivity.getTime();
+    if (!cached.usage || !cached.usage.lastActivity) {
+      return false;
+    }
+    const lastActivity = cached.usage.lastActivity instanceof Date 
+      ? cached.usage.lastActivity 
+      : new Date(cached.usage.lastActivity);
+    const cacheAge = Date.now() - lastActivity.getTime();
     return cacheAge < 5 * 60 * 1000; // 5 minutes cache
   }
 
@@ -759,7 +790,7 @@ export class UserTierService extends EventEmitter {
       const { data: users, error } = await this.firebase.from('user_tiers')
         .select('*')
         .eq('tier', 'enterprise_b2b')
-        .eq('b2b_info->platformId', platformId);
+        .eq('b2b_info->>platformId', platformId);
 
       if (error) throw error;
 

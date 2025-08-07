@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { userService } from '../../core/services/userService';
-import { logger } from '../../core/services/logger';
+import { LoggerService } from '../../core/services/LoggerService';
 import { 
   CreateUserRequest, 
   ConnectUserRequest, 
@@ -13,6 +13,12 @@ import {
 } from '../../shared/types/user';
 
 export class UserController {
+  private logger: LoggerService;
+
+  constructor() {
+    this.logger = LoggerService.getInstance();
+  }
+
   // User CRUD operations
   async createUser(req: Request, res: Response) {
     try {
@@ -31,7 +37,7 @@ export class UserController {
         metadata
       });
 
-      logger.info(`User created: ${userId}`, { userId, initialAgentId });
+      this.logger.info(`User created: ${userId}`, { userId, initialAgentId });
       res.status(201).json({
         success: true,
         message: 'User created successfully',
@@ -45,7 +51,7 @@ export class UserController {
         });
       }
       
-      logger.error('Error creating user:', error);
+      this.logger.error('Error creating user:', error);
       res.status(500).json({
         success: false,
         message: 'Internal error creating user'
@@ -92,7 +98,7 @@ export class UserController {
 
       res.json(result);
     } catch (error) {
-      logger.error('Error getting users:', error);
+      this.logger.error('Error getting users:', error);
       res.status(500).json({
         success: false,
         message: 'Internal error getting users'
@@ -124,7 +130,7 @@ export class UserController {
         data: user
       });
     } catch (error) {
-      logger.error(`Error getting user ${req.params.userId}:`, error);
+      this.logger.error(`Error getting user ${req.params.userId}:`, error);
       res.status(500).json({
         success: false,
         message: 'Internal error getting user'
@@ -151,14 +157,14 @@ export class UserController {
         });
       }
 
-      logger.info(`User updated: ${userId}`, { userId, updates });
+      this.logger.info(`User updated: ${userId}`, { userId, updates });
       res.json({
         success: true,
         message: 'User updated successfully',
         data: user
       });
     } catch (error) {
-      logger.error(`Error updating user ${req.params.userId}:`, error);
+      this.logger.error(`Error updating user ${req.params.userId}:`, error);
       res.status(500).json({
         success: false,
         message: 'Internal error updating user'
@@ -179,13 +185,13 @@ export class UserController {
         });
       }
 
-      logger.info(`User deleted: ${userId}`, { userId });
+      this.logger.info(`User deleted: ${userId}`, { userId });
       res.json({
         success: true,
         message: 'User deleted successfully'
       });
     } catch (error) {
-      logger.error(`Error deleting user ${req.params.userId}:`, error);
+      this.logger.error(`Error deleting user ${req.params.userId}:`, error);
       res.status(500).json({
         success: false,
         message: 'Internal error deleting user'
@@ -213,7 +219,7 @@ export class UserController {
         res.status(400).json(result);
       }
     } catch (error) {
-      logger.error(`Error connecting user ${req.params.userId}:`, error);
+      this.logger.error(`Error connecting user ${req.params.userId}:`, error);
       res.status(500).json({
         success: false,
         message: 'Internal error connecting user'
@@ -246,7 +252,7 @@ export class UserController {
         });
       }
     } catch (error) {
-      logger.error(`Error disconnecting user ${req.params.userId}:`, error);
+      this.logger.error(`Error disconnecting user ${req.params.userId}:`, error);
       res.status(500).json({
         success: false,
         message: 'Internal error disconnecting user'
@@ -262,7 +268,7 @@ export class UserController {
       const status = await userService.getUserStatus(userId, platform as Platform);
       res.json(status);
     } catch (error) {
-      logger.error(`Error getting user status ${req.params.userId}:`, error);
+      this.logger.error(`Error getting user status ${req.params.userId}:`, error);
       res.status(500).json({
         success: false,
         clientReady: false,
@@ -348,7 +354,7 @@ export class UserController {
         summary
       });
     } catch (error) {
-      logger.error('Error in bulk operation:', error);
+      this.logger.error('Error in bulk operation:', error);
       res.status(500).json({
         success: false,
         message: 'Internal error in bulk operation'
@@ -374,7 +380,7 @@ export class UserController {
         res.status(400).json(result);
       }
     } catch (error) {
-      logger.error(`Error in nuclear cleanup for ${req.params.userId}:`, error);
+      this.logger.error(`Error in nuclear cleanup for ${req.params.userId}:`, error);
       res.status(500).json({
         success: false,
         message: 'Critical error during nuclear cleanup',
@@ -398,7 +404,7 @@ export class UserController {
         data: analytics
       });
     } catch (error) {
-      logger.error('Error getting user analytics:', error);
+      this.logger.error('Error getting user analytics:', error);
       res.status(500).json({
         success: false,
         message: 'Internal error getting analytics'
@@ -416,7 +422,7 @@ export class UserController {
         data: health
       });
     } catch (error) {
-      logger.error(`Error getting user health for ${req.params.userId}:`, error);
+      this.logger.error(`Error getting user health for ${req.params.userId}:`, error);
       res.status(500).json({
         success: false,
         message: 'Internal error getting user health'
@@ -437,7 +443,7 @@ export class UserController {
         wsUrl: `ws://localhost:${process.env.PORT || 3000}/ws?userId=${userId}`
       });
     } catch (error) {
-      logger.error(`Error handling WebSocket connection for ${req.params.userId}:`, error);
+      this.logger.error(`Error handling WebSocket connection for ${req.params.userId}:`, error);
       res.status(500).json({
         success: false,
         message: 'Internal error handling WebSocket connection'
@@ -458,7 +464,7 @@ export class UserController {
         data: sessions
       });
     } catch (error) {
-      logger.error(`Error getting user sessions for ${req.params.userId}:`, error);
+      this.logger.error(`Error getting user sessions for ${req.params.userId}:`, error);
       res.status(500).json({
         success: false,
         message: 'Internal error getting user sessions'
@@ -478,7 +484,7 @@ export class UserController {
         message: 'Session terminated successfully'
       });
     } catch (error) {
-      logger.error(`Error terminating session ${req.params.sessionId} for ${req.params.userId}:`, error);
+      this.logger.error(`Error terminating session ${req.params.sessionId} for ${req.params.userId}:`, error);
       res.status(500).json({
         success: false,
         message: 'Internal error terminating session'
@@ -499,7 +505,7 @@ export class UserController {
         data: config
       });
     } catch (error) {
-      logger.error(`Error getting user config for ${req.params.userId}:`, error);
+      this.logger.error(`Error getting user config for ${req.params.userId}:`, error);
       res.status(500).json({
         success: false,
         message: 'Internal error getting user config'
@@ -521,7 +527,7 @@ export class UserController {
         data: config
       });
     } catch (error) {
-      logger.error(`Error updating user config for ${req.params.userId}:`, error);
+      this.logger.error(`Error updating user config for ${req.params.userId}:`, error);
       res.status(500).json({
         success: false,
         message: 'Internal error updating user config'
@@ -548,7 +554,7 @@ export class UserController {
         }
       });
     } catch (error) {
-      logger.error(`Error getting user activity for ${req.params.userId}:`, error);
+      this.logger.error(`Error getting user activity for ${req.params.userId}:`, error);
       res.status(500).json({
         success: false,
         message: 'Internal error getting user activity'
@@ -570,7 +576,7 @@ export class UserController {
         data: workerInfo
       });
     } catch (error) {
-      logger.error(`Error getting worker info for ${req.params.userId}:`, error);
+      this.logger.error(`Error getting worker info for ${req.params.userId}:`, error);
       res.status(500).json({
         success: false,
         message: 'Internal error getting worker info'
@@ -594,7 +600,7 @@ export class UserController {
         data: result
       });
     } catch (error) {
-      logger.error(`Error restarting worker for ${req.params.userId}:`, error);
+      this.logger.error(`Error restarting worker for ${req.params.userId}:`, error);
       res.status(500).json({
         success: false,
         message: 'Internal error restarting worker'
@@ -603,4 +609,5 @@ export class UserController {
   }
 }
 
-export const userController = new UserController(); 
+export const userController = new UserController();
+export default UserController; 

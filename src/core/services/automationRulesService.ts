@@ -9,9 +9,9 @@ export class AutomationRulesService {
   private cache: CacheService;
 
   constructor() {
-    this.db = new DatabaseService();
-    this.logger = new LoggerService();
-    this.cache = new CacheService();
+    this.db = SupabaseService.getInstance();
+    this.logger = LoggerService.getInstance();
+    this.cache = CacheService.getInstance();
   }
 
   /**
@@ -23,10 +23,10 @@ export class AutomationRulesService {
 
       // Check cache first
       const cacheKey = `rules:${userId}`;
-      const cachedRules = await this.cache.get<AutomationRule[]>(cacheKey);
+      const cachedRules = await this.cache.get(cacheKey);
       if (cachedRules) {
         this.logger.info(`[AutomationRules] Returning cached rules for user: ${userId}`);
-        return cachedRules;
+        return JSON.parse(cachedRules) as AutomationRule[];
       }
 
       // Get from database
@@ -45,7 +45,7 @@ export class AutomationRulesService {
       });
 
       // Cache the result
-      await this.cache.set(cacheKey, rules, 300); // 5 minutes
+      await this.cache.set(cacheKey, JSON.stringify(rules), 300); // 5 minutes
 
       this.logger.info(`[AutomationRules] Retrieved ${rules.length} rules for user: ${userId}`);
       return rules;

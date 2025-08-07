@@ -216,7 +216,8 @@ export class GeneralController {
 
       // Queue webhook processing based on platform
       const jobType = `${platform}:process-webhook`;
-      await this.queue.addJob(platform, jobType, {
+      await this.queue.addJob(platform, {
+        type: jobType,
         sessionId,
         webhookData: {
           event,
@@ -261,7 +262,8 @@ export class GeneralController {
       }
 
       // Queue broadcast job
-      await this.queue.addJob(platform, `${platform}:broadcast`, {
+      await this.queue.addJob(platform, {
+        type: `${platform}:broadcast`,
         message,
         recipients,
         options: options || {},
@@ -408,4 +410,6 @@ export class GeneralController {
 
     return signature === expectedSignature;
   }
-} 
+}
+
+export default GeneralController; 

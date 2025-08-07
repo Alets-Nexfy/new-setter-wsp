@@ -80,7 +80,7 @@ export class InstagramWorker extends EventEmitter {
     this.db = SupabaseService.getInstance();
     this.ai = AIService.getInstance();
     this.cache = CacheService.getInstance();
-    this.logger = new LoggerService();
+    this.logger = LoggerService.getInstance();
     
     // Setup data paths
     this.userDataPath = path.join(process.cwd(), 'data_v2', userId);
@@ -634,7 +634,7 @@ export class InstagramWorker extends EventEmitter {
         activated_at: new Date(),
         last_activity: new Date(),
         platform: 'instagram'
-      }, { merge: true });
+      });
       
       this.activatedChats.add(chatId);
       
@@ -710,16 +710,13 @@ export class InstagramWorker extends EventEmitter {
       const prompt = `${agentContext}\n\nNuevo mensaje de Instagram: ${message.text}\n\nRespuesta:`;
       
       // Generate response with AI
-      const response = await this.ai.generateResponse({
-        prompt,
-        userId: this.userId,
-        chatId: message.sender,
-        platform: 'instagram'
+      const response = await this.ai.generateResponse(prompt, {
+        maxTokens: 1000
       });
       
-      if (response.success && response.text) {
+      if (response.success && response.content) {
         await this.delay(2000);
-        await this.sendMessage(message.sender, response.text);
+        await this.sendMessage(message.sender, response.content);
       }
       
     } catch (error) {
@@ -813,7 +810,7 @@ export class InstagramWorker extends EventEmitter {
         last_activity: new Date(),
         platform: 'instagram',
         ...(direction === 'outgoing' && { last_human_activity: new Date() })
-      }, { merge: true });
+      });
       
       return docRef.id;
       

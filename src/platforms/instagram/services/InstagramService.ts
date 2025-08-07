@@ -2,7 +2,7 @@ import { EventEmitter } from 'events';
 import { Browser, BrowserContext, Page } from 'puppeteer';
 import puppeteer from 'puppeteer-extra';
 import StealthPlugin from 'puppeteer-extra-plugin-stealth';
-import { Logger } from '../../../core/services/LoggerService';
+import { LoggerService } from '../../../core/services/LoggerService';
 import { CacheService } from '../../../core/services/CacheService';
 import { DatabaseService } from '../../../core/services/DatabaseService';
 import { QueueService } from '../../../core/services/QueueService';
@@ -30,7 +30,7 @@ export class InstagramService extends EventEmitter {
   private heartbeatInterval: NodeJS.Timeout | null = null;
 
   constructor(
-    private readonly logger: Logger,
+    private readonly logger: LoggerService,
     private readonly cache: CacheService,
     private readonly database: DatabaseService,
     private readonly queue: QueueService
@@ -79,7 +79,7 @@ export class InstagramService extends EventEmitter {
         ],
       });
 
-      this.context = await this.browser.createIncognitoBrowserContext();
+      this.context = await this.browser.createBrowserContext();
       this.page = await this.context.newPage();
 
       // Set user agent and headers
@@ -128,7 +128,7 @@ export class InstagramService extends EventEmitter {
     // Console events
     this.page.on('console', (msg) => {
       if (msg.type() === 'error') {
-        this.logger.error('Console error:', msg.text());
+        this.logger.error('Console error:', { message: msg.text() });
       }
     });
   }
@@ -379,7 +379,7 @@ export class InstagramService extends EventEmitter {
     // Cache session
     await this.cache.set(
       `${INSTAGRAM_CONSTANTS.CACHE_KEYS.SESSION_PREFIX}${sessionId}`,
-      session,
+      JSON.stringify(session),
       INSTAGRAM_CONSTANTS.SESSION_TIMEOUT
     );
 
@@ -405,7 +405,7 @@ export class InstagramService extends EventEmitter {
           
           await this.cache.set(
             `${INSTAGRAM_CONSTANTS.CACHE_KEYS.SESSION_PREFIX}${this.session.sessionId}`,
-            this.session,
+            JSON.stringify(this.session),
             INSTAGRAM_CONSTANTS.SESSION_TIMEOUT
           );
         }
@@ -550,7 +550,7 @@ export class InstagramService extends EventEmitter {
       // Get session from cache/database
       const cachedSession = await this.cache.get(`${INSTAGRAM_CONSTANTS.CACHE_KEYS.SESSION_PREFIX}${sessionId}`);
       if (cachedSession) {
-        this.session = cachedSession as InstagramSession;
+        this.session = JSON.parse(cachedSession) as InstagramSession;
         return true;
       }
 

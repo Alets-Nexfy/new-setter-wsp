@@ -156,22 +156,22 @@ export class WhatsAppSessionManager {
 
   public async connectSession(sessionId: string): Promise<WhatsAppService> {
     try {
-      // Check if already connected
-      if (this.activeSessions.has(sessionId)) {
-        const service = this.activeSessions.get(sessionId)!;
-        if (service.isConnected()) {
-          return service;
-        }
-      }
-
-      // Get session info
+      // Get session info first to get userId
       const sessionInfo = await this.getSession(sessionId);
       if (!sessionInfo) {
         throw new Error('Session not found');
       }
 
+      // Check if already connected
+      if (this.activeSessions.has(sessionId)) {
+        const service = this.activeSessions.get(sessionId)!;
+        if (await service.isConnected(sessionInfo.userId)) {
+          return service;
+        }
+      }
+
       // Create WhatsApp service
-      const whatsappService = WhatsAppService.getInstance(sessionId, sessionInfo.userId);
+      const whatsappService = WhatsAppService.getInstance();
       
       // Initialize the service
       await whatsappService.initialize();
@@ -199,7 +199,11 @@ export class WhatsAppSessionManager {
     try {
       const service = this.activeSessions.get(sessionId);
       if (service) {
-        await service.disconnect();
+        // Get session info to get userId
+        const sessionInfo = await this.getSession(sessionId);
+        if (sessionInfo) {
+          await service.disconnect(sessionInfo.userId);
+        }
         this.activeSessions.delete(sessionId);
       }
 
@@ -339,9 +343,19 @@ export class WhatsAppSessionManager {
     return this.activeSessions.get(sessionId);
   }
 
-  public isSessionActive(sessionId: string): boolean {
+  public async isSessionActive(sessionId: string): Promise<boolean> {
     const service = this.activeSessions.get(sessionId);
-    return service?.isConnected() ?? false;
+    if (!service) {
+      return false;
+    }
+    
+    // Get session info to get userId
+    const sessionInfo = await this.getSession(sessionId);
+    if (!sessionInfo) {
+      return false;
+    }
+    
+    return await service.isConnected(sessionInfo.userId);
   }
 
   public async getSessionStats(): Promise<{
@@ -370,13 +384,13 @@ export class WhatsAppSessionManager {
         error: 0,
       };
 
-      (sessions || []).forEach(session => {
+      for (const session of (sessions || [])) {
         stats.total++;
         
         switch (session.status) {
           case 'connected':
             stats.connected++;
-            if (this.isSessionActive(session.id)) {
+            if (await this.isSessionActive(session.id)) {
               stats.active++;
             }
             break;
@@ -390,7 +404,7 @@ export class WhatsAppSessionManager {
             stats.error++;
             break;
         }
-      });
+      }
 
       return stats;
 

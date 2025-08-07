@@ -1,6 +1,9 @@
 import { Request, Response } from 'express';
-import { kanbanService } from '../../core/services/kanbanService';
-import { logger } from '../../core/services/logger';
+import { KanbanService } from '../../core/services/kanbanService';
+import { LoggerService } from '../../core/services/LoggerService';
+import { SupabaseService } from '../../core/services/SupabaseService';
+import { CacheService } from '../../core/services/CacheService';
+import { QueueService } from '../../core/services/QueueService';
 import { 
   CreateBoardRequest, 
   UpdateBoardRequest, 
@@ -14,6 +17,19 @@ import {
 } from '../../shared/types/kanban';
 
 export class KanbanController {
+  private kanbanService: KanbanService;
+  private logger: LoggerService;
+  
+  constructor() {
+    const db = SupabaseService.getInstance();
+    const cache = CacheService.getInstance();
+    const queue = QueueService.getInstance();
+    const logger = LoggerService.getInstance();
+    
+    this.kanbanService = new KanbanService(db, cache, queue, logger);
+    this.logger = logger;
+  }
+
   // Board operations
   async createBoard(req: Request, res: Response) {
     try {
@@ -23,12 +39,12 @@ export class KanbanController {
       }
 
       const boardData: CreateBoardRequest = req.body;
-      const board = await kanbanService.createBoard(userId, boardData);
+      const board = await this.kanbanService.createBoard(boardData, userId);
       
-      logger.info(`Board created: ${board.id}`, { userId, boardId: board.id });
+      this.logger.info(`Board created: ${board.id}`, { userId, boardId: board.id });
       res.json({ success: true, data: board });
     } catch (error) {
-      logger.error('Error creating board:', error);
+      this.logger.error('Error creating board:', error);
       res.status(500).json({ success: false, error: 'Failed to create board' });
     }
   }
@@ -40,10 +56,10 @@ export class KanbanController {
         return res.status(401).json({ success: false, error: 'User not authenticated' });
       }
 
-      const boards = await kanbanService.getUserBoards(userId);
+      const boards = await this.kanbanService.getBoards(userId);
       res.json({ success: true, data: boards });
     } catch (error) {
-      logger.error('Error fetching boards:', error);
+      this.logger.error('Error fetching boards:', error);
       res.status(500).json({ success: false, error: 'Failed to fetch boards' });
     }
   }
@@ -57,14 +73,14 @@ export class KanbanController {
         return res.status(401).json({ success: false, error: 'User not authenticated' });
       }
 
-      const board = await kanbanService.getBoard(boardId, userId);
+      const board = await this.kanbanService.getBoard(boardId);
       if (!board) {
         return res.status(404).json({ success: false, error: 'Board not found' });
       }
 
       res.json({ success: true, data: board });
     } catch (error) {
-      logger.error('Error fetching board:', error);
+      this.logger.error('Error fetching board:', error);
       res.status(500).json({ success: false, error: 'Failed to fetch board' });
     }
   }
@@ -79,15 +95,15 @@ export class KanbanController {
         return res.status(401).json({ success: false, error: 'User not authenticated' });
       }
 
-      const board = await kanbanService.updateBoard(boardId, userId, updates);
+      const board = await this.kanbanService.updateBoard(boardId, updates, userId);
       if (!board) {
         return res.status(404).json({ success: false, error: 'Board not found' });
       }
 
-      logger.info(`Board updated: ${boardId}`, { userId, boardId });
+      this.logger.info(`Board updated: ${boardId}`, { userId, boardId });
       res.json({ success: true, data: board });
     } catch (error) {
-      logger.error('Error updating board:', error);
+      this.logger.error('Error updating board:', error);
       res.status(500).json({ success: false, error: 'Failed to update board' });
     }
   }
@@ -101,15 +117,16 @@ export class KanbanController {
         return res.status(401).json({ success: false, error: 'User not authenticated' });
       }
 
-      const success = await kanbanService.deleteBoard(boardId, userId);
+      await this.kanbanService.deleteBoard(boardId, userId);
+      const success = true;
       if (!success) {
         return res.status(404).json({ success: false, error: 'Board not found' });
       }
 
-      logger.info(`Board deleted: ${boardId}`, { userId, boardId });
+      this.logger.info(`Board deleted: ${boardId}`, { userId, boardId });
       res.json({ success: true, message: 'Board deleted successfully' });
     } catch (error) {
-      logger.error('Error deleting board:', error);
+      this.logger.error('Error deleting board:', error);
       res.status(500).json({ success: false, error: 'Failed to delete board' });
     }
   }
@@ -125,15 +142,16 @@ export class KanbanController {
         return res.status(401).json({ success: false, error: 'User not authenticated' });
       }
 
-      const column = await kanbanService.createColumn(boardId, userId, columnData);
+      const createColumnData = { ...req.body, boardId };
+      const column = await this.kanbanService.createColumn(createColumnData, userId);
       if (!column) {
         return res.status(404).json({ success: false, error: 'Board not found' });
       }
 
-      logger.info(`Column created: ${column.id}`, { userId, boardId, columnId: column.id });
+      this.logger.info(`Column created: ${column.id}`, { userId, boardId, columnId: column.id });
       res.json({ success: true, data: column });
     } catch (error) {
-      logger.error('Error creating column:', error);
+      this.logger.error('Error creating column:', error);
       res.status(500).json({ success: false, error: 'Failed to create column' });
     }
   }
@@ -148,15 +166,15 @@ export class KanbanController {
         return res.status(401).json({ success: false, error: 'User not authenticated' });
       }
 
-      const column = await kanbanService.updateColumn(boardId, columnId, userId, updates);
+      const column = await this.kanbanService.updateColumn(columnId, updates, userId);
       if (!column) {
         return res.status(404).json({ success: false, error: 'Column not found' });
       }
 
-      logger.info(`Column updated: ${columnId}`, { userId, boardId, columnId });
+      this.logger.info(`Column updated: ${columnId}`, { userId, boardId, columnId });
       res.json({ success: true, data: column });
     } catch (error) {
-      logger.error('Error updating column:', error);
+      this.logger.error('Error updating column:', error);
       res.status(500).json({ success: false, error: 'Failed to update column' });
     }
   }
@@ -170,15 +188,16 @@ export class KanbanController {
         return res.status(401).json({ success: false, error: 'User not authenticated' });
       }
 
-      const success = await kanbanService.deleteColumn(boardId, columnId, userId);
+      await this.kanbanService.deleteColumn(columnId, userId);
+      const success = true;
       if (!success) {
         return res.status(404).json({ success: false, error: 'Column not found' });
       }
 
-      logger.info(`Column deleted: ${columnId}`, { userId, boardId, columnId });
+      this.logger.info(`Column deleted: ${columnId}`, { userId, boardId, columnId });
       res.json({ success: true, message: 'Column deleted successfully' });
     } catch (error) {
-      logger.error('Error deleting column:', error);
+      this.logger.error('Error deleting column:', error);
       res.status(500).json({ success: false, error: 'Failed to delete column' });
     }
   }
@@ -197,15 +216,16 @@ export class KanbanController {
         return res.status(400).json({ success: false, error: 'columnIds must be an array' });
       }
 
-      const success = await kanbanService.reorderColumns(boardId, userId, columnIds);
+      await this.kanbanService.reorderColumns(boardId, columnIds);
+      const success = true;
       if (!success) {
         return res.status(404).json({ success: false, error: 'Board not found' });
       }
 
-      logger.info(`Columns reordered`, { userId, boardId, columnIds });
+      this.logger.info(`Columns reordered`, { userId, boardId, columnIds });
       res.json({ success: true, message: 'Columns reordered successfully' });
     } catch (error) {
-      logger.error('Error reordering columns:', error);
+      this.logger.error('Error reordering columns:', error);
       res.status(500).json({ success: false, error: 'Failed to reorder columns' });
     }
   }
@@ -221,15 +241,16 @@ export class KanbanController {
         return res.status(401).json({ success: false, error: 'User not authenticated' });
       }
 
-      const card = await kanbanService.createCard(boardId, columnId, userId, cardData);
+      const createCardData = { ...req.body, boardId, columnId };
+      const card = await this.kanbanService.createCard(createCardData, userId);
       if (!card) {
         return res.status(404).json({ success: false, error: 'Column not found' });
       }
 
-      logger.info(`Card created: ${card.id}`, { userId, boardId, columnId, cardId: card.id });
+      this.logger.info(`Card created: ${card.id}`, { userId, boardId, columnId, cardId: card.id });
       res.json({ success: true, data: card });
     } catch (error) {
-      logger.error('Error creating card:', error);
+      this.logger.error('Error creating card:', error);
       res.status(500).json({ success: false, error: 'Failed to create card' });
     }
   }
@@ -243,14 +264,14 @@ export class KanbanController {
         return res.status(401).json({ success: false, error: 'User not authenticated' });
       }
 
-      const card = await kanbanService.getCard(boardId, cardId, userId);
+      const card = await this.kanbanService.getCard(cardId);
       if (!card) {
         return res.status(404).json({ success: false, error: 'Card not found' });
       }
 
       res.json({ success: true, data: card });
     } catch (error) {
-      logger.error('Error fetching card:', error);
+      this.logger.error('Error fetching card:', error);
       res.status(500).json({ success: false, error: 'Failed to fetch card' });
     }
   }
@@ -265,15 +286,15 @@ export class KanbanController {
         return res.status(401).json({ success: false, error: 'User not authenticated' });
       }
 
-      const card = await kanbanService.updateCard(boardId, cardId, userId, updates);
+      const card = await this.kanbanService.updateCard(cardId, updates, userId);
       if (!card) {
         return res.status(404).json({ success: false, error: 'Card not found' });
       }
 
-      logger.info(`Card updated: ${cardId}`, { userId, boardId, cardId });
+      this.logger.info(`Card updated: ${cardId}`, { userId, boardId, cardId });
       res.json({ success: true, data: card });
     } catch (error) {
-      logger.error('Error updating card:', error);
+      this.logger.error('Error updating card:', error);
       res.status(500).json({ success: false, error: 'Failed to update card' });
     }
   }
@@ -288,15 +309,16 @@ export class KanbanController {
         return res.status(401).json({ success: false, error: 'User not authenticated' });
       }
 
-      const card = await kanbanService.moveCard(boardId, cardId, targetColumnId, targetPosition, userId);
+      const moveData = { cardId, targetColumnId, targetPosition };
+      const card = await this.kanbanService.moveCard(moveData, userId);
       if (!card) {
         return res.status(404).json({ success: false, error: 'Card not found' });
       }
 
-      logger.info(`Card moved: ${cardId}`, { userId, boardId, cardId, targetColumnId, targetPosition });
+      this.logger.info(`Card moved: ${cardId}`, { userId, boardId, cardId, targetColumnId, targetPosition });
       res.json({ success: true, data: card });
     } catch (error) {
-      logger.error('Error moving card:', error);
+      this.logger.error('Error moving card:', error);
       res.status(500).json({ success: false, error: 'Failed to move card' });
     }
   }
@@ -310,15 +332,16 @@ export class KanbanController {
         return res.status(401).json({ success: false, error: 'User not authenticated' });
       }
 
-      const success = await kanbanService.deleteCard(boardId, cardId, userId);
+      await this.kanbanService.deleteCard(cardId, userId);
+      const success = true;
       if (!success) {
         return res.status(404).json({ success: false, error: 'Card not found' });
       }
 
-      logger.info(`Card deleted: ${cardId}`, { userId, boardId, cardId });
+      this.logger.info(`Card deleted: ${cardId}`, { userId, boardId, cardId });
       res.json({ success: true, message: 'Card deleted successfully' });
     } catch (error) {
-      logger.error('Error deleting card:', error);
+      this.logger.error('Error deleting card:', error);
       res.status(500).json({ success: false, error: 'Failed to delete card' });
     }
   }
@@ -337,15 +360,16 @@ export class KanbanController {
         return res.status(400).json({ success: false, error: 'cardIds must be an array' });
       }
 
-      const success = await kanbanService.reorderCards(boardId, columnId, userId, cardIds);
+      await this.kanbanService.reorderCards(columnId, cardIds);
+      const success = true;
       if (!success) {
         return res.status(404).json({ success: false, error: 'Column not found' });
       }
 
-      logger.info(`Cards reordered`, { userId, boardId, columnId, cardIds });
+      this.logger.info(`Cards reordered`, { userId, boardId, columnId, cardIds });
       res.json({ success: true, message: 'Cards reordered successfully' });
     } catch (error) {
-      logger.error('Error reordering cards:', error);
+      this.logger.error('Error reordering cards:', error);
       res.status(500).json({ success: false, error: 'Failed to reorder cards' });
     }
   }
@@ -361,15 +385,16 @@ export class KanbanController {
         return res.status(401).json({ success: false, error: 'User not authenticated' });
       }
 
-      const comment = await kanbanService.addComment(boardId, cardId, userId, commentData);
+      const createCommentData = { ...req.body, cardId };
+      const comment = await this.kanbanService.addComment(createCommentData, userId);
       if (!comment) {
         return res.status(404).json({ success: false, error: 'Card not found' });
       }
 
-      logger.info(`Comment added: ${comment.id}`, { userId, boardId, cardId, commentId: comment.id });
+      this.logger.info(`Comment added: ${comment.id}`, { userId, boardId, cardId, commentId: comment.id });
       res.json({ success: true, data: comment });
     } catch (error) {
-      logger.error('Error adding comment:', error);
+      this.logger.error('Error adding comment:', error);
       res.status(500).json({ success: false, error: 'Failed to add comment' });
     }
   }
@@ -384,15 +409,16 @@ export class KanbanController {
         return res.status(401).json({ success: false, error: 'User not authenticated' });
       }
 
-      const comment = await kanbanService.updateComment(boardId, cardId, commentId, userId, content);
+      const updateData = { commentId, content };
+      const comment = await this.kanbanService.updateComment(updateData, userId);
       if (!comment) {
         return res.status(404).json({ success: false, error: 'Comment not found' });
       }
 
-      logger.info(`Comment updated: ${commentId}`, { userId, boardId, cardId, commentId });
+      this.logger.info(`Comment updated: ${commentId}`, { userId, boardId, cardId, commentId });
       res.json({ success: true, data: comment });
     } catch (error) {
-      logger.error('Error updating comment:', error);
+      this.logger.error('Error updating comment:', error);
       res.status(500).json({ success: false, error: 'Failed to update comment' });
     }
   }
@@ -406,15 +432,16 @@ export class KanbanController {
         return res.status(401).json({ success: false, error: 'User not authenticated' });
       }
 
-      const success = await kanbanService.deleteComment(boardId, cardId, commentId, userId);
+      await this.kanbanService.deleteComment(commentId);
+      const success = true;
       if (!success) {
         return res.status(404).json({ success: false, error: 'Comment not found' });
       }
 
-      logger.info(`Comment deleted: ${commentId}`, { userId, boardId, cardId, commentId });
+      this.logger.info(`Comment deleted: ${commentId}`, { userId, boardId, cardId, commentId });
       res.json({ success: true, message: 'Comment deleted successfully' });
     } catch (error) {
-      logger.error('Error deleting comment:', error);
+      this.logger.error('Error deleting comment:', error);
       res.status(500).json({ success: false, error: 'Failed to delete comment' });
     }
   }
@@ -437,18 +464,15 @@ export class KanbanController {
 
       const sortOptions: KanbanSortOptions = sort && typeof sort === 'string' ? JSON.parse(sort) : {};
 
-      const result = await kanbanService.searchCards(
-        boardId,
+      const result = await this.kanbanService.searchCards(
         userId,
-        searchFilters,
-        sortOptions,
-        limit ? parseInt(limit as string) : undefined,
-        offset ? parseInt(offset as string) : undefined
+        query as string || '',
+        { ...searchFilters, boardId }
       );
 
       res.json({ success: true, data: result });
     } catch (error) {
-      logger.error('Error searching cards:', error);
+      this.logger.error('Error searching cards:', error);
       res.status(500).json({ success: false, error: 'Failed to search cards' });
     }
   }
@@ -463,14 +487,14 @@ export class KanbanController {
         return res.status(401).json({ success: false, error: 'User not authenticated' });
       }
 
-      const stats = await kanbanService.getBoardStats(boardId, userId);
+      const stats = await this.kanbanService.getBoardStats(boardId);
       if (!stats) {
         return res.status(404).json({ success: false, error: 'Board not found' });
       }
 
       res.json({ success: true, data: stats });
     } catch (error) {
-      logger.error('Error fetching board stats:', error);
+      this.logger.error('Error fetching board stats:', error);
       res.status(500).json({ success: false, error: 'Failed to fetch board stats' });
     }
   }
@@ -484,14 +508,14 @@ export class KanbanController {
         return res.status(401).json({ success: false, error: 'User not authenticated' });
       }
 
-      const stats = await kanbanService.getColumnStats(boardId, columnId, userId);
+      const stats = await this.kanbanService.getColumnStats(columnId);
       if (!stats) {
         return res.status(404).json({ success: false, error: 'Column not found' });
       }
 
       res.json({ success: true, data: stats });
     } catch (error) {
-      logger.error('Error fetching column stats:', error);
+      this.logger.error('Error fetching column stats:', error);
       res.status(500).json({ success: false, error: 'Failed to fetch column stats' });
     }
   }
@@ -507,17 +531,11 @@ export class KanbanController {
         return res.status(401).json({ success: false, error: 'User not authenticated' });
       }
 
-      const activities = await kanbanService.getCardActivity(
-        boardId,
-        cardId,
-        userId,
-        limit ? parseInt(limit as string) : undefined,
-        offset ? parseInt(offset as string) : undefined
-      );
+      const activities = await this.kanbanService.getCardActivity(cardId);
 
       res.json({ success: true, data: activities });
     } catch (error) {
-      logger.error('Error fetching card activity:', error);
+      this.logger.error('Error fetching card activity:', error);
       res.status(500).json({ success: false, error: 'Failed to fetch card activity' });
     }
   }
@@ -532,19 +550,15 @@ export class KanbanController {
         return res.status(401).json({ success: false, error: 'User not authenticated' });
       }
 
-      const activities = await kanbanService.getBoardActivity(
-        boardId,
-        userId,
-        limit ? parseInt(limit as string) : undefined,
-        offset ? parseInt(offset as string) : undefined
-      );
+      const activities = await this.kanbanService.getBoardActivity(boardId);
 
       res.json({ success: true, data: activities });
     } catch (error) {
-      logger.error('Error fetching board activity:', error);
+      this.logger.error('Error fetching board activity:', error);
       res.status(500).json({ success: false, error: 'Failed to fetch board activity' });
     }
   }
 }
 
-export const kanbanController = new KanbanController(); 
+export const kanbanController = new KanbanController();
+export default KanbanController; 

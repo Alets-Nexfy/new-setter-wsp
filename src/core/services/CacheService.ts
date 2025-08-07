@@ -12,7 +12,6 @@ export class CacheService {
       password: environment.redis.password,
       socket: {
         connectTimeout: 10000,
-        lazyConnect: true,
         keepAlive: 30000,
         reconnectStrategy: (retries) => {
           if (retries > 10) {
@@ -22,9 +21,7 @@ export class CacheService {
         },
       },
       // Connection pooling optimizations for multiple users
-      database: 0,
-      commandsQueueMaxLength: 1000,
-      maxRetriesPerRequest: 3,
+      database: 0
     });
 
     this.setupEventHandlers();
@@ -323,5 +320,24 @@ export class CacheService {
 
   public getConnectionStatus(): boolean {
     return this.isConnected;
+  }
+
+  // Alias for del method to support legacy code
+  public async delete(key: string): Promise<boolean> {
+    return this.del(key);
+  }
+
+  // Add method for queue service compatibility
+  public async add(queue: string, job: any, options?: any): Promise<any> {
+    try {
+      await this.connect();
+      const jobId = `${queue}:${Date.now()}:${Math.random()}`;
+      const jobData = JSON.stringify({ ...job, id: jobId, queue, options });
+      await this.client.lPush(`queue:${queue}`, jobData);
+      return { id: jobId, data: job };
+    } catch (error) {
+      console.error('Error adding job to queue:', error);
+      return null;
+    }
   }
 } 

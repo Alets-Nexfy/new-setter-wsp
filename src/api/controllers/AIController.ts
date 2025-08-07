@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { LoggerService } from '@/core/services/LoggerService';
-import { AIService } from '@/core/services/AIService';
+import { AIService, AIRequestOptions } from '@/core/services/AIService';
 import { QueueService } from '@/core/services/QueueService';
 import { JOB_TYPES } from '@/shared/constants';
 
@@ -37,19 +37,12 @@ export class AIController {
         businessContext: context?.businessContext || {},
       };
 
-      const aiOptions = {
+      const aiOptions: AIRequestOptions = {
         maxTokens: options?.maxTokens || 500,
-        temperature: options?.temperature || 0.7,
-        topP: options?.topP || 0.9,
-        topK: options?.topK || 40,
-        stopSequences: options?.stopSequences || [],
+        systemInstruction: `Context: ${JSON.stringify(aiContext)}`,
       };
 
-      const response = await this.aiService.generateResponse({
-        prompt,
-        context: aiContext,
-        ...aiOptions,
-      });
+      const response = await this.aiService.generateResponse(prompt, aiOptions);
 
       res.json({
         success: true,
@@ -154,13 +147,13 @@ export class AIController {
         businessContext: context?.businessContext || {},
       };
 
-      const questions = await this.aiService.generateFollowUpQuestions(message, aiContext);
+      const questions = await this.aiService.generateFollowUpQuestions(message);
 
       res.json({
         success: true,
         data: {
-          questions,
-          count: questions.length,
+          questions: questions.success ? questions.content : '',
+          count: questions.success ? (questions.content ? questions.content.split('\n').filter(q => q.trim()).length : 0) : 0,
         },
       });
 
@@ -198,7 +191,7 @@ export class AIController {
         businessContext: context?.businessContext || {},
       };
 
-      const autoReply = await this.aiService.generateAutoReply(message, aiContext);
+      const autoReply = await this.aiService.generateAutoReply(message, JSON.stringify(aiContext));
 
       res.json({
         success: true,
@@ -290,4 +283,6 @@ export class AIController {
       });
     }
   }
-} 
+}
+
+export default AIController; 

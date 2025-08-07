@@ -80,8 +80,8 @@ export class WorkerManagerService extends EventEmitter {
 
       // Initialize Instagram worker manager if enabled
       if (environment.enableInstagram) {
-        await this.instagramManager.initialize();
-        this.logger.info('Instagram Worker Manager initialized');
+        // Instagram manager will be initialized when needed
+        this.logger.info('Instagram support enabled');
       }
 
       // Setup event listeners
@@ -176,6 +176,50 @@ export class WorkerManagerService extends EventEmitter {
 
     } catch (error) {
       this.logger.error('Failed to stop worker', { userId, platform, error });
+      throw error;
+    }
+  }
+
+  /**
+   * Pause user bot - stops responding to messages but keeps connection
+   */
+  public async pauseUserBot(userId: string, platform: 'whatsapp' | 'instagram' = 'whatsapp'): Promise<void> {
+    try {
+      this.logger.info('Pausing user bot', { userId, platform });
+      
+      if (platform === 'whatsapp') {
+        if (this.whatsappManager) {
+          await this.whatsappManager.pauseUserBot(userId);
+        }
+      }
+      // Instagram pause logic would go here if needed
+      
+      this.emit('worker:paused', { userId, platform });
+      
+    } catch (error) {
+      this.logger.error('Failed to pause user bot', { userId, platform, error });
+      throw error;
+    }
+  }
+
+  /**
+   * Resume user bot - start responding to messages again
+   */
+  public async resumeUserBot(userId: string, platform: 'whatsapp' | 'instagram' = 'whatsapp'): Promise<void> {
+    try {
+      this.logger.info('Resuming user bot', { userId, platform });
+      
+      if (platform === 'whatsapp') {
+        if (this.whatsappManager) {
+          await this.whatsappManager.resumeUserBot(userId);
+        }
+      }
+      // Instagram resume logic would go here if needed
+      
+      this.emit('worker:resumed', { userId, platform });
+      
+    } catch (error) {
+      this.logger.error('Failed to resume user bot', { userId, platform, error });
       throw error;
     }
   }
@@ -463,11 +507,13 @@ export class WorkerManagerService extends EventEmitter {
    */
   public async getWorkerInfo(userId: string): Promise<any> {
     try {
-      this.logger.debug('Getting worker info', { userId });
+      this.logger.info('Getting worker info', { userId });
       
       // Try WhatsApp worker first
       if (environment.enableWhatsApp) {
         const whatsappWorker = this.whatsappManager.getWorker(userId);
+        this.logger.info('WhatsApp worker lookup', { userId, found: !!whatsappWorker });
+        
         if (whatsappWorker) {
           return {
             platform: 'whatsapp',
@@ -478,6 +524,42 @@ export class WorkerManagerService extends EventEmitter {
             createdAt: whatsappWorker.createdAt,
             lastActivity: whatsappWorker.lastActivity
           };
+        }
+        
+        // Check if user is connected via connection pool
+        // For pool connections, we return a mock worker info
+        // since the actual worker is managed by the pool
+        try {
+          const poolManager = this.whatsappManager.getConnectionPool();
+          this.logger.info('Connection pool check', { userId, hasPool: !!poolManager });
+          
+          if (poolManager) {
+            const userConnections = poolManager.getUserConnections();
+            const hasConnection = userConnections.has(userId);
+            this.logger.info('User connection status', { 
+              userId, 
+              hasConnection,
+              totalConnections: userConnections.size,
+              connectionKeys: Array.from(userConnections.keys())
+            });
+            
+            if (hasConnection) {
+              const session = poolManager.getUserSession(userId);
+              return {
+                platform: 'whatsapp',
+                status: session?.isAuthenticated ? 'connected' : 'connecting',
+                pid: -1, // Pool managed
+                connected: true,
+                activeAgentId: null,
+                createdAt: new Date(),
+                lastActivity: session?.lastActivity || new Date(),
+                isPoolConnection: true,
+                connectionType: session?.connectionType
+              };
+            }
+          }
+        } catch (poolError) {
+          this.logger.error('Error checking connection pool', { userId, error: poolError });
         }
       }
       
@@ -538,6 +620,32 @@ export class WorkerManagerService extends EventEmitter {
     } catch (error) {
       this.logger.error('Failed to send message to worker', { userId, platform, error });
       return false;
+    }
+  }
+
+
+  /**
+   * Send message through worker (used by ActionFlowsController)
+   */
+  public async sendMessage(userId: string, chatId: string, message: string): Promise<boolean> {
+    try {
+      // Default to WhatsApp platform for compatibility
+      return await this.whatsappManager.sendMessage(userId, chatId, message);
+    } catch (error) {
+      this.logger.error("Failed to send message through worker", { userId, chatId, error });
+      return false;
+    }
+  }
+
+  /**
+   * Send command to worker (used by ActionFlowsController)
+   */
+  public sendCommand(userId: string, command: string): void {
+    try {
+      // Default to WhatsApp platform for compatibility
+      this.whatsappManager.sendCommand(userId, command);
+    } catch (error) {
+      this.logger.error("Failed to send command to worker", { userId, command, error });
     }
   }
 

@@ -2,7 +2,7 @@ import { Router } from 'express';
 import { StatisticsController } from '../controllers/statisticsController';
 import { StatisticsService } from '../../core/services/statisticsService';
 import { authenticateApiKey } from '../middleware/auth';
-import { rateLimiter } from '../middleware';
+import { RateLimitMiddleware } from '../middleware/rateLimit';
 import { sanitizeInput } from '../middleware/sanitization';
 import { validateStatisticsRequest } from '../validators/statisticsValidator';
 
@@ -25,7 +25,7 @@ const statisticsController = new StatisticsController(statisticsService);
 router.get(
   '/users/:userId/statistics',
   authenticateApiKey,
-  rateLimiter,
+  RateLimitMiddleware.default,
   sanitizeInput,
   validateStatisticsRequest,
   statisticsController.getUserStatistics.bind(statisticsController)
@@ -39,7 +39,7 @@ router.get(
 router.get(
   '/statistics/system',
   authenticateApiKey,
-  rateLimiter,
+  RateLimitMiddleware.default,
   sanitizeInput,
   validateStatisticsRequest,
   statisticsController.getSystemStatistics.bind(statisticsController)
@@ -53,7 +53,7 @@ router.get(
 router.get(
   '/statistics/messages',
   authenticateApiKey,
-  rateLimiter,
+  RateLimitMiddleware.default,
   sanitizeInput,
   validateStatisticsRequest,
   statisticsController.getMessageAnalytics.bind(statisticsController)
@@ -67,7 +67,7 @@ router.get(
 router.get(
   '/statistics/agents',
   authenticateApiKey,
-  rateLimiter,
+  RateLimitMiddleware.default,
   sanitizeInput,
   validateStatisticsRequest,
   statisticsController.getAgentAnalytics.bind(statisticsController)
@@ -81,7 +81,7 @@ router.get(
 router.get(
   '/statistics/realtime',
   authenticateApiKey,
-  rateLimiter,
+  RateLimitMiddleware.default,
   sanitizeInput,
   statisticsController.getRealTimeStatistics.bind(statisticsController)
 );
@@ -94,7 +94,7 @@ router.get(
 router.get(
   '/statistics/dashboard',
   authenticateApiKey,
-  rateLimiter,
+  RateLimitMiddleware.default,
   sanitizeInput,
   validateStatisticsRequest,
   statisticsController.getDashboardStatistics.bind(statisticsController)
@@ -108,7 +108,7 @@ router.get(
 router.post(
   '/statistics/reports',
   authenticateApiKey,
-  rateLimiter,
+  RateLimitMiddleware.default,
   sanitizeInput,
   validateStatisticsRequest,
   statisticsController.generateReport.bind(statisticsController)
@@ -122,7 +122,7 @@ router.post(
 router.get(
   '/statistics/export',
   authenticateApiKey,
-  rateLimiter,
+  RateLimitMiddleware.default,
   sanitizeInput,
   validateStatisticsRequest,
   statisticsController.exportStatistics.bind(statisticsController)
@@ -136,7 +136,7 @@ router.get(
 router.get(
   '/statistics/health',
   authenticateApiKey,
-  rateLimiter,
+  RateLimitMiddleware.default,
   sanitizeInput,
   statisticsController.healthCheck.bind(statisticsController)
 );

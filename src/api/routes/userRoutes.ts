@@ -14,7 +14,7 @@ router.use(authenticate);
 // Apply rate limiting
 const userRateLimit = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 200, // 200 requests per window
+  maxRequests: 200, // 200 requests per window
   message: 'Too many user requests, please try again later.'
 });
 
@@ -207,7 +207,7 @@ router.post('/users/bulk', validateRequest(bulkOperationSchema), userController.
 // Nuclear cleanup (admin only)
 const adminRateLimit = rateLimit({
   windowMs: 60 * 60 * 1000, // 1 hour
-  max: 10, // 10 requests per hour
+  maxRequests: 10, // 10 requests per hour
   message: 'Too many nuclear cleanup requests, please try again later.'
 });
 

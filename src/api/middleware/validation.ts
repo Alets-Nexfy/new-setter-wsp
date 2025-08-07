@@ -377,4 +377,9 @@ export class ValidationMiddleware {
       return false;
     }
   };
-} 
+}
+
+// Export the main validation function
+export const validateRequest = ValidationMiddleware.validate;
+
+export default ValidationMiddleware; 

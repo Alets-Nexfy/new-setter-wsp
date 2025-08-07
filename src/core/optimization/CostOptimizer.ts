@@ -101,7 +101,7 @@ interface OptimizationRule {
 
 export class CostOptimizer extends EventEmitter {
   private logger: LoggerService;
-  private firebase: FirebaseService;
+  private firebase: SupabaseService;
   private cache: CacheService;
   private tierService: UserTierService;
 
@@ -147,7 +147,7 @@ export class CostOptimizer extends EventEmitter {
     this.logger = LoggerService.getInstance();
     this.firebase = SupabaseService.getInstance();
     this.cache = CacheService.getInstance();
-    this.tierService = new UserTierService();
+    this.tierService = UserTierService.getInstance();
 
     this.initializeOptimizationRules();
     this.initializeGlobalMetrics();
@@ -782,7 +782,7 @@ export class CostOptimizer extends EventEmitter {
   // HELPER METHODS
   private async getCurrentUserAllocation(userId: string): Promise<any> {
     try {
-      const allocation = await this.firebase.getDocument(`resource_allocations/${userId}`);
+      const allocation = await this.firebase.getDocument('resource_allocations', userId);
       return allocation || { connectionType: 'shared', tier: 'standard' };
     } catch (error) {
       this.logger.error('Error getting user allocation', { userId, error });
@@ -833,8 +833,8 @@ export class CostOptimizer extends EventEmitter {
 
   private async getAllUsers(): Promise<string[]> {
     try {
-      const allocations = await this.firebase.getCollection('resource_allocations');
-      return Object.keys(allocations);
+      const allocationsQuery = await this.firebase.getCollection('resource_allocations').get();
+      return allocationsQuery.docs.map((doc: any) => doc.id);
     } catch (error) {
       this.logger.error('Error getting all users', { error });
       return [];
@@ -844,11 +844,15 @@ export class CostOptimizer extends EventEmitter {
   // PERSISTENCE
   private async loadExistingAnalyses(): Promise<void> {
     try {
-      const analyses = await this.firebase.getCollection('cost_analyses');
+      const analysesQuery = await this.firebase.getCollection('cost_analyses').get();
       
-      for (const [userId, analysisData] of Object.entries(analyses)) {
-        this.userAnalyses.set(userId, analysisData as CostAnalysis);
-      }
+      analysesQuery.docs.forEach((doc: any) => {
+        const analysisData = doc.data();
+        const userId = doc.id;
+        if (analysisData && userId) {
+          this.userAnalyses.set(userId, analysisData as CostAnalysis);
+        }
+      });
 
       this.logger.info('Loaded existing cost analyses', { 
         count: this.userAnalyses.size 
@@ -861,7 +865,7 @@ export class CostOptimizer extends EventEmitter {
 
   private async persistUserAnalysis(analysis: CostAnalysis): Promise<void> {
     try {
-      await this.firebase.setDocument(`cost_analyses/${analysis.userId}`, analysis);
+      await this.firebase.setDocument('cost_analyses', analysis.userId, analysis);
     } catch (error) {
       this.logger.error('Error persisting user analysis', { userId: analysis.userId, error });
     }
@@ -887,7 +891,7 @@ export class CostOptimizer extends EventEmitter {
 
   private async persistGlobalMetrics(): Promise<void> {
     try {
-      await this.firebase.setDocument('cost_optimizer_metrics', this.globalMetrics);
+      await this.firebase.setDocument('cost_optimizer_metrics', 'global', this.globalMetrics);
     } catch (error) {
       this.logger.error('Error persisting global metrics', { error });
     }

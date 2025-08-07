@@ -8,7 +8,7 @@ export class NuclearCleanupController {
 
   constructor(nuclearCleanupService: NuclearCleanupService) {
     this.nuclearCleanupService = nuclearCleanupService;
-    this.logger = new LoggerService();
+    this.logger = LoggerService.getInstance();
   }
 
   /**
@@ -239,4 +239,6 @@ export class NuclearCleanupController {
       });
     }
   }
-} 
+}
+
+export default NuclearCleanupController; 

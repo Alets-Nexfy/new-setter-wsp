@@ -201,9 +201,11 @@ export class InitialTriggerService {
       await this.executeActions(trigger.actions, context);
 
       // Update execution count
-      await this.updateInitialTrigger(triggerId, {
+      // Update execution count directly (executionCount not in DTO)
+      await db.collection('initialTriggers').doc(triggerId).update({
         executionCount: trigger.executionCount + 1,
-        lastExecuted: new Date()
+        lastExecuted: new Date(),
+        updatedAt: new Date()
       });
 
       logger.info(`Initial trigger ${triggerId} executed successfully`);

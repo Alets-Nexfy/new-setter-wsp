@@ -96,3 +96,7 @@ export const validateBotControl = {
     validateRequest
   ]
 }; 
+
+// Default export
+const botControlValidator = {};
+export default botControlValidator;

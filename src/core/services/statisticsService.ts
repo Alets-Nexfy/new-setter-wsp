@@ -119,7 +119,7 @@ export class StatisticsService {
   private wsService: WebSocketService;
 
   constructor(
-    db: DatabaseService,
+    db: SupabaseService,
     logger: LoggerService,
     cache: CacheService,
     wsService: WebSocketService
@@ -142,10 +142,10 @@ export class StatisticsService {
 
       // Check cache first
       const cacheKey = `user_stats:${userId}:${period.start.getTime()}:${period.end.getTime()}`;
-      const cachedStats = await this.cache.get<UserStatistics>(cacheKey);
+      const cachedStats = await this.cache.get(cacheKey);
       if (cachedStats) {
         this.logger.info(`[Statistics] Returning cached statistics for user: ${userId}`);
-        return cachedStats;
+        return JSON.parse(cachedStats) as UserStatistics;
       }
 
       const stats: UserStatistics = {
@@ -206,7 +206,7 @@ export class StatisticsService {
       await this.getUserKanbanStats(userId, stats);
 
       // Cache the result
-      await this.cache.set(cacheKey, stats, 300); // 5 minutes
+      await this.cache.set(cacheKey, JSON.stringify(stats), 300); // 5 minutes
 
       this.logger.info(`[Statistics] Retrieved statistics for user: ${userId}`);
       return stats;
@@ -228,10 +228,10 @@ export class StatisticsService {
 
       // Check cache first
       const cacheKey = `system_stats:${period.start.getTime()}:${period.end.getTime()}`;
-      const cachedStats = await this.cache.get<SystemStatistics>(cacheKey);
+      const cachedStats = await this.cache.get(cacheKey);
       if (cachedStats) {
         this.logger.info('[Statistics] Returning cached system statistics');
-        return cachedStats;
+        return JSON.parse(cachedStats) as SystemStatistics;
       }
 
       const stats: SystemStatistics = {
@@ -276,7 +276,7 @@ export class StatisticsService {
       await this.getSystemKanbanStats(stats);
 
       // Cache the result
-      await this.cache.set(cacheKey, stats, 300); // 5 minutes
+      await this.cache.set(cacheKey, JSON.stringify(stats), 300); // 5 minutes
 
       this.logger.info('[Statistics] Retrieved system statistics');
       return stats;

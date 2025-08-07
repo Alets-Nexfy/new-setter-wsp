@@ -28,7 +28,7 @@ export const requestLogger = (
 
   // Override res.end to capture response details
   const originalEnd = res.end;
-  res.end = function(chunk?: any, encoding?: any) {
+  res.end = function(chunk?: any, encoding?: any): Response<any, Record<string, any>> {
     const duration = Date.now() - startTime;
     
     // Log response details
@@ -44,7 +44,7 @@ export const requestLogger = (
     }
 
     // Call original end method
-    originalEnd.call(this, chunk, encoding);
+    return originalEnd.call(this, chunk, encoding);
   };
 
   next();

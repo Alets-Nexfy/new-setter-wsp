@@ -11,7 +11,7 @@ interface ResourceAllocation {
   tier: UserTier;
   allocatedAt: Date;
   resources: {
-    connectionType: 'shared' | 'semi-dedicated' | 'dedicated';
+    connectionType: 'shared' | 'semi-dedicated' | 'dedicated' | 'enterprise_b2b';
     connectionId?: string;
     workerId?: string;
     memoryLimitMB: number;
@@ -68,7 +68,7 @@ interface ScalingDecision {
 
 export class HybridArchitecture extends EventEmitter {
   private logger: LoggerService;
-  private firebase: FirebaseService;
+  private firebase: SupabaseService;
   private tierService: UserTierService;
   private connectionPool: WhatsAppConnectionPool;
   private messageBus: MessageEventBus;
@@ -119,8 +119,8 @@ export class HybridArchitecture extends EventEmitter {
     super();
     this.logger = LoggerService.getInstance();
     this.firebase = SupabaseService.getInstance();
-    this.tierService = new UserTierService();
-    this.connectionPool = new WhatsAppConnectionPool();
+    this.tierService = UserTierService.getInstance();
+    this.connectionPool = WhatsAppConnectionPool.getInstance();
     this.messageBus = new MessageEventBus();
     this.cache = CacheService.getInstance();
 
@@ -271,7 +271,7 @@ export class HybridArchitecture extends EventEmitter {
     const now = new Date();
     
     // Base allocation from tier configuration
-    let connectionType: 'shared' | 'semi-dedicated' | 'dedicated';
+    let connectionType: 'shared' | 'semi-dedicated' | 'dedicated' | 'enterprise_b2b';
     
     if (tierConfig.resources.dedicatedWorker) {
       connectionType = 'dedicated';
@@ -311,12 +311,13 @@ export class HybridArchitecture extends EventEmitter {
     return allocation;
   }
 
-  private calculateHourlyRate(connectionType: 'shared' | 'semi-dedicated' | 'dedicated', tierConfig: TierConfiguration): number {
+  private calculateHourlyRate(connectionType: 'shared' | 'semi-dedicated' | 'dedicated' | 'enterprise_b2b', tierConfig: TierConfiguration): number {
     // Cost optimization: Different rates based on connection type
     const baseCosts = {
       shared: 0.02,        // $0.02/hour (90% savings)
       'semi-dedicated': 0.08, // $0.08/hour (70% savings)  
-      dedicated: 0.25      // $0.25/hour (baseline)
+      dedicated: 0.25,     // $0.25/hour (baseline)
+      'enterprise_b2b': 0.35 // $0.35/hour (premium)
     };
 
     let baseCost = baseCosts[connectionType];
@@ -325,7 +326,8 @@ export class HybridArchitecture extends EventEmitter {
     const tierMultipliers = {
       standard: 1.0,
       professional: 1.2,
-      enterprise: 1.5
+      enterprise: 1.5,
+      enterprise_b2b: 2.0
     };
 
     const tierMultiplier = tierMultipliers[tierConfig.tier] || 1.0;
@@ -720,11 +722,14 @@ export class HybridArchitecture extends EventEmitter {
   // PERSISTENCE
   private async loadExistingAllocations(): Promise<void> {
     try {
-      const allocations = await this.firebase.getCollection('resource_allocations');
+      const allocationsQuery = await this.firebase.getCollection('resource_allocations').get();
       
-      for (const [userId, allocationData] of Object.entries(allocations)) {
-        this.allocatedResources.set(userId, allocationData as ResourceAllocation);
-      }
+      allocationsQuery.docs.forEach((doc: any) => {
+        const allocationData = doc.data();
+        if (allocationData && allocationData.userId) {
+          this.allocatedResources.set(allocationData.userId, allocationData as ResourceAllocation);
+        }
+      });
 
       this.logger.info('Loaded existing resource allocations', { 
         count: this.allocatedResources.size 
@@ -737,7 +742,7 @@ export class HybridArchitecture extends EventEmitter {
 
   private async persistAllocation(allocation: ResourceAllocation): Promise<void> {
     try {
-      await this.firebase.setDocument(`resource_allocations/${allocation.userId}`, allocation);
+      await this.firebase.setDocument('resource_allocations', allocation.userId, allocation);
     } catch (error) {
       this.logger.error('Error persisting allocation', { userId: allocation.userId, error });
     }
@@ -745,7 +750,7 @@ export class HybridArchitecture extends EventEmitter {
 
   private async removePersistedAllocation(userId: string): Promise<void> {
     try {
-      await this.firebase.deleteDocument(`resource_allocations/${userId}`);
+      await this.firebase.deleteDocument('resource_allocations', userId);
     } catch (error) {
       this.logger.error('Error removing persisted allocation', { userId, error });
     }

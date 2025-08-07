@@ -181,3 +181,7 @@ export const validateFirebaseFunction = {
     validateRequest
   ]
 }; 
+
+// Default export
+const firebaseFunctionValidator = {};
+export default firebaseFunctionValidator;

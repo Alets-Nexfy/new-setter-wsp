@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { AutomationRulesController } from '../controllers/automationRulesController';
 import { authenticateApiKey } from '../middleware/auth';
-import { rateLimiter } from '../middleware';
+import { RateLimitMiddleware } from '../middleware/rateLimit';
 import { sanitizeInput } from '../middleware/sanitization';
 import { validateAutomationRule } from '../validators/automationRuleValidator';
 
@@ -16,7 +16,7 @@ const automationRulesController = new AutomationRulesController();
 router.get(
   '/users/:userId/rules',
   authenticateApiKey,
-  rateLimiter,
+  RateLimitMiddleware.default,
   sanitizeInput,
   automationRulesController.getUserRules.bind(automationRulesController)
 );
@@ -29,7 +29,7 @@ router.get(
 router.post(
   '/users/:userId/rules',
   authenticateApiKey,
-  rateLimiter,
+  RateLimitMiddleware.default,
   sanitizeInput,
   validateAutomationRule,
   automationRulesController.createRule.bind(automationRulesController)
@@ -43,7 +43,7 @@ router.post(
 router.get(
   '/users/:userId/rules/:ruleId',
   authenticateApiKey,
-  rateLimiter,
+  RateLimitMiddleware.default,
   sanitizeInput,
   automationRulesController.getRule.bind(automationRulesController)
 );
@@ -56,7 +56,7 @@ router.get(
 router.put(
   '/users/:userId/rules/:ruleId',
   authenticateApiKey,
-  rateLimiter,
+  RateLimitMiddleware.default,
   sanitizeInput,
   validateAutomationRule,
   automationRulesController.updateRule.bind(automationRulesController)
@@ -70,7 +70,7 @@ router.put(
 router.delete(
   '/users/:userId/rules/:ruleId',
   authenticateApiKey,
-  rateLimiter,
+  RateLimitMiddleware.default,
   sanitizeInput,
   automationRulesController.deleteRule.bind(automationRulesController)
 );
@@ -83,7 +83,7 @@ router.delete(
 router.patch(
   '/users/:userId/rules/:ruleId/toggle',
   authenticateApiKey,
-  rateLimiter,
+  RateLimitMiddleware.default,
   sanitizeInput,
   automationRulesController.toggleRuleStatus.bind(automationRulesController)
 );
@@ -96,7 +96,7 @@ router.patch(
 router.get(
   '/users/:userId/rules/statistics',
   authenticateApiKey,
-  rateLimiter,
+  RateLimitMiddleware.default,
   sanitizeInput,
   automationRulesController.getRulesStatistics.bind(automationRulesController)
 );
@@ -109,7 +109,7 @@ router.get(
 router.post(
   '/users/:userId/rules/bulk',
   authenticateApiKey,
-  rateLimiter,
+  RateLimitMiddleware.default,
   sanitizeInput,
   automationRulesController.bulkOperations.bind(automationRulesController)
 );
@@ -122,7 +122,7 @@ router.post(
 router.get(
   '/users/:userId/rules/health',
   authenticateApiKey,
-  rateLimiter,
+  RateLimitMiddleware.default,
   sanitizeInput,
   automationRulesController.healthCheck.bind(automationRulesController)
 );

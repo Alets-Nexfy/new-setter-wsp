@@ -1,7 +1,7 @@
-import { DatabaseService } from './databaseService';
-import { CacheService } from './cacheService';
-import { QueueService } from './queueService';
-import { LoggerService } from './loggerService';
+import { SupabaseService } from './SupabaseService';
+import { CacheService } from './CacheService';
+import { QueueService } from './QueueService';
+import { LoggerService } from './LoggerService';
 import {
   KanbanBoard,
   KanbanColumn,
@@ -30,7 +30,7 @@ export class KanbanService {
   private logger: LoggerService;
 
   constructor(
-    db: DatabaseService,
+    db: SupabaseService,
     cache: CacheService,
     queue: QueueService,
     logger: LoggerService
@@ -45,7 +45,7 @@ export class KanbanService {
   async createBoard(data: CreateBoardRequest, userId: string): Promise<KanbanBoard> {
     try {
       const board: KanbanBoard = {
-        id: this.db.generateId(),
+        id: `board_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
         name: data.name,
         description: data.description,
         color: data.color,
@@ -61,12 +61,12 @@ export class KanbanService {
           allowColumnReordering: true,
           allowCardReordering: true,
           autoArchiveCompleted: false,
-          ...data.settings
+          ...(data.settings || {})
         }
       };
 
-      await this.db.collection('kanban_boards').doc(board.id).set(board);
-      await this.cache.set(`board:${board.id}`, board, 3600);
+      await this.db.from('kanban_boards').insert(board);
+      await this.cache.set(`board:${board.id}`, JSON.stringify(board), 3600);
       
       this.logger.info('Board created', { boardId: board.id, userId });
       return board;
@@ -80,13 +80,16 @@ export class KanbanService {
     try {
       // Try cache first
       const cached = await this.cache.get(`board:${boardId}`);
-      if (cached) return cached as KanbanBoard;
+      if (cached) return JSON.parse(cached) as KanbanBoard;
 
-      const doc = await this.db.collection('kanban_boards').doc(boardId).get();
-      if (!doc.exists) return null;
-
-      const board = doc.data() as KanbanBoard;
-      await this.cache.set(`board:${boardId}`, board, 3600);
+      const { data: board, error } = await this.db
+        .from('kanban_boards')
+        .select('*')
+        .eq('id', boardId)
+        .single();
+      
+      if (error || !board) return null;
+      await this.cache.set(`board:${boardId}`, JSON.stringify(board), 3600);
       return board;
     } catch (error) {
       this.logger.error('Error getting board', { error, boardId });
@@ -96,17 +99,17 @@ export class KanbanService {
 
   async getBoards(userId: string, teamId?: string): Promise<KanbanBoard[]> {
     try {
-      let query = this.db.collection('kanban_boards')
-        .where('isActive', '==', true);
+      let query = this.db.from('kanban_boards').select('*').eq('isActive', true);
 
       if (teamId) {
-        query = query.where('teamId', '==', teamId);
+        query = query.eq('teamId', teamId);
       } else {
-        query = query.where('createdBy', '==', userId);
+        query = query.eq('createdBy', userId);
       }
 
-      const snapshot = await query.get();
-      return snapshot.docs.map(doc => doc.data() as KanbanBoard);
+      const { data: boards, error } = await query;
+      if (error) throw error;
+      return boards || [];
     } catch (error) {
       this.logger.error('Error getting boards', { error, userId });
       throw error;
@@ -123,10 +126,10 @@ export class KanbanService {
         updatedAt: new Date()
       };
 
-      await this.db.collection('kanban_boards').doc(boardId).update(updates);
+      await this.db.from('kanban_boards').update(updates).eq('id', boardId);
       await this.cache.delete(`board:${boardId}`);
 
-      const updatedBoard = { ...board, ...updates };
+      const updatedBoard = { ...board, ...updates } as KanbanBoard;
       this.logger.info('Board updated', { boardId, userId });
       return updatedBoard;
     } catch (error) {
@@ -141,10 +144,10 @@ export class KanbanService {
       if (!board) throw new Error('Board not found');
 
       // Soft delete
-      await this.db.collection('kanban_boards').doc(boardId).update({
+      await this.db.from('kanban_boards').update({
         isActive: false,
         updatedAt: new Date()
-      });
+      }).eq('id', boardId);
 
       await this.cache.delete(`board:${boardId}`);
       this.logger.info('Board deleted', { boardId, userId });
@@ -161,7 +164,7 @@ export class KanbanService {
       if (!board) throw new Error('Board not found');
 
       const column: KanbanColumn = {
-        id: this.db.generateId(),
+        id: `board_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
         boardId: data.boardId,
         name: data.name,
         description: data.description,
@@ -177,7 +180,7 @@ export class KanbanService {
           allowCardDeletion: true,
           allowCardReordering: true,
           autoArchive: false,
-          ...data.settings
+          ...(data.settings || {})
         }
       };
 
@@ -195,7 +198,7 @@ export class KanbanService {
   async getColumns(boardId: string): Promise<KanbanColumn[]> {
     try {
       const cached = await this.cache.get(`board:${boardId}:columns`);
-      if (cached) return cached as KanbanColumn[];
+      if (cached) return JSON.parse(cached) as KanbanColumn[];
 
       const snapshot = await this.db.collection('kanban_columns')
         .where('boardId', '==', boardId)
@@ -204,7 +207,7 @@ export class KanbanService {
         .get();
 
       const columns = snapshot.docs.map(doc => doc.data() as KanbanColumn);
-      await this.cache.set(`board:${boardId}:columns`, columns, 3600);
+      await this.cache.set(`board:${boardId}:columns`, JSON.stringify(columns), 3600);
       return columns;
     } catch (error) {
       this.logger.error('Error getting columns', { error, boardId });
@@ -226,7 +229,7 @@ export class KanbanService {
       await this.db.collection('kanban_columns').doc(columnId).update(updates);
       await this.cache.delete(`board:${column.boardId}:columns`);
 
-      const updatedColumn = { ...column, ...updates };
+      const updatedColumn = { ...column, ...updates } as KanbanColumn;
       this.logger.info('Column updated', { columnId, boardId: column.boardId, userId });
       return updatedColumn;
     } catch (error) {
@@ -275,7 +278,7 @@ export class KanbanService {
       const order = lastCard ? lastCard.order + 1 : 0;
 
       const card: KanbanCard = {
-        id: this.db.generateId(),
+        id: `board_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
         boardId: data.boardId,
         columnId: data.columnId,
         title: data.title,
@@ -321,13 +324,13 @@ export class KanbanService {
   async getCard(cardId: string): Promise<KanbanCard | null> {
     try {
       const cached = await this.cache.get(`card:${cardId}`);
-      if (cached) return cached as KanbanCard;
+      if (cached) return JSON.parse(cached) as KanbanCard;
 
       const doc = await this.db.collection('kanban_cards').doc(cardId).get();
       if (!doc.exists) return null;
 
       const card = doc.data() as KanbanCard;
-      await this.cache.set(`card:${cardId}`, card, 1800);
+      await this.cache.set(`card:${cardId}`, JSON.stringify(card), 1800);
       return card;
     } catch (error) {
       this.logger.error('Error getting card', { error, cardId });
@@ -374,7 +377,7 @@ export class KanbanService {
   async getCardsByColumn(columnId: string): Promise<KanbanCard[]> {
     try {
       const cached = await this.cache.get(`column:${columnId}:cards`);
-      if (cached) return cached as KanbanCard[];
+      if (cached) return JSON.parse(cached) as KanbanCard[];
 
       const snapshot = await this.db.collection('kanban_cards')
         .where('columnId', '==', columnId)
@@ -383,7 +386,7 @@ export class KanbanService {
         .get();
 
       const cards = snapshot.docs.map(doc => doc.data() as KanbanCard);
-      await this.cache.set(`column:${columnId}:cards`, cards, 1800);
+      await this.cache.set(`column:${columnId}:cards`, JSON.stringify(cards), 1800);
       return cards;
     } catch (error) {
       this.logger.error('Error getting cards by column', { error, columnId });
@@ -515,7 +518,7 @@ export class KanbanService {
       if (!card) throw new Error('Card not found');
 
       const comment: KanbanComment = {
-        id: this.db.generateId(),
+        id: `board_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
         cardId: data.cardId,
         content: data.content,
         authorId: userId,
@@ -577,7 +580,7 @@ export class KanbanService {
   async getBoardStats(boardId: string): Promise<KanbanStats> {
     try {
       const cached = await this.cache.get(`board:${boardId}:stats`);
-      if (cached) return cached as KanbanStats;
+      if (cached) return JSON.parse(cached) as KanbanStats;
 
       const cards = await this.getCards(boardId, { includeArchived: true });
       
@@ -623,7 +626,7 @@ export class KanbanService {
         }
       });
 
-      await this.cache.set(`board:${boardId}:stats`, stats, 1800);
+      await this.cache.set(`board:${boardId}:stats`, JSON.stringify(stats), 1800);
       return stats;
     } catch (error) {
       this.logger.error('Error getting board stats', { error, boardId });
@@ -670,7 +673,7 @@ export class KanbanService {
   private async addActivity(cardId: string, activity: Omit<KanbanActivity, 'id' | 'cardId' | 'createdAt'>): Promise<void> {
     try {
       const newActivity: KanbanActivity = {
-        id: this.db.generateId(),
+        id: `board_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
         cardId,
         ...activity,
         createdAt: new Date()
@@ -766,5 +769,108 @@ export class KanbanService {
         return aValue > bValue ? -1 : aValue < bValue ? 1 : 0;
       }
     });
+  }
+
+  // Column reordering
+  async reorderColumns(boardId: string, columnIds: string[]): Promise<void> {
+    try {
+      for (let i = 0; i < columnIds.length; i++) {
+        await this.db.collection('kanban_columns')
+          .doc(columnIds[i])
+          .update({ position: i });
+      }
+    } catch (error) {
+      this.logger.error('Error reordering columns', { error, boardId, columnIds });
+      throw new Error('Failed to reorder columns');
+    }
+  }
+
+  // Card reordering
+  async reorderCards(columnId: string, cardIds: string[]): Promise<void> {
+    try {
+      for (let i = 0; i < cardIds.length; i++) {
+        await this.db.collection('kanban_cards')
+          .doc(cardIds[i])
+          .update({ position: i });
+      }
+    } catch (error) {
+      this.logger.error('Error reordering cards', { error, columnId, cardIds });
+      throw new Error('Failed to reorder cards');
+    }
+  }
+
+  // Comment deletion
+  async deleteComment(commentId: string): Promise<void> {
+    try {
+      await this.db.collection('kanban_comments').doc(commentId).delete();
+    } catch (error) {
+      this.logger.error('Error deleting comment', { error, commentId });
+      throw new Error('Failed to delete comment');
+    }
+  }
+
+  // Card search
+  async searchCards(userId: string, query: string, filters?: any): Promise<KanbanCard[]> {
+    try {
+      // Implement search logic here
+      const cards = await this.db.collection('kanban_cards')
+        .where('userId', '==', userId)
+        .where('title', '>=', query)
+        .where('title', '<=', query + '\uf8ff')
+        .get();
+
+      return cards.docs.map(doc => ({ id: doc.id, ...doc.data() } as KanbanCard));
+    } catch (error) {
+      this.logger.error('Error searching cards', { error, userId, query });
+      throw new Error('Failed to search cards');
+    }
+  }
+
+  // Column statistics
+  async getColumnStats(columnId: string): Promise<any> {
+    try {
+      const cards = await this.db.collection('kanban_cards')
+        .where('columnId', '==', columnId)
+        .get();
+
+      return {
+        totalCards: cards.docs.length,
+        completedCards: cards.docs.filter(doc => doc.data().status === 'completed').length,
+      };
+    } catch (error) {
+      this.logger.error('Error getting column stats', { error, columnId });
+      throw new Error('Failed to get column stats');
+    }
+  }
+
+  // Card activity
+  async getCardActivity(cardId: string): Promise<KanbanActivity[]> {
+    try {
+      const activities = await this.db.collection('kanban_activities')
+        .where('cardId', '==', cardId)
+        .orderBy('createdAt', 'desc')
+        .get();
+
+      return activities.docs.map(doc => ({ id: doc.id, ...doc.data() } as KanbanActivity));
+    } catch (error) {
+      this.logger.error('Error getting card activity', { error, cardId });
+      throw new Error('Failed to get card activity');
+    }
+  }
+
+  // Board activity
+  async getBoardActivity(boardId: string): Promise<KanbanActivity[]> {
+    try {
+      const activities = await this.db.collection('kanban_activities')
+        .where('boardId', '==', boardId)
+        .orderBy('createdAt', 'desc')
+        .limit(100)
+        .get();
+
+      return activities.docs.map(doc => ({ id: doc.id, ...doc.data() } as KanbanActivity));
+    } catch (error) {
+      this.logger.error('Error getting board activity', { error, boardId });
+      throw new Error('Failed to get board activity');
+    }
   }
 } 

@@ -112,3 +112,7 @@ export const validateNotification = {
     validateRequest
   ]
 }; 
+
+// Default export
+const notificationValidator = {};
+export default notificationValidator;

@@ -11,10 +11,10 @@ export class ActionFlowsService {
   private queue: QueueService;
 
   constructor() {
-    this.db = new DatabaseService();
-    this.logger = new LoggerService();
-    this.cache = new CacheService();
-    this.queue = new QueueService();
+    this.db = SupabaseService.getInstance();
+    this.logger = LoggerService.getInstance();
+    this.cache = CacheService.getInstance();
+    this.queue = QueueService.getInstance();
   }
 
   /**
@@ -26,10 +26,10 @@ export class ActionFlowsService {
 
       // Check cache first
       const cacheKey = `action_flows:${userId}`;
-      const cachedFlows = await this.cache.get<ActionFlow[]>(cacheKey);
+      const cachedFlows = await this.cache.get(cacheKey);
       if (cachedFlows) {
         this.logger.info(`[ActionFlows] Returning cached action flows for user: ${userId}`);
-        return cachedFlows;
+        return JSON.parse(cachedFlows) as ActionFlow[];
       }
 
       // Get from database
@@ -48,7 +48,7 @@ export class ActionFlowsService {
       });
 
       // Cache the result
-      await this.cache.set(cacheKey, flows, 300); // 5 minutes
+      await this.cache.set(cacheKey, JSON.stringify(flows), 300); // 5 minutes
 
       this.logger.info(`[ActionFlows] Retrieved ${flows.length} action flows for user: ${userId}`);
       return flows;
@@ -78,7 +78,7 @@ export class ActionFlowsService {
       const flowDoc = {
         ...flowData,
         userId,
-        status: 'draft',
+        status: 'draft' as const,
         createdAt: new Date(),
         updatedAt: new Date(),
         isActive: false,

@@ -1,4 +1,4 @@
-import { BaseModel } from './base';
+import { BaseModel } from '../../core/models/BaseModel';
 
 export interface InstagramSession extends BaseModel {
   userId: string;

@@ -10,6 +10,10 @@ export interface FirebaseTimestamp {
   _nanoseconds: number;
 }
 
+// Define Timestamp and FieldValue types for compatibility
+type Timestamp = FirebaseTimestamp | Date | string;
+type FieldValue = any;
+
 export interface BaseFirestoreDocument {
   id: string;
   createdAt: FirebaseTimestamp | Timestamp | FieldValue;

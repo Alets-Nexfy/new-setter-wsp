@@ -81,7 +81,7 @@ export class WhatsAppMessageHandler {
 
       // Get WhatsApp service
       const whatsappService = this.sessionManager.getActiveService(options.sessionId);
-      if (!whatsappService || !whatsappService.isConnected()) {
+      if (!whatsappService || !whatsappService.isConnected(options.sessionId)) {
         return {
           success: false,
           error: 'WhatsApp session not connected',
@@ -94,7 +94,7 @@ export class WhatsAppMessageHandler {
       // Send based on type
       switch (options.type) {
         case 'text':
-          messageId = await whatsappService.sendMessage(options.to, options.content);
+          messageId = await whatsappService.sendMessage(session.userId, options.to, options.content);
           break;
 
         case 'image':
@@ -108,15 +108,17 @@ export class WhatsAppMessageHandler {
               timestamp: new Date(),
             };
           }
-          messageId = await whatsappService.sendMedia(options.to, options.mediaUrl, options.caption);
+          messageId = await whatsappService.sendMedia(session.userId, options.to, options.mediaUrl, options.caption);
           break;
 
         case 'contact':
-          messageId = await whatsappService.sendContact(options.to, options.content);
+          // For contact messages, content should be parsed as contact object
+          const contactData = typeof options.content === 'string' ? JSON.parse(options.content) : options.content;
+          messageId = await whatsappService.sendContact(session.userId, options.to, contactData);
           break;
 
         default:
-          messageId = await whatsappService.sendMessage(options.to, options.content);
+          messageId = await whatsappService.sendMessage(session.userId, options.to, options.content);
       }
 
       // Save message to database

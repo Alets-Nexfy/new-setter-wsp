@@ -185,3 +185,7 @@ export const validateExportRequest = (req: Request, res: Response, next: NextFun
     });
   }
 }; 
+
+// Default export
+const statisticsValidator = {};
+export default statisticsValidator;

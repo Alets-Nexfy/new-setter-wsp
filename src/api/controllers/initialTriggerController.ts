@@ -281,4 +281,6 @@ export class InitialTriggerController {
       });
     }
   };
-} 
+}
+
+export default InitialTriggerController; 

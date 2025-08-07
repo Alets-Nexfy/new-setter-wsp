@@ -91,10 +91,10 @@ interface IPCMessage {
 
 interface QRCodeData {
   userId: string;
-  qr: string;
-  qrImage: string;
+  qr_code: string;
+  qr_image: string;
   timestamp: Date;
-  expiresAt: Date;
+  expires_at: Date;
 }
 
 export class WhatsAppWorker extends EventEmitter {
@@ -113,6 +113,7 @@ export class WhatsAppWorker extends EventEmitter {
   
   // === SERVICIOS SINGLETON ===
   private db: SupabaseService;
+  private supabase: any; // Supabase client
   private ai: AIService;
   private cache: CacheService;
   private logger: LoggerService;
@@ -143,7 +144,7 @@ export class WhatsAppWorker extends EventEmitter {
   private qrRefreshTimeout: NodeJS.Timeout | null = null;
   
   // === CONSTANTES MULTIUSUARIO ===
-  private readonly QR_TIMEOUT_MS = 300000; // 5 minutos
+  private QR_TIMEOUT_MS = 300000; // 5 minutos
   private readonly HEARTBEAT_INTERVAL_MS = 30000; // 30 segundos
   private readonly MESSAGE_RETRY_ATTEMPTS = 3;
   private readonly INACTIVITY_THRESHOLD_MS = 36 * 60 * 60 * 1000; // 36 horas
@@ -179,6 +180,7 @@ export class WhatsAppWorker extends EventEmitter {
     
     // === SERVICIOS SINGLETON ===
     this.db = SupabaseService.getInstance();
+    this.supabase = this.db.getClient(); // Get the Supabase client
     this.ai = AIService.getInstance();
     this.cache = CacheService.getInstance();
     this.logger = LoggerService.getInstance();
@@ -324,7 +326,7 @@ export class WhatsAppWorker extends EventEmitter {
         '--disable-accelerated-2d-canvas',
         '--no-first-run',
         '--no-zygote',
-        '--single-process',
+        '--memory-pressure-off',
         '--disable-gpu',
         '--disable-background-timer-throttling',
         '--disable-backgrounding-occluded-windows',
@@ -361,24 +363,32 @@ export class WhatsAppWorker extends EventEmitter {
     try {
       this.logger.info(`[${this.userId}] Cargando configuración del usuario...`);
       
-      const userDocRef = this.db.collection('users').doc(this.userId);
+      // Extract UUID from userId (format: prefix_uuid)
+      const userUuid = this.userId.includes('_') ? this.userId.split('_').pop()! : this.userId;
       
-      // VERIFICAR QUE EL USUARIO EXISTE
-      const userDoc = await userDocRef.get();
-      if (!userDoc.exists) {
-        throw new Error(`Usuario ${this.userId} no existe en la base de datos`);
+      // VERIFICAR QUE EL USUARIO EXISTE usando Supabase
+      const { data: userData, error: userError } = await this.db
+        .from('users')
+        .select('id')
+        .eq('id', userUuid)
+        .single();
+        
+      if (userError || !userData) {
+        throw new Error(`Usuario ${this.userId} (UUID: ${userUuid}) no existe en la base de datos`);
       }
       
       // CARGAR CONFIGURACIÓN DE AGENTES (CON AISLAMIENTO)
-      const agentsSnapshot = await userDocRef.collection('agents')
-        .where('userId', '==', this.userId) // AISLAMIENTO EXPLÍCITO
-        .get();
+      // En Supabase, agents es una tabla separada, no una subcolección
+      const { data: agentsData, error: agentsError } = await this.db
+        .from('agents')
+        .select('*')
+        .eq('user_id', userUuid); // AISLAMIENTO EXPLÍCITO - usar UUID
         
-      if (!agentsSnapshot.empty) {
-        const agents = agentsSnapshot.docs.map((doc: FirestoreDoc) => ({ 
-          id: doc.id, 
+      if (!agentsError && agentsData && agentsData.length > 0) {
+        const agents = agentsData.map((agent: any) => ({ 
+          id: agent.id, 
           userId: this.userId, // FORZAR userId
-          ...doc.data() 
+          ...agent
         }));
         
         // ENCONTRAR AGENTE ACTIVO O USAR EL PRIMERO
@@ -386,35 +396,49 @@ export class WhatsAppWorker extends EventEmitter {
       }
       
       // CARGAR REGLAS DE AUTOMATIZACIÓN (CON AISLAMIENTO)
-      const rulesSnapshot = await userDocRef.collection('rules')
-        .where('active', '==', true)
-        .get();
-      this.automationRules = rulesSnapshot.docs.map((doc: FirestoreDoc) => ({ 
-        id: doc.id, 
+      const { data: rulesData, error: rulesError } = await this.db
+        .from('rules')
+        .select('*')
+        .eq('user_id', userUuid)
+        .eq('active', true);
+        
+      this.automationRules = (!rulesError && rulesData ? rulesData.map((rule: any) => ({ 
+        id: rule.id, 
         userId: this.userId,
-        ...doc.data() 
-      })) as AutomationRule[];
+        ...rule
+      })) : []) as AutomationRule[];
       
       // CARGAR ACTION FLOWS (CON AISLAMIENTO)
-      const flowsSnapshot = await userDocRef.collection('action_flows')
-        .where('active', '==', true)
-        .get();
-      this.actionFlows = flowsSnapshot.docs.map((doc: FirestoreDoc) => ({ 
-        id: doc.id, 
+      const { data: flowsData, error: flowsError } = await this.db
+        .from('action_flows')
+        .select('*')
+        .eq('user_id', userUuid)
+        .eq('active', true);
+        
+      this.actionFlows = (!flowsError && flowsData ? flowsData.map((flow: any) => ({ 
+        id: flow.id, 
         userId: this.userId,
-        ...doc.data() 
-      })) as ActionFlow[];
+        ...flow
+      })) : []) as ActionFlow[];
       
       // CARGAR TRIGGERS INICIALES (CON AISLAMIENTO)
-      const triggersSnapshot = await userDocRef.collection('initial_triggers').get();
-      this.initialTriggers = triggersSnapshot.docs.map((doc: FirestoreDoc) => ({
+      const { data: triggersData, error: triggersError } = await this.db
+        .from('initial_triggers')
+        .select('*')
+        .eq('user_id', userUuid);
+        
+      this.initialTriggers = (!triggersError && triggersData ? triggersData.map((trigger: any) => ({
         userId: this.userId,
-        ...doc.data()
-      })) as InitialTrigger[];
+        ...trigger
+      })) : []) as InitialTrigger[];
       
       // CARGAR GEMINI STARTERS
-      const startersSnapshot = await userDocRef.collection('gemini_starters').get();
-      this.geminiStarters = startersSnapshot.docs.map((doc: FirestoreDoc) => doc.data());
+      const { data: startersData, error: startersError } = await this.db
+        .from('gemini_starters')
+        .select('*')
+        .eq('user_id', userUuid);
+        
+      this.geminiStarters = (!startersError && startersData ? startersData : []);
       
       // CARGAR ESTADO DE PAUSA DESDE FIRESTORE
       await this.loadBotPauseState();
@@ -435,19 +459,20 @@ export class WhatsAppWorker extends EventEmitter {
   }
   
   /**
-   * CARGAR ESTADO DE PAUSA DEL BOT DESDE FIRESTORE
+   * CARGAR ESTADO DE PAUSA DEL BOT DESDE SUPABASE
    */
   private async loadBotPauseState(): Promise<void> {
     try {
-      const statusDoc = await this.db.collection('users')
-        .doc(this.userId)
-        .collection('status')
-        .doc('whatsapp')
-        .get();
+      const userUuid = this.userId.includes('_') ? this.userId.split('_').pop()! : this.userId;
+      const { data: statusData, error } = await this.db
+        .from('user_status')
+        .select('bot_is_paused')
+        .eq('user_id', userUuid)
+        .eq('platform', 'whatsapp')
+        .single();
         
-      if (statusDoc.exists) {
-        const data = statusDoc.data();
-        this.botPauseState = data?.botIsPaused === true;
+      if (!error && statusData) {
+        this.botPauseState = statusData.bot_is_paused === true;
         this.logger.info(`[${this.userId}] Estado de pausa cargado: ${this.botPauseState}`);
       }
     } catch (error) {
@@ -480,10 +505,8 @@ export class WhatsAppWorker extends EventEmitter {
         this.qrExpiresAt = new Date(Date.now() + this.QR_TIMEOUT_MS);
         
         // GENERAR IMAGEN QR
-        const qrImage = await QRCode.toDataURL(qr, {
+        const qrImage: string = await QRCode.toDataURL(qr, {
           errorCorrectionLevel: 'M',
-          type: 'image/png',
-          quality: 0.92,
           margin: 1,
           color: {
             dark: '#000000',
@@ -884,19 +907,20 @@ export class WhatsAppWorker extends EventEmitter {
       }
       
       // VERIFICAR EN BASE DE DATOS CON AISLAMIENTO
-      const chatDoc = await this.db.collection('users')
-        .doc(this.userId) // AISLAMIENTO EXPLÍCITO
-        .collection('chats')
-        .doc(chatId)
-        .get();
+      const userUuid = this.userId.includes('_') ? this.userId.split('_').pop()! : this.userId;
+      const { data: chatInfo, error: chatError } = await this.db
+        .from('chats')
+        .select('*')
+        .eq('user_id', userUuid)
+        .eq('id', chatId)
+        .single();
       
-      if (chatDoc.exists) {
-        const chatData = chatDoc.data();
-        const isActivated = chatData?.isActivated === true;
+      if (!chatError && chatInfo) {
+        const isActivated = chatInfo?.is_activated === true;
         
         // VERIFICAR EXPIRACIÓN DE ACTIVACIÓN (36 HORAS)
-        if (isActivated && chatData?.activatedAt) {
-          const activatedAt = chatData.activatedAt.toDate?.() || new Date(chatData.activatedAt);
+        if (isActivated && chatInfo?.activated_at) {
+          const activatedAt = new Date(chatInfo.activated_at);
           const now = new Date();
           const timeDiff = now.getTime() - activatedAt.getTime();
           
@@ -932,18 +956,19 @@ export class WhatsAppWorker extends EventEmitter {
       const now = new Date();
       const expiresAt = new Date(now.getTime() + this.INACTIVITY_THRESHOLD_MS);
       
-      await this.db.collection('users')
-        .doc(this.userId)
-        .collection('chats')
-        .doc(chatId)
-        .set({
-          isActivated: true,
-          activatedAt: now,
-          expiresAt: expiresAt,
-          activationMethod: method,
-          userId: this.userId, // AISLAMIENTO
-          updatedAt: now
-        }, { merge: true });
+      const userUuid = this.userId.includes('_') ? this.userId.split('_').pop()! : this.userId;
+      await this.db
+        .from('chats')
+        .upsert({
+          id: chatId,
+          user_id: userUuid,
+          platform: 'whatsapp',
+          is_activated: true,
+          activated_at: now,
+          expires_at: expiresAt,
+          activation_method: method,
+          updated_at: now
+        });
       
       this.activatedChats.add(chatId);
       
@@ -963,16 +988,17 @@ export class WhatsAppWorker extends EventEmitter {
    */
   private async deactivateChat(chatId: string, reason: string): Promise<void> {
     try {
-      await this.db.collection('users')
-        .doc(this.userId)
-        .collection('chats')
-        .doc(chatId)
+      const userUuid = this.userId.includes('_') ? this.userId.split('_').pop()! : this.userId;
+      await this.db
+        .from('chats')
         .update({
-          isActivated: false,
-          deactivatedAt: new Date(),
-          deactivationReason: reason,
-          updatedAt: new Date()
-        });
+          is_activated: false,
+          deactivated_at: new Date(),
+          deactivation_reason: reason,
+          updated_at: new Date()
+        })
+        .eq('user_id', userUuid)
+        .eq('id', chatId);
       
       this.activatedChats.delete(chatId);
       
@@ -1046,21 +1072,20 @@ export class WhatsAppWorker extends EventEmitter {
   private async isUserActiveInChat(chatId: string): Promise<boolean> {
     try {
       // VERIFICAR EN BASE DE DATOS CON AISLAMIENTO
-      const chatDoc = await this.db.collection('users')
-        .doc(this.userId)
-        .collection('chats')
-        .doc(chatId)
-        .get();
+      const { data: chatInfo, error } = await this.db.getClient()
+        .from('chats')
+        .select('*')
+        .eq('user_id', this.userId)
+        .eq('chat_id', chatId)
+        .single();
       
-      if (!chatDoc.exists) {
+      if (error || !chatInfo) {
         return false;
       }
       
-      const chatData = chatDoc.data();
-      
       // 1. VERIFICAR FLAG EXPLÍCITO DE ACTIVIDAD
-      if (chatData?.userIsActive === true) {
-        const lastActivity = chatData.lastActivityTimestamp?.toDate?.() || new Date(chatData.lastActivityTimestamp || 0);
+      if (chatInfo?.userIsActive === true) {
+        const lastActivity = chatInfo.lastActivityTimestamp?.toDate?.() || new Date(chatInfo.lastActivityTimestamp || 0);
         const timeDiff = Date.now() - lastActivity.getTime();
         
         // USUARIO ACTIVO SI LA ÚLTIMA ACTIVIDAD FUE EN LOS ÚLTIMOS 5 MINUTOS
@@ -1077,7 +1102,7 @@ export class WhatsAppWorker extends EventEmitter {
       }
       
       // 2. VERIFICAR MENSAJES HUMANOS RECIENTES
-      const lastHumanMessage = chatData?.lastHumanMessageTimestamp?.toDate?.() || null;
+      const lastHumanMessage = chatInfo?.lastHumanMessageTimestamp?.toDate?.() || null;
       if (lastHumanMessage) {
         const timeDiff = Date.now() - lastHumanMessage.getTime();
         const isRecentHumanActivity = timeDiff < (10 * 60 * 1000); // 10 minutos
@@ -1119,16 +1144,15 @@ export class WhatsAppWorker extends EventEmitter {
     try {
       const cutoffTime = new Date(Date.now() - timeWindowMs);
       
-      const messagesSnapshot = await this.db.collection('users')
-        .doc(this.userId)
-        .collection('chats')
-        .doc(chatId)
-        .collection('messages')
-        .where('timestamp', '>=', cutoffTime)
-        .where('origin', '==', 'human')
-        .get();
+      const { count } = await this.db.getClient()
+        .from('messages')
+        .select('*', { count: 'exact', head: true })
+        .eq('user_id', this.userId)
+        .eq('chat_id', chatId)
+        .gte('timestamp', cutoffTime.toISOString())
+        .eq('origin', 'human');
       
-      return messagesSnapshot.size;
+      return count || 0;
       
     } catch (error) {
       this.logger.error(`[${this.userId}] Error contando mensajes recientes:`, error);
@@ -1252,16 +1276,15 @@ export class WhatsAppWorker extends EventEmitter {
    */
   private async logRuleExecution(ruleId: string, chatId: string, messageId: string): Promise<void> {
     try {
-      await this.db.collection('users')
-        .doc(this.userId)
-        .collection('rule_executions')
-        .add({
-          ruleId,
-          chatId,
-          messageId,
-          userId: this.userId,
-          executedAt: new Date(),
-          createdAt: new Date()
+      await this.db.getClient()
+        .from('rule_executions')
+        .insert({
+          rule_id: ruleId,
+          chat_id: chatId,
+          message_id: messageId,
+          user_id: this.userId,
+          executed_at: new Date().toISOString(),
+          created_at: new Date().toISOString()
         });
     } catch (error) {
       this.logger.error(`[${this.userId}] Error registrando ejecución de regla:`, error);
@@ -1490,17 +1513,16 @@ export class WhatsAppWorker extends EventEmitter {
    */
   private async logFlowExecution(flowId: string, chatId: string, messageId: string, status: string): Promise<void> {
     try {
-      await this.db.collection('users')
-        .doc(this.userId)
-        .collection('flow_executions')
-        .add({
-          flowId,
-          chatId,
-          messageId,
+      await this.db.getClient()
+        .from('flow_executions')
+        .insert({
+          flow_id: flowId,
+          chat_id: chatId,
+          message_id: messageId,
           status,
-          userId: this.userId,
-          executedAt: new Date(),
-          createdAt: new Date()
+          user_id: this.userId,
+          executed_at: new Date().toISOString(),
+          created_at: new Date().toISOString()
         });
     } catch (error) {
       this.logger.error(`[${this.userId}] Error registrando ejecución de flow:`, error);
@@ -1620,35 +1642,33 @@ export class WhatsAppWorker extends EventEmitter {
   private async buildConversationContext(chatId: string): Promise<any> {
     try {
       // OBTENER ÚLTIMOS MENSAJES DE LA CONVERSACIÓN
-      const messagesSnapshot = await this.db.collection('users')
-        .doc(this.userId)
-        .collection('chats')
-        .doc(chatId)
-        .collection('messages')
-        .orderBy('timestamp', 'desc')
-        .limit(10) // ÚLTIMOS 10 MENSAJES
-        .get();
+      const { data: messagesData } = await this.db.getClient()
+        .from('messages')
+        .select('*')
+        .eq('user_id', this.userId)
+        .eq('chat_id', chatId)
+        .order('timestamp', { ascending: false })
+        .limit(10);
       
-      const messages = messagesSnapshot.docs
-        .map(doc => doc.data())
-        .reverse(); // ORDEN CRONOLÓGICO
+      const messages = (messagesData || []).reverse(); // ORDEN CRONOLÓGICO
       
       // OBTENER INFORMACIÓN DEL CHAT
-      const chatDoc = await this.db.collection('users')
-        .doc(this.userId)
-        .collection('chats')
-        .doc(chatId)
-        .get();
+      const { data: chatInfo } = await this.db.getClient()
+        .from('chats')
+        .select('*')
+        .eq('user_id', this.userId)
+        .eq('chat_id', chatId)
+        .single();
       
-      const chatData = chatDoc.exists ? chatDoc.data() : {};
+      const chatInfoData = chatInfo || {};
       
       return {
         recentMessages: messages,
         chatInfo: {
-          contactName: chatData.contactDisplayName || 'Usuario',
-          isActivated: chatData.isActivated || false,
+          contactName: chatInfoData.contact_display_name || 'Usuario',
+          isActivated: chatInfoData.is_activated || false,
           isGroup: chatId.endsWith('@g.us'),
-          lastActivity: chatData.lastActivityTimestamp?.toDate?.()?.toISOString() || null
+          lastActivity: chatInfoData.last_activity_timestamp || null
         },
         userInfo: {
           userId: this.userId,
@@ -1674,21 +1694,24 @@ export class WhatsAppWorker extends EventEmitter {
    */
   private async logAIResponse(chatId: string, messageId: string, response: any): Promise<void> {
     try {
-      await this.db.collection('users')
-        .doc(this.userId)
-        .collection('ai_responses')
-        .add({
-          chatId,
-          messageId,
+      const { error } = await this.supabase
+        .from('ai_responses')
+        .insert({
+          chat_id: chatId,
+          message_id: messageId,
           response: response.content || response.text || 'No response content',
-          agentId: this.currentAgentConfig?.id,
-          agentName: this.currentAgentConfig?.persona?.name,
-          userId: this.userId,
-          generatedAt: new Date(),
-          createdAt: new Date()
+          agent_id: this.currentAgentConfig?.id,
+          agent_name: this.currentAgentConfig?.persona?.name,
+          user_id: this.extractUuid(this.userId),
+          generated_at: new Date().toISOString(),
+          created_at: new Date().toISOString()
         });
+
+      if (error) {
+        this.logger.error(`[${this.userId}] Error inserting AI response:`, error);
+      }
     } catch (error) {
-      this.logger.error(`[${this.userId}] Error registrando respuesta AI:`, error);
+      this.logger.error(`[${this.userId}] Error logging AI response:`, error);
     }
   }
 
@@ -1837,13 +1860,24 @@ export class WhatsAppWorker extends EventEmitter {
       };
       
       // GUARDAR MENSAJE CON AISLAMIENTO TOTAL
-      await this.db.collection('users')
-        .doc(this.userId) // AISLAMIENTO
-        .collection('chats')
-        .doc(message.from)
-        .collection('messages')
-        .doc(message.id._serialized)
-        .set(messageData);
+      await this.db.getClient()
+        .from('messages')
+        .upsert({
+          id: messageData.id,
+          user_id: this.userId,
+          chat_id: message.from,
+          from: messageData.from,
+          to: messageData.to,
+          body: messageData.body,
+          type: messageData.type,
+          timestamp: messageData.timestamp.toISOString(),
+          has_media: messageData.hasMedia,
+          is_forwarded: messageData.isForwarded,
+          is_group: messageData.isGroup,
+          origin: messageData.origin,
+          created_at: messageData.createdAt.toISOString(),
+          processed_at: messageData.processedAt.toISOString()
+        });
       
       // ACTUALIZAR INFORMACIÓN DEL CHAT
       await this.updateChatInfo(message.from, {
@@ -1894,13 +1928,25 @@ export class WhatsAppWorker extends EventEmitter {
       };
       
       // GUARDAR MENSAJE CON AISLAMIENTO
-      await this.db.collection('users')
-        .doc(this.userId)
-        .collection('chats')
-        .doc(to)
-        .collection('messages')
-        .doc(messageId)
-        .set(messageData);
+      await this.db.getClient()
+        .from('messages')
+        .upsert({
+          id: messageId,
+          user_id: this.userId,
+          chat_id: to,
+          from: messageData.from,
+          to: messageData.to,
+          body: messageData.body,
+          type: messageData.type,
+          timestamp: messageData.timestamp.toISOString(),
+          has_media: messageData.hasMedia,
+          is_forwarded: messageData.isForwarded,
+          is_group: messageData.isGroup,
+          origin: messageData.origin,
+          sub_origin: messageData.subOrigin,
+          created_at: messageData.createdAt.toISOString(),
+          sent_at: messageData.sentAt.toISOString()
+        });
       
       // ACTUALIZAR INFORMACIÓN DEL CHAT
       await this.updateChatInfo(to, {
@@ -1934,15 +1980,21 @@ export class WhatsAppWorker extends EventEmitter {
     try {
       const updateData = {
         ...updates,
-        userId: this.userId, // AISLAMIENTO
-        updatedAt: new Date()
+        user_id: this.extractUuid(this.userId), // AISLAMIENTO
+        updated_at: new Date().toISOString()
       };
       
-      await this.db.collection('users')
-        .doc(this.userId)
-        .collection('chats')
-        .doc(chatId)
-        .set(updateData, { merge: true });
+      const { error } = await this.supabase
+        .from('chats')
+        .upsert({
+          chat_id: chatId,
+          ...updateData
+        })
+        .match({ chat_id: chatId, user_id: this.extractUuid(this.userId) });
+
+      if (error) {
+        this.logger.error(`[${this.userId}] Error updating chat info:`, error);
+      }
         
     } catch (error) {
       this.logger.error(`[${this.userId}] Error actualizando info del chat:`, error);
@@ -2067,7 +2119,7 @@ export class WhatsAppWorker extends EventEmitter {
           break;
           
         default:
-          this.logger.warn(`[${this.userId}] Tipo de mensaje IPC desconocido:`, message.type);
+          this.logger.warn(`[${this.userId}] Tipo de mensaje IPC desconocido:`, { messageType: message.type });
           this.sendIPCResponse(message.messageId, 'UNKNOWN_MESSAGE_TYPE', {
             error: `Tipo de mensaje desconocido: ${message.type}`
           });
@@ -2161,17 +2213,18 @@ export class WhatsAppWorker extends EventEmitter {
     try {
       this.botPauseState = isPaused;
       
-      // GUARDAR EN FIRESTORE
-      await this.db.collection('users')
-        .doc(this.userId)
-        .collection('status')
-        .doc('whatsapp')
-        .set({
-          botIsPaused: isPaused,
-          pauseReason: reason,
-          pauseUpdatedAt: new Date(),
-          userId: this.userId
-        }, { merge: true });
+      // GUARDAR EN SUPABASE
+      const userUuid = this.userId.includes('_') ? this.userId.split('_').pop()! : this.userId;
+      await this.db
+        .from('user_status')
+        .upsert({
+          user_id: userUuid,
+          platform: 'whatsapp',
+          bot_is_paused: isPaused,
+          pause_reason: reason,
+          pause_updated_at: new Date(),
+          updated_at: new Date()
+        });
       
       this.logger.info(`[${this.userId}] Estado de pausa actualizado:`, {
         isPaused,
@@ -2188,19 +2241,47 @@ export class WhatsAppWorker extends EventEmitter {
    */
   private async saveQRToDatabase(qr: string, qrImage: string): Promise<void> {
     try {
-      const qrData: QRCodeData = {
-        userId: this.userId,
-        qr,
-        qrImage,
-        timestamp: new Date(),
-        expiresAt: this.qrExpiresAt!
+      // Extract UUID from userId (format: prefix_uuid)
+      const userUuid = this.userId.includes('_') ? this.userId.split('_').pop() : this.userId;
+      
+      const qrData = {
+        userId: userUuid,
+        qrCode: qr,
+        qr_image: qrImage
       };
       
-      await this.db.collection('users')
-        .doc(this.userId)
-        .collection('qr_codes')
-        .doc('current')
-        .set(qrData);
+      // Use SQL query directly to bypass schema cache issues
+      const { error } = await this.db.getAdminClient()
+        .rpc('insert_qr_code', {
+          p_user_id: userUuid,
+          p_qr_code: qr,
+          p_qr_image: qrImage
+        });
+      
+      if (error) {
+        this.logger.warn(`[${this.userId}] QR saved to console but failed to save to database:`, error);
+        // Fallback: try direct SQL if RPC fails
+        try {
+          const { error: sqlError } = await this.db.getAdminClient()
+            .from('qr_codes')
+            .insert({
+              userId: userUuid,
+              qrCode: qr,
+              qr_image: qrImage
+            });
+          
+          if (sqlError) {
+            this.logger.error(`[${this.userId}] Fallback SQL insert also failed:`, sqlError);
+          } else {
+            this.logger.info(`[${this.userId}] QR code saved successfully via fallback SQL`);
+          }
+        } catch (fallbackError) {
+          this.logger.error(`[${this.userId}] Both RPC and SQL fallback failed:`, fallbackError);
+        }
+        return;
+      }
+      
+      this.logger.info(`[${this.userId}] QR code saved successfully to database via RPC`);
         
       // TAMBIÉN ACTUALIZAR STATUS
       await this.updateConnectionStatus('qr', {
@@ -2219,22 +2300,32 @@ export class WhatsAppWorker extends EventEmitter {
    */
   private async updateConnectionStatus(status: string, additionalData?: any): Promise<void> {
     try {
-      const statusData = {
-        status,
-        userId: this.userId,
-        lastUpdated: new Date(),
-        pid: process.pid,
-        ...additionalData
-      };
+      // Extract UUID from userId (format: prefix_uuid)
+      const userUuid = this.userId.includes('_') ? this.userId.split('_').pop() : this.userId;
       
-      await this.db.collection('users')
-        .doc(this.userId)
-        .collection('status')
-        .doc('whatsapp')
-        .set(statusData, { merge: true });
+      // Use simplified RPC with only essential parameters
+      const { error } = await this.db.getAdminClient()
+        .rpc('upsert_user_status', {
+          p_user_id: userUuid,
+          p_platform: 'whatsapp',
+          p_status: status,
+          p_pid: process.pid
+        });
+      
+      if (error) {
+        throw error;
+      }
+      
+      this.logger.info(`[${this.userId}] Status updated successfully: ${status}`);
         
     } catch (error) {
-      this.logger.error(`[${this.userId}] Error actualizando estado de conexión:`, error);
+      this.logger.error(`[${this.userId}] Error actualizando estado de conexión:`, {
+        error: error.message || error,
+        details: error.details || 'No details',
+        code: error.code || 'No code',
+        status: status,
+        userUuid: this.userId.includes('_') ? this.userId.split('_').pop() : this.userId
+      });
     }
   }
   
@@ -2321,19 +2412,21 @@ export class WhatsAppWorker extends EventEmitter {
    */
   private async setChatVariable(chatId: string, variableName: string, variableValue: any): Promise<void> {
     try {
-      await this.db.collection('users')
-        .doc(this.userId)
-        .collection('chats')
-        .doc(chatId)
-        .collection('variables')
-        .doc(variableName)
-        .set({
-          name: variableName,
+      const { error } = await this.supabase
+        .from('chat_variables')
+        .upsert({
+          chat_id: chatId,
+          variable_name: variableName,
           value: variableValue,
-          userId: this.userId,
-          updatedAt: new Date(),
-          createdAt: new Date()
-        }, { merge: true });
+          user_id: this.extractUuid(this.userId),
+          updated_at: new Date().toISOString(),
+          created_at: new Date().toISOString()
+        })
+        .match({ chat_id: chatId, variable_name: variableName, user_id: this.extractUuid(this.userId) });
+
+      if (error) {
+        this.logger.error(`[${this.userId}] Error setting chat variable:`, error);
+      }
         
       this.logger.debug(`[${this.userId}] Variable de chat establecida:`, {
         chatId,
@@ -2391,6 +2484,15 @@ export class WhatsAppWorker extends EventEmitter {
       return false;
     }
   }
+
+  /**
+   * Extract UUID from userId (remove prefix if present)
+   */
+  private extractUuid(userId: string): string {
+    return userId.startsWith('tribe-ia-nexus_') 
+      ? userId.replace('tribe-ia-nexus_', '') 
+      : userId;
+  }
 }
 
 // === MAIN EXECUTION ===
@@ -2428,5 +2530,3 @@ if (require.main === module) {
     worker.gracefulShutdown('SIGINT');
   });
 }
-
-export { WhatsAppWorker };

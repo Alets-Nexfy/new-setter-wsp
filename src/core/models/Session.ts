@@ -29,6 +29,8 @@ export interface SessionMetadata {
     aiEnabled: boolean;
     webhooksEnabled: boolean;
   };
+  workerCreated?: boolean;
+  botPaused?: boolean;
 }
 
 export class Session extends BaseEntity implements SessionModel {

@@ -1,393 +1,309 @@
-import { db } from '../config/firebase';
+import { SupabaseService } from './SupabaseService';
+import { LoggerService } from './LoggerService';
 import { FirebaseFunction, FunctionStatus, CreateFirebaseFunctionDto, UpdateFirebaseFunctionDto } from '../types/firebaseFunction';
-import { logger } from '../utils/logger';
 
 export class FirebaseFunctionService {
-  private readonly firebaseFunctionsCollection = 'firebaseFunctions';
+  private static instance: FirebaseFunctionService;
+  private db: SupabaseService;
+  private logger: LoggerService;
+  private readonly tableName = 'cloud_functions';
+
+  private constructor() {
+    this.db = SupabaseService.getInstance();
+    this.logger = LoggerService.getInstance();
+  }
+
+  static getInstance(): FirebaseFunctionService {
+    if (!FirebaseFunctionService.instance) {
+      FirebaseFunctionService.instance = new FirebaseFunctionService();
+    }
+    return FirebaseFunctionService.instance;
+  }
 
   /**
-   * Create a new Firebase function
+   * Create a new cloud function
    */
   async createFirebaseFunction(data: CreateFirebaseFunctionDto): Promise<FirebaseFunction> {
     try {
-      const firebaseFunction: FirebaseFunction = {
-        id: '',
-        name: data.name,
-        description: data.description || '',
-        code: data.code,
-        runtime: data.runtime || 'nodejs18',
-        region: data.region || 'us-central1',
-        memory: data.memory || '256MB',
-        timeout: data.timeout || 60,
-        triggers: data.triggers || [],
-        environment: data.environment || {},
-        isActive: data.isActive ?? true,
-        version: 1,
-        lastDeployed: null,
-        deploymentStatus: FunctionStatus.DRAFT,
-        errorCount: 0,
-        executionCount: 0,
-        avgExecutionTime: 0,
-        createdAt: new Date(),
-        updatedAt: new Date()
-      };
+      const { data: result, error } = await this.db
+        .from(this.tableName)
+        .insert({
+          name: data.name,
+          description: data.description,
+          code: data.code,
+          runtime: data.runtime,
+          region: data.region || 'us-central1',
+          memory: data.memory || '256MB',
+          timeout: data.timeout || 60,
+          triggers: data.triggers || [],
+          environment: data.environment || {},
+          is_active: data.isActive ?? true,
+          version: 1,
+          deployment_status: FunctionStatus.DRAFT,
+          error_count: 0,
+          execution_count: 0,
+          avg_execution_time: 0,
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString()
+        })
+        .select()
+        .single();
 
-      const docRef = await db.collection(this.firebaseFunctionsCollection).add(firebaseFunction);
-      firebaseFunction.id = docRef.id;
+      if (error) throw error;
 
-      await docRef.update({ id: docRef.id });
-
-      logger.info(`Firebase function created: ${docRef.id} - ${data.name}`);
-      return firebaseFunction;
+      const cloudFunction = this.mapFromDatabase(result);
+      this.logger.info(`Cloud function created: ${cloudFunction.id}`);
+      return cloudFunction;
     } catch (error) {
-      logger.error('Error creating Firebase function:', error);
-      throw new Error('Failed to create Firebase function');
+      this.logger.error('Error creating cloud function:', error);
+      throw new Error('Failed to create cloud function');
     }
   }
 
   /**
-   * Get Firebase function by ID
+   * Get all cloud functions
+   */
+  async getFirebaseFunctions(): Promise<FirebaseFunction[]> {
+    try {
+      const { data, error } = await this.db
+        .from(this.tableName)
+        .select('*');
+
+      if (error) throw error;
+
+      return data.map(item => this.mapFromDatabase(item));
+    } catch (error) {
+      this.logger.error('Error getting cloud functions:', error);
+      throw new Error('Failed to get cloud functions');
+    }
+  }
+
+  /**
+   * Update a cloud function
+   */
+  async updateFirebaseFunction(functionId: string, data: UpdateFirebaseFunctionDto): Promise<FirebaseFunction | null> {
+    try {
+      const updateData = this.mapToDatabase(data);
+      
+      // Increment version if code changes
+      if (data.code) {
+        const current = await this.getFirebaseFunction(functionId);
+        if (current) {
+          updateData.version = current.version + 1;
+        }
+      }
+
+      const { error } = await this.db
+        .from(this.tableName)
+        .update({
+          ...updateData,
+          updated_at: new Date().toISOString()
+        })
+        .eq('id', functionId);
+
+      if (error) throw error;
+
+      return await this.getFirebaseFunction(functionId);
+    } catch (error) {
+      this.logger.error('Error updating cloud function:', error);
+      throw new Error('Failed to update cloud function');
+    }
+  }
+
+  /**
+   * Get a specific cloud function
    */
   async getFirebaseFunction(functionId: string): Promise<FirebaseFunction | null> {
     try {
-      const doc = await db.collection(this.firebaseFunctionsCollection).doc(functionId).get();
-      
-      if (!doc.exists) {
-        return null;
+      const { data, error } = await this.db
+        .from(this.tableName)
+        .select('*')
+        .eq('id', functionId)
+        .single();
+
+      if (error) {
+        if (error.code === 'PGRST116') return null; // Not found
+        throw error;
       }
 
-      return doc.data() as FirebaseFunction;
+      return this.mapFromDatabase(data);
     } catch (error) {
-      logger.error('Error getting Firebase function:', error);
-      throw new Error('Failed to get Firebase function');
+      this.logger.error('Error getting cloud function:', error);
+      return null;
     }
   }
 
   /**
-   * Get all Firebase functions
-   */
-  async getAllFirebaseFunctions(options: {
-    isActive?: boolean;
-    status?: FunctionStatus;
-    region?: string;
-    limit?: number;
-    offset?: number;
-  } = {}): Promise<{ functions: FirebaseFunction[]; total: number }> {
-    try {
-      let query = db.collection(this.firebaseFunctionsCollection)
-        .orderBy('createdAt', 'desc');
-
-      if (options.isActive !== undefined) {
-        query = query.where('isActive', '==', options.isActive);
-      }
-
-      if (options.status) {
-        query = query.where('deploymentStatus', '==', options.status);
-      }
-
-      if (options.region) {
-        query = query.where('region', '==', options.region);
-      }
-
-      const snapshot = await query.get();
-      const functions: FirebaseFunction[] = [];
-
-      snapshot.forEach(doc => {
-        functions.push(doc.data() as FirebaseFunction);
-      });
-
-      // Apply pagination
-      const total = functions.length;
-      const start = options.offset || 0;
-      const end = start + (options.limit || 50);
-      const paginatedFunctions = functions.slice(start, end);
-
-      return {
-        functions: paginatedFunctions,
-        total
-      };
-    } catch (error) {
-      logger.error('Error getting all Firebase functions:', error);
-      throw new Error('Failed to get Firebase functions');
-    }
-  }
-
-  /**
-   * Update Firebase function
-   */
-  async updateFirebaseFunction(functionId: string, data: UpdateFirebaseFunctionDto): Promise<FirebaseFunction> {
-    try {
-      const updateData: Partial<FirebaseFunction> = {
-        ...data,
-        updatedAt: new Date()
-      };
-
-      // Increment version if code or configuration changes
-      if (data.code || data.runtime || data.memory || data.timeout || data.triggers) {
-        updateData.version = db.FieldValue.increment(1);
-      }
-
-      await db.collection(this.firebaseFunctionsCollection).doc(functionId).update(updateData);
-
-      const updated = await db.collection(this.firebaseFunctionsCollection).doc(functionId).get();
-      return updated.data() as FirebaseFunction;
-    } catch (error) {
-      logger.error('Error updating Firebase function:', error);
-      throw new Error('Failed to update Firebase function');
-    }
-  }
-
-  /**
-   * Delete Firebase function
+   * Delete a cloud function
    */
   async deleteFirebaseFunction(functionId: string): Promise<void> {
     try {
-      await db.collection(this.firebaseFunctionsCollection).doc(functionId).delete();
-      logger.info(`Firebase function deleted: ${functionId}`);
+      const { error } = await this.db
+        .from(this.tableName)
+        .delete()
+        .eq('id', functionId);
+
+      if (error) throw error;
+      this.logger.info(`Cloud function deleted: ${functionId}`);
     } catch (error) {
-      logger.error('Error deleting Firebase function:', error);
-      throw new Error('Failed to delete Firebase function');
+      this.logger.error('Error deleting cloud function:', error);
+      throw new Error('Failed to delete cloud function');
     }
   }
 
   /**
-   * Deploy Firebase function
+   * Deploy function (simplified for Supabase)
    */
   async deployFunction(functionId: string): Promise<void> {
     try {
-      const func = await this.getFirebaseFunction(functionId);
-      
-      if (!func) {
-        throw new Error('Firebase function not found');
-      }
+      await this.db
+        .from(this.tableName)
+        .update({
+          deployment_status: FunctionStatus.DEPLOYED,
+          last_deployed: new Date().toISOString(),
+          updated_at: new Date().toISOString()
+        })
+        .eq('id', functionId);
 
-      // Update deployment status
-      await this.updateFirebaseFunction(functionId, {
-        deploymentStatus: FunctionStatus.DEPLOYING,
-        lastDeployed: new Date()
-      });
-
-      // Simulate deployment process (in real implementation, this would call Firebase CLI)
-      logger.info(`Deploying function: ${func.name}`);
-      
-      // Update status to deployed after successful deployment
-      await this.updateFirebaseFunction(functionId, {
-        deploymentStatus: FunctionStatus.DEPLOYED
-      });
-
-      logger.info(`Function deployed successfully: ${func.name}`);
+      this.logger.info(`Function deployed: ${functionId}`);
     } catch (error) {
-      logger.error('Error deploying function:', error);
-      
-      // Update status to failed
-      await this.updateFirebaseFunction(functionId, {
-        deploymentStatus: FunctionStatus.FAILED
-      });
-      
-      throw new Error('Failed to deploy function');
+      this.logger.error('Error deploying function:', error);
+      throw error;
     }
   }
 
-  /**
-   * Undeploy Firebase function
-   */
+  private mapFromDatabase(data: any): FirebaseFunction {
+    return {
+      id: data.id,
+      name: data.name,
+      description: data.description,
+      code: data.code,
+      runtime: data.runtime,
+      region: data.region,
+      memory: data.memory,
+      timeout: data.timeout,
+      triggers: data.triggers,
+      environment: data.environment,
+      isActive: data.is_active,
+      version: data.version,
+      lastDeployed: data.last_deployed ? new Date(data.last_deployed) : null,
+      deploymentStatus: data.deployment_status,
+      errorCount: data.error_count,
+      executionCount: data.execution_count,
+      avgExecutionTime: data.avg_execution_time,
+      createdAt: new Date(data.created_at),
+      updatedAt: new Date(data.updated_at)
+    };
+  }
+
   async undeployFunction(functionId: string): Promise<void> {
     try {
-      const func = await this.getFirebaseFunction(functionId);
-      
-      if (!func) {
-        throw new Error('Firebase function not found');
-      }
+      await this.db
+        .from(this.tableName)
+        .update({
+          deployment_status: FunctionStatus.DRAFT,
+          updated_at: new Date().toISOString()
+        })
+        .eq('id', functionId);
 
-      // Update deployment status
-      await this.updateFirebaseFunction(functionId, {
-        deploymentStatus: FunctionStatus.UNDEPLOYING
-      });
-
-      // Simulate undeployment process
-      logger.info(`Undeploying function: ${func.name}`);
-      
-      // Update status to draft after successful undeployment
-      await this.updateFirebaseFunction(functionId, {
-        deploymentStatus: FunctionStatus.DRAFT
-      });
-
-      logger.info(`Function undeployed successfully: ${func.name}`);
+      this.logger.info(`Function undeployed: ${functionId}`);
     } catch (error) {
-      logger.error('Error undeploying function:', error);
-      throw new Error('Failed to undeploy function');
+      this.logger.error('Error undeploying function:', error);
+      throw error;
     }
   }
 
-  /**
-   * Toggle function active status
-   */
-  async toggleFunctionActive(functionId: string): Promise<FirebaseFunction> {
+  async toggleFunctionActive(functionId: string): Promise<FirebaseFunction | null> {
     try {
       const func = await this.getFirebaseFunction(functionId);
-      
-      if (!func) {
-        throw new Error('Firebase function not found');
-      }
+      if (!func) return null;
 
-      return await this.updateFirebaseFunction(functionId, {
-        isActive: !func.isActive
-      });
+      await this.db
+        .from(this.tableName)
+        .update({
+          is_active: !func.isActive,
+          updated_at: new Date().toISOString()
+        })
+        .eq('id', functionId);
+
+      return await this.getFirebaseFunction(functionId);
     } catch (error) {
-      logger.error('Error toggling function active status:', error);
-      throw new Error('Failed to toggle function active status');
+      this.logger.error('Error toggling function active:', error);
+      throw error;
     }
   }
 
-  /**
-   * Get function execution logs
-   */
-  async getFunctionLogs(functionId: string, options: {
-    startDate?: Date;
-    endDate?: Date;
-    limit?: number;
-  } = {}): Promise<any[]> {
+  async getFunctionLogs(functionId: string): Promise<any[]> {
     try {
-      // In a real implementation, this would query Firebase Logging API
-      // For now, return mock data
-      const logs = [
-        {
-          timestamp: new Date(),
-          level: 'INFO',
-          message: 'Function executed successfully',
-          executionTime: 150,
-          memoryUsed: '128MB'
-        }
-      ];
-
-      return logs.slice(0, options.limit || 100);
+      // Placeholder implementation for logs
+      return [];
     } catch (error) {
-      logger.error('Error getting function logs:', error);
-      throw new Error('Failed to get function logs');
+      this.logger.error('Error getting function logs:', error);
+      throw error;
     }
   }
 
-  /**
-   * Get function statistics
-   */
-  async getFunctionStats(functionId: string): Promise<{
-    totalExecutions: number;
-    avgExecutionTime: number;
-    errorRate: number;
-    memoryUsage: string;
-    lastExecution: Date | null;
-  }> {
+  async getFunctionStats(functionId: string): Promise<any> {
     try {
       const func = await this.getFirebaseFunction(functionId);
-      
-      if (!func) {
-        throw new Error('Firebase function not found');
-      }
+      if (!func) return null;
 
       return {
-        totalExecutions: func.executionCount,
+        executionCount: func.executionCount,
+        errorCount: func.errorCount,
         avgExecutionTime: func.avgExecutionTime,
-        errorRate: func.executionCount > 0 ? (func.errorCount / func.executionCount) * 100 : 0,
-        memoryUsage: func.memory,
-        lastExecution: func.lastDeployed
+        lastExecuted: func.lastDeployed
       };
     } catch (error) {
-      logger.error('Error getting function stats:', error);
-      throw new Error('Failed to get function stats');
+      this.logger.error('Error getting function stats:', error);
+      throw error;
     }
   }
 
-  /**
-   * Get all function statistics
-   */
-  async getAllFunctionStats(): Promise<{
-    totalFunctions: number;
-    activeFunctions: number;
-    deployedFunctions: number;
-    totalExecutions: number;
-    avgErrorRate: number;
-    byRegion: Record<string, number>;
-    byStatus: Record<string, number>;
-  }> {
+  async getAllFunctionStats(): Promise<any> {
     try {
-      const { functions } = await this.getAllFirebaseFunctions();
-      
-      const stats = {
-        totalFunctions: 0,
-        activeFunctions: 0,
-        deployedFunctions: 0,
-        totalExecutions: 0,
-        avgErrorRate: 0,
-        byRegion: {} as Record<string, number>,
-        byStatus: {} as Record<string, number>
+      const functions = await this.getFirebaseFunctions();
+      return {
+        totalFunctions: functions.length,
+        activeFunctions: functions.filter(f => f.isActive).length,
+        deployedFunctions: functions.filter(f => f.deploymentStatus === FunctionStatus.DEPLOYED).length
       };
-
-      functions.forEach(func => {
-        stats.totalFunctions++;
-        stats.totalExecutions += func.executionCount;
-
-        if (func.isActive) {
-          stats.activeFunctions++;
-        }
-
-        if (func.deploymentStatus === FunctionStatus.DEPLOYED) {
-          stats.deployedFunctions++;
-        }
-
-        stats.byRegion[func.region] = (stats.byRegion[func.region] || 0) + 1;
-        stats.byStatus[func.deploymentStatus] = (stats.byStatus[func.deploymentStatus] || 0) + 1;
-      });
-
-      if (stats.totalFunctions > 0) {
-        const totalErrors = functions.reduce((sum, func) => sum + func.errorCount, 0);
-        stats.avgErrorRate = (totalErrors / stats.totalExecutions) * 100;
-      }
-
-      return stats;
     } catch (error) {
-      logger.error('Error getting all function stats:', error);
-      throw new Error('Failed to get all function stats');
+      this.logger.error('Error getting all function stats:', error);
+      throw error;
     }
   }
 
-  /**
-   * Validate function code
-   */
-  async validateFunctionCode(code: string, runtime: string): Promise<{
-    isValid: boolean;
-    errors: string[];
-    warnings: string[];
-  }> {
+  async validateFunctionCode(code: string): Promise<{ valid: boolean; errors: string[] }> {
     try {
+      // Basic validation placeholder
       const errors: string[] = [];
-      const warnings: string[] = [];
-
-      // Basic validation
-      if (!code.trim()) {
+      if (!code || code.trim().length === 0) {
         errors.push('Function code cannot be empty');
       }
-
-      if (code.length > 1000000) { // 1MB limit
-        errors.push('Function code exceeds size limit');
-      }
-
-      // Check for common issues
-      if (!code.includes('exports.')) {
-        warnings.push('No exports found - function may not be callable');
-      }
-
-      if (code.includes('console.log') && !code.includes('logger')) {
-        warnings.push('Consider using structured logging instead of console.log');
-      }
-
+      
       return {
-        isValid: errors.length === 0,
-        errors,
-        warnings
+        valid: errors.length === 0,
+        errors
       };
     } catch (error) {
-      logger.error('Error validating function code:', error);
-      throw new Error('Failed to validate function code');
+      this.logger.error('Error validating function code:', error);
+      return { valid: false, errors: ['Validation failed'] };
     }
   }
-} 
+
+  private mapToDatabase(data: UpdateFirebaseFunctionDto): any {
+    const dbData: any = {};
+    if (data.name !== undefined) dbData.name = data.name;
+    if (data.description !== undefined) dbData.description = data.description;
+    if (data.code !== undefined) dbData.code = data.code;
+    if (data.runtime !== undefined) dbData.runtime = data.runtime;
+    if (data.region !== undefined) dbData.region = data.region;
+    if (data.memory !== undefined) dbData.memory = data.memory;
+    if (data.timeout !== undefined) dbData.timeout = data.timeout;
+    if (data.triggers !== undefined) dbData.triggers = data.triggers;
+    if (data.environment !== undefined) dbData.environment = data.environment;
+    if (data.isActive !== undefined) dbData.is_active = data.isActive;
+    return dbData;
+  }
+}

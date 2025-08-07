@@ -1,4 +1,5 @@
-import { Request, Response } from 'express';
+import { Response } from 'express';
+import { AuthenticatedRequest } from '@/api/middleware/auth';
 import { UserTierService, UserTier } from '@/core/services/UserTierService';
 import { HybridArchitecture } from '@/core/HybridArchitecture';
 import { CostOptimizer } from '@/core/optimization/CostOptimizer';
@@ -29,7 +30,7 @@ export class TierManagementController {
   private logger: LoggerService;
 
   constructor() {
-    this.tierService = new UserTierService();
+    this.tierService = UserTierService.getInstance();
     this.hybridArchitecture = new HybridArchitecture();
     this.costOptimizer = new CostOptimizer();
     this.logger = LoggerService.getInstance();
@@ -39,7 +40,7 @@ export class TierManagementController {
    * GET /api/tier-management/current
    * Get current user tier information
    */
-  public getCurrentTier = async (req: Request, res: Response): Promise<void> => {
+  public getCurrentTier = async (req: AuthenticatedRequest, res: Response): Promise<void> => {
     try {
       const userId = req.user?.id;
       if (!userId) {
@@ -89,7 +90,7 @@ export class TierManagementController {
    * GET /api/tier-management/tiers
    * Get all available tier configurations
    */
-  public getAvailableTiers = async (req: Request, res: Response): Promise<void> => {
+  public getAvailableTiers = async (req: AuthenticatedRequest, res: Response): Promise<void> => {
     try {
       const tierConfigurations = this.tierService.getAllTierConfigurations();
       const currentUserId = req.user?.id;
@@ -124,7 +125,7 @@ export class TierManagementController {
    * POST /api/tier-management/upgrade
    * Upgrade user tier
    */
-  public upgradeTier = async (req: Request, res: Response): Promise<void> => {
+  public upgradeTier = async (req: AuthenticatedRequest, res: Response): Promise<void> => {
     try {
       const userId = req.user?.id;
       if (!userId) {
@@ -206,7 +207,7 @@ export class TierManagementController {
    * POST /api/tier-management/downgrade
    * Downgrade user tier
    */
-  public downgradeTier = async (req: Request, res: Response): Promise<void> => {
+  public downgradeTier = async (req: AuthenticatedRequest, res: Response): Promise<void> => {
     try {
       const userId = req.user?.id;
       if (!userId) {
@@ -239,7 +240,7 @@ export class TierManagementController {
         res.status(400).json(ApiResponse.error(
           `No se puede bajar el tier: ${constraintCheck.reason}`, 
           400,
-          { constraints: constraintCheck.violations }
+          constraintCheck.violations
         ));
         return;
       }
@@ -275,7 +276,7 @@ export class TierManagementController {
    * PUT /api/tier-management/usage
    * Update user usage metrics
    */
-  public updateUsage = async (req: Request, res: Response): Promise<void> => {
+  public updateUsage = async (req: AuthenticatedRequest, res: Response): Promise<void> => {
     try {
       const userId = req.user?.id;
       if (!userId) {
@@ -316,7 +317,7 @@ export class TierManagementController {
    * GET /api/tier-management/cost-analysis
    * Get detailed cost analysis for current user
    */
-  public getCostAnalysis = async (req: Request, res: Response): Promise<void> => {
+  public getCostAnalysis = async (req: AuthenticatedRequest, res: Response): Promise<void> => {
     try {
       const userId = req.user?.id;
       if (!userId) {
@@ -370,7 +371,7 @@ export class TierManagementController {
    * POST /api/tier-management/optimize-costs
    * Optimize costs for current user
    */
-  public optimizeCosts = async (req: Request, res: Response): Promise<void> => {
+  public optimizeCosts = async (req: AuthenticatedRequest, res: Response): Promise<void> => {
     try {
       const userId = req.user?.id;
       if (!userId) {
@@ -409,7 +410,7 @@ export class TierManagementController {
    * GET /api/tier-management/usage-warnings
    * Get usage warnings for users approaching limits
    */
-  public getUsageWarnings = async (req: Request, res: Response): Promise<void> => {
+  public getUsageWarnings = async (req: AuthenticatedRequest, res: Response): Promise<void> => {
     try {
       const userId = req.user?.id;
       if (!userId) {
@@ -446,7 +447,7 @@ export class TierManagementController {
    * GET /api/tier-management/recommendations
    * Get tier upgrade/downgrade recommendations
    */
-  public getTierRecommendations = async (req: Request, res: Response): Promise<void> => {
+  public getTierRecommendations = async (req: AuthenticatedRequest, res: Response): Promise<void> => {
     try {
       const userId = req.user?.id;
       if (!userId) {

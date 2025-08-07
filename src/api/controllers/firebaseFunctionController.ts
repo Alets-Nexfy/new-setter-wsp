@@ -6,7 +6,7 @@ export class FirebaseFunctionController {
   private firebaseFunctionService: FirebaseFunctionService;
 
   constructor() {
-    this.firebaseFunctionService = new FirebaseFunctionService();
+    this.firebaseFunctionService = FirebaseFunctionService.getInstance();
   }
 
   /**
@@ -75,7 +75,7 @@ export class FirebaseFunctionController {
         offset: offset ? parseInt(offset as string) : undefined
       };
 
-      const result = await this.firebaseFunctionService.getAllFirebaseFunctions(options);
+      const result = await this.firebaseFunctionService.getFirebaseFunctions();
       
       res.status(200).json({
         success: true,
@@ -212,7 +212,7 @@ export class FirebaseFunctionController {
         limit: limit ? parseInt(limit as string) : undefined
       };
 
-      const logs = await this.firebaseFunctionService.getFunctionLogs(functionId, options);
+      const logs = await this.firebaseFunctionService.getFunctionLogs(functionId);
       
       res.status(200).json({
         success: true,
@@ -277,7 +277,7 @@ export class FirebaseFunctionController {
   validateFunctionCode = async (req: Request, res: Response): Promise<void> => {
     try {
       const { code, runtime } = req.body;
-      const validation = await this.firebaseFunctionService.validateFunctionCode(code, runtime);
+      const validation = await this.firebaseFunctionService.validateFunctionCode(code);
       
       res.status(200).json({
         success: true,
@@ -292,4 +292,6 @@ export class FirebaseFunctionController {
       });
     }
   };
-} 
+}
+
+export default FirebaseFunctionController; 

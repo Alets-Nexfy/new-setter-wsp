@@ -8,7 +8,7 @@ export class StatisticsController {
 
   constructor(statisticsService: StatisticsService) {
     this.statisticsService = statisticsService;
-    this.logger = new LoggerService();
+    this.logger = LoggerService.getInstance();
   }
 
   /**
@@ -384,4 +384,6 @@ export class StatisticsController {
 
     return csv;
   }
-} 
+}
+
+export default StatisticsController; 

@@ -88,3 +88,7 @@ export const validateVerificationRequest = (req: Request, res: Response, next: N
     });
   }
 }; 
+
+// Default export
+const nuclearCleanupValidator = {};
+export default nuclearCleanupValidator;

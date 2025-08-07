@@ -4,7 +4,7 @@ import { SupabaseService } from '@/core/services/SupabaseService';
 import { CacheService } from '@/core/services/CacheService';
 import { QueueService } from '@/core/services/QueueService';
 import { WhatsAppWorkerManager } from '@/workers/whatsapp-worker/WorkerManager';
-import { WorkerStatus, MessageData, WorkerConfig } from '@/workers/whatsapp-worker/types';
+import { WorkerStatus, WorkerConfig } from '@/workers/whatsapp-worker/types';
 import { Session } from '@/core/models/Session';
 import { Platform, ConnectionStatus, MessageType, MessageStatus } from '@/shared/types';
 import environment from '../../../../config/environment';
@@ -456,6 +456,47 @@ export class WhatsAppService extends EventEmitter {
         error: error instanceof Error ? error.message : 'Unknown error',
       });
     }
+  }
+
+  public async isConnected(userId: string): Promise<boolean> {
+    try {
+      const status = await this.getSessionStatus(userId);
+      return status?.status === 'running';
+    } catch (error) {
+      this.logger.error('Error checking connection status:', error);
+      return false;
+    }
+  }
+
+  public async disconnect(userId: string): Promise<void> {
+    try {
+      await this.disconnectSession(userId);
+    } catch (error) {
+      this.logger.error('Error disconnecting session:', error);
+      throw error;
+    }
+  }
+
+  public async sendContact(userId: string, to: string, contact: any): Promise<string> {
+    try {
+      if (!this.isInitialized) {
+        throw new Error('WhatsApp service not initialized');
+      }
+
+      const messageId = this.generateMessageId();
+      const contactMessage = `Contact: ${contact.name}`;
+      const options = { type: 'contact', contact };
+
+      await this.workerManager.sendMessage(userId, to, contactMessage, options);
+      return messageId;
+    } catch (error) {
+      this.logger.error('Error sending contact:', error);
+      throw error;
+    }
+  }
+
+  private generateMessageId(): string {
+    return `msg_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
   }
 
   // Cleanup

@@ -174,3 +174,7 @@ export const validateChatExtension = {
     validateRequest
   ]
 }; 
+
+// Default export
+const chatExtensionValidator = {};
+export default chatExtensionValidator;

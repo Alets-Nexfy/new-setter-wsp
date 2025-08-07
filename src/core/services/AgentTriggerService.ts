@@ -1,26 +1,61 @@
+import { EventEmitter } from 'events';
 import { LoggerService } from './LoggerService';
 import { SupabaseService } from './SupabaseService';
 import { CacheService } from './CacheService';
-import { UserTierService } from './UserTierService';
-import { 
-  AgentTrigger, 
-  MultiAgentConfiguration, 
-  TriggerMatchResult,
-  AgentSwitchReason 
-} from '../types/MultiAgent';
+import { v4 as uuidv4 } from 'uuid';
 
-export class AgentTriggerService {
+export interface AgentTrigger {
+  id: string;
+  type: 'keyword' | 'message' | 'lead' | 'manual' | 'time' | 'event';
+  enabled: boolean;
+  conditions: {
+    keywords?: string[];
+    patterns?: string[];
+    events?: string[];
+    schedule?: string;
+  };
+  targetAgentId?: string; // Which agent to activate when trigger fires
+  priority?: number;
+}
+
+export interface AgentNetworkNode {
+  agentId: string;
+  agentName: string;
+  role: 'primary' | 'trigger' | 'fallback';
+  triggers?: AgentTrigger[];
+  isActive?: boolean;
+}
+
+export interface AgentNetwork {
+  primaryAgentId: string;
+  nodes: AgentNetworkNode[];
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface UpdateTriggersRequest {
+  userId: string;
+  agentId: string;
+  triggers?: AgentTrigger[];
+  agentNetwork?: AgentNetworkNode[];
+}
+
+export class AgentTriggerService extends EventEmitter {
   private static instance: AgentTriggerService;
-  private readonly logger: LoggerService;
-  private readonly db: DatabaseService;
-  private readonly cache: CacheService;
-  private readonly tierService: UserTierService;
+  private logger: LoggerService;
+  private db: SupabaseService;
+  private cache: CacheService;
+  
+  // Cache keys
+  private readonly NETWORK_CACHE_PREFIX = 'agent_network:';
+  private readonly ACTIVE_NETWORK_PREFIX = 'active_network:';
+  private readonly CACHE_TTL = 300; // 5 minutes
 
   private constructor() {
+    super();
     this.logger = LoggerService.getInstance();
     this.db = SupabaseService.getInstance();
     this.cache = CacheService.getInstance();
-    this.tierService = UserTierService.getInstance();
   }
 
   public static getInstance(): AgentTriggerService {
@@ -31,295 +66,712 @@ export class AgentTriggerService {
   }
 
   /**
-   * Evalúa triggers iniciales para determinar qué agente debe manejar un nuevo chat
+   * Get all triggers for an agent
    */
-  async evaluateInitialTriggers(
-    userId: string, 
-    message: string, 
-    chatId: string
-  ): Promise<TriggerMatchResult> {
+  public async getAgentTriggers(userId: string, agentId: string): Promise<AgentTrigger[]> {
     try {
-      const config = await this.getMultiAgentConfig(userId);
-      if (!config) {
-        return { matched: false, confidence: 0, reason: 'No multi-agent config found' };
+      this.logger.debug('Getting agent triggers', { userId, agentId });
+
+      // First check if agent exists and belongs to user
+      const userUuid = this.extractUuid(userId);
+      const { data: agent, error: agentError } = await this.db
+        .from('agents')
+        .select('config')
+        .eq('id', agentId)
+        .eq('user_id', userUuid)
+        .single();
+
+      if (agentError || !agent) {
+        throw new Error('Agent not found');
       }
 
-      const matches: Array<{ agentId: string; trigger: AgentTrigger; confidence: number }> = [];
+      // Get triggers from agent config
+      const triggers = agent.config?.automation?.triggers || [];
 
-      // Evaluar triggers iniciales para cada agente activo
-      for (const agentId of config.activeAgents) {
-        const triggers = config.triggerConfig.initial[agentId] || [];
-        
-        for (const trigger of triggers) {
-          const confidence = this.evaluateTriggerMatch(message, trigger);
-          if (confidence > 0) {
-            matches.push({ agentId, trigger, confidence });
-          }
+      // Also get triggers from agent_triggers table
+      const { data: dbTriggers, error: triggersError } = await this.db
+        .from('agent_triggers')
+        .select('*')
+        .eq('agent_id', agentId)
+        .eq('is_active', true);
+
+      if (!triggersError && dbTriggers) {
+        // Merge triggers from both sources
+        dbTriggers.forEach(dbTrigger => {
+          triggers.push({
+            id: dbTrigger.id,
+            type: dbTrigger.trigger_type,
+            enabled: dbTrigger.is_active,
+            conditions: dbTrigger.trigger_config,
+            targetAgentId: dbTrigger.trigger_config?.targetAgentId
+          });
+        });
+      }
+
+      return triggers;
+
+    } catch (error) {
+      this.logger.error('Error getting agent triggers', {
+        userId,
+        agentId,
+        error: error instanceof Error ? error.message : 'Unknown error'
+      });
+      throw error;
+    }
+  }
+
+  /**
+   * Update triggers and agent network configuration
+   */
+  public async updateAgentTriggers(request: UpdateTriggersRequest): Promise<any> {
+    try {
+      const { userId, agentId, triggers, agentNetwork } = request;
+      this.logger.info('Updating agent triggers and network', { 
+        userId, 
+        agentId,
+        triggersCount: triggers?.length,
+        networkSize: agentNetwork?.length 
+      });
+
+      const userUuid = this.extractUuid(userId);
+
+      // Get current agent configuration
+      const { data: agent, error: agentError } = await this.db
+        .from('agents')
+        .select('*')
+        .eq('id', agentId)
+        .eq('user_id', userUuid)
+        .single();
+
+      if (agentError || !agent) {
+        throw new Error('Agent not found');
+      }
+
+      // Update agent config with new triggers and network
+      const updatedConfig = {
+        ...agent.config,
+        automation: {
+          ...agent.config?.automation,
+          triggers: triggers || [],
+          agentNetwork: agentNetwork || []
+        }
+      };
+
+      // Update agent in database
+      const { error: updateError } = await this.db
+        .from('agents')
+        .update({
+          config: updatedConfig,
+          updated_at: new Date().toISOString()
+        })
+        .eq('id', agentId)
+        .eq('user_id', userUuid);
+
+      if (updateError) {
+        throw updateError;
+      }
+
+      // Save individual triggers to agent_triggers table for faster querying
+      if (triggers && triggers.length > 0) {
+        // Delete existing triggers
+        await this.db
+          .from('agent_triggers')
+          .delete()
+          .eq('agent_id', agentId);
+
+        // Insert new triggers
+        const triggerRecords = triggers.map(trigger => ({
+          id: trigger.id || uuidv4(),
+          agent_id: agentId,
+          trigger_type: trigger.type,
+          trigger_config: {
+            ...trigger.conditions,
+            targetAgentId: trigger.targetAgentId,
+            priority: trigger.priority
+          },
+          is_active: trigger.enabled
+        }));
+
+        const { error: insertError } = await this.db
+          .from('agent_triggers')
+          .insert(triggerRecords);
+
+        if (insertError) {
+          this.logger.warn('Failed to insert triggers to agent_triggers table', { error: insertError });
         }
       }
 
-      // Ordenar por confianza y prioridad
-      matches.sort((a, b) => {
-        const scoreA = a.confidence * (a.trigger.priority / 10);
-        const scoreB = b.confidence * (b.trigger.priority / 10);
-        return scoreB - scoreA;
+      // Update cache
+      await this.updateNetworkCache(userId, agentId, agentNetwork);
+
+      // Emit event for real-time updates
+      this.emit('triggers-updated', {
+        userId,
+        agentId,
+        triggers,
+        agentNetwork
       });
 
-      if (matches.length > 0) {
-        const bestMatch = matches[0];
-        return {
-          matched: true,
-          agentId: bestMatch.agentId,
-          trigger: bestMatch.trigger,
-          confidence: bestMatch.confidence,
-          reason: `Initial trigger matched: "${bestMatch.trigger.keyword}"`
-        };
-      }
-
-      // Fallback al agente por defecto
       return {
-        matched: true,
-        agentId: config.defaultAgent,
-        confidence: 0.1,
-        reason: 'Using default agent (no initial triggers matched)'
+        agentId,
+        triggers: triggers || [],
+        network: agentNetwork || [],
+        updatedAt: new Date().toISOString()
       };
 
     } catch (error) {
-      this.logger.error('Error evaluating initial triggers:', error);
-      return { matched: false, confidence: 0, reason: 'Error evaluating triggers' };
+      this.logger.error('Error updating agent triggers', {
+        userId: request.userId,
+        agentId: request.agentId,
+        error: error instanceof Error ? error.message : 'Unknown error'
+      });
+      throw error;
     }
   }
 
   /**
-   * Evalúa triggers de cambio durante una conversación
+   * Activate an agent network (main agent + all trigger agents)
    */
-  async evaluateSwitchTriggers(
-    userId: string,
-    message: string,
-    currentAgentId: string,
-    chatId: string
-  ): Promise<TriggerMatchResult> {
+  public async activateAgentNetwork(userId: string, agentId: string): Promise<any> {
     try {
-      const config = await this.getMultiAgentConfig(userId);
-      if (!config) {
-        return { matched: false, confidence: 0, reason: 'No multi-agent config found' };
+      this.logger.info('Activating agent network', { userId, agentId });
+
+      const userUuid = this.extractUuid(userId);
+
+      // First deactivate any existing network
+      await this.deactivateAllNetworks(userId);
+
+      // Get agent configuration with network
+      const { data: agent, error } = await this.db
+        .from('agents')
+        .select('*')
+        .eq('id', agentId)
+        .eq('user_id', userUuid)
+        .single();
+
+      if (error || !agent) {
+        throw new Error('Agent not found');
       }
 
-      const matches: Array<{ agentId: string; trigger: AgentTrigger; confidence: number }> = [];
+      const network = agent.config?.automation?.agentNetwork || [];
+      const activatedAgents = [agentId]; // Start with primary agent
 
-      // Evaluar triggers de cambio para todos los agentes activos (excepto el actual)
-      for (const agentId of config.activeAgents) {
-        if (agentId === currentAgentId) continue;
-
-        const triggers = config.triggerConfig.switch[agentId] || [];
-        
-        for (const trigger of triggers) {
-          // Verificar condiciones adicionales
-          if (await this.checkTriggerConditions(trigger, chatId, currentAgentId)) {
-            const confidence = this.evaluateTriggerMatch(message, trigger);
-            if (confidence > 0) {
-              matches.push({ agentId, trigger, confidence });
-            }
-          }
+      // Collect all agent IDs in the network
+      network.forEach((node: AgentNetworkNode) => {
+        if (node.agentId && node.agentId !== agentId) {
+          activatedAgents.push(node.agentId);
         }
-      }
-
-      // Ordenar por confianza y prioridad
-      matches.sort((a, b) => {
-        const scoreA = a.confidence * (a.trigger.priority / 10);
-        const scoreB = b.confidence * (b.trigger.priority / 10);
-        return scoreB - scoreA;
       });
 
-      if (matches.length > 0) {
-        const bestMatch = matches[0];
-        return {
-          matched: true,
-          agentId: bestMatch.agentId,
-          trigger: bestMatch.trigger,
-          confidence: bestMatch.confidence,
-          reason: `Switch trigger matched: "${bestMatch.trigger.keyword}"`
-        };
+      // Update user's active agent to the primary
+      await this.db
+        .from('users')
+        .update({
+          active_agent_id: agentId,
+          updated_at: new Date().toISOString()
+        })
+        .eq('id', userUuid);
+
+      // Store active network in Redis for fast access
+      const networkData = {
+        primaryAgentId: agentId,
+        agents: activatedAgents,
+        network,
+        activatedAt: new Date().toISOString()
+      };
+
+      await this.cache.set(
+        `${this.ACTIVE_NETWORK_PREFIX}${userId}`,
+        JSON.stringify(networkData),
+        this.CACHE_TTL
+      );
+
+      // Emit event for real-time updates
+      this.emit('network-activated', {
+        userId,
+        primaryAgentId: agentId,
+        activatedAgents,
+        network
+      });
+
+      this.logger.info('Agent network activated successfully', {
+        userId,
+        primaryAgentId: agentId,
+        totalAgents: activatedAgents.length
+      });
+
+      return {
+        primaryAgentId: agentId,
+        activatedAgents,
+        network,
+        activatedAt: new Date().toISOString()
+      };
+
+    } catch (error) {
+      this.logger.error('Error activating agent network', {
+        userId,
+        agentId,
+        error: error instanceof Error ? error.message : 'Unknown error'
+      });
+      throw error;
+    }
+  }
+
+  /**
+   * Deactivate an agent network
+   */
+  public async deactivateAgentNetwork(userId: string, agentId: string): Promise<any> {
+    try {
+      this.logger.info('Deactivating agent network', { userId, agentId });
+
+      const userUuid = this.extractUuid(userId);
+
+      // Clear active agent
+      await this.db
+        .from('users')
+        .update({
+          active_agent_id: null,
+          updated_at: new Date().toISOString()
+        })
+        .eq('id', userUuid);
+
+      // Clear from Redis
+      await this.cache.del(`${this.ACTIVE_NETWORK_PREFIX}${userId}`);
+
+      // Emit event
+      this.emit('network-deactivated', {
+        userId,
+        agentId
+      });
+
+      return {
+        success: true,
+        deactivatedAt: new Date().toISOString()
+      };
+
+    } catch (error) {
+      this.logger.error('Error deactivating agent network', {
+        userId,
+        agentId,
+        error: error instanceof Error ? error.message : 'Unknown error'
+      });
+      throw error;
+    }
+  }
+
+  /**
+   * Get the currently active network for a user
+   */
+  public async getActiveNetwork(userId: string): Promise<AgentNetwork | null> {
+    try {
+      // First check Redis cache
+      const cached = await this.cache.get(`${this.ACTIVE_NETWORK_PREFIX}${userId}`);
+      if (cached) {
+        return JSON.parse(cached);
       }
 
-      return { matched: false, confidence: 0, reason: 'No switch triggers matched' };
+      // If not in cache, check database
+      const userUuid = this.extractUuid(userId);
+      const { data: user, error } = await this.db
+        .from('users')
+        .select('active_agent_id')
+        .eq('id', userUuid)
+        .single();
+
+      if (error || !user?.active_agent_id) {
+        return null;
+      }
+
+      // Get the active agent's network configuration
+      const { data: agent, error: agentError } = await this.db
+        .from('agents')
+        .select('*')
+        .eq('id', user.active_agent_id)
+        .eq('user_id', userUuid)
+        .single();
+
+      if (agentError || !agent) {
+        return null;
+      }
+
+      const network = {
+        primaryAgentId: agent.id,
+        nodes: agent.config?.automation?.agentNetwork || [],
+        createdAt: agent.created_at,
+        updatedAt: agent.updated_at
+      };
+
+      // Cache it
+      await this.cache.set(
+        `${this.ACTIVE_NETWORK_PREFIX}${userId}`,
+        JSON.stringify(network),
+        this.CACHE_TTL
+      );
+
+      return network;
 
     } catch (error) {
-      this.logger.error('Error evaluating switch triggers:', error);
-      return { matched: false, confidence: 0, reason: 'Error evaluating switch triggers' };
-    }
-  }
-
-  /**
-   * Evalúa qué tan bien coincide un mensaje con un trigger
-   */
-  private evaluateTriggerMatch(message: string, trigger: AgentTrigger): number {
-    const normalizedMessage = message.toLowerCase().trim();
-    const normalizedKeyword = trigger.keyword.toLowerCase().trim();
-
-    switch (trigger.type) {
-      case 'exact':
-        return normalizedMessage === normalizedKeyword ? 1.0 : 0;
-      
-      case 'contains':
-        return normalizedMessage.includes(normalizedKeyword) ? 0.8 : 0;
-      
-      case 'regex':
-        try {
-          const regex = new RegExp(trigger.keyword, 'i');
-          const match = regex.exec(normalizedMessage);
-          return match ? Math.min(match[0].length / normalizedMessage.length, 1.0) : 0;
-        } catch (error) {
-          this.logger.warn(`Invalid regex trigger: ${trigger.keyword}`);
-          return 0;
-        }
-      
-      default:
-        return 0;
-    }
-  }
-
-  /**
-   * Verifica condiciones adicionales del trigger
-   */
-  private async checkTriggerConditions(
-    trigger: AgentTrigger, 
-    chatId: string, 
-    currentAgentId: string
-  ): Promise<boolean> {
-    if (!trigger.conditions) return true;
-
-    // Verificar condición de agente anterior
-    if (trigger.conditions.previousAgent && trigger.conditions.previousAgent !== currentAgentId) {
-      return false;
-    }
-
-    // Verificar hora del día
-    if (trigger.conditions.timeOfDay) {
-      const hour = new Date().getHours();
-      const timeCondition = trigger.conditions.timeOfDay;
-      
-      if (timeCondition === 'morning' && (hour < 6 || hour >= 12)) return false;
-      if (timeCondition === 'afternoon' && (hour < 12 || hour >= 18)) return false;
-      if (timeCondition === 'evening' && (hour < 18 || hour >= 22)) return false;
-    }
-
-    return true;
-  }
-
-  /**
-   * Obtiene la configuración multi-agente de un usuario
-   */
-  private async getMultiAgentConfig(userId: string): Promise<MultiAgentConfiguration | null> {
-    try {
-      // Intentar desde cache primero
-      const cacheKey = `multi_agent_config_${userId}`;
-      const cached = await this.cache.get(cacheKey);
-      if (cached) return JSON.parse(cached);
-
-      // Obtener desde base de datos
-      const doc = await this.db.collection('users')
-        .doc(userId)
-        .collection('multiAgentConfig')
-        .doc('current')
-        .get();
-
-      if (!doc.exists) return null;
-
-      const config = doc.data() as MultiAgentConfiguration;
-      
-      // Cachear por 5 minutos
-      await this.cache.set(cacheKey, JSON.stringify(config), 300);
-      
-      return config;
-
-    } catch (error) {
-      this.logger.error(`Error getting multi-agent config for user ${userId}:`, error);
+      this.logger.error('Error getting active network', {
+        userId,
+        error: error instanceof Error ? error.message : 'Unknown error'
+      });
       return null;
     }
   }
 
   /**
-   * Crea configuración multi-agente por defecto basada en el tier del usuario
+   * Check if a specific agent is part of the active network
    */
-  async createDefaultMultiAgentConfig(userId: string): Promise<MultiAgentConfiguration> {
-    const userTier = await this.tierService.getUserTier(userId);
-    const tierConfig = this.tierService.getTierConfiguration(userTier?.tier || 'standard');
-
-    const maxAgents = Math.min(tierConfig.features.customAgents, 3);
-    
-    const defaultConfig: MultiAgentConfiguration = {
-      userId,
-      maxActiveAgents: maxAgents,
-      activeAgents: ['default-agent'], // Start with default agent
-      defaultAgent: 'default-agent',
-      triggerConfig: {
-        initial: {
-          'default-agent': [
-            { keyword: 'hola', type: 'contains', priority: 1 },
-            { keyword: 'ayuda', type: 'contains', priority: 2 }
-          ]
-        },
-        switch: {},
-        fallback: [
-          { keyword: 'operador', type: 'contains', priority: 10 },
-          { keyword: 'humano', type: 'contains', priority: 9 }
-        ]
-      },
-      switchingBehavior: {
-        preserveContext: true,
-        announceSwitch: false,
-        maxSwitchesPerHour: 10
-      },
-      createdAt: new Date(),
-      updatedAt: new Date()
-    };
-
-    // Guardar en base de datos
-    await this.db.collection('users')
-      .doc(userId)
-      .collection('multiAgentConfig')
-      .doc('current')
-      .set(defaultConfig);
-
-    return defaultConfig;
-  }
-
-  /**
-   * Obtiene configuración multi-agente (método público)
-   */
-  async getMultiAgentConfiguration(userId: string): Promise<MultiAgentConfiguration | null> {
-    return await this.getMultiAgentConfig(userId);
-  }
-
-  /**
-   * Actualiza configuración multi-agente
-   */
-  async updateMultiAgentConfig(
-    userId: string, 
-    updates: Partial<MultiAgentConfiguration>
-  ): Promise<boolean> {
+  public async isAgentInActiveNetwork(userId: string, agentId: string): Promise<boolean> {
     try {
-      const docRef = this.db.collection('users')
-        .doc(userId)
-        .collection('multiAgentConfig')
-        .doc('current');
+      const network = await this.getActiveNetwork(userId);
+      if (!network) return false;
 
-      await docRef.update({
-        ...updates,
-        updatedAt: new Date()
-      });
+      if (network.primaryAgentId === agentId) return true;
 
-      // Limpiar cache
-      const cacheKey = `multi_agent_config_${userId}`;
-      await this.cache.delete(cacheKey);
-
-      this.logger.info(`Multi-agent config updated for user: ${userId}`);
-      return true;
+      return network.nodes.some(node => node.agentId === agentId);
 
     } catch (error) {
-      this.logger.error(`Error updating multi-agent config for user ${userId}:`, error);
+      this.logger.error('Error checking if agent is in active network', {
+        userId,
+        agentId,
+        error: error instanceof Error ? error.message : 'Unknown error'
+      });
       return false;
     }
   }
+
+  /**
+   * Process incoming message against triggers
+   */
+  public async processMessageTriggers(userId: string, message: string): Promise<string | null> {
+    try {
+      const network = await this.getActiveNetwork(userId);
+      if (!network) return null;
+
+      // Check all trigger nodes in the network
+      for (const node of network.nodes) {
+        if (node.triggers) {
+          for (const trigger of node.triggers) {
+            if (trigger.enabled && trigger.conditions?.keywords) {
+              // Check if message matches any keyword
+              const matched = trigger.conditions.keywords.some(keyword => 
+                message.toLowerCase().includes(keyword.toLowerCase())
+              );
+
+              if (matched) {
+                this.logger.info('Trigger matched', {
+                  userId,
+                  triggerType: trigger.type,
+                  targetAgent: trigger.targetAgentId || node.agentId
+                });
+
+                // Return the agent ID that should handle this message
+                return trigger.targetAgentId || node.agentId;
+              }
+            }
+          }
+        }
+      }
+
+      // No trigger matched, use primary agent
+      return network.primaryAgentId;
+
+    } catch (error) {
+      this.logger.error('Error processing message triggers', {
+        userId,
+        error: error instanceof Error ? error.message : 'Unknown error'
+      });
+      return null;
+    }
+  }
+
+  // Helper methods
+  private extractUuid(userId: string): string {
+    return userId.startsWith('tribe-ia-nexus_') 
+      ? userId.replace('tribe-ia-nexus_', '') 
+      : userId;
+  }
+
+  private async deactivateAllNetworks(userId: string): Promise<void> {
+    await this.cache.del(`${this.ACTIVE_NETWORK_PREFIX}${userId}`);
+  }
+
+  private async updateNetworkCache(userId: string, agentId: string, network?: any): Promise<void> {
+    if (network) {
+      await this.cache.set(
+        `${this.NETWORK_CACHE_PREFIX}${agentId}`,
+        JSON.stringify(network),
+        this.CACHE_TTL
+      );
+    }
+  }
+
+  /**
+   * Get multi-agent configuration for a user
+   */
+  public async getMultiAgentConfiguration(userId: string): Promise<any> {
+    try {
+      const userUuid = this.extractUuid(userId);
+      
+      // Get user's active agent
+      const { data: user, error } = await this.db
+        .from('users')
+        .select('active_agent_id')
+        .eq('id', userUuid)
+        .single();
+
+      if (error || !user?.active_agent_id) {
+        return null;
+      }
+
+      // Get agent configuration
+      const { data: agent, error: agentError } = await this.db
+        .from('agents')
+        .select('*')
+        .eq('id', user.active_agent_id)
+        .eq('user_id', userUuid)
+        .single();
+
+      if (agentError || !agent) {
+        return null;
+      }
+
+      return {
+        activeAgents: agent.config?.automation?.agentNetwork || [],
+        defaultAgent: user.active_agent_id,
+        triggerConfig: agent.config?.automation?.triggers || [],
+        switchingBehavior: {
+          preserveContext: true,
+          announceSwitch: false,
+          maxSwitchesPerHour: 10
+        },
+        maxActiveAgents: 3
+      };
+    } catch (error) {
+      this.logger.error('Error getting multi-agent configuration', { userId, error });
+      return null;
+    }
+  }
+
+  /**
+   * Update multi-agent configuration
+   */
+  public async updateMultiAgentConfig(userId: string, updates: any): Promise<boolean> {
+    try {
+      const userUuid = this.extractUuid(userId);
+      
+      this.logger.info('[AgentTriggerService] Starting multi-agent config update', {
+        userId,
+        userUuid,
+        updates: JSON.stringify(updates)
+      });
+
+      // Get user's active agent
+      const { data: user, error } = await this.db
+        .from('users')
+        .select('active_agent_id')
+        .eq('id', userUuid)
+        .single();
+
+      if (error) {
+        this.logger.error('[AgentTriggerService] Error fetching user:', {
+          error: error.message,
+          userUuid
+        });
+        return false;
+      }
+
+      if (!user?.active_agent_id) {
+        this.logger.warn('[AgentTriggerService] User has no active agent', { userUuid });
+        return false;
+      }
+
+      // Update agent configuration
+      const { data: agent, error: agentError } = await this.db
+        .from('agents')
+        .select('config')
+        .eq('id', user.active_agent_id)
+        .eq('user_id', userUuid)
+        .single();
+
+      if (agentError) {
+        this.logger.error('[AgentTriggerService] Error fetching agent:', {
+          error: agentError.message,
+          agentId: user.active_agent_id,
+          userUuid
+        });
+        return false;
+      }
+
+      if (!agent) {
+        this.logger.warn('[AgentTriggerService] Agent not found', {
+          agentId: user.active_agent_id,
+          userUuid
+        });
+        return false;
+      }
+
+      const updatedConfig = {
+        ...agent.config,
+        automation: {
+          ...agent.config?.automation,
+          agentNetwork: updates.activeAgents || [],
+          triggers: updates.triggerConfig || []
+        }
+      };
+
+      const { error: updateError } = await this.db
+        .from('agents')
+        .update({
+          config: updatedConfig,
+          updated_at: new Date().toISOString()
+        })
+        .eq('id', user.active_agent_id)
+        .eq('user_id', userUuid);
+
+      if (updateError) {
+        this.logger.error('[AgentTriggerService] Error updating agent config:', {
+          error: updateError.message,
+          agentId: user.active_agent_id,
+          userUuid
+        });
+        return false;
+      }
+
+      this.logger.info('[AgentTriggerService] Multi-agent config updated successfully', {
+        agentId: user.active_agent_id,
+        userUuid
+      });
+
+      return true;
+    } catch (error) {
+      this.logger.error('[AgentTriggerService] Unexpected error updating multi-agent config', { 
+        userId, 
+        error: error instanceof Error ? error.message : 'Unknown error',
+        stack: error instanceof Error ? error.stack : undefined
+      });
+      return false;
+    }
+  }
+
+  /**
+   * Create default multi-agent configuration
+   */
+  public async createDefaultMultiAgentConfig(userId: string): Promise<any> {
+    try {
+      const defaultConfig = {
+        activeAgents: [],
+        defaultAgent: null,
+        triggerConfig: {
+          initial: {},
+          switch: {},
+          fallback: []
+        },
+        switchingBehavior: {
+          preserveContext: true,
+          announceSwitch: false,
+          maxSwitchesPerHour: 10
+        }
+      };
+
+      const success = await this.updateMultiAgentConfig(userId, defaultConfig);
+      
+      if (success) {
+        return defaultConfig;
+      } else {
+        throw new Error('Failed to create default configuration');
+      }
+    } catch (error) {
+      this.logger.error('Error creating default multi-agent config', { userId, error });
+      throw error;
+    }
+  }
+
+  /**
+   * Evaluate initial triggers for message processing
+   */
+  public async evaluateInitialTriggers(userId: string, message: string, chatId: string): Promise<any> {
+    try {
+      const network = await this.getActiveNetwork(userId);
+      if (!network) {
+        return { matched: false, agentId: null };
+      }
+
+      // Check triggers in the network
+      for (const node of network.nodes) {
+        if (node.triggers) {
+          for (const trigger of node.triggers) {
+            if (trigger.enabled && trigger.conditions?.keywords) {
+              const matched = trigger.conditions.keywords.some(keyword => 
+                message.toLowerCase().includes(keyword.toLowerCase())
+              );
+
+              if (matched) {
+                return {
+                  matched: true,
+                  agentId: trigger.targetAgentId || node.agentId,
+                  trigger: trigger,
+                  node: node
+                };
+              }
+            }
+          }
+        }
+      }
+
+      return { matched: false, agentId: network.primaryAgentId };
+    } catch (error) {
+      this.logger.error('Error evaluating initial triggers', { userId, message, chatId, error });
+      return { matched: false, agentId: null };
+    }
+  }
+
+  /**
+   * Evaluate switch triggers for agent switching
+   */
+  public async evaluateSwitchTriggers(
+    userId: string,
+    message: string,
+    currentAgentId: string,
+    chatId: string
+  ): Promise<any> {
+    try {
+      const network = await this.getActiveNetwork(userId);
+      if (!network) {
+        return { shouldSwitch: false, targetAgentId: null };
+      }
+
+      // Check if current agent has switch triggers
+      const currentNode = network.nodes.find(n => n.agentId === currentAgentId);
+      if (!currentNode?.triggers) {
+        return { shouldSwitch: false, targetAgentId: currentAgentId };
+      }
+
+      // Evaluate switch triggers
+      for (const trigger of currentNode.triggers) {
+        if (trigger.enabled && trigger.type === 'message' && trigger.conditions?.keywords) {
+          const matched = trigger.conditions.keywords.some(keyword => 
+            message.toLowerCase().includes(keyword.toLowerCase())
+          );
+
+          if (matched) {
+            return {
+              shouldSwitch: true,
+              targetAgentId: trigger.targetAgentId,
+              trigger: trigger,
+              reason: 'keyword_match'
+            };
+          }
+        }
+      }
+
+      return { shouldSwitch: false, targetAgentId: currentAgentId };
+    } catch (error) {
+      this.logger.error('Error evaluating switch triggers', { userId, message, currentAgentId, chatId, error });
+      return { shouldSwitch: false, targetAgentId: null };
+    }
+  }
 }
+
+export default AgentTriggerService;

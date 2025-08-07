@@ -1,4 +1,4 @@
-import { Logger } from '../../../core/services/LoggerService';
+import { LoggerService } from '../../../core/services/LoggerService';
 import { CacheService } from '../../../core/services/CacheService';
 import { DatabaseService } from '../../../core/services/DatabaseService';
 import { QueueService } from '../../../core/services/QueueService';
@@ -12,7 +12,7 @@ import { INSTAGRAM_CONSTANTS } from '../../../shared/constants/instagram';
 
 export class InstagramMessageHandler {
   constructor(
-    private readonly logger: Logger,
+    private readonly logger: LoggerService,
     private readonly cache: CacheService,
     private readonly database: DatabaseService,
     private readonly queue: QueueService
@@ -439,7 +439,7 @@ export class InstagramMessageHandler {
     try {
       const cachedSession = await this.cache.get(`${INSTAGRAM_CONSTANTS.CACHE_KEYS.SESSION_PREFIX}${sessionId}`);
       if (cachedSession) {
-        return cachedSession as InstagramSession;
+        return JSON.parse(cachedSession) as InstagramSession;
       }
 
       const doc = await this.database.collection('instagram_sessions').doc(sessionId).get();

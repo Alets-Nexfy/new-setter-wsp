@@ -1,4 +1,4 @@
-import { Timestamp } from 'firebase/firestore';
+// Firebase import removed - using Date/string instead
 
 // Message types
 export type MessageType = 'text' | 'image' | 'video' | 'audio' | 'document' | 'sticker' | 'location' | 'contact' | 'group_invite' | 'unknown';
@@ -15,7 +15,7 @@ export interface Message {
   from: string;
   to: string;
   body: string;
-  timestamp: Timestamp | string;
+  timestamp: Date | string;
   type: MessageType;
   origin: MessageOrigin;
   status: MessageStatus;
@@ -47,8 +47,8 @@ export interface Message {
   vCards: any[];
   
   // Metadata
-  createdAt: Timestamp | string;
-  updatedAt: Timestamp | string;
+  createdAt: Date | string;
+  updatedAt: Date | string;
 }
 
 // Chat interface
@@ -67,19 +67,19 @@ export interface Chat {
   
   // Chat status
   isActivated: boolean;
-  activatedAt?: Timestamp | string;
+  activatedAt?: Date | string;
   activationMethod?: 'initial_trigger' | 'manual' | 'auto';
   
   // Activity tracking
   userIsActive: boolean;
-  lastActivityTimestamp?: Timestamp | string;
-  lastHumanMessageTimestamp?: Timestamp | string;
-  lastBotMessageTimestamp?: Timestamp | string;
-  lastContactMessageTimestamp?: Timestamp | string;
+  lastActivityTimestamp?: Date | string;
+  lastHumanMessageTimestamp?: Date | string;
+  lastBotMessageTimestamp?: Date | string;
+  lastContactMessageTimestamp?: Date | string;
   
   // Last message info
   lastMessageContent?: string;
-  lastMessageTimestamp?: Timestamp | string;
+  lastMessageTimestamp?: Date | string;
   lastMessageType?: MessageType;
   lastMessageOrigin?: MessageOrigin;
   
@@ -89,9 +89,9 @@ export interface Chat {
   kanbanCardId?: string;
   
   // Timestamps
-  createdAt: Timestamp | string;
-  updatedAt: Timestamp | string;
-  historyClearedAt?: Timestamp | string;
+  createdAt: Date | string;
+  updatedAt: Date | string;
+  historyClearedAt?: Date | string;
 }
 
 // Message collections structure
@@ -129,6 +129,7 @@ export interface ChatListItem {
 
 // Send message request
 export interface SendMessageRequest {
+  userId?: string;
   chatId: string;
   message: string;
   origin?: MessageOrigin;
@@ -337,7 +338,7 @@ export interface ChatActivity {
   action: 'created' | 'activated' | 'deactivated' | 'message_sent' | 'message_received' | 'contact_updated' | 'moved_to_kanban' | 'history_cleared';
   details: string;
   metadata?: Record<string, any>;
-  timestamp: Timestamp | string;
+  timestamp: Date | string;
 }
 
 // Conversation context for AI

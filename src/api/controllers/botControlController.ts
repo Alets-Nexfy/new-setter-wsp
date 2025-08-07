@@ -112,7 +112,7 @@ export class BotControlController {
       const { userId, platform } = req.params;
       const { reason } = req.body;
       
-      await this.botControlService.pauseBot(userId, platform, reason);
+      await this.botControlService.pauseBot(userId, platform as 'whatsapp' | 'instagram' | 'telegram' | 'facebook', reason);
       
       res.status(200).json({
         success: true,
@@ -133,7 +133,7 @@ export class BotControlController {
   resumeBot = async (req: Request, res: Response): Promise<void> => {
     try {
       const { userId, platform } = req.params;
-      await this.botControlService.resumeBot(userId, platform);
+      await this.botControlService.resumeBot(userId, platform as 'whatsapp' | 'instagram' | 'telegram' | 'facebook');
       
       res.status(200).json({
         success: true,
@@ -154,7 +154,7 @@ export class BotControlController {
   stopBot = async (req: Request, res: Response): Promise<void> => {
     try {
       const { userId, platform } = req.params;
-      await this.botControlService.stopBot(userId, platform);
+      await this.botControlService.stopBot(userId, platform as 'whatsapp' | 'instagram' | 'telegram' | 'facebook');
       
       res.status(200).json({
         success: true,
@@ -279,4 +279,6 @@ export class BotControlController {
       });
     }
   };
-} 
+}
+
+export default BotControlController; 

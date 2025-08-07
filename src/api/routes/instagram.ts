@@ -103,106 +103,106 @@ const instagramController = new InstagramController(
 
 // Authentication routes
 router.post('/login', 
-  rateLimiter('login', 5, 300), // 5 attempts per 5 minutes
+  rateLimiter({ windowMs: 5 * 60 * 1000, maxRequests: 5 }), // 5 attempts per 5 minutes
   validateRequest(loginSchema),
   instagramController.login.bind(instagramController)
 );
 
 router.post('/logout/:sessionId',
   authenticateToken,
-  rateLimiter('logout', 10, 60), // 10 attempts per minute
+  rateLimiter({ windowMs: 60 * 1000, maxRequests: 10 }), // 10 attempts per minute
   instagramController.logout.bind(instagramController)
 );
 
 // Session management routes
 router.get('/session/:sessionId',
   authenticateToken,
-  rateLimiter('session', 100, 60), // 100 requests per minute
+  rateLimiter({ windowMs: 60 * 1000, maxRequests: 100 }), // 100 requests per minute
   instagramController.getSession.bind(instagramController)
 );
 
 router.get('/sessions/:userId',
   authenticateToken,
-  rateLimiter('sessions', 50, 60), // 50 requests per minute
+  rateLimiter({ windowMs: 60 * 1000, maxRequests: 50 }), // 50 requests per minute
   instagramController.getUserSessions.bind(instagramController)
 );
 
 router.put('/session/:sessionId',
   authenticateToken,
-  rateLimiter('session', 20, 60), // 20 requests per minute
+  rateLimiter({ windowMs: 60 * 1000, maxRequests: 20 }), // 20 requests per minute
   validateRequest(updateSessionSchema),
   instagramController.updateSession.bind(instagramController)
 );
 
 router.delete('/session/:sessionId',
   authenticateToken,
-  rateLimiter('session', 10, 60), // 10 requests per minute
+  rateLimiter({ windowMs: 60 * 1000, maxRequests: 10 }), // 10 requests per minute
   instagramController.deactivateSession.bind(instagramController)
 );
 
 // Messaging routes
 router.post('/message',
   authenticateToken,
-  rateLimiter('message', 30, 60), // 30 messages per minute
+  rateLimiter({ windowMs: 60 * 1000, maxRequests: 30 }), // 30 messages per minute
   validateRequest(sendMessageSchema),
   instagramController.sendMessage.bind(instagramController)
 );
 
 router.post('/messages/bulk',
   authenticateToken,
-  rateLimiter('bulk_message', 5, 300), // 5 bulk operations per 5 minutes
+  rateLimiter({ windowMs: 300 * 1000, maxRequests: 5 }), // 5 bulk operations per 5 minutes
   validateRequest(sendBulkMessagesSchema),
   instagramController.sendBulkMessages.bind(instagramController)
 );
 
 router.get('/conversation/:conversationId/messages',
   authenticateToken,
-  rateLimiter('messages', 100, 60), // 100 requests per minute
+  rateLimiter({ windowMs: 60 * 1000, maxRequests: 100 }), // 100 requests per minute
   instagramController.getConversationMessages.bind(instagramController)
 );
 
 router.get('/session/:sessionId/conversations',
   authenticateToken,
-  rateLimiter('conversations', 50, 60), // 50 requests per minute
+  rateLimiter({ windowMs: 60 * 1000, maxRequests: 50 }), // 50 requests per minute
   instagramController.getUserConversations.bind(instagramController)
 );
 
 router.put('/message/:messageId/read',
   authenticateToken,
-  rateLimiter('message', 100, 60), // 100 requests per minute
+  rateLimiter({ windowMs: 60 * 1000, maxRequests: 100 }), // 100 requests per minute
   instagramController.markMessageAsRead.bind(instagramController)
 );
 
 router.delete('/message/:messageId',
   authenticateToken,
-  rateLimiter('message', 20, 60), // 20 requests per minute
+  rateLimiter({ windowMs: 60 * 1000, maxRequests: 20 }), // 20 requests per minute
   instagramController.deleteMessage.bind(instagramController)
 );
 
 router.get('/session/:sessionId/messages/stats',
   authenticateToken,
-  rateLimiter('stats', 30, 60), // 30 requests per minute
+  rateLimiter({ windowMs: 60 * 1000, maxRequests: 30 }), // 30 requests per minute
   instagramController.getMessageStats.bind(instagramController)
 );
 
 // Action routes
 router.post('/actions/like',
   authenticateToken,
-  rateLimiter('actions', 50, 60), // 50 actions per minute
+  rateLimiter({ windowMs: 60 * 1000, maxRequests: 50 }), // 50 actions per minute
   validateRequest(likePostSchema),
   instagramController.likePost.bind(instagramController)
 );
 
 router.post('/actions/comment',
   authenticateToken,
-  rateLimiter('actions', 20, 60), // 20 actions per minute
+  rateLimiter({ windowMs: 60 * 1000, maxRequests: 20 }), // 20 actions per minute
   validateRequest(commentPostSchema),
   instagramController.commentPost.bind(instagramController)
 );
 
 router.post('/actions/follow',
   authenticateToken,
-  rateLimiter('actions', 30, 60), // 30 actions per minute
+  rateLimiter({ windowMs: 60 * 1000, maxRequests: 30 }), // 30 actions per minute
   validateRequest(followUserSchema),
   instagramController.followUser.bind(instagramController)
 );
@@ -210,13 +210,13 @@ router.post('/actions/follow',
 // Statistics routes
 router.get('/sessions/stats',
   authenticateToken,
-  rateLimiter('stats', 10, 60), // 10 requests per minute
+  rateLimiter({ windowMs: 60 * 1000, maxRequests: 10 }), // 10 requests per minute
   instagramController.getSessionStats.bind(instagramController)
 );
 
 router.get('/sessions/can-create/:userId',
   authenticateToken,
-  rateLimiter('sessions', 50, 60), // 50 requests per minute
+  rateLimiter({ windowMs: 60 * 1000, maxRequests: 50 }), // 50 requests per minute
   instagramController.canCreateSession.bind(instagramController)
 );
 

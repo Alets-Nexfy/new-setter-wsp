@@ -34,10 +34,10 @@ import {
   MessageType,
   ChatType
 } from '../../shared/types/chat';
-import { DatabaseService } from './database';
-import { CacheService } from './cache';
-import { QueueService } from './queue';
-import { LoggerService } from './logger';
+import { SupabaseService } from './SupabaseService';
+import { CacheService } from './CacheService';
+import { QueueService } from './QueueService';
+import { LoggerService } from './LoggerService';
 
 export class ChatService {
   private static instance: ChatService;
@@ -69,10 +69,18 @@ export class ChatService {
     return ChatService.instance;
   }
 
-  // Chat CRUD operations
+  // ========== REFACTORED METHODS USING SQL RELATIONS ==========
+
+  /**
+   * Create a new chat using SQL relations
+   */
   async createChat(userId: string, chatId: string, contactName: string, type: ChatType = 'individual'): Promise<Chat> {
     try {
-      const now = new Date();
+      // First, ensure user exists (create if not)
+      const userUuid = this.ensureUUID(userId);
+      await this.ensureUserExists(userUuid);
+      
+      const now = new Date().toISOString();
       const chat: Chat = {
         id: chatId,
         userId,
@@ -81,951 +89,976 @@ export class ChatService {
         contactName,
         isActivated: false,
         userIsActive: false,
-        createdAt: now.toISOString(),
-        updatedAt: now.toISOString()
+        createdAt: now,
+        updatedAt: now
       };
 
-      // Create chat document
-      const chatDocRef = this.db.collection('users').doc(userId).collection('chats').doc(chatId);
-      await chatDocRef.set({
-        ...chat,
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString()
-      });
+      // Insert into chats table with correct column names
+      // Required fields: id, user_id, platform, contact_id, contact_name
+      const insertData: any = {
+        user_id: userUuid, // Use the UUID we just ensured exists
+        platform: 'whatsapp', // Required field
+        contact_id: chatId, // Required field (using chatId as contact_id)
+        contact_name: contactName || 'Unknown', // Required field
+        // Optional fields
+        chat_id: chatId, // Store original chatId
+        type: type || 'individual',
+        is_activated: false,
+        user_is_active: false,
+        is_active: true,
+        is_archived: false,
+        human_present: false,
+        auto_agent_paused: false,
+        created_at: now,
+        updated_at: now
+      };
 
-      // Initialize message collections
-      await this.ensureChatCollections(userId, chatId);
+      const { data, error } = await this.db
+        .from('chats')
+        .insert(insertData)
+        .select()
+        .single();
+
+      if (error) {
+        this.logger.error('Error creating chat', { userId, chatId, error });
+        throw error;
+      }
 
       // Cache chat data
-      await this.cache.set(`chat:${userId}:${chatId}`, chat, 3600);
+      await this.cache.set(`chat:${userId}:${chatId}`, JSON.stringify(chat), 3600);
 
-      // Log activity
-      await this.logChatActivity(userId, chatId, 'created', 'Chat created');
-
-      this.logger.info(`Chat created: ${chatId} for user ${userId}`, { userId, chatId, contactName });
-      return chat;
+      this.logger.info('Chat created successfully', { userId, chatId });
+      return this.mapDbChatToChat(data);
     } catch (error) {
-      this.logger.error(`Error creating chat ${chatId} for user ${userId}:`, error);
+      this.logger.error('Failed to create chat', { userId, chatId, error });
       throw error;
     }
   }
 
+  /**
+   * Get a specific chat by ID
+   */
   async getChat(userId: string, chatId: string): Promise<Chat | null> {
     try {
-      // Try cache first
-      const cacheKey = `chat:${userId}:${chatId}`;
-      const cached = await this.cache.get(cacheKey);
+      // Check cache first
+      const cached = await this.cache.get(`chat:${userId}:${chatId}`);
       if (cached) {
-        return cached as Chat;
+        return JSON.parse(cached) as Chat;
       }
 
-      // Get from database
-      const chatDocRef = this.db.collection('users').doc(userId).collection('chats').doc(chatId);
-      const doc = await chatDocRef.get();
+      // Get from database using SQL query
+      const { data, error } = await this.db
+        .from('chats')
+        .select('*')
+        .eq('user_id', this.ensureUUID(userId))
+        .eq('chat_id', this.ensureUUID(chatId))
+        .single();
+
+      if (error) {
+        if (error.code === 'PGRST116') { // Not found
+          return null;
+        }
+        throw error;
+      }
+
+      const chat = this.mapDbChatToChat(data);
       
-      if (!doc.exists) {
-        return null;
-      }
+      // Cache for future use
+      await this.cache.set(`chat:${userId}:${chatId}`, JSON.stringify(chat), 3600);
 
-      const data = doc.data() as Chat;
-      const chat: Chat = {
-        ...data,
-        createdAt: data.createdAt,
-        updatedAt: data.updatedAt
-      };
-
-      // Cache result
-      await this.cache.set(cacheKey, chat, 3600);
       return chat;
     } catch (error) {
-      this.logger.error(`Error getting chat ${chatId} for user ${userId}:`, error);
+      this.logger.error('Error getting chat', { userId, chatId, error });
       throw error;
     }
   }
 
-  async getChats(request: GetChatsRequest): Promise<GetChatsResponse> {
+  /**
+   * Get all chats for a user with filtering and pagination
+   */
+  async getChats(userId: string, request: Partial<GetChatsRequest> = {}): Promise<GetChatsResponse> {
     try {
-      const { userId, limit = 50, offset = 0, search, isActivated, hasKanbanBoard, sortBy = 'lastMessage', sortOrder = 'desc' } = request;
+      const { 
+        limit = 50, 
+        offset = 0, 
+        search, 
+        isActivated, 
+        hasKanbanBoard, 
+        sortBy = 'lastMessage', 
+        sortOrder = 'desc' 
+      } = request;
       
-      let query = this.db.collection('users').doc(userId).collection('chats');
+      // Build query
+      let query = this.db
+        .from('chats')
+        .select('*', { count: 'exact' })
+        .eq('user_id', this.ensureUUID(userId));
 
       // Apply filters
-      if (isActivated !== undefined) {
-        query = query.where('isActivated', '==', isActivated);
+      if (search) {
+        query = query.or(`contact_name.ilike.%${search}%,chat_id.ilike.%${search}%`);
       }
+      
+      if (isActivated !== undefined) {
+        query = query.eq('is_activated', isActivated);
+      }
+      
       if (hasKanbanBoard !== undefined) {
-        if (hasKanbanBoard) {
-          query = query.where('kanbanBoardId', '!=', null);
-        } else {
-          query = query.where('kanbanBoardId', '==', null);
-        }
+        query = query.eq('has_kanban_board', hasKanbanBoard);
       }
 
       // Apply sorting
-      const sortField = sortBy === 'lastMessage' ? 'lastMessageTimestamp' : 
-                       sortBy === 'contactName' ? 'contactName' : 'createdAt';
-      query = query.orderBy(sortField, sortOrder);
+      const sortColumn = this.mapSortColumn(sortBy);
+      query = query.order(sortColumn, { ascending: sortOrder === 'asc' });
 
       // Apply pagination
-      query = query.limit(limit).offset(offset);
+      query = query.range(offset, offset + limit - 1);
 
-      const snapshot = await query.get();
-      const chats: ChatListItem[] = [];
+      const { data, error, count } = await query;
 
-      for (const doc of snapshot.docs) {
-        const data = doc.data() as Chat;
-        
-        // Apply search filter if provided
-        if (search && !data.contactName.toLowerCase().includes(search.toLowerCase()) &&
-            !data.contactDisplayName?.toLowerCase().includes(search.toLowerCase())) {
-          continue;
-        }
-
-        // Get unread count (this would need to be implemented based on your read tracking)
-        const unreadCount = await this.getUnreadMessageCount(userId, data.chatId);
-
-        chats.push({
-          chatId: data.chatId,
-          contactName: data.contactName,
-          contactDisplayName: data.contactDisplayName,
-          lastMessageContent: data.lastMessageContent || '',
-          lastMessageTimestamp: data.lastMessageTimestamp?.toString() || '',
-          lastMessageType: data.lastMessageType || 'text',
-          lastMessageOrigin: data.lastMessageOrigin || 'contact',
-          isActivated: data.isActivated,
-          userIsActive: data.userIsActive,
-          unreadCount,
-          kanbanBoardId: data.kanbanBoardId,
-          kanbanColumnId: data.kanbanColumnId
-        });
+      if (error) {
+        throw error;
       }
 
-      // Get total count
-      const totalQuery = this.db.collection('users').doc(userId).collection('chats');
-      const totalSnapshot = await totalQuery.get();
-      const total = totalSnapshot.size;
+      const chats = data.map(this.mapDbChatToChat);
 
       return {
         success: true,
         data: chats,
         pagination: {
+          total: count || 0,
           limit,
           offset,
-          total,
-          hasMore: offset + limit < total
+          hasMore: (count || 0) > offset + limit
         }
       };
     } catch (error) {
-      this.logger.error(`Error getting chats for user ${request.userId}:`, error);
+      this.logger.error('Error getting chats', { request, error });
       throw error;
     }
   }
 
-  async updateChat(userId: string, chatId: string, updates: Partial<Chat>): Promise<Chat | null> {
+  /**
+   * Update a chat
+   */
+  async updateChat(userId: string, chatId: string, updates: Partial<Chat>): Promise<Chat> {
     try {
-      const chat = await this.getChat(userId, chatId);
-      if (!chat) {
-        return null;
-      }
-
       const updatedData = {
-        ...updates,
-        updatedAt: new Date().toISOString()
+        ...this.mapChatToDbChat(updates),
+        updated_at: new Date().toISOString()
       };
 
-      const chatDocRef = this.db.collection('users').doc(userId).collection('chats').doc(chatId);
-      await chatDocRef.update(updatedData);
+      const { data, error } = await this.db
+        .from('chats')
+        .update(updatedData)
+        .eq('user_id', this.ensureUUID(userId))
+        .eq('chat_id', this.ensureUUID(chatId))
+        .select()
+        .single();
 
-      // Clear cache
-      await this.cache.delete(`chat:${userId}:${chatId}`);
+      if (error) {
+        throw error;
+      }
 
-      // Get updated chat
-      const updatedChat = await this.getChat(userId, chatId);
-      
-      this.logger.info(`Chat updated: ${chatId} for user ${userId}`, { userId, chatId, updates });
-      return updatedChat;
+      const chat = this.mapDbChatToChat(data);
+
+      // Invalidate cache
+      await this.cache.del(`chat:${userId}:${chatId}`);
+
+      return chat;
     } catch (error) {
-      this.logger.error(`Error updating chat ${chatId} for user ${userId}:`, error);
+      this.logger.error('Error updating chat', { userId, chatId, updates, error });
       throw error;
     }
   }
 
-  async deleteChat(userId: string, chatId: string): Promise<boolean> {
+  /**
+   * Update contact name for a chat
+   */
+  async updateContactName(userId: string, chatId: string, name: string): Promise<{ success: boolean; error?: string; chat?: Chat }> {
     try {
-      const chatDocRef = this.db.collection('users').doc(userId).collection('chats').doc(chatId);
-      
-      // Delete all message collections
-      const messageCollections = ['messages_all', 'messages_human', 'messages_bot', 'messages_contact'];
-      
-      for (const collection of messageCollections) {
-        await this.deleteCollection(chatDocRef.collection(collection));
-      }
-
-      // Delete chat document
-      await chatDocRef.delete();
-
-      // Clear cache
-      await this.cache.delete(`chat:${userId}:${chatId}`);
-
-      // Log activity
-      await this.logChatActivity(userId, chatId, 'deleted', 'Chat deleted');
-
-      this.logger.info(`Chat deleted: ${chatId} for user ${userId}`, { userId, chatId });
-      return true;
+      const chat = await this.updateChat(userId, chatId, { contactName: name });
+      return { success: true, chat };
     } catch (error) {
-      this.logger.error(`Error deleting chat ${chatId} for user ${userId}:`, error);
-      throw error;
+      this.logger.error('Error updating contact name', { userId, chatId, name, error });
+      return { 
+        success: false, 
+        error: error instanceof Error ? error.message : 'Failed to update contact name' 
+      };
     }
   }
 
-  // Message operations
-  async sendMessage(userId: string, request: SendMessageRequest): Promise<SendMessageResponse> {
+  /**
+   * Reset all chat activations for a user
+   */
+  async resetAllChatActivations(userId: string): Promise<{ success: boolean; count: number; error?: string }> {
     try {
-      const { chatId, message, origin = 'human', type = 'text', metadata } = request;
+      const { data, error } = await this.db
+        .from('chats')
+        .update({
+          is_activated: false,
+          user_is_active: false,
+          deactivated_at: new Date().toISOString(),
+          deactivation_reason: 'bulk_reset'
+        })
+        .eq('user_id', this.ensureUUID(userId))
+        .eq('is_activated', true)
+        .select();
 
-      // Ensure chat exists
-      let chat = await this.getChat(userId, chatId);
-      if (!chat) {
-        // Create chat if it doesn't exist
-        const contactName = chatId.includes('@') ? chatId.split('@')[0] : chatId;
-        chat = await this.createChat(userId, chatId, contactName);
+      if (error) {
+        throw error;
       }
 
-      // Create message
-      const messageData: Omit<Message, 'id'> = {
-        chatId,
-        from: origin === 'human' ? `me (${userId})` : `bot (${userId})`,
-        to: chatId,
-        body: message,
-        timestamp: new Date().toISOString(),
-        type,
-        origin,
-        status: 'pending',
-        fromMe: origin === 'human' || origin === 'bot',
-        isAutoReply: origin === 'bot',
-        hasMedia: false,
-        hasReacted: false,
-        hasSticker: false,
-        isEphemeral: false,
-        isForwarded: false,
-        isGif: false,
-        isStarred: false,
-        isStatus: false,
-        mentionedIds: [],
-        vCards: [],
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString()
-      };
-
-      // Save message to appropriate collections
-      const chatDocRef = this.db.collection('users').doc(userId).collection('chats').doc(chatId);
-      const messageRef = await chatDocRef.collection('messages_all').add({
-        ...messageData,
-        timestamp: new Date().toISOString(),
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString()
-      });
-
-      // Save to origin-specific collection
-      const originCollection = origin === 'human' ? 'messages_human' : 
-                              origin === 'bot' ? 'messages_bot' : 'messages_contact';
-      await chatDocRef.collection(originCollection).add({
-        ...messageData,
-        timestamp: new Date().toISOString(),
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString()
-      });
-
-      // Update chat metadata
-      await this.updateChatMetadata(userId, chatId, {
-        lastMessageContent: message,
-        lastMessageTimestamp: new Date().toISOString(),
-        lastMessageType: type,
-        lastMessageOrigin: origin,
-        userIsActive: origin === 'human',
-        lastActivityTimestamp: new Date().toISOString()
-      });
-
-      // Track tokens for conversation
-      if (origin === 'human' || origin === 'bot') {
-        this.trackMessageTokens(chatId, origin === 'human' ? 'user' : 'assistant', message);
+      const count = data ? data.length : 0;
+      
+      // Clear all chat caches for this user
+      const keys = await this.cache.keys(`chat:${userId}:*`);
+      if (keys.length > 0) {
+        await Promise.all(keys.map(key => this.cache.del(key)));
       }
 
-      // Log activity
-      await this.logChatActivity(userId, chatId, 'message_sent', `Message sent: ${message.substring(0, 50)}...`);
-
-      this.logger.info(`Message sent: ${chatId} for user ${userId}`, { userId, chatId, origin, messageLength: message.length });
-
-      return {
-        success: true,
-        message: 'Message sent successfully',
-        data: {
-          messageId: messageRef.id,
-          chatId,
-          content: message,
-          timestamp: new Date().toISOString(),
-          origin
-        }
-      };
+      this.logger.info('Reset all chat activations', { userId, count });
+      
+      return { success: true, count };
     } catch (error) {
-      this.logger.error(`Error sending message to chat ${request.chatId} for user ${userId}:`, error);
+      this.logger.error('Error resetting chat activations', { userId, error });
       return {
         success: false,
-        message: 'Internal error sending message'
+        count: 0,
+        error: error instanceof Error ? error.message : 'Failed to reset chat activations'
       };
     }
   }
 
-  async getMessages(userId: string, request: GetMessagesRequest): Promise<GetMessagesResponse> {
+  /**
+   * Delete a chat and all its messages
+   */
+  async deleteChat(userId: string, chatId: string): Promise<boolean> {
     try {
-      const { chatId, limit = 50, offset = 0, before, after, origin, type } = request;
+      // Delete all messages first (cascading delete if FK is set up properly)
+      await this.db
+        .from('messages')
+        .delete()
+        .eq('chat_id', this.ensureUUID(chatId));
 
-      const chatDocRef = this.db.collection('users').doc(userId).collection('chats').doc(chatId);
-      let query = chatDocRef.collection('messages_all').orderBy('timestamp', 'asc');
+      // Delete the chat
+      const { error } = await this.db
+        .from('chats')
+        .delete()
+        .eq('user_id', this.ensureUUID(userId))
+        .eq('chat_id', this.ensureUUID(chatId));
 
-      // Apply filters
-      if (before) {
-        const beforeTimestamp = new Date(before);
-        query = query.where('timestamp', '<', beforeTimestamp);
-      }
-      if (after) {
-        const afterTimestamp = new Date(after);
-        query = query.where('timestamp', '>', afterTimestamp);
-      }
-      if (origin) {
-        query = query.where('origin', '==', origin);
-      }
-      if (type) {
-        query = query.where('type', '==', type);
-      }
-
-      // Apply pagination
-      query = query.limit(limit).offset(offset);
-
-      const snapshot = await query.get();
-      const messages: Message[] = [];
-
-      snapshot.forEach(doc => {
-        const data = doc.data();
-        messages.push({
-          id: doc.id,
-          ...data,
-          timestamp: data.timestamp?.toDate?.() ? data.timestamp.toDate().toISOString() : data.timestamp,
-          createdAt: data.createdAt?.toDate?.() ? data.createdAt.toDate().toISOString() : data.createdAt,
-          updatedAt: data.updatedAt?.toDate?.() ? data.updatedAt.toDate().toISOString() : data.updatedAt
-        } as Message);
-      });
-
-      // Get total count
-      const totalQuery = chatDocRef.collection('messages_all');
-      const totalSnapshot = await totalQuery.get();
-      const total = totalSnapshot.size;
-
-      return {
-        success: true,
-        data: messages,
-        pagination: {
-          limit,
-          offset,
-          total,
-          hasMore: offset + limit < total
-        }
-      };
-    } catch (error) {
-      this.logger.error(`Error getting messages for chat ${request.chatId} for user ${userId}:`, error);
-      throw error;
-    }
-  }
-
-  async updateContactName(userId: string, request: UpdateContactNameRequest): Promise<boolean> {
-    try {
-      const { chatId, name } = request;
-
-      const chatDocRef = this.db.collection('users').doc(userId).collection('chats').doc(chatId);
-      await chatDocRef.update({
-        contactDisplayName: name.trim(),
-        updatedAt: new Date().toISOString()
-      });
-
-      // Clear cache
-      await this.cache.delete(`chat:${userId}:${chatId}`);
-
-      // Log activity
-      await this.logChatActivity(userId, chatId, 'contact_updated', `Contact name updated to: ${name}`);
-
-      this.logger.info(`Contact name updated: ${chatId} for user ${userId}`, { userId, chatId, name });
-      return true;
-    } catch (error) {
-      this.logger.error(`Error updating contact name for chat ${chatId} for user ${userId}:`, error);
-      throw error;
-    }
-  }
-
-  // Chat activation/deactivation
-  async activateChat(userId: string, request: ChatActivationRequest): Promise<boolean> {
-    try {
-      const { chatId, method = 'manual', metadata } = request;
-
-      const chatDocRef = this.db.collection('users').doc(userId).collection('chats').doc(chatId);
-      const serverTimestamp = new Date().toISOString();
-
-      await chatDocRef.set({
-        isActivated: true,
-        activatedAt: serverTimestamp,
-        activationMethod: method,
-        lastActivityTimestamp: serverTimestamp,
-        updatedAt: serverTimestamp,
-        ...(metadata && { metadata })
-      }, { merge: true });
-
-      // Clear cache
-      await this.cache.delete(`chat:${userId}:${chatId}`);
-
-      // Log activity
-      await this.logChatActivity(userId, chatId, 'activated', `Chat activated via ${method}`);
-
-      this.logger.info(`Chat activated: ${chatId} for user ${userId}`, { userId, chatId, method });
-      return true;
-    } catch (error) {
-      this.logger.error(`Error activating chat ${chatId} for user ${userId}:`, error);
-      throw error;
-    }
-  }
-
-  async deactivateChat(userId: string, request: ChatDeactivationRequest): Promise<boolean> {
-    try {
-      const { chatId, reason, sendFarewellMessage = false } = request;
-
-      const chatDocRef = this.db.collection('users').doc(userId).collection('chats').doc(chatId);
-      const serverTimestamp = new Date().toISOString();
-
-      await chatDocRef.update({
-        isActivated: false,
-        deactivatedAt: serverTimestamp,
-        deactivationReason: reason,
-        updatedAt: serverTimestamp
-      });
-
-      // Send farewell message if requested
-      if (sendFarewellMessage) {
-        await this.sendMessage(userId, {
-          chatId,
-          message: 'Thank you for chatting with us. This conversation has been deactivated.',
-          origin: 'bot'
-        });
+      if (error) {
+        throw error;
       }
 
       // Clear cache
-      await this.cache.delete(`chat:${userId}:${chatId}`);
+      await this.cache.del(`chat:${userId}:${chatId}`);
+      await this.clearMessageCache(userId, chatId);
 
-      // Log activity
-      await this.logChatActivity(userId, chatId, 'deactivated', `Chat deactivated: ${reason || 'No reason provided'}`);
-
-      this.logger.info(`Chat deactivated: ${chatId} for user ${userId}`, { userId, chatId, reason });
+      this.logger.info('Chat deleted successfully', { userId, chatId });
       return true;
     } catch (error) {
-      this.logger.error(`Error deactivating chat ${chatId} for user ${userId}:`, error);
+      this.logger.error('Error deleting chat', { userId, chatId, error });
       throw error;
     }
   }
 
-  async isChatActivated(userId: string, chatId: string): Promise<boolean> {
+  /**
+   * Send a message - refactored to use messages table
+   */
+  async sendMessage(request: SendMessageRequest): Promise<SendMessageResponse> {
     try {
-      const chat = await this.getChat(userId, chatId);
-      if (!chat || !chat.isActivated) {
-        return false;
-      }
+      const { chatId, message: content, origin, type = 'text', metadata } = request;
+      // Extract userId from chat context or parameter
+      const userId = request.userId || '';
 
-      // Check if chat has been inactive for too long
-      const lastActivity = chat.lastActivityTimestamp ? new Date(chat.lastActivityTimestamp) : new Date(chat.activatedAt || 0);
-      const now = new Date();
-      const inactiveTime = now.getTime() - lastActivity.getTime();
-
-      if (inactiveTime > this.INACTIVITY_TIMEOUT_MS) {
-        // Auto-deactivate inactive chat
-        await this.deactivateChat(userId, {
-          chatId,
-          reason: 'Automatic deactivation due to inactivity'
-        });
-        return false;
-      }
-
-      return true;
-    } catch (error) {
-      this.logger.error(`Error checking chat activation for ${chatId} for user ${userId}:`, error);
-      return false;
-    }
-  }
-
-  // Bulk operations
-  async bulkChatOperation(userId: string, operation: BulkChatOperation): Promise<BulkChatOperationResult> {
-    try {
-      const { operation: op, chatIds, parameters } = operation;
-      const results = [];
-      const summary = {
-        total: chatIds.length,
-        successful: 0,
-        failed: 0
-      };
-
-      for (const chatId of chatIds) {
-        try {
-          let result = false;
-          
-          switch (op) {
-            case 'activate':
-              result = await this.activateChat(userId, { chatId, method: 'manual' });
-              break;
-            case 'deactivate':
-              result = await this.deactivateChat(userId, { chatId, reason: parameters?.reason });
-              break;
-            case 'delete':
-              result = await this.deleteChat(userId, chatId);
-              break;
-            case 'move_to_kanban':
-              if (parameters?.kanbanBoardId && parameters?.kanbanColumnId) {
-                result = await this.updateChat(userId, chatId, {
-                  kanbanBoardId: parameters.kanbanBoardId,
-                  kanbanColumnId: parameters.kanbanColumnId
-                });
-              }
-              break;
-            case 'clear_history':
-              result = await this.clearChatHistory(userId, chatId);
-              break;
-          }
-
-          results.push({
-            chatId,
-            success: !!result
-          });
-          summary.successful++;
-        } catch (error) {
-          results.push({
-            chatId,
-            success: false,
-            error: error.message
-          });
-          summary.failed++;
-        }
-      }
-
-      return {
-        success: summary.failed === 0,
-        results,
-        summary
-      };
-    } catch (error) {
-      this.logger.error(`Error in bulk chat operation for user ${userId}:`, error);
-      throw error;
-    }
-  }
-
-  // Chat presence and activity
-  async isUserActiveInChat(userId: string, chatId: string): Promise<boolean> {
-    try {
-      const chat = await this.getChat(userId, chatId);
-      if (!chat) {
-        return false;
-      }
-
-      // Check explicit activity flag
-      if (chat.userIsActive) {
-        return true;
-      }
-
-      // Check recent human message activity
-      const tenMinutesAgo = new Date(Date.now() - 10 * 60 * 1000);
-      const lastHumanActivity = chat.lastHumanMessageTimestamp ? new Date(chat.lastHumanMessageTimestamp) : null;
-      
-      if (lastHumanActivity && lastHumanActivity > tenMinutesAgo) {
-        return true;
-      }
-
-      return false;
-    } catch (error) {
-      this.logger.error(`Error checking user activity for chat ${chatId} for user ${userId}:`, error);
-      return false;
-    }
-  }
-
-  async getChatPresence(userId: string, chatId: string): Promise<ChatPresence> {
-    try {
-      const chat = await this.getChat(userId, chatId);
-      const lastActivity = chat?.lastActivityTimestamp ? new Date(chat.lastActivityTimestamp) : new Date(0);
-      const now = new Date();
-      const inactivityDuration = Math.floor((now.getTime() - lastActivity.getTime()) / (1000 * 60)); // in minutes
-
-      return {
-        chatId,
-        userId,
-        isUserActive: chat?.userIsActive || false,
-        lastActivity: lastActivity.toISOString(),
-        activitySource: 'message', // This could be enhanced based on actual activity tracking
-        inactivityDuration
-      };
-    } catch (error) {
-      this.logger.error(`Error getting chat presence for ${chatId} for user ${userId}:`, error);
-      throw error;
-    }
-  }
-
-  // Conversation context and token tracking
-  async getConversationContext(userId: string, chatId: string, maxMessages = 6): Promise<ConversationContext> {
-    try {
-      const chatDocRef = this.db.collection('users').doc(userId).collection('chats').doc(chatId);
-      const messagesSnapshot = await chatDocRef.collection('messages_all')
-        .orderBy('timestamp', 'desc')
-        .limit(maxMessages * 2)
-        .get();
-
-      const messages = [];
-      let totalTokens = 0;
-
-      messagesSnapshot.forEach(doc => {
-        const msgData = doc.data();
-        if (msgData.body) {
-          const estimatedTokens = Math.ceil((msgData.body.length || 0) / this.TOKEN_ESTIMATE_RATIO);
-          const role = (msgData.origin === 'bot' || (msgData.isFromMe && msgData.isAutoReply)) ? 'assistant' : 'user';
-          
-          messages.push({
-            role,
-            content: msgData.body,
-            timestamp: msgData.timestamp?.toDate?.() ? msgData.timestamp.toDate().toISOString() : msgData.timestamp,
-            estimatedTokens
-          });
-          totalTokens += estimatedTokens;
-        }
-      });
-
-      // Sort chronologically (oldest first)
-      messages.sort((a, b) => new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime());
-
-      // Limit tokens for prompt
-      const limitedMessages = [];
-      let promptTokens = 0;
-      
-      for (let i = messages.length - 1; i >= 0; i--) {
-        if (promptTokens + messages[i].estimatedTokens <= this.MAX_HISTORY_TOKENS_FOR_PROMPT) {
-          limitedMessages.unshift(messages[i]);
-          promptTokens += messages[i].estimatedTokens;
-        } else {
-          break;
-        }
-      }
-
-      return {
-        chatId,
-        messages: limitedMessages,
-        totalTokens: promptTokens,
-        lastUpdated: new Date().toISOString()
-      };
-    } catch (error) {
-      this.logger.error(`Error getting conversation context for chat ${chatId} for user ${userId}:`, error);
-      throw error;
-    }
-  }
-
-  private trackMessageTokens(chatId: string, role: 'user' | 'assistant', content: string): void {
-    const estimatedTokens = Math.ceil((content?.length || 0) / this.TOKEN_ESTIMATE_RATIO);
-    
-    if (!this.conversationTokenMap.has(chatId)) {
-      this.conversationTokenMap.set(chatId, {
-        chatId,
-        messages: [],
-        totalTokens: 0,
-        lastUpdated: new Date().toISOString()
-      });
-    }
-
-    const conversation = this.conversationTokenMap.get(chatId)!;
-    
-    conversation.messages.push({
-      role,
-      content,
-      timestamp: new Date().toISOString(),
-      estimatedTokens
-    });
-    
-    conversation.totalTokens += estimatedTokens;
-    conversation.lastUpdated = new Date().toISOString();
-
-    // Remove old messages if exceeding token limit
-    while (conversation.totalTokens > this.MAX_CONVERSATION_TOKENS && conversation.messages.length > 1) {
-      const oldestMessage = conversation.messages.shift();
-      if (oldestMessage) {
-        conversation.totalTokens -= oldestMessage.estimatedTokens;
-      }
-    }
-
-    this.logger.debug(`Token tracking for chat ${chatId}: ${conversation.messages.length} messages, ~${conversation.totalTokens} tokens`);
-  }
-
-  // Statistics and analytics
-  async getChatStatistics(userId: string): Promise<ChatStatistics> {
-    try {
-      const chatsSnapshot = await this.db.collection('users').doc(userId).collection('chats').get();
-      const chats = chatsSnapshot.docs.map(doc => doc.data() as Chat);
-
-      const stats: ChatStatistics = {
-        totalChats: chats.length,
-        activatedChats: chats.filter(c => c.isActivated).length,
-        activeUsers: chats.filter(c => c.userIsActive).length,
-        totalMessages: 0,
-        humanMessages: 0,
-        botMessages: 0,
-        contactMessages: 0,
-        chatsWithKanban: chats.filter(c => c.kanbanBoardId).length,
-        averageMessagesPerChat: 0,
-        averageResponseTime: 0,
-        topContacts: []
-      };
-
-      // Calculate message counts (this would need to be optimized for large datasets)
-      for (const chat of chats) {
-        const chatDocRef = this.db.collection('users').doc(userId).collection('chats').doc(chat.chatId);
-        
-        const [allMessages, humanMessages, botMessages, contactMessages] = await Promise.all([
-          chatDocRef.collection('messages_all').get(),
-          chatDocRef.collection('messages_human').get(),
-          chatDocRef.collection('messages_bot').get(),
-          chatDocRef.collection('messages_contact').get()
-        ]);
-
-        stats.totalMessages += allMessages.size;
-        stats.humanMessages += humanMessages.size;
-        stats.botMessages += botMessages.size;
-        stats.contactMessages += contactMessages.size;
-      }
-
-      stats.averageMessagesPerChat = stats.totalChats > 0 ? stats.totalMessages / stats.totalChats : 0;
-
-      return stats;
-    } catch (error) {
-      this.logger.error(`Error getting chat statistics for user ${userId}:`, error);
-      throw error;
-    }
-  }
-
-  // Chat cleanup
-  async clearChatHistory(userId: string, chatId: string): Promise<boolean> {
-    try {
-      const chatDocRef = this.db.collection('users').doc(userId).collection('chats').doc(chatId);
-      const messageCollections = ['messages_all', 'messages_human', 'messages_bot', 'messages_contact'];
-
-      // Delete all message collections
-      for (const collection of messageCollections) {
-        await this.deleteCollection(chatDocRef.collection(collection));
-      }
-
-      // Update chat metadata
-      await chatDocRef.update({
-        lastMessageTimestamp: null,
-        lastMessageContent: null,
-        lastHumanMessageTimestamp: null,
-        lastBotMessageTimestamp: null,
-        lastContactMessageTimestamp: null,
-        userIsActive: false,
-        historyClearedAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString()
-      });
-
-      // Clear cache
-      await this.cache.delete(`chat:${userId}:${chatId}`);
-
-      // Clear conversation tokens
-      this.conversationTokenMap.delete(chatId);
-
-      // Log activity
-      await this.logChatActivity(userId, chatId, 'history_cleared', 'Chat history cleared');
-
-      this.logger.info(`Chat history cleared: ${chatId} for user ${userId}`, { userId, chatId });
-      return true;
-    } catch (error) {
-      this.logger.error(`Error clearing chat history for ${chatId} for user ${userId}:`, error);
-      throw error;
-    }
-  }
-
-  async resetChatActivations(userId: string): Promise<{ success: boolean; count: number }> {
-    try {
-      const chatsSnapshot = await this.db.collection('users').doc(userId).collection('chats').get();
-      
-      if (chatsSnapshot.empty) {
-        return { success: true, count: 0 };
-      }
-
-      // Process in batches
-      const batches = [];
-      let currentBatch = this.db.batch();
-      let operationCount = 0;
-
-      chatsSnapshot.forEach(doc => {
-        const chatRef = this.db.collection('users').doc(userId).collection('chats').doc(doc.id);
-        currentBatch.update(chatRef, { 
-          isActivated: false,
-          updatedAt: new Date().toISOString()
-        });
-        operationCount++;
-
-        if (operationCount >= 499) {
-          batches.push(currentBatch);
-          currentBatch = this.db.batch();
-          operationCount = 0;
-        }
-      });
-
-      if (operationCount > 0) {
-        batches.push(currentBatch);
-      }
-
-      // Execute all batches
-      await Promise.all(batches.map(batch => batch.commit()));
-
-      this.logger.info(`Reset chat activations for user ${userId}`, { userId, count: chatsSnapshot.size });
-      return { success: true, count: chatsSnapshot.size };
-    } catch (error) {
-      this.logger.error(`Error resetting chat activations for user ${userId}:`, error);
-      throw error;
-    }
-  }
-
-  // Health check
-  async getChatHealth(userId: string, chatId: string): Promise<ChatHealthCheck> {
-    try {
+      // Verify chat exists
       const chat = await this.getChat(userId, chatId);
       if (!chat) {
         throw new Error('Chat not found');
       }
 
-      const chatDocRef = this.db.collection('users').doc(userId).collection('chats').doc(chatId);
-      const [allMessages, humanMessages, botMessages, contactMessages] = await Promise.all([
-        chatDocRef.collection('messages_all').get(),
-        chatDocRef.collection('messages_human').get(),
-        chatDocRef.collection('messages_bot').get(),
-        chatDocRef.collection('messages_contact').get()
-      ]);
-
-      const checks = {
-        hasMessages: allMessages.size > 0,
-        hasRecentActivity: chat.lastActivityTimestamp ? 
-          new Date().getTime() - new Date(chat.lastActivityTimestamp).getTime() < 24 * 60 * 60 * 1000 : false,
-        contactInfoComplete: !!(chat.contactName && chat.contactName.trim()),
-        kanbanIntegration: !!(chat.kanbanBoardId && chat.kanbanColumnId),
-        messageCollectionsSync: allMessages.size === (humanMessages.size + botMessages.size + contactMessages.size)
+      const now = new Date().toISOString();
+      const messageData: any = {
+        user_id: this.ensureUUID(userId),
+        chat_id: this.ensureUUID(chatId),
+        platform: 'whatsapp', // Required field
+        from_contact: origin === 'contact' ? (chat.contactName || 'unknown') : 'bot', // Required field
+        to_contact: origin === 'contact' ? 'bot' : (chat.contactName || 'unknown'), // Required field
+        message_type: type || 'text', // Required field
+        content,
+        status: 'sent' // Required field
       };
+      
+      // Add optional fields
+      if (origin) messageData.origin = origin;
+      if (type) messageData.type = type;
+      if (metadata) messageData.metadata = metadata;
+      messageData.timestamp = now;
+      messageData.created_at = now;
 
-      const issues = [];
-      if (!checks.hasMessages) issues.push('No messages found');
-      if (!checks.hasRecentActivity) issues.push('No recent activity');
-      if (!checks.contactInfoComplete) issues.push('Incomplete contact information');
-      if (!checks.messageCollectionsSync) issues.push('Message collections out of sync');
+      // Insert message into messages table
+      const { data, error } = await this.db
+        .from('messages')
+        .insert(messageData)
+        .select()
+        .single();
 
-      const score = Object.values(checks).filter(Boolean).length / Object.keys(checks).length * 100;
+      if (error) {
+        throw error;
+      }
+
+      // Update chat's last message info
+      await this.updateChat(userId, chatId, {
+        lastMessageTimestamp: messageData.timestamp,
+        lastMessageContent: content,
+        lastMessageOrigin: origin
+      });
+
+      // Update conversation context
+      await this.updateConversationContext(userId, chatId, content, origin);
+
+      // Queue for processing if from contact
+      if (origin === 'contact') {
+        await this.queue.add('process-message', {
+          userId,
+          chatId,
+          messageId: data.id,
+          content,
+          metadata
+        });
+      }
+
+      this.logger.info('Message sent successfully', { userId, chatId, messageId: data.id });
 
       return {
-        chatId,
-        userId,
-        healthy: issues.length === 0,
-        issues,
-        checks,
-        lastCheck: new Date().toISOString(),
-        score: Math.round(score)
+        success: true,
+        message: 'Message sent successfully',
+        data: {
+          messageId: data.id,
+          chatId: chatId,
+          content: content,
+          timestamp: messageData.timestamp,
+          origin: origin || 'human'
+        }
       };
     } catch (error) {
-      this.logger.error(`Error getting chat health for ${chatId} for user ${userId}:`, error);
+      this.logger.error('Error sending message', { request, error });
       throw error;
     }
   }
 
-  // Helper methods
-  private async ensureChatCollections(userId: string, chatId: string): Promise<void> {
+  /**
+   * Get messages for a chat
+   */
+  async getMessages(userId: string, request: GetMessagesRequest): Promise<GetMessagesResponse> {
     try {
-      const chatDocRef = this.db.collection('users').doc(userId).collection('chats').doc(chatId);
-      const collections = ['messages_all', 'messages_human', 'messages_bot', 'messages_contact'];
+      const { chatId, limit = 50, offset = 0, before, after, origin, type } = request;
 
-      for (const collection of collections) {
-        // Create a dummy document to ensure collection exists, then delete it
-        const dummyRef = chatDocRef.collection(collection).doc('dummy');
-        await dummyRef.set({ dummy: true });
-        await dummyRef.delete();
+      // Build query
+      let query = this.db
+        .from('messages')
+        .select('*', { count: 'exact' })
+        .eq('chat_id', this.ensureUUID(chatId))
+        .eq('user_id', this.ensureUUID(userId))
+        .order('timestamp', { ascending: true });
+
+      // Apply filters
+      if (before) {
+        query = query.lt('timestamp', before);
       }
-    } catch (error) {
-      this.logger.error(`Error ensuring chat collections for ${chatId} for user ${userId}:`, error);
-    }
-  }
-
-  private async updateChatMetadata(userId: string, chatId: string, updates: any): Promise<void> {
-    try {
-      const chatDocRef = this.db.collection('users').doc(userId).collection('chats').doc(chatId);
-      await chatDocRef.update({
-        ...updates,
-        updatedAt: new Date().toISOString()
-      });
-
-      // Clear cache
-      await this.cache.delete(`chat:${userId}:${chatId}`);
-    } catch (error) {
-      this.logger.error(`Error updating chat metadata for ${chatId} for user ${userId}:`, error);
-    }
-  }
-
-  private async deleteCollection(collectionRef: any): Promise<void> {
-    const batchSize = 100;
-    let query = collectionRef.limit(batchSize);
-    
-    return new Promise((resolve, reject) => {
-      this.deleteQueryBatch(query, resolve, reject);
-    });
-  }
-
-  private async deleteQueryBatch(query: any, resolve: Function, reject: Function): Promise<void> {
-    try {
-      const snapshot = await query.get();
       
-      if (snapshot.size === 0) {
-        resolve();
-        return;
+      if (after) {
+        query = query.gt('timestamp', after);
+      }
+      
+      if (origin) {
+        query = query.eq('origin', origin);
+      }
+      
+      if (type) {
+        query = query.eq('type', type);
       }
 
-      const batch = this.db.batch();
-      snapshot.docs.forEach((doc: any) => {
-        batch.delete(doc.ref);
-      });
-      
-      await batch.commit();
-      
-      // Recurse on the next process tick
-      process.nextTick(() => {
-        this.deleteQueryBatch(query, resolve, reject);
-      });
+      // Apply pagination
+      query = query.range(offset, offset + limit - 1);
+
+      const { data, error, count } = await query;
+
+      if (error) {
+        throw error;
+      }
+
+      const messages = data.map(this.mapDbMessageToMessage);
+
+      return {
+        success: true,
+        data: messages,
+        pagination: {
+          total: count || 0,
+          limit,
+          offset,
+          hasMore: (count || 0) > offset + limit
+        }
+      };
     } catch (error) {
-      reject(error);
+      this.logger.error('Error getting messages', { userId, request, error });
+      throw error;
     }
   }
 
-  private async getUnreadMessageCount(userId: string, chatId: string): Promise<number> {
-    // This would need to be implemented based on your read tracking system
-    // For now, return 0 as a placeholder
-    return 0;
-  }
-
-  private async logChatActivity(userId: string, chatId: string, action: string, details: string, metadata?: any): Promise<void> {
+  /**
+   * Activate a chat
+   */
+  async activateChat(userId: string, request: ChatActivationRequest): Promise<Chat> {
     try {
-      const activity: Omit<ChatActivity, 'id'> = {
-        chatId,
-        userId,
-        action: action as any,
-        details,
-        metadata,
-        timestamp: new Date().toISOString()
+      const { chatId, method = 'manual', metadata } = request;
+
+      const updates = {
+        isActivated: true,
+        activatedAt: new Date().toISOString(),
+        activationMethod: (method === 'trigger' ? 'initial_trigger' : method) as 'manual' | 'initial_trigger' | 'auto',
+        activationMetadata: metadata,
+        userIsActive: true
       };
 
-      await this.db.collection('chat_activities').add(activity);
+      const chat = await this.updateChat(userId, chatId, updates);
+
+      // Queue activation event
+      await this.queue.add('chat-activated', { userId, chatId, method });
+
+      this.logger.info('Chat activated', { userId, chatId, method });
+      return chat;
     } catch (error) {
-      this.logger.error(`Error logging chat activity:`, error);
+      this.logger.error('Error activating chat', { userId, request, error });
+      throw error;
+    }
+  }
+
+  /**
+   * Deactivate a chat
+   */
+  async deactivateChat(userId: string, request: ChatDeactivationRequest): Promise<Chat> {
+    try {
+      const { chatId, reason, sendFarewellMessage = false } = request;
+
+      const updates = {
+        isActivated: false,
+        deactivatedAt: new Date().toISOString(),
+        deactivationReason: reason,
+        userIsActive: false
+      };
+
+      const chat = await this.updateChat(userId, chatId, updates);
+
+      if (sendFarewellMessage) {
+        await this.sendMessage({
+          userId,
+          chatId,
+          message: 'Gracias por contactarnos. Esta conversación ha finalizado.',
+          origin: 'bot',
+          type: 'text'
+        });
+      }
+
+      // Queue deactivation event
+      await this.queue.add('chat-deactivated', { userId, chatId, reason });
+
+      this.logger.info('Chat deactivated', { userId, chatId, reason });
+      return chat;
+    } catch (error) {
+      this.logger.error('Error deactivating chat', { userId, request, error });
+      throw error;
+    }
+  }
+
+  /**
+   * Get chat statistics
+   */
+  async getChatStatistics(userId: string): Promise<ChatStatistics> {
+    try {
+      // Get all chats for user
+      const { data: chats, error } = await this.db
+        .from('chats')
+        .select('*')
+        .eq('user_id', this.ensureUUID(userId));
+
+      if (error) {
+        throw error;
+      }
+
+      const stats: ChatStatistics = {
+        totalChats: chats.length,
+        activatedChats: chats.filter(c => c.is_activated).length,
+        activeUsers: chats.filter(c => c.user_is_active).length,
+        totalMessages: 0,
+        humanMessages: 0,
+        botMessages: 0,
+        contactMessages: 0,
+        chatsWithKanban: chats.filter(c => c.kanban_column_id).length,
+        averageMessagesPerChat: 0,
+        averageResponseTime: 0,
+        topContacts: []
+      };
+
+      // Get message counts
+      const { count: totalMessages } = await this.db
+        .from('messages')
+        .select('*', { count: 'exact', head: true })
+        .eq('user_id', this.ensureUUID(userId));
+
+      const { count: humanMessages } = await this.db
+        .from('messages')
+        .select('*', { count: 'exact', head: true })
+        .eq('user_id', this.ensureUUID(userId))
+        .eq('origin', 'human');
+
+      const { count: botMessages } = await this.db
+        .from('messages')
+        .select('*', { count: 'exact', head: true })
+        .eq('user_id', this.ensureUUID(userId))
+        .eq('origin', 'bot');
+
+      const { count: contactMessages } = await this.db
+        .from('messages')
+        .select('*', { count: 'exact', head: true })
+        .eq('user_id', this.ensureUUID(userId))
+        .eq('origin', 'contact');
+
+      stats.totalMessages = totalMessages || 0;
+      stats.humanMessages = humanMessages || 0;
+      stats.botMessages = botMessages || 0;
+      stats.contactMessages = contactMessages || 0;
+
+      // Calculate average messages per chat
+      if (stats.totalChats > 0) {
+        stats.averageMessagesPerChat = Math.round(stats.totalMessages / stats.totalChats);
+      }
+
+      return stats;
+    } catch (error) {
+      this.logger.error('Error getting chat statistics', { userId, error });
+      throw error;
+    }
+  }
+
+  // Removed duplicate clearChatHistory function - kept the more comprehensive one below
+
+  // ========== HELPER METHODS ==========
+
+  /**
+   * Ensure user exists in database (create if not)
+   */
+  private async ensureUserExists(userUuid: string): Promise<void> {
+    try {
+      // Check if user exists
+      const { data: existingUser, error: checkError } = await this.db
+        .from('users')
+        .select('id')
+        .eq('id', userUuid)
+        .single();
+
+      if (!existingUser && checkError?.code === 'PGRST116') {
+        // User doesn't exist, create it
+        this.logger.info('Creating user record', { userId: userUuid });
+        
+        const { error: insertError } = await this.db
+          .from('users')
+          .insert({
+            id: userUuid,
+            created_at: new Date().toISOString(),
+            updated_at: new Date().toISOString()
+          });
+
+        if (insertError) {
+          this.logger.error('Error creating user', { userId: userUuid, error: insertError });
+          // Don't throw - user might exist due to race condition
+        }
+      }
+    } catch (error) {
+      this.logger.warn('Error checking/creating user', { userId: userUuid, error });
+      // Don't throw - continue with chat creation attempt
+    }
+  }
+
+  /**
+   * Check if a string is a valid UUID
+   */
+  private isValidUUID(str: string): boolean {
+    const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+    return uuidRegex.test(str);
+  }
+
+  /**
+   * Ensure value is a UUID (create deterministic UUID from string if not)
+   */
+  private ensureUUID(value: string): string {
+    if (this.isValidUUID(value)) {
+      return value;
+    }
+    // Create a deterministic UUID from the string using a namespace UUID
+    // This ensures the same string always produces the same UUID
+    const crypto = require('crypto');
+    const namespace = '6ba7b810-9dad-11d1-80b4-00c04fd430c8'; // Standard namespace UUID
+    const hash = crypto.createHash('sha1');
+    hash.update(namespace + value);
+    const hashBytes = hash.digest();
+    
+    // Format as UUID v5
+    const uuid = [
+      hashBytes.toString('hex', 0, 4),
+      hashBytes.toString('hex', 4, 6),
+      '5' + hashBytes.toString('hex', 7, 8), // Version 5
+      ((hashBytes[8] & 0x3f) | 0x80).toString(16) + hashBytes.toString('hex', 9, 10),
+      hashBytes.toString('hex', 10, 16)
+    ].join('-');
+    
+    return uuid;
+  }
+
+  /**
+   * Map database chat to Chat type
+   */
+  private mapDbChatToChat(dbChat: any): Chat {
+    return {
+      id: dbChat.id,
+      userId: dbChat.user_id,
+      chatId: dbChat.chat_id || dbChat.contact_id, // Use chat_id or fall back to contact_id
+      type: dbChat.type || 'individual',
+      contactName: dbChat.contact_name,
+      contactDisplayName: dbChat.contact_display_name,
+      isActivated: dbChat.is_activated || false,
+      userIsActive: dbChat.user_is_active || false,
+      activatedAt: dbChat.activated_at,
+      activationMethod: dbChat.activation_method,
+      lastMessageTimestamp: dbChat.last_message_timestamp || dbChat.last_message_time,
+      lastMessageContent: dbChat.last_message_content || dbChat.last_message,
+      lastMessageOrigin: dbChat.last_message_origin,
+      createdAt: dbChat.created_at,
+      updatedAt: dbChat.updated_at
+    };
+  }
+
+  /**
+   * Map Chat type to database format
+   */
+  private mapChatToDbChat(chat: Partial<Chat>): any {
+    const dbChat: any = {};
+    
+    if (chat.id !== undefined) dbChat.id = chat.id;
+    if (chat.userId !== undefined) dbChat.user_id = this.ensureUUID(chat.userId);
+    if (chat.chatId !== undefined) {
+      dbChat.chat_id = chat.chatId;
+      dbChat.contact_id = chat.chatId; // Also update contact_id
+    }
+    if (chat.type !== undefined) dbChat.type = chat.type;
+    if (chat.contactName !== undefined) dbChat.contact_name = chat.contactName;
+    if (chat.contactDisplayName !== undefined) dbChat.contact_display_name = chat.contactDisplayName;
+    if (chat.isActivated !== undefined) dbChat.is_activated = chat.isActivated;
+    if (chat.userIsActive !== undefined) dbChat.user_is_active = chat.userIsActive;
+    if (chat.activatedAt !== undefined) dbChat.activated_at = chat.activatedAt;
+    // Remove deactivatedAt reference as it doesn't exist in Chat interface
+    if (chat.activationMethod !== undefined) dbChat.activation_method = chat.activationMethod;
+    if (chat.lastMessageTimestamp !== undefined) dbChat.last_message_timestamp = chat.lastMessageTimestamp;
+    if (chat.lastMessageContent !== undefined) {
+      dbChat.last_message_content = chat.lastMessageContent;
+      dbChat.last_message = chat.lastMessageContent; // Also update last_message
+    }
+    if (chat.lastMessageOrigin !== undefined) dbChat.last_message_origin = chat.lastMessageOrigin;
+    if (chat.createdAt !== undefined) dbChat.created_at = chat.createdAt;
+    if (chat.updatedAt !== undefined) dbChat.updated_at = chat.updatedAt;
+    // metadata removed - not part of Chat interface
+    
+    return dbChat;
+  }
+
+  /**
+   * Map database message to Message type
+   */
+  private mapDbMessageToMessage(dbMessage: any): Message {
+    return {
+      id: dbMessage.id,
+      chatId: dbMessage.chat_id,
+      from: dbMessage.from_contact || '',
+      to: dbMessage.to_contact || '',
+      body: dbMessage.content || '',
+      timestamp: dbMessage.timestamp || dbMessage.created_at,
+      type: (dbMessage.message_type || dbMessage.type || 'text') as MessageType,
+      origin: (dbMessage.origin || 'human') as MessageOrigin,
+      status: (dbMessage.status || 'sent') as 'pending' | 'sent' | 'delivered' | 'read' | 'failed',
+      fromMe: dbMessage.origin === 'bot',
+      isAutoReply: false,
+      hasMedia: false,
+      hasReacted: false,
+      hasSticker: false,
+      isEphemeral: false,
+      isForwarded: false,
+      isGif: false,
+      isStarred: false,
+      isStatus: false,
+      mentionedIds: [],
+      vCards: [],
+      createdAt: dbMessage.created_at,
+      updatedAt: dbMessage.updated_at || dbMessage.created_at
+    };
+  }
+
+  /**
+   * Map sort column names
+   */
+  private mapSortColumn(sortBy: string): string {
+    const columnMap: { [key: string]: string } = {
+      'lastMessage': 'last_message_time',
+      'createdAt': 'created_at',
+      'updatedAt': 'updated_at',
+      'contactName': 'contact_name'
+    };
+    return columnMap[sortBy] || 'updated_at';
+  }
+
+  /**
+   * Generate unique message ID
+   */
+  private generateMessageId(): string {
+    return `msg_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+  }
+
+  /**
+   * Clear message cache for a chat
+   */
+  private async clearMessageCache(userId: string, chatId: string): Promise<void> {
+    const pattern = `messages:${userId}:${chatId}:*`;
+    // Use del method since delPattern may not exist
+    try {
+      const keys = await this.cache.keys(pattern);
+      if (keys.length > 0) {
+        await Promise.all(keys.map(key => this.cache.del(key)));
+      }
+    } catch (error) {
+      this.logger.warn('Failed to clear message cache pattern', { pattern, error });
+    }
+  }
+
+  /**
+   * Update conversation context (for AI processing)
+   */
+  private async updateConversationContext(userId: string, chatId: string, content: string, origin: MessageOrigin): Promise<void> {
+    const key = `${userId}:${chatId}`;
+    let context = this.conversationTokenMap.get(key);
+    
+    if (!context) {
+      context = {
+        chatId,
+        messages: [],
+        totalTokens: 0,
+        lastUpdated: new Date().toISOString()
+      };
+    }
+
+    // Estimate tokens (rough approximation)
+    const estimatedTokens = Math.ceil(content.length / this.TOKEN_ESTIMATE_RATIO);
+    
+    context.messages.push({
+      role: origin === 'bot' ? 'assistant' : 'user',
+      content,
+      timestamp: new Date().toISOString(),
+      estimatedTokens: estimatedTokens
+    });
+    
+    context.totalTokens += estimatedTokens;
+
+    // Trim if exceeding token limit
+    while (context.totalTokens > this.MAX_CONVERSATION_TOKENS && context.messages.length > 1) {
+      const removed = context.messages.shift();
+      if (removed) {
+        context.totalTokens -= removed.estimatedTokens || 0;
+      }
+    }
+
+    this.conversationTokenMap.set(key, context);
+  }
+
+  /**
+   * Get a specific message by ID
+   */
+  async getMessage(userId: string, chatId: string, messageId: string): Promise<{ success: boolean; message?: Message; error?: string }> {
+    try {
+      const userUuid = this.ensureUUID(userId);
+
+      const { data, error } = await this.db
+        .from('messages')
+        .select('*')
+        .eq('user_id', userUuid)
+        .eq('chat_id', chatId)
+        .eq('id', messageId)
+        .single();
+
+      if (error || !data) {
+        return { success: false, error: 'Message not found' };
+      }
+
+      return { success: true, message: data };
+    } catch (error) {
+      this.logger.error('Error getting message', { userId, chatId, messageId, error });
+      return { success: false, error: error instanceof Error ? error.message : 'Unknown error' };
+    }
+  }
+
+  /**
+   * Get conversation history for AI context
+   */
+  async getConversationHistory(
+    userId: string,
+    chatId: string,
+    maxMessages: number = 6,
+    maxTokens: number = 2000
+  ): Promise<{ success: boolean; context?: ConversationContext; error?: string }> {
+    try {
+      const userUuid = this.ensureUUID(userId);
+
+      const { data, error } = await this.db
+        .from('messages')
+        .select('*')
+        .eq('user_id', userUuid)
+        .eq('chat_id', chatId)
+        .order('timestamp', { ascending: false })
+        .limit(maxMessages);
+
+      if (error) {
+        return { success: false, error: error.message };
+      }
+
+      const messages = (data || []).reverse().map(msg => ({
+        role: msg.origin === 'bot' ? 'assistant' as const : 'user' as const,
+        content: msg.body || msg.content || '',
+        timestamp: new Date(msg.timestamp).toISOString(),
+        estimatedTokens: Math.ceil((msg.body || msg.content || '').length / 4)
+      }));
+
+      const context: ConversationContext = {
+        chatId,
+        messages,
+        totalTokens: messages.reduce((sum, msg) => sum + msg.estimatedTokens, 0),
+        lastUpdated: new Date().toISOString()
+      };
+
+      return { success: true, context };
+    } catch (error) {
+      this.logger.error('Error getting conversation history', { userId, chatId, error });
+      return { success: false, error: error instanceof Error ? error.message : 'Unknown error' };
+    }
+  }
+
+  /**
+   * Get message statistics for a chat
+   */
+  async getMessageStatistics(userId: string, chatId: string): Promise<{ success: boolean; statistics?: MessageStatistics; error?: string }> {
+    try {
+      const userUuid = this.ensureUUID(userId);
+
+      const { data, error } = await this.db
+        .from('messages')
+        .select('origin, type')
+        .eq('user_id', userUuid)
+        .eq('chat_id', chatId);
+
+      if (error) {
+        return { success: false, error: error.message };
+      }
+
+      const messages = data || [];
+      const statistics: MessageStatistics = {
+        totalMessages: messages.length,
+        messagesByOrigin: {
+          human: messages.filter(m => m.origin === 'human').length,
+          bot: messages.filter(m => m.origin === 'bot').length,
+          contact: messages.filter(m => m.origin === 'contact').length,
+          system: messages.filter(m => m.origin === 'system').length
+        },
+        messagesByType: {
+          text: messages.filter(m => m.type === 'text').length,
+          image: messages.filter(m => m.type === 'image').length,
+          video: messages.filter(m => m.type === 'video').length,
+          audio: messages.filter(m => m.type === 'audio').length,
+          document: messages.filter(m => m.type === 'document').length,
+          sticker: messages.filter(m => m.type === 'sticker').length,
+          location: messages.filter(m => m.type === 'location').length,
+          contact: messages.filter(m => m.type === 'contact').length,
+          other: messages.filter(m => !['text', 'image', 'video', 'audio', 'document', 'sticker', 'location', 'contact'].includes(m.type)).length
+        },
+        messagesPerDay: [],
+        averageMessageLength: 0,
+        responseTimeStats: {
+          average: 0,
+          median: 0,
+          min: 0,
+          max: 0
+        }
+      };
+
+      return { success: true, statistics };
+    } catch (error) {
+      this.logger.error('Error getting message statistics', { userId, chatId, error });
+      return { success: false, error: error instanceof Error ? error.message : 'Unknown error' };
+    }
+  }
+
+  /**
+   * Clear chat history with optional message count to keep
+   */
+  async clearChatHistory(userId: string, chatId: string, keepLastMessages: number = 0): Promise<{ success: boolean; deletedCount?: number; error?: string }> {
+    try {
+      const userUuid = this.ensureUUID(userId);
+
+      if (keepLastMessages > 0) {
+        // Get messages to keep (latest ones)
+        const { data: keepMessages, error: keepError } = await this.db
+          .from('messages')
+          .select('id')
+          .eq('user_id', userUuid)
+          .eq('chat_id', chatId)
+          .order('timestamp', { ascending: false })
+          .limit(keepLastMessages);
+
+        if (keepError) {
+          return { success: false, error: keepError.message };
+        }
+
+        const keepIds = (keepMessages || []).map(m => m.id);
+
+        // Delete all messages except the ones to keep
+        const { count, error } = await this.db
+          .from('messages')
+          .delete()
+          .eq('user_id', userUuid)
+          .eq('chat_id', chatId)
+          .not('id', 'in', `(${keepIds.join(',')})`)
+          .select('id', { count: 'exact', head: true });
+
+        if (error) {
+          return { success: false, error: error.message };
+        }
+
+        return { success: true, deletedCount: count || 0 };
+      } else {
+        // Delete all messages
+        const { count, error } = await this.db
+          .from('messages')
+          .delete()
+          .eq('user_id', userUuid)
+          .eq('chat_id', chatId)
+          .select('id', { count: 'exact', head: true });
+
+        if (error) {
+          return { success: false, error: error.message };
+        }
+
+        return { success: true, deletedCount: count || 0 };
+      }
+    } catch (error) {
+      this.logger.error('Error clearing chat history', { userId, chatId, error });
+      return { success: false, error: error instanceof Error ? error.message : 'Unknown error' };
     }
   }
 }
-
-export const chatService = ChatService.getInstance(); 

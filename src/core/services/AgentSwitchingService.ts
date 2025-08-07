@@ -12,7 +12,7 @@ import {
 export class AgentSwitchingService {
   private static instance: AgentSwitchingService;
   private readonly logger: LoggerService;
-  private readonly db: DatabaseService;
+  private readonly db: SupabaseService;
   private readonly cache: CacheService;
   private readonly agentService: AgentService;
 

@@ -187,7 +187,6 @@ export class QueueService {
         completed: 0,
         failed: 0,
         delayed: 0,
-        paused: 0,
       };
     }
     return await queue.getJobCounts();
@@ -210,7 +209,7 @@ export class QueueService {
   public async cleanQueue(
     queueName: string,
     grace: number,
-    status: Queue.JobStatus
+    status: any
   ): Promise<void> {
     const queue = this.getQueue(queueName);
     if (queue) {
@@ -306,5 +305,14 @@ export class QueueService {
     await Promise.all(closePromises);
     this.queues.clear();
     this.processors.clear();
+  }
+
+  // Alias for addJob to maintain compatibility
+  public async add(
+    queueName: string,
+    data: QueueJobData,
+    options?: QueueJobOptions
+  ): Promise<Queue.Job | null> {
+    return this.addJob(queueName, data, options);
   }
 } 

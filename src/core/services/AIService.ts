@@ -568,6 +568,83 @@ Comienza directamente con la definición del agente (Ej: "Eres [Nombre del Agent
   }
 
   /**
+   * Analyze sentiment of a message
+   */
+  public async analyzeSentiment(message: string): Promise<AIResponse> {
+    const prompt = `Analyze the sentiment of the following message and respond with only one word: POSITIVE, NEGATIVE, or NEUTRAL.
+    
+Message: "${message}"
+
+Sentiment:`;
+    
+    return await this.generateResponse(prompt, {
+      maxTokens: 10,
+      systemInstruction: 'You are a sentiment analysis tool. Respond with only one word: POSITIVE, NEGATIVE, or NEUTRAL.'
+    });
+  }
+
+  /**
+   * Summarize a conversation
+   */
+  public async summarizeConversation(messages: string[]): Promise<AIResponse> {
+    const conversation = messages.join('\n');
+    const prompt = `Summarize the following conversation in 2-3 sentences:
+
+${conversation}
+
+Summary:`;
+    
+    return await this.generateResponse(prompt, {
+      maxTokens: 200,
+      systemInstruction: 'You are a conversation summarizer. Provide concise, clear summaries.'
+    });
+  }
+
+  /**
+   * Generate follow-up questions
+   */
+  public async generateFollowUpQuestions(context: string): Promise<AIResponse> {
+    const prompt = `Based on this context, generate 3 relevant follow-up questions:
+
+Context: ${context}
+
+Questions:`;
+    
+    return await this.generateResponse(prompt, {
+      maxTokens: 300,
+      systemInstruction: 'Generate helpful follow-up questions to continue the conversation.'
+    });
+  }
+
+  /**
+   * Generate auto-reply
+   */
+  public async generateAutoReply(message: string, context?: string): Promise<AIResponse> {
+    const prompt = `Generate a helpful auto-reply for this message:
+
+Message: "${message}"
+${context ? `Context: ${context}` : ''}
+
+Reply:`;
+    
+    return await this.generateResponse(prompt, {
+      maxTokens: 200,
+      systemInstruction: 'Generate friendly, helpful auto-replies.'
+    });
+  }
+
+  /**
+   * Health check for AI service
+   */
+  public async healthCheck(): Promise<{ status: string; model: string; initialized: boolean }> {
+    return {
+      status: this.isInitialized ? 'healthy' : 'unhealthy',
+      model: process.env.GEMINI_MODEL || 'gemini-1.5-flash',
+      initialized: this.isInitialized
+    };
+  }
+
+  /**
    * Get conversation history from database
    */
   private async getConversationHistory(

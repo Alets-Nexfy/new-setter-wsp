@@ -1,4 +1,5 @@
-import { Request, Response } from 'express';
+import { Response } from 'express';
+import { AuthenticatedRequest } from '@/api/middleware/auth';
 import { PromptGeneratorService } from '@/core/services/PromptGeneratorService';
 import { LoggerService } from '@/core/services/LoggerService';
 import { ApiResponse } from '@/shared/types/ApiResponse';
@@ -42,7 +43,7 @@ export class PromptGeneratorController {
    * POST /api/prompt-generator/sessions
    * Crear una nueva sesión de generación de prompts
    */
-  public createSession = async (req: Request, res: Response): Promise<void> => {
+  public createSession = async (req: AuthenticatedRequest, res: Response): Promise<void> => {
     try {
       const userId = req.user?.id;
       if (!userId) {
@@ -89,7 +90,7 @@ export class PromptGeneratorController {
    * GET /api/prompt-generator/sessions
    * Obtener todas las sesiones del usuario
    */
-  public getUserSessions = async (req: Request, res: Response): Promise<void> => {
+  public getUserSessions = async (req: AuthenticatedRequest, res: Response): Promise<void> => {
     try {
       const userId = req.user?.id;
       if (!userId) {
@@ -134,7 +135,7 @@ export class PromptGeneratorController {
    * GET /api/prompt-generator/sessions/:sessionId
    * Obtener detalles de una sesión específica
    */
-  public getSession = async (req: Request, res: Response): Promise<void> => {
+  public getSession = async (req: AuthenticatedRequest, res: Response): Promise<void> => {
     try {
       const userId = req.user?.id;
       if (!userId) {
@@ -204,7 +205,7 @@ export class PromptGeneratorController {
    * GET /api/prompt-generator/sessions/:sessionId/current-question
    * Obtener la pregunta actual de una sesión
    */
-  public getCurrentQuestion = async (req: Request, res: Response): Promise<void> => {
+  public getCurrentQuestion = async (req: AuthenticatedRequest, res: Response): Promise<void> => {
     try {
       const userId = req.user?.id;
       if (!userId) {
@@ -263,7 +264,7 @@ export class PromptGeneratorController {
    * POST /api/prompt-generator/sessions/:sessionId/answer
    * Responder la pregunta actual
    */
-  public answerQuestion = async (req: Request, res: Response): Promise<void> => {
+  public answerQuestion = async (req: AuthenticatedRequest, res: Response): Promise<void> => {
     try {
       const userId = req.user?.id;
       if (!userId) {
@@ -338,7 +339,7 @@ export class PromptGeneratorController {
    * POST /api/prompt-generator/sessions/:sessionId/generate
    * Generar el prompt final basado en las respuestas
    */
-  public generatePrompt = async (req: Request, res: Response): Promise<void> => {
+  public generatePrompt = async (req: AuthenticatedRequest, res: Response): Promise<void> => {
     try {
       const userId = req.user?.id;
       if (!userId) {
@@ -403,7 +404,7 @@ export class PromptGeneratorController {
    * GET /api/prompt-generator/prompts
    * Obtener todos los prompts generados del usuario
    */
-  public getUserPrompts = async (req: Request, res: Response): Promise<void> => {
+  public getUserPrompts = async (req: AuthenticatedRequest, res: Response): Promise<void> => {
     try {
       const userId = req.user?.id;
       if (!userId) {
@@ -446,7 +447,7 @@ export class PromptGeneratorController {
    * GET /api/prompt-generator/prompts/:promptId
    * Obtener un prompt específico
    */
-  public getPrompt = async (req: Request, res: Response): Promise<void> => {
+  public getPrompt = async (req: AuthenticatedRequest, res: Response): Promise<void> => {
     try {
       const userId = req.user?.id;
       if (!userId) {
@@ -504,7 +505,7 @@ export class PromptGeneratorController {
    * DELETE /api/prompt-generator/sessions/:sessionId
    * Eliminar una sesión
    */
-  public deleteSession = async (req: Request, res: Response): Promise<void> => {
+  public deleteSession = async (req: AuthenticatedRequest, res: Response): Promise<void> => {
     try {
       const userId = req.user?.id;
       if (!userId) {

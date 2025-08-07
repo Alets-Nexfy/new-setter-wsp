@@ -64,10 +64,10 @@ export class WhatsAppWorkerManager extends EventEmitter {
   private workers: Map<string, ChildProcess> = new Map();
   private workerConfigs: Map<string, WorkerConfig> = new Map();
   private workerStatuses: Map<string, WorkerStatus> = new Map();
-  private messageQueue: Queue;
-  private logger: Logger;
+  private messageQueue: any;
+  private logger: LoggerService;
   private redis: any;
-  private firebase: FirebaseService;
+  private db: SupabaseService;
   private isShuttingDown: boolean = false;
   private healthCheckInterval: NodeJS.Timeout | null = null;
   private readonly WORKER_SCRIPT_PATH: string;
@@ -80,7 +80,7 @@ export class WhatsAppWorkerManager extends EventEmitter {
   constructor() {
     super();
     this.logger = LoggerService.getInstance();
-    this.firebase = SupabaseService.getInstance();
+    this.db = SupabaseService.getInstance();
     this.WORKER_SCRIPT_PATH = path.join(__dirname, 'worker-process.js');
     this.DATA_DIR = process.env.USER_DATA_PATH || './data_v2';
     
@@ -305,7 +305,7 @@ console.log('Worker process initialized and waiting for commands...');
 
     const scriptPath = path.join(__dirname, 'worker-process.js');
     await fs.writeFile(scriptPath, workerScript, 'utf8');
-    this.logger.info('Worker script creado:', scriptPath);
+    this.logger.info('Worker script creado:', { scriptPath });
   }
 
   private setupEventHandlers(): void {
@@ -500,7 +500,7 @@ console.log('Worker process initialized and waiting for commands...');
           break;
 
         default:
-          this.logger.warn(`Mensaje desconocido del worker ${userId}:`, message.type);
+          this.logger.warn(`Mensaje desconocido del worker ${userId}:`, { messageType: message.type });
       }
     } catch (error) {
       this.logger.error(`Error manejando mensaje del worker ${userId}:`, error);
@@ -515,12 +515,13 @@ console.log('Worker process initialized and waiting for commands...');
       lastActivity: new Date()
     });
 
-    // Guardar QR en Firebase
-    await this.firebase.setDocument(`whatsapp_sessions/${userId}`, {
-      qrCode: data.qr,
-      qrImage: data.qrImage,
+    // Guardar QR en Supabase
+    await this.db.from('whatsapp_sessions').upsert({
+      user_id: userId,
+      qr_code: data.qr,
+      qr_image: data.qrImage,
       status: 'waiting_qr',
-      updatedAt: new Date()
+      updated_at: new Date()
     });
 
     this.emit('worker:qr', { userId, qr: data.qr, qrImage: data.qrImage });
@@ -535,13 +536,14 @@ console.log('Worker process initialized and waiting for commands...');
       lastActivity: new Date()
     });
 
-    // Actualizar en Firebase
-    await this.firebase.setDocument(`whatsapp_sessions/${userId}`, {
-      phoneNumber: data.phoneNumber,
+    // Actualizar en Supabase
+    await this.db.from('whatsapp_sessions').upsert({
+      user_id: userId,
+      phone_number: data.phoneNumber,
       status: 'authenticated',
-      isAuthenticated: true,
-      authenticatedAt: new Date(),
-      updatedAt: new Date()
+      is_authenticated: true,
+      authenticated_at: new Date(),
+      updated_at: new Date()
     });
 
     this.emit('worker:ready', { userId, phoneNumber: data.phoneNumber });
@@ -568,7 +570,7 @@ console.log('Worker process initialized and waiting for commands...');
     });
 
     this.emit('worker:auth_failure', { userId, error: data.error });
-    this.logger.error(`Fallo de autenticación para usuario ${userId}:`, data.error);
+    this.logger.error(`Fallo de autenticación para usuario ${userId}:`, { error: data.error });
   }
 
   private async handleWorkerError(userId: string, data: { error: string; stack?: string }): Promise<void> {
@@ -579,7 +581,7 @@ console.log('Worker process initialized and waiting for commands...');
     });
 
     this.emit('worker:error', { userId, error: data.error, stack: data.stack });
-    this.logger.error(`Error en worker ${userId}:`, data.error);
+    this.logger.error(`Error en worker ${userId}:`, { error: data.error });
   }
 
   private async handleWorkerExit(userId: string, code: number | null, signal: string | null): Promise<void> {
@@ -745,7 +747,23 @@ console.log('Worker process initialized and waiting for commands...');
 
   private async saveWorkerStatusToDatabase(userId: string, status: WorkerStatus): Promise<void> {
     try {
-      await this.firebase.setDocument(`worker_statuses/${userId}`, status);
+      await this.db.from('worker_statuses').upsert({
+        user_id: userId,
+        process_id: status.processId,
+        status: status.status,
+        qr_code: status.qrCode,
+        qr_image: status.qrImage,
+        last_activity: status.lastActivity,
+        restart_count: status.restartCount,
+        is_authenticated: status.isAuthenticated,
+        phone_number: status.phoneNumber,
+        agent_id: status.agentId,
+        error_message: status.errorMessage,
+        uptime: status.uptime,
+        memory_usage: status.memoryUsage,
+        cpu_usage: status.cpuUsage,
+        updated_at: new Date()
+      });
     } catch (error) {
       this.logger.error(`Error guardando estado del worker ${userId}:`, error);
     }
@@ -753,14 +771,16 @@ console.log('Worker process initialized and waiting for commands...');
 
   private async restoreWorkersFromDatabase(): Promise<void> {
     try {
-      const statuses = await this.firebase.getCollection('worker_statuses');
+      const { data: statuses, error } = await this.db.from('worker_statuses').select('*');
       
-      for (const [userId, status] of Object.entries(statuses)) {
-        if ((status as any).status === 'running') {
-          this.logger.info(`Restaurando worker para usuario: ${userId}`);
-          // Aquí podrías implementar lógica para restaurar workers activos
-          // Por ahora, solo marcamos como detenidos
-          this.updateWorkerStatus(userId, { status: 'stopped' });
+      if (!error && statuses) {
+        for (const status of statuses) {
+          if (status.status === 'running') {
+            this.logger.info(`Restaurando worker para usuario: ${status.user_id}`);
+            // Aquí podrías implementar lógica para restaurar workers activos
+            // Por ahora, solo marcamos como detenidos
+            this.updateWorkerStatus(status.user_id, { status: 'stopped' });
+          }
         }
       }
     } catch (error) {
