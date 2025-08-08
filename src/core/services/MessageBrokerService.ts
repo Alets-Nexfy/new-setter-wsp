@@ -1183,29 +1183,35 @@ export class MessageBrokerService extends EventEmitter {
   ): Promise<string> {
     try {
       const timestamp = new Date().toISOString();
-      const messageId = `msg_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+      
+      // Extract UUID from userId if it has a prefix like "tribe-ia-nexus_"
+      const userUuid = userId.includes('_') ? userId.split('_').pop()! : userId;
       
       const messagePayload = {
-        id: messageId,
-        user_id: userId,
-        chat_id: chatId,
-        body: messageData.body || '',
+        // Don't specify id, let Supabase generate UUID
+        user_id: userUuid, // Use only the UUID part
+        // chat_id is UUID in table but we have string, so don't send it
+        // chat_id: chatId, // SKIP - This would cause UUID error
+        content: messageData.body || '',
         timestamp,
         is_from_me: false,
         message_id: messageData.id?.id || '',
         from_number: chatId,
         to_number: `me (${userId})`,
+        from_contact: chatId, // Store chat ID here
+        to_contact: userId, // Store user ID here
         origin: 'contact',
         type: messageData.type || 'text',
+        message_type: 'incoming',
         has_media: messageData.hasMedia || false,
         ack: messageData.ack || 0,
         status: 'received',
         created_at: timestamp,
-        updated_at: timestamp
+        platform: 'whatsapp'
       };
       
-      // Save to messages table using Supabase
-      const { data, error } = await this.db.getClient()
+      // Save to messages table using Supabase - Use admin client to bypass RLS
+      const { data, error } = await this.db.getAdminClient()
         .from('messages')
         .insert(messagePayload)
         .select()
@@ -1235,28 +1241,34 @@ export class MessageBrokerService extends EventEmitter {
   ): Promise<string> {
     try {
       const timestamp = new Date().toISOString();
-      const messageId = `msg_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+      
+      // Extract UUID from userId if it has a prefix like "tribe-ia-nexus_"
+      const userUuid = userId.includes('_') ? userId.split('_').pop()! : userId;
       
       const messagePayload = {
-        id: messageId,
-        user_id: userId,
-        chat_id: chatId,
-        body: messageData.content,
+        // Don't specify id, let Supabase generate UUID
+        user_id: userUuid,
+        // chat_id is UUID in table but we have string, so don't send it
+        // chat_id: chatId, // SKIP - This would cause UUID error
+        content: messageData.content,
         timestamp,
         is_from_me: true,
         from_number: `me (${userId})`,
         to_number: chatId,
+        from_contact: userId, // Store user ID here
+        to_contact: chatId, // Store chat ID here
         origin: messageData.origin,
         type: messageData.type,
+        message_type: 'outgoing',
         is_auto_reply: messageData.origin === 'bot',
         has_media: false,
         status: 'sent',
         created_at: timestamp,
-        updated_at: timestamp
+        platform: 'whatsapp'
       };
       
-      // Save to messages table using Supabase
-      const { data, error } = await this.db.getClient()
+      // Save to messages table using Supabase - Use admin client to bypass RLS
+      const { data, error } = await this.db.getAdminClient()
         .from('messages')
         .insert(messagePayload)
         .select()
@@ -1340,23 +1352,54 @@ export class MessageBrokerService extends EventEmitter {
     try {
       const timestamp = new Date().toISOString();
       
-      // Update or insert chat record using Supabase
-      const { error } = await this.db.getClient()
-        .from('chats')
-        .upsert({
-          id: `${userId}_${chatId}`,
-          user_id: userId,
-          chat_id: chatId,
-          last_contact_message_timestamp: timestamp,
-          last_message_timestamp: timestamp,
-          last_message_content: messageData.body || '',
-          last_message_origin: 'contact',
-          last_activity_timestamp: timestamp,
-          updated_at: timestamp
-        });
+      // Extract UUID from userId if it has a prefix like "tribe-ia-nexus_"
+      const userUuid = userId.includes('_') ? userId.split('_').pop()! : userId;
       
-      if (error) {
-        this.logger.error('Error updating chat after incoming message', { error, userId, chatId });
+      // First, try to find existing chat
+      const { data: existingChat } = await this.db.getAdminClient()
+        .from('chats')
+        .select('id')
+        .eq('user_id', userUuid)
+        .eq('chat_id', chatId)
+        .single();
+      
+      const chatData = {
+        user_id: userUuid,
+        chat_id: chatId,
+        contact_id: chatId,
+        contact_name: chatId.replace('@c.us', ''),
+        platform: 'whatsapp',
+        last_contact_message_timestamp: timestamp,
+        last_message_timestamp: timestamp,
+        last_message_content: messageData.body || '',
+        last_message: messageData.body || '',
+        last_message_time: timestamp,
+        last_message_origin: 'contact',
+        last_activity_timestamp: timestamp,
+        updated_at: timestamp,
+        user_is_active: false,
+        is_active: true
+      };
+      
+      if (existingChat?.id) {
+        // Update existing chat
+        const { error } = await this.db.getClient()
+          .from('chats')
+          .update(chatData)
+          .eq('id', existingChat.id);
+          
+        if (error) {
+          this.logger.error('Error updating existing chat', { error, userId, chatId });
+        }
+      } else {
+        // Insert new chat (let Supabase generate UUID)
+        const { error } = await this.db.getClient()
+          .from('chats')
+          .insert(chatData);
+          
+        if (error) {
+          this.logger.error('Error inserting new chat', { error, userId, chatId });
+        }
       }
     } catch (error) {
       this.logger.error('Error in updateChatAfterIncomingMessage', { error, userId, chatId });
@@ -1374,11 +1417,27 @@ export class MessageBrokerService extends EventEmitter {
   ): Promise<void> {
     try {
       const timestamp = new Date().toISOString();
+      
+      // Extract UUID from userId if it has a prefix like "tribe-ia-nexus_"
+      const userUuid = userId.includes('_') ? userId.split('_').pop()! : userId;
+      
+      // First, try to find existing chat
+      const { data: existingChat } = await this.db.getAdminClient()
+        .from('chats')
+        .select('id')
+        .eq('user_id', userUuid)
+        .eq('chat_id', chatId)
+        .single();
+      
       const updateData: any = {
-        id: `${userId}_${chatId}`,
-        user_id: userId,
+        user_id: userUuid,
         chat_id: chatId,
+        contact_id: chatId,
+        contact_name: chatId.replace('@c.us', ''),
+        platform: 'whatsapp',
         last_message_content: content,
+        last_message: content,
+        last_message_time: timestamp,
         last_message_timestamp: timestamp,
         last_message_origin: origin,
         last_activity_timestamp: timestamp,
@@ -1392,13 +1451,25 @@ export class MessageBrokerService extends EventEmitter {
         updateData.last_bot_message_timestamp = timestamp;
       }
 
-      // Update or insert chat record using Supabase
-      const { error } = await this.db.getClient()
-        .from('chats')
-        .upsert(updateData);
-      
-      if (error) {
-        this.logger.error('Error updating chat after outgoing message', { error, userId, chatId });
+      if (existingChat?.id) {
+        // Update existing chat
+        const { error } = await this.db.getClient()
+          .from('chats')
+          .update(updateData)
+          .eq('id', existingChat.id);
+          
+        if (error) {
+          this.logger.error('Error updating existing chat after outgoing message', { error, userId, chatId });
+        }
+      } else {
+        // Insert new chat
+        const { error } = await this.db.getClient()
+          .from('chats')
+          .insert(updateData);
+          
+        if (error) {
+          this.logger.error('Error inserting new chat after outgoing message', { error, userId, chatId });
+        }
       }
     } catch (error) {
       this.logger.error('Error in updateChatAfterOutgoingMessage', { error, userId, chatId });
