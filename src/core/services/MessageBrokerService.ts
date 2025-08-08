@@ -1181,36 +1181,48 @@ export class MessageBrokerService extends EventEmitter {
     chatId: string,
     messageData: any
   ): Promise<string> {
-    const chatDocRef = this.db
-      .collection('users')
-      .doc(userId)
-      .collection('chats')
-      .doc(chatId);
-
-    const timestamp = new Date().toISOString();
-    const messagePayload = {
-      body: messageData.body || '',
-      timestamp,
-      isFromMe: false,
-      messageId: messageData.id?.id || '',
-      from: chatId,
-      to: `me (${userId})`,
-      origin: 'contact' as MessageOrigin,
-      type: messageData.type || 'text' as MessageType,
-      hasMedia: messageData.hasMedia || false,
-      ack: messageData.ack || 0,
-      status: 'received',
-      createdAt: timestamp,
-      updatedAt: timestamp
-    };
-
-    // Save to both contact and all collections
-    const [contactDoc, allDoc] = await Promise.all([
-      chatDocRef.collection('messages_contact').add(messagePayload),
-      chatDocRef.collection('messages_all').add(messagePayload)
-    ]);
-
-    return allDoc.id;
+    try {
+      const timestamp = new Date().toISOString();
+      const messageId = `msg_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+      
+      const messagePayload = {
+        id: messageId,
+        user_id: userId,
+        chat_id: chatId,
+        body: messageData.body || '',
+        timestamp,
+        is_from_me: false,
+        message_id: messageData.id?.id || '',
+        from_number: chatId,
+        to_number: `me (${userId})`,
+        origin: 'contact',
+        type: messageData.type || 'text',
+        has_media: messageData.hasMedia || false,
+        ack: messageData.ack || 0,
+        status: 'received',
+        created_at: timestamp,
+        updated_at: timestamp
+      };
+      
+      // Save to messages table using Supabase
+      const { data, error } = await this.db.getClient()
+        .from('messages')
+        .insert(messagePayload)
+        .select()
+        .single();
+      
+      if (error) {
+        this.logger.error('Error saving message to Supabase', { error, userId, chatId });
+        // Fallback: just return a generated ID
+        return messageId;
+      }
+      
+      return data?.id || messageId;
+    } catch (error) {
+      this.logger.error('Error in saveIncomingMessage', { error, userId, chatId });
+      // Return a generated ID as fallback
+      return `msg_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    }
   }
 
   /**
@@ -1221,45 +1233,45 @@ export class MessageBrokerService extends EventEmitter {
     chatId: string,
     messageData: { content: string; origin: MessageOrigin; type: MessageType }
   ): Promise<string> {
-    const chatDocRef = this.db
-      .collection('users')
-      .doc(userId)
-      .collection('chats')
-      .doc(chatId);
-
-    const timestamp = new Date().toISOString();
-    const messagePayload = {
-      body: messageData.content,
-      timestamp,
-      isFromMe: true,
-      from: `me (${userId})`,
-      to: chatId,
-      origin: messageData.origin,
-      type: messageData.type,
-      isAutoReply: messageData.origin === 'bot',
-      hasMedia: false,
-      status: 'sent',
-      createdAt: timestamp,
-      updatedAt: timestamp
-    };
-
-    // Save to appropriate collections
-    const savePromises = [
-      chatDocRef.collection('messages_all').add(messagePayload)
-    ];
-
-    if (messageData.origin === 'human') {
-      savePromises.push(
-        chatDocRef.collection('messages_human').add(messagePayload)
-      );
-    } else if (messageData.origin === 'bot') {
-      savePromises.push(
-        chatDocRef.collection('messages_bot').add(messagePayload)
-      );
+    try {
+      const timestamp = new Date().toISOString();
+      const messageId = `msg_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+      
+      const messagePayload = {
+        id: messageId,
+        user_id: userId,
+        chat_id: chatId,
+        body: messageData.content,
+        timestamp,
+        is_from_me: true,
+        from_number: `me (${userId})`,
+        to_number: chatId,
+        origin: messageData.origin,
+        type: messageData.type,
+        is_auto_reply: messageData.origin === 'bot',
+        has_media: false,
+        status: 'sent',
+        created_at: timestamp,
+        updated_at: timestamp
+      };
+      
+      // Save to messages table using Supabase
+      const { data, error } = await this.db.getClient()
+        .from('messages')
+        .insert(messagePayload)
+        .select()
+        .single();
+      
+      if (error) {
+        this.logger.error('Error saving outgoing message to Supabase', { error, userId, chatId });
+        return messageId;
+      }
+      
+      return data?.id || messageId;
+    } catch (error) {
+      this.logger.error('Error in saveOutgoingMessage', { error, userId, chatId });
+      return `msg_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
     }
-
-    const results = await Promise.all(savePromises);
-    return results[0].id;
   }
 
   /**
@@ -1325,21 +1337,30 @@ export class MessageBrokerService extends EventEmitter {
     chatId: string,
     messageData: any
   ): Promise<void> {
-    const chatDocRef = this.db
-      .collection('users')
-      .doc(userId)
-      .collection('chats')
-      .doc(chatId);
-
-    const timestamp = new Date().toISOString();
-    await chatDocRef.set({
-      lastContactMessageTimestamp: timestamp,
-      lastMessageTimestamp: timestamp,
-      lastMessageContent: messageData.body || '',
-      lastMessageOrigin: 'contact',
-      lastActivityTimestamp: timestamp,
-      updatedAt: timestamp
-    });
+    try {
+      const timestamp = new Date().toISOString();
+      
+      // Update or insert chat record using Supabase
+      const { error } = await this.db.getClient()
+        .from('chats')
+        .upsert({
+          id: `${userId}_${chatId}`,
+          user_id: userId,
+          chat_id: chatId,
+          last_contact_message_timestamp: timestamp,
+          last_message_timestamp: timestamp,
+          last_message_content: messageData.body || '',
+          last_message_origin: 'contact',
+          last_activity_timestamp: timestamp,
+          updated_at: timestamp
+        });
+      
+      if (error) {
+        this.logger.error('Error updating chat after incoming message', { error, userId, chatId });
+      }
+    } catch (error) {
+      this.logger.error('Error in updateChatAfterIncomingMessage', { error, userId, chatId });
+    }
   }
 
   /**
@@ -1351,29 +1372,37 @@ export class MessageBrokerService extends EventEmitter {
     content: string,
     origin: MessageOrigin
   ): Promise<void> {
-    const chatDocRef = this.db
-      .collection('users')
-      .doc(userId)
-      .collection('chats')
-      .doc(chatId);
+    try {
+      const timestamp = new Date().toISOString();
+      const updateData: any = {
+        id: `${userId}_${chatId}`,
+        user_id: userId,
+        chat_id: chatId,
+        last_message_content: content,
+        last_message_timestamp: timestamp,
+        last_message_origin: origin,
+        last_activity_timestamp: timestamp,
+        updated_at: timestamp
+      };
 
-    const timestamp = new Date().toISOString();
-    const updateData: any = {
-      lastMessageContent: content,
-      lastMessageTimestamp: timestamp,
-      lastMessageOrigin: origin,
-      lastActivityTimestamp: timestamp,
-      updatedAt: timestamp
-    };
+      if (origin === 'human') {
+        updateData.last_human_message_timestamp = timestamp;
+        updateData.user_is_active = true;
+      } else if (origin === 'bot') {
+        updateData.last_bot_message_timestamp = timestamp;
+      }
 
-    if (origin === 'human') {
-      updateData.lastHumanMessageTimestamp = timestamp;
-      updateData.userIsActive = true;
-    } else if (origin === 'bot') {
-      updateData.lastBotMessageTimestamp = timestamp;
+      // Update or insert chat record using Supabase
+      const { error } = await this.db.getClient()
+        .from('chats')
+        .upsert(updateData);
+      
+      if (error) {
+        this.logger.error('Error updating chat after outgoing message', { error, userId, chatId });
+      }
+    } catch (error) {
+      this.logger.error('Error in updateChatAfterOutgoingMessage', { error, userId, chatId });
     }
-
-    await chatDocRef.set(updateData);
   }
 
   /**

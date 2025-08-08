@@ -8,6 +8,7 @@ import { UserTierService, UserTier, TierConfiguration } from './UserTierService'
 import { MessageData, WorkerStatus } from '@/workers/whatsapp-worker/types';
 import { v4 as uuidv4 } from 'uuid';
 import { ChromeCleanupService } from './ChromeCleanupService';
+// Removed MessageBrokerService to avoid circular dependency
 
 interface ConnectionSlot {
   id: string;
@@ -54,6 +55,7 @@ export class WhatsAppConnectionPool extends EventEmitter {
   private db: SupabaseService;
   private tierService: UserTierService;
   private chromeCleanup: ChromeCleanupService;
+  // Removed messageBroker to avoid circular dependency
   private isInitialized: boolean = false;
   
   // Shared pool for standard users (cost-optimized)
@@ -100,6 +102,7 @@ export class WhatsAppConnectionPool extends EventEmitter {
     this.db = SupabaseService.getInstance();
     this.tierService = UserTierService.getInstance();
     this.chromeCleanup = ChromeCleanupService.getInstance();
+    // Removed messageBroker initialization to avoid circular dependency
   }
   
   public static getInstance(): WhatsAppConnectionPool {
@@ -628,9 +631,15 @@ export class WhatsAppConnectionPool extends EventEmitter {
 
   private setupEnterpriseB2BClientHandlers(client: Client, userId: string): void {
     client.on('message', async (message: any) => {
-      if (message.from.includes(userId) || message.to.includes(userId)) {
-        await this.handleUserMessage(userId, message);
-      }
+      // Process ALL messages for this user's connection
+      // The user owns this Enterprise B2B slot connection
+      this.logger.info('[Pool] Enterprise B2B message received', {
+        userId,
+        from: message.from,
+        to: message.to,
+        body: message.body?.substring(0, 50)
+      });
+      await this.handleUserMessage(userId, message);
     });
   }
 
@@ -786,9 +795,14 @@ export class WhatsAppConnectionPool extends EventEmitter {
 
   private setupSharedClientHandlers(client: Client, userId: string): void {
     client.on('message', async (message: any) => {
-      if (message.from.includes(userId) || message.to.includes(userId)) {
-        await this.handleUserMessage(userId, message);
-      }
+      // Process ALL messages for this user's connection
+      this.logger.info('[Pool] Shared slot message received', {
+        userId,
+        from: message.from,
+        to: message.to,
+        body: message.body?.substring(0, 50)
+      });
+      await this.handleUserMessage(userId, message);
     });
   }
 
@@ -844,9 +858,14 @@ export class WhatsAppConnectionPool extends EventEmitter {
 
   private setupSemiDedicatedClientHandlers(client: Client, userId: string): void {
     client.on('message', async (message: any) => {
-      if (message.from.includes(userId) || message.to.includes(userId)) {
-        await this.handleUserMessage(userId, message);
-      }
+      // Process ALL messages for this user's connection
+      this.logger.info('[Pool] Semi-dedicated message received', {
+        userId,
+        from: message.from,
+        to: message.to,
+        body: message.body?.substring(0, 50)
+      });
+      await this.handleUserMessage(userId, message);
     });
   }
 
@@ -944,6 +963,44 @@ export class WhatsAppConnectionPool extends EventEmitter {
         messagesThisMonth: session.messageCount,
         lastActivity: new Date()
       });
+
+      // Emit message for processing (avoids circular dependency)
+      try {
+        console.log(`📩 PROCESANDO MENSAJE VIA POOL - Usuario: ${userId}`);
+        console.log(`From: ${message.from}`);
+        console.log(`Body: ${message.body}`);
+        
+        // Convert message format for processing
+        const messageData = {
+          from: message.from,
+          to: message.to || userId,
+          body: message.body || '',
+          type: message.type || 'text',
+          timestamp: new Date(),
+          hasMedia: message.hasMedia || false,
+          mediaUrl: message.mediaUrl,
+          mediaType: message.type,
+          caption: message.caption,
+          isFromMe: message.fromMe || false,
+          isGroup: message.from?.includes('@g.us') || false,
+          id: message.id,
+          metadata: {
+            chatId: message.from,
+            messageId: message.id?.id || message.id?._serialized || '',
+            serialized: message.id?._serialized || ''
+          }
+        };
+
+        // Emit for external processing to avoid circular dependency
+        this.emit('message:received', { userId, messageData });
+        
+      } catch (error) {
+        this.logger.error('Error processing message event', {
+          userId,
+          messageId: message.id,
+          error: error instanceof Error ? error.message : 'Unknown error'
+        });
+      }
 
       this.emit('user:message', { userId, message });
     }

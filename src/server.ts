@@ -18,6 +18,7 @@ import { WebSocketService } from './core/services/websocketService';
 import { WorkerManagerService } from './core/services/WorkerManagerService';
 import { MessageBrokerService } from './core/services/MessageBrokerService';
 import { ChromeCleanupService } from './core/services/ChromeCleanupService';
+import { WhatsAppConnectionPool } from './core/services/WhatsAppConnectionPool';
 
 // Import routes
 import apiRoutes from './api/routes';
@@ -40,6 +41,7 @@ class WhatsAppAPIServer {
   private workerManager: WorkerManagerService;
   private messageBroker: MessageBrokerService;
   private chromeCleanup: ChromeCleanupService;
+  private connectionPool: WhatsAppConnectionPool;
 
   constructor() {
     this.app = express();
@@ -103,6 +105,16 @@ class WhatsAppAPIServer {
       if (cleanedCount > 0) {
         this.logger.info(`[Server] Initial cleanup: removed ${cleanedCount} zombie Chrome processes`);
       }
+
+      // Initialize WhatsApp connection pool
+      this.connectionPool = WhatsAppConnectionPool.getInstance();
+      
+      // Setup connection pool message listener
+      this.connectionPool.on('message:received', ({ userId, messageData }) => {
+        this.logger.info(`[Server] Message received from connection pool for user ${userId}`);
+        // Forward to message broker for processing
+        this.messageBroker.processIncomingMessage(userId, messageData);
+      });
 
       this.logger.info('[Server] Core services initialized successfully');
     } catch (error) {

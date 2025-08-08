@@ -241,7 +241,7 @@ export class AgentTriggerService extends EventEmitter {
       // First deactivate any existing network
       await this.deactivateAllNetworks(userId);
 
-      // Get agent configuration with network
+      // Get agent configuration
       const { data: agent, error } = await this.db
         .from('agents')
         .select('*')
@@ -253,28 +253,132 @@ export class AgentTriggerService extends EventEmitter {
         throw new Error('Agent not found');
       }
 
-      const network = agent.config?.automation?.agentNetwork || [];
-      const activatedAgents = [agentId]; // Start with primary agent
+      // Check if this agent has its own network configuration
+      let network = agent.config?.automation?.agentNetwork || [];
+      let primaryAgentId = agentId;
+      let activatedAgents = [];
 
-      // Collect all agent IDs in the network
-      network.forEach((node: AgentNetworkNode) => {
-        if (node.agentId && node.agentId !== agentId) {
-          activatedAgents.push(node.agentId);
+      // If this agent has a network, use it
+      if (network.length > 0) {
+        this.logger.info('Agent has its own network configuration', { 
+          agentId, 
+          networkSize: network.length 
+        });
+        activatedAgents = [agentId]; // Start with primary agent
+        
+        // Add all agents in the network
+        network.forEach((node: any) => {
+          this.logger.debug('Processing network node', { 
+            node, 
+            agentId,
+            nodeType: typeof node
+          });
+          
+          // Handle both string IDs and objects with agentId
+          const nodeAgentId = typeof node === 'string' ? node : node.agentId;
+          
+          if (nodeAgentId && nodeAgentId !== agentId) {
+            activatedAgents.push(nodeAgentId);
+          } else if (nodeAgentId === agentId) {
+            // The agent itself might be listed in its own network, skip it
+            this.logger.debug('Skipping agent itself in network', { agentId });
+          }
+        });
+      } else {
+        // Agent doesn't have its own network, check if it belongs to another agent's network
+        this.logger.info('Agent has no network, checking if it belongs to another network', { agentId });
+        
+        const { data: allAgents } = await this.db
+          .from('agents')
+          .select('*')
+          .eq('user_id', userUuid);
+          
+        if (allAgents) {
+          for (const otherAgent of allAgents) {
+            const otherNetwork = otherAgent.config?.automation?.agentNetwork || [];
+            
+            // Check if current agent is in this network
+            const isInNetwork = otherNetwork.some((node: any) => {
+              const nodeAgentId = typeof node === 'string' ? node : node.agentId;
+              return nodeAgentId === agentId;
+            });
+            
+            if (isInNetwork) {
+              this.logger.info('Found agent in another network', { 
+                agentId,
+                networkOwner: otherAgent.id,
+                networkSize: otherNetwork.length
+              });
+              
+              // Use the network owner as primary
+              primaryAgentId = otherAgent.id;
+              network = otherNetwork;
+              
+              // Activate the network owner and all agents in the network
+              activatedAgents = [primaryAgentId];
+              network.forEach((node: any) => {
+                const nodeAgentId = typeof node === 'string' ? node : node.agentId;
+                if (nodeAgentId && nodeAgentId !== primaryAgentId) {
+                  activatedAgents.push(nodeAgentId);
+                }
+              });
+              break;
+            }
+          }
         }
-      });
+        
+        // If still no network found, just activate the single agent
+        if (activatedAgents.length === 0) {
+          this.logger.info('No network found, activating single agent', { agentId });
+          activatedAgents = [agentId];
+        }
+      }
 
       // Update user's active agent to the primary
       await this.db
         .from('users')
         .update({
-          active_agent_id: agentId,
+          active_agent_id: primaryAgentId,
           updated_at: new Date().toISOString()
         })
         .eq('id', userUuid);
 
+      // Mark all agents in the network as active
+      if (activatedAgents.length > 0) {
+        this.logger.info('Activating agents in database', { 
+          agentIds: activatedAgents 
+        });
+        
+        // First, deactivate all user's agents
+        await this.db
+          .from('agents')
+          .update({ 
+            is_active: false,
+            updated_at: new Date().toISOString()
+          })
+          .eq('user_id', userUuid);
+        
+        // Then activate only the network agents
+        const { error: activateError } = await this.db
+          .from('agents')
+          .update({ 
+            is_active: true,
+            updated_at: new Date().toISOString()
+          })
+          .in('id', activatedAgents)
+          .eq('user_id', userUuid);
+          
+        if (activateError) {
+          this.logger.error('Error activating agents in database', { 
+            error: activateError,
+            agentIds: activatedAgents 
+          });
+        }
+      }
+
       // Store active network in Redis for fast access
       const networkData = {
-        primaryAgentId: agentId,
+        primaryAgentId: primaryAgentId,
         agents: activatedAgents,
         network,
         activatedAt: new Date().toISOString()
@@ -289,19 +393,20 @@ export class AgentTriggerService extends EventEmitter {
       // Emit event for real-time updates
       this.emit('network-activated', {
         userId,
-        primaryAgentId: agentId,
+        primaryAgentId: primaryAgentId,
         activatedAgents,
         network
       });
 
       this.logger.info('Agent network activated successfully', {
         userId,
-        primaryAgentId: agentId,
-        totalAgents: activatedAgents.length
+        primaryAgentId: primaryAgentId,
+        totalAgents: activatedAgents.length,
+        activatedAgents
       });
 
       return {
-        primaryAgentId: agentId,
+        primaryAgentId: primaryAgentId,
         activatedAgents,
         network,
         activatedAt: new Date().toISOString()
@@ -525,7 +630,7 @@ export class AgentTriggerService extends EventEmitter {
         return null;
       }
 
-      // Get agent configuration
+      // Get agent configuration from the active agent
       const { data: agent, error: agentError } = await this.db
         .from('agents')
         .select('*')
@@ -537,17 +642,126 @@ export class AgentTriggerService extends EventEmitter {
         return null;
       }
 
-      return {
-        activeAgents: agent.config?.automation?.agentNetwork || [],
-        defaultAgent: user.active_agent_id,
-        triggerConfig: agent.config?.automation?.triggers || [],
-        switchingBehavior: {
-          preserveContext: true,
-          announceSwitch: false,
-          maxSwitchesPerHour: 10
-        },
-        maxActiveAgents: 3
-      };
+      // First, check if this agent IS the primary/default of its own network
+      const agentNetwork = agent.config?.automation?.agentNetwork || [];
+      
+      this.logger.info('Checking agent network configuration', {
+        agentId: user.active_agent_id,
+        hasNetwork: agentNetwork.length > 0,
+        networkSize: agentNetwork.length,
+        networkNodes: agentNetwork
+      });
+      
+      // The network is valid if:
+      // 1. It has agents AND
+      // 2. This agent owns the network (it was configured from this agent)
+      const isThisPrimaryOfOwnNetwork = agentNetwork.length > 0;
+      
+      this.logger.info('Network ownership check', {
+        agentId: user.active_agent_id,
+        isThisPrimaryOfOwnNetwork,
+        networkSize: agentNetwork.length
+      });
+      
+      if (isThisPrimaryOfOwnNetwork) {
+        // This agent is the primary of its own network
+        this.logger.debug('Agent is primary of its own network', {
+          agentId: user.active_agent_id,
+          networkSize: agentNetwork.length
+        });
+        
+        // Handle both array of strings and array of objects
+        let activeAgents;
+        if (Array.isArray(agentNetwork)) {
+          // If it's an array of strings, use them directly
+          if (typeof agentNetwork[0] === 'string') {
+            activeAgents = agentNetwork;
+          } else {
+            // If it's an array of objects, extract agentId
+            activeAgents = agentNetwork.map((n: any) => n.agentId).filter(Boolean);
+          }
+        } else {
+          activeAgents = [];
+        }
+        
+        this.logger.info('Returning agent network configuration', {
+          agentId: user.active_agent_id,
+          activeAgents,
+          networkType: typeof agentNetwork[0]
+        });
+        
+        return {
+          activeAgents,
+          defaultAgent: user.active_agent_id,
+          triggerConfig: agent.config?.automation?.triggers || {},
+          switchingBehavior: {
+            preserveContext: true,
+            announceSwitch: false,
+            maxSwitchesPerHour: 10
+          },
+          maxActiveAgents: 3
+        };
+      }
+      
+      // If not primary of own network, look for a network that includes this agent
+      const { data: allAgents } = await this.db
+        .from('agents')
+        .select('*')
+        .eq('user_id', userUuid);
+        
+      if (allAgents) {
+        for (const otherAgent of allAgents) {
+          if (otherAgent.id === user.active_agent_id) continue;
+          
+          const otherNetwork = otherAgent.config?.automation?.agentNetwork || [];
+          
+          // Check if current agent is in this network
+          const isInThisNetwork = otherNetwork.some((node: any) => 
+            node.agentId === user.active_agent_id
+          );
+          
+          if (isInThisNetwork) {
+            this.logger.debug('Agent found in another network', {
+              currentAgent: user.active_agent_id,
+              networkOwner: otherAgent.id,
+              networkSize: otherNetwork.length
+            });
+            
+            // Handle both array of strings and array of objects
+            let activeAgents;
+            if (Array.isArray(otherNetwork)) {
+              // If it's an array of strings, use them directly
+              if (typeof otherNetwork[0] === 'string') {
+                activeAgents = otherNetwork;
+              } else {
+                // If it's an array of objects, extract agentId
+                activeAgents = otherNetwork.map((n: any) => n.agentId).filter(Boolean);
+              }
+            } else {
+              activeAgents = [];
+            }
+            
+            return {
+              activeAgents,
+              defaultAgent: otherAgent.id,
+              triggerConfig: otherAgent.config?.automation?.triggers || {},
+              switchingBehavior: {
+                preserveContext: true,
+                announceSwitch: false,
+                maxSwitchesPerHour: 10
+              },
+              maxActiveAgents: 3
+            };
+          }
+        }
+      }
+      
+      // No network found - return null to indicate no configuration
+      this.logger.debug('No network configuration found for agent', {
+        agentId: user.active_agent_id
+      });
+      
+      return null;
     } catch (error) {
       this.logger.error('Error getting multi-agent configuration', { userId, error });
       return null;
@@ -567,38 +781,33 @@ export class AgentTriggerService extends EventEmitter {
         updates: JSON.stringify(updates)
       });
 
-      // Get user's active agent
-      const { data: user, error } = await this.db
-        .from('users')
-        .select('active_agent_id')
-        .eq('id', userUuid)
-        .single();
-
-      if (error) {
-        this.logger.error('[AgentTriggerService] Error fetching user:', {
-          error: error.message,
+      // Use the defaultAgent from updates, not the active agent
+      const targetAgentId = updates.defaultAgent;
+      
+      if (!targetAgentId) {
+        this.logger.error('[AgentTriggerService] No defaultAgent specified in updates', {
           userUuid
         });
         return false;
       }
 
-      if (!user?.active_agent_id) {
-        this.logger.warn('[AgentTriggerService] User has no active agent', { userUuid });
-        return false;
-      }
+      this.logger.info('[AgentTriggerService] Saving config to agent', {
+        targetAgentId,
+        userUuid
+      });
 
-      // Update agent configuration
+      // Update agent configuration for the defaultAgent
       const { data: agent, error: agentError } = await this.db
         .from('agents')
         .select('config')
-        .eq('id', user.active_agent_id)
+        .eq('id', targetAgentId)
         .eq('user_id', userUuid)
         .single();
 
       if (agentError) {
         this.logger.error('[AgentTriggerService] Error fetching agent:', {
           error: agentError.message,
-          agentId: user.active_agent_id,
+          agentId: targetAgentId,
           userUuid
         });
         return false;
@@ -606,7 +815,7 @@ export class AgentTriggerService extends EventEmitter {
 
       if (!agent) {
         this.logger.warn('[AgentTriggerService] Agent not found', {
-          agentId: user.active_agent_id,
+          agentId: targetAgentId,
           userUuid
         });
         return false;
@@ -627,20 +836,20 @@ export class AgentTriggerService extends EventEmitter {
           config: updatedConfig,
           updated_at: new Date().toISOString()
         })
-        .eq('id', user.active_agent_id)
+        .eq('id', targetAgentId)
         .eq('user_id', userUuid);
 
       if (updateError) {
         this.logger.error('[AgentTriggerService] Error updating agent config:', {
           error: updateError.message,
-          agentId: user.active_agent_id,
+          agentId: targetAgentId,
           userUuid
         });
         return false;
       }
 
       this.logger.info('[AgentTriggerService] Multi-agent config updated successfully', {
-        agentId: user.active_agent_id,
+        agentId: targetAgentId,
         userUuid
       });
 

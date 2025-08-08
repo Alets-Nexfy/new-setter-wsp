@@ -200,7 +200,7 @@ export class AgentService extends EventEmitter {
         automation: agent.config?.automation || null,
         metrics: agent.performance || null,
         whatsappNumber: agent.config?.whatsappNumber || null,
-        isActive: activeNetworkAgentIds.has(agent.id), // Check if part of active network
+        isActive: agent.is_active || false, // Use database field
         isPrimary: agent.id === activeAgentId, // Mark if it's the primary active agent
         createdAt: agent.created_at,
         updatedAt: agent.updated_at
@@ -626,7 +626,7 @@ export class AgentService extends EventEmitter {
         automation: agent.config?.automation || null,
         metrics: agent.performance || null,
         whatsappNumber: agent.config?.whatsappNumber || null,
-        isActive: this.activeAgents.get(userId) === agent.id,
+        isActive: agent.is_active || false,
         createdAt: agent.created_at,
         updatedAt: agent.updated_at
       };

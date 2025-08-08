@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { AgentTriggerService } from '../../core/services/AgentTriggerService';
 import { SupabaseService } from '../../core/services/SupabaseService';
 import { LoggerService } from '../../core/services/LoggerService';
+import { AgentService } from '../../core/services/AgentService';
 
 /**
  * Controller para manejar la activación de redes de agentes
@@ -11,11 +12,13 @@ export class AgentNetworkController {
   private readonly agentTriggerService: AgentTriggerService;
   private readonly supabase: SupabaseService;
   private readonly logger: LoggerService;
+  private readonly agentService: AgentService;
 
   constructor() {
     this.agentTriggerService = AgentTriggerService.getInstance();
     this.supabase = SupabaseService.getInstance();
     this.logger = LoggerService.getInstance();
+    this.agentService = AgentService.getInstance();
   }
 
   /**
@@ -44,19 +47,24 @@ export class AgentNetworkController {
         ? userId.replace('tribe-ia-nexus_', '') 
         : userId;
 
-      // 3. Obtener todos los agentes de la red
-      const { data: agents, error: agentsError } = await this.supabase
-        .getClient()
-        .from('agents')
-        .select('*')
-        .in('id', config.activeAgents)
-        .eq('user_id', userUuid);
+      // 3. Obtener todos los agentes de la red usando el servicio
+      const agents = [];
+      for (const agentId of config.activeAgents) {
+        try {
+          const agent = await this.agentService.getAgent(userId, agentId);
+          if (agent) {
+            agents.push(agent);
+          }
+        } catch (error) {
+          this.logger.warn('[AgentNetwork] Could not fetch agent', { agentId, error });
+        }
+      }
 
-      if (agentsError || !agents) {
-        this.logger.error('[AgentNetwork] Error fetching agents', { error: agentsError });
+      if (agents.length === 0) {
+        this.logger.error('[AgentNetwork] No agents found');
         res.status(500).json({
           success: false,
-          error: 'Failed to fetch agents'
+          error: 'No agents found in network'
         });
         return;
       }
@@ -83,18 +91,19 @@ export class AgentNetworkController {
           });
           activationResults.push({
             agentId: agent.id,
-            name: agent.name,
+            name: agent.persona?.name || 'Agente IA',
             status: 'error',
             error: updateError.message
           });
         } else {
+          const agentName = agent.persona?.name || 'Agente IA';
           this.logger.info('[AgentNetwork] Agent activated', { 
             agentId: agent.id,
-            name: agent.name 
+            name: agentName
           });
           activationResults.push({
             agentId: agent.id,
-            name: agent.name,
+            name: agentName,
             status: 'active',
             isDefault: agent.id === config.defaultAgent
           });
@@ -169,27 +178,29 @@ export class AgentNetworkController {
         ? userId.replace('tribe-ia-nexus_', '') 
         : userId;
 
-      // Obtener estado de los agentes
-      const { data: agents, error } = await this.supabase
-        .getClient()
-        .from('agents')
-        .select('id, name, is_active')
-        .in('id', config.activeAgents)
-        .eq('user_id', userUuid);
-
-      if (error) {
-        throw error;
+      // Obtener estado de los agentes usando el servicio
+      const agentStatuses = [];
+      
+      // config.activeAgents is already an array of agent IDs
+      for (const agentId of config.activeAgents) {
+        if (!agentId) continue; // Skip empty entries
+        
+        try {
+          const agent = await this.agentService.getAgent(userId, agentId);
+          if (agent) {
+            agentStatuses.push({
+              id: agent.id,
+              name: agent.persona?.name || 'Agente IA',
+              isActive: agent.isActive || false,
+              isDefault: agent.id === config.defaultAgent,
+              role: config.triggerConfig?.initial?.[agent.id] ? 'initial' : 
+                    config.triggerConfig?.switch?.[agent.id] ? 'switch' : 'fallback'
+            });
+          }
+        } catch (error) {
+          this.logger.warn('[AgentNetwork] Could not fetch agent status', { agentId, error });
+        }
       }
-
-      // Mapear estado
-      const agentStatuses = agents?.map(agent => ({
-        id: agent.id,
-        name: agent.name,
-        isActive: agent.is_active,
-        isDefault: agent.id === config.defaultAgent,
-        role: config.triggerConfig?.initial?.[agent.id] ? 'initial' : 
-              config.triggerConfig?.switch?.[agent.id] ? 'switch' : 'fallback'
-      })) || [];
 
       res.json({
         success: true,
